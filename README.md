@@ -6,12 +6,12 @@ KarmaChest is a team engagement tool for Slack and Discord. It allows users with
 
 This is a Ruby on Rails application that uses Postgres and Redis for storage. It integrates tightly with chat platforms (currently Slack and Discord), keeping teams and users synced server-side. This enables web-based user profiles/history, improved admin management, and gamification features.
 
-For a full list of features, see the wiki.
+For a full list of features, see the [Wiki](https://github.com/jcraigk/karmachest/wiki).
 
 
 # App Installation
 
-If you want to install KarmaChest into your organization's Slack or Discord team, you must setup a Slack App (or Discord App) and host this Rails app internally or on a public server. See the wiki for detailed instructions.
+If you want to install KarmaChest into your organization's Slack or Discord team, you must setup a Slack App (or Discord App) at the third party and host this Rails app internally or on a public server you control. See the [Wiki](https://github.com/jcraigk/karmachest/wiki) for detailed instructions.
 
 
 # Development Setup
@@ -31,14 +31,14 @@ You may provide `RAILS_MASTER_KEY` or `config/master.key`.
 
 You may provide `REDIS_URL` or leave it blank for default localhost.
 
-The following must be provided to enable web-based features.
+The following must be provided to enable web-based features, which are required for app installation and administration.
 
 ```
 ASSET_HOST
 WEB_DOMAIN
 ```
 
-STMP config must be provided for email-based signup and password reset.
+STMP config must be provided to enable email-based signup and password reset.
 
 ```
 SMTP_ADDRESS
@@ -47,7 +47,14 @@ SMTP_PASSWORD
 SMTP_USERNAME
 ```
 
-If you are working on Slack integration, create a Slack App specifically for development (you could name it "KarmaChestDev") and provide its details in the following variables. For more information on how to setup the Slack App, see the wiki.
+For Sidekiq web admin (at `/sidekiq`), setup desired username and password used for HTTP Basic Auth:
+
+```
+SIDEKIQ_USERNAME
+SIDEKIQ_PASSWORD
+```
+
+If you are working on Slack integration, create a Slack App specifically for development (you could name it "KarmaChestDev") and provide its details in the following variables. For more information on how to setup the Slack App, see the [Wiki](https://github.com/jcraigk/karmachest/wiki).
 
 ```
 SLACK_APP_ID
