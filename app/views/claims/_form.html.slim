@@ -1,0 +1,75 @@
+= form_for @claim, local: true do |f|
+
+  = render 'shared/model_errors', record: @claim
+
+  .field.is-horizontal
+    .field-label.is-normal
+      = f.label :name, t('claims.reward'), class: 'label'
+    .field-body
+      .field
+        .control
+          = link_to @claim.reward.name,
+                    edit_reward_path(@claim.reward),
+                    class: 'button is-link'
+
+  .field.is-horizontal
+    .field-label.is-normal
+      = f.label :name, t('claims.user'), class: 'label'
+    .field-body
+      .field
+        .control
+          p = profile_web_link(@claim.profile)
+
+  .field.is-horizontal
+    .field-label.is-normal
+      = f.label :name, t('claims.price'), class: 'label'
+    .field-body
+      .field
+        .control = quantity_tag(@claim.price)
+
+  .field.is-horizontal
+    .field-label.is-normal
+      = f.label :created_at, t('claims.created_at'), class: 'label'
+    .field-body
+      .field
+        .control
+          p = @claim.created_at.strftime('%-m/%-d/%y %-l:%M%P')
+
+  - if @claim.fulfilled_at.present?
+    .field.is-horizontal
+      .field-label.is-normal
+        = f.label :name, t('claims.fulfilled_at'), class: 'label'
+      .field-body
+        .field
+          .control
+            p = @claim.fulfilled_at.strftime('%-m/%-d/%y %-l:%M%P')
+
+  .field.is-horizontal
+    .field-label.is-switch-label
+      = f.label :active, t('claims.fulfilled'), class: 'label'
+    .field-body
+      .field
+        .control
+          = f.check_box :fulfilled_at, class: 'switch is-rounded', checked: f.object.fulfilled_at.present?
+          = f.label :fulfilled_at, '&nbsp;'.html_safe, class: 'label'
+          = tooltip_btn('claims.fulfilled_tooltip', 'nudge-up')
+
+  .field.is-horizontal
+    .field-label.is-normal
+      = f.label :fulfillment_key, t('claims.fulfillment_key'), class: 'label'
+      = tooltip_btn('claims.fulfillment_key_tooltip')
+    .field-body
+      .field
+        .control
+          = f.text_field :fulfillment_key, class: 'input'
+
+  .has-text-right
+    - if @claim.pending?
+      = link_to \
+        fa_icon('trash-alt'),
+        claim_path(@claim),
+        method: :delete,
+        class: 'button is-danger margin-right',
+        data: { confirm: t('claim.confirm_destroy') }
+    = back_button(claims_path)
+    = submit_button

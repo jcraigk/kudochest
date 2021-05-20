@@ -1,0 +1,27 @@
+en:
+  topics:
+    none_found: No topics found. Create one by clicking Add Topic.
+    search_placeholder: Search
+    confirm_destroy: Are you sure you want to permanently remove this topic?
+    updated: Topic updated successfully
+    destroyed: Topic successfully removed
+    name: Name
+    name_tooltip: Enter a short unique name for the topic such as "Excellence" or "New Release Process".
+    description: Description
+    description_tooltip: Enter a detailed description of this topic. If it refers to an organizational value such as "Excellence," describe what types of behaviors would deserve karma for excellent work. If it refers to a process you want your team to adopt, describe that process in detail or provide a link to documentation.
+    emoji: Emoji
+    emoji_tooltip: Enter the name of a unique emoji that will trigger karma assigned to this topic.
+    keyword: Keyword
+    keyword_tooltip: Enter a unique keyword for this topic in snake_case format. When a user gives karma by the "++" method, they can enter this keyword to assign the karma to the topic.
+    status: Status
+    status_tooltip: Whether or not this topic may be assigned when giving karma
+    create_new: Add Topic
+    new: Add Topic
+    created: Topic created successfully
+    edit: Edit Topic
+    karma_count: Karma Count
+    active: Active
+    active_tooltip: You may disable this topic at any time to prevent users from assigning karma to it.
+    title: Topics
+    list_description: The following Topics can be assigned when giving karma by using the associated keyword or emoji.
+    list_empty: There are currently no active Topics. Ask your administrator to add some!

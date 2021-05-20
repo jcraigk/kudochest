@@ -1,0 +1,6 @@
+.media-left
+  figure.image.is-24x24.logo-hug
+    = image_pack_tag "media/images/logos/#{team.platform}.png", alt: "#{team.platform} logo"
+.media-left
+  figure.image.is-24x24
+    img.small-radius alt='Team avatar image' src=team.avatar_url class="platform-#{team.platform}"

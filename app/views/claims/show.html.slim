@@ -1,0 +1,49 @@
+.card
+  header.card-header
+    p.card-header-title = t('shop.view_my_claim')
+
+  .card-content
+    .field.is-horizontal
+      .field-label.is-normal
+        = label_tag :name, t('claims.reward'), class: 'label'
+      .field-body
+        .field
+          .control
+            p = @claim.reward.name
+
+    .field.is-horizontal
+      .field-label.is-normal
+        = label_tag :name, t('claims.price'), class: 'label'
+      .field-body
+        .field
+          .control = quantity_tag(@claim.price)
+
+    .field.is-horizontal
+      .field-label.is-normal
+        = label_tag :created_at, t('claims.created_at'), class: 'label'
+      .field-body
+        .field
+          .control
+            p = @claim.created_at.strftime('%-m/%-d/%y %-l:%M%P')
+
+
+    .field.is-horizontal
+      .field-label.is-normal
+        = label_tag :name, t('claims.fulfilled_at'), class: 'label'
+      .field-body
+        .field
+          .control
+            - if @claim.fulfilled_at.present?
+              span.tag = t('claims.pending')
+            - else
+              p = @claim.fulfilled_at.strftime('%-m/%-d/%y %-l:%M%P')
+
+    .field.is-horizontal
+      .field-label.is-normal
+        = label_tag :fulfillment_key, t('claims.fulfillment_key'), class: 'label'
+      .field-body
+        .field
+          .control
+            p = @claim.fulfillment_key
+
+    .has-text-right = back_button(my_claims_path)

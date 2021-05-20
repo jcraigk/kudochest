@@ -1,0 +1,51 @@
+= content_for(:feedback_class) { 'width-full' }
+
+
+.tabs
+  ul
+    li = link_to t('nav.manage_loot'), rewards_path
+    li.is-active = link_to t('nav.claim_admin'), claims_path
+
+.card
+  .card-content
+    = form_tag claims_path, method: :get
+      .columns
+        .column = search_input(t('claims.search_placeholder'))
+        .column = fulfillment_select
+        .column = reward_select(@current_team)
+        .column
+          p = number_with_delimiter(@claims.total_count) + 'item'.pluralize(@claims.total_count) + ' displayed'
+        .column.has-text-right = search_button
+
+br
+.card
+  .card-content
+    table.table.is-fullwidth
+      thead
+        th = t('claims.user')
+        th = t('claims.reward')
+        th = t('claims.price')
+        th = t('claims.created_at')
+        th = t('claims.fulfilled')
+        th
+      tbody
+      - if @claims.none?
+        tr
+          td.has-text-centered colspan='100'
+            br
+            br
+            p = t('claims.none_found')
+            br
+            br
+      - else
+        - @claims.each do |claim|
+          tr
+            td.nowrap = profile_web_link(claim.profile)
+            td = link_to claim.reward.name, edit_reward_path(claim.reward)
+            td = quantity_tag(claim.price)
+            td = Time.use_zone(@current_team.time_zone) { claim.created_at }.strftime('%-m/%-d/%y %-l:%M%P')
+            td = yes_no_tag(claim.fulfilled_at.present?)
+            td.has-text-right
+              = link_to fa_icon('edit'), edit_claim_path(claim), class: 'button'
+
+    = paginate @claims

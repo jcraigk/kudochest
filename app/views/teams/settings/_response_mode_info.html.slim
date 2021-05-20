@@ -1,0 +1,34 @@
+.setting-info
+
+  .setting-value data-name='adaptive' style='display: none;'
+    p = t('teams.response_mode_adaptive_html')
+
+  .setting-value data-name='convo' style='display: none;'
+    - if @current_team.platform.slack?
+      p = t('teams.response_mode_convo_slack_html')
+
+    - elsif @current_team.platform.discord?
+      p = t('teams.response_mode_convo_discord_html')
+
+  .setting-value data-name='reply' style='display: none;'
+    p = t('teams.response_mode_reply_html')
+
+  .setting-value data-name='direct' style='display: none;'
+    p = t('teams.response_mode_reply_html')
+
+  .setting-value data-name='silent' style='display: none;'
+    p = t('teams.response_mode_silent_html')
+
+javascript:
+  $(function() {
+    showInfo($('#team_response_mode').val())
+
+    $('#team_response_mode').on('change', function() {
+      $('.setting-value').hide()
+      showInfo($(this).val())
+    })
+
+    function showInfo(key) {
+      $('.setting-value[data-name="' + key + '"]').show()
+    }
+  })

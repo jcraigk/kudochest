@@ -1,0 +1,9 @@
+- leaderboard.profiles.each_with_index do |profile_data, idx|
+  - is_current_profile = profile_data.slug == profile.slug
+  tr class=('highlight' if is_current_profile)
+    td.rank-cell data-rank=profile_data.rank
+      = rank_with_trend(profile_data.rank, profile_data.previous_rank)
+    td.nowrap = profile_web_link(profile_data, @current_profile.team)
+    td = karma_format(profile_data.karma)
+    td = number_to_percentage(profile_data.percent_share, significant: true, precision: 2)
+    td.nowrap = time_ago_in_words(Time.parse(profile_data.last_timestamp)) + ' ago'

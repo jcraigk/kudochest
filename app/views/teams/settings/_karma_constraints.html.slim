@@ -1,0 +1,70 @@
+.card data-section='karma_constraints' style='display: none;'
+  header.card-header
+    p.card-header-title
+      = t('teams.karma_constraints')
+  .card-content
+
+    .field.is-horizontal
+      .field-label.is-switch-label
+        = f.label :limit_karma, t('teams.limit_karma'), class: 'label'
+      .field-body
+        .field
+          .control
+            = f.check_box :limit_karma, class: 'switch is-rounded'
+            = f.label :limit_karma, '&nbsp;'.html_safe, class: 'label'
+            = tooltip_btn('teams.limit_karma_tooltip', 'nudge-up')
+
+    .field.is-horizontal
+      .field-label.is-normal
+        label.label for='profile-multi-select' = t('teams.infinite_profiles')
+        = tooltip_btn('teams.infinite_profiles_tooltip', 'nudge-up')
+      .field-body
+        .field
+          .control
+            #profile-multi-select
+            = hidden_field_tag :infinite_profile_rids, @infinite_profile_rids.join(':')
+
+    .field.is-horizontal
+      .field-label.is-normal
+        = f.label :token_frequency, t('teams.token_frequency'), class: 'label'
+      .field-body
+        .field
+          .control
+            .select = f.select :token_frequency, Team.token_frequency.options
+            = tooltip_btn('teams.token_frequency_tooltip')
+
+    .field.is-horizontal
+      .field-label.is-normal
+        = f.label :token_quantity, t('teams.token_quantity'), class: 'label'
+      .field-body
+        .field
+          .control
+            = f.text_field :token_quantity,
+                           class: 'input input-number',
+                           type: 'number',
+                           step: '1',
+                           required: true
+            = tooltip_btn('teams.token_quantity_tooltip')
+
+    .field.is-horizontal
+      .field-label.is-normal
+        = f.label :token_max, t('teams.token_max'), class: 'label'
+      .field-body
+        .field
+          .control
+            = f.text_field :token_max,
+                           class: 'input input-number',
+                           type: 'number',
+                           step: '1',
+                           required: true
+            = tooltip_btn('teams.token_max_tooltip')
+
+    .field.is-horizontal
+      .field-label.is-switch-label
+        = f.label :notify_tokens_disbursed, t('teams.notify_tokens_disbursed'), class: 'label'
+      .field-body
+        .field
+          .control
+            = f.check_box :notify_tokens_disbursed, class: 'switch is-rounded'
+            = f.label :notify_tokens_disbursed, '&nbsp;'.html_safe, class: 'label'
+            = tooltip_btn('teams.notify_tokens_disbursed_tooltip', 'nudge-up')

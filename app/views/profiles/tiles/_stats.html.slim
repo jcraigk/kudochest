@@ -1,0 +1,63 @@
+.card.profile-tile
+
+  .card-content
+    .media
+      .media-left = avatar_image(profile)
+      .media-content
+        h2.subtitle.is-4
+          strong> #{PROF_PREFIX}#{profile.display_name}
+          - if profile.real_name != profile.display_name
+            br
+            span.profile-title
+              strong = profile.real_name
+          - if profile.title.present?
+            br
+            span.profile-title = profile.title
+        / #achievements
+        /   .achievement-badge.wood
+        /   .achievement-badge.sapphire
+        /   .achievement-badge.gold
+        /   .achievement-badge.silver
+        /   .achievement-badge.trophy-1
+        /   .achievement-badge.trophy-2
+        /   .achievement-badge.trophy-3
+        /   br
+        /   .achievement-badge.bronze
+        /   .achievement-badge.pinecone
+
+    .content
+      - if profile.team.enable_levels?
+        #level-wrap.is-clearfix
+          = level_badge(profile)
+
+          p class=('max' if profile.max_level?)
+          span.level-title Level #{profile.level.to_words.titleize}
+          br
+          span.level-footer = level_progress_bar_footer(profile)
+          - unless profile.max_level?
+            = level_progress_bar(profile)
+
+
+      .columns
+        .column.is-half.stats-box
+          p.subtitle.is-5
+            | Karma earned: &nbsp;<strong>#{karma_format(profile.karma)}</strong>
+            br
+            | Karma given: &nbsp;<strong>#{karma_format(profile.karma_sent)}</strong>
+
+            - if profile.team.limit_karma? && profile == @current_profile
+              br
+              - if profile.infinite_tokens?
+                | Tokens: &nbsp;<strong>unlimited</strong>
+              - else
+                | Tokens: &nbsp;<strong>#{karma_format(profile.token_balance)}</strong>
+                br
+                span.info You get #{profile.team.token_quantity} more tokens in #{time_until_next_dispersal(profile.team)}
+
+        - if profile.team.enable_streaks?
+          .column.stats-box
+            p.subtitle.is-5
+              ' Giving streak: &nbsp;<strong>#{pluralize(profile.active_streak, 'day')}</strong>
+              - if profile.active_streak.positive?
+                br
+                span.info Give karma #{profile.next_streak_date_distance} to prolong

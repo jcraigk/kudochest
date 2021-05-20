@@ -1,0 +1,26 @@
+en:
+  bonuses:
+    calculator_info: Using karma as a basis for giving out monetary bonuses is a great way to take advantage of natural peer review. Giving bigger bonuses to those who earn more karma reinforces the value of karma in the organization and improves team collaboration. Use the controls below to specify how you want to aportion bonus money and click Request CSV. A customized CSV file containing a list of users, karma, percent share, and other values will be emailed to you. Open in Excel or spreadsheet of choice to complete your workflow.
+    calculation_requested: The requested Bonus Calculation file will be emailed to %{email} shortly
+    request_csv: Request CSV
+    start_date: Start Date
+    start_date_tooltip: Specify the start date of the desired period - only karma earned between the dates you enter will be included in the bonus calculation.
+    end_date: End Date
+    end_date_tooltip: Specify the end date of the desired period - only karma earned between the dates you enter will be included in the bonus calculation.
+    include_streak_karma: Include Giving Streaks
+    include_streak_karma_tooltip: This controls whether the bonus calculations should include karma earned through Giving Streaks. When disabled, only karma explicitly given by other users will be included.
+    include_imported_karma: Include Imports
+    include_imported_karma_tooltip: This controls whether the bonus calculations should include karma imported by the team administrator through App Settings.
+    calc_style: Calculation Style
+    calc_style_tooltip: Select the structure of the bonus system.
+    split_pot: Split the Pot
+    split_pot_info_html: Use <strong>Split the Pot</strong> when you have a total amount of money that you want to distribute to users based proportionally on the karma they earned. For example, if you have $1,000 to give away and Bob earned 25% of all karma during the time period, Bob will earn $250 of the total pot.
+    karma_value: Karma Value
+    karma_value_info_html: Use <strong>Karma Value</strong> when you want to assign a monetary value to each karma point. For example, if you specify that each karma point is worth 20 cents, a user who earned 100 karma will be awarded $20.
+    salary_percent: Percentage of Salary
+    salary_percent_info_html: Use <strong>Salary Percent</strong> when you want each user to receive a percentage of their salary based on their karma share. For example, if Bob earns $40,000 per year and received 25% of the karma, he receives $10,000. For privacy, you must enter each user's salary into the spreadsheet after you receive it via email.
+    pot_size: Pot Size
+    pot_size_tooltip: Enter the dollar amount that represents the total amount of money you want to split amongst all who received karma
+    karma_point_value: Value of 1 Karma
+    karma_point_value_tooltip: Enter the dollar amount that represents 1 karma. For example, 20 cents should be entered as "0.20".
+    calculator_email_body: As requested, attached you will find a CSV file containing bonus calculations for %{team}.

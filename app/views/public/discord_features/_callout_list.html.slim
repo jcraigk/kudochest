@@ -1,0 +1,30 @@
+#features-list
+  .columns
+    .column.has-text-centered
+      h1.title = t('features.list_of_features')
+      h2.subtitle = t('features.click_for_detail')
+
+  .columns
+    .column.is-third
+      .marketing-callout
+        ul
+          - %i[give_plusplus give_emoji give_groups notifications moderation help].each do |key|
+            li = feature_modal_link(key)
+
+    .column.is-third
+      .marketing-callout
+        ul
+          - %i[levelup bonus_karma app_settings web_profile responses weekly_report].each do |key|
+            li = feature_modal_link(key)
+
+    .column.is-third
+      .marketing-callout
+        ul
+          - %i[bonus_calculator loot_shop history team_wallboard data].each do |key|
+            li = feature_modal_link(key)
+
+  .columns
+    .column.has-text-centered
+      = link_to icon_and_text('question', t('features.help')),
+                help_path,
+                class: 'button is-primary btn-cta'

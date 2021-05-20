@@ -1,0 +1,18 @@
+- if current_user.verified? && current_user.profiles.none?
+  = render 'shared/connect_profile'
+  br
+
+.width-750
+  - if current_user.verified?
+    = render partial: 'basic_preferences'
+  - else
+    = render partial: 'shared/verification_required'
+  br
+  br
+
+  - if current_user.verified? && !current_user.external?
+    = render partial: 'change_password'
+    br
+    br
+
+  = render partial: 'change_email'

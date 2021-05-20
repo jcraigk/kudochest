@@ -1,0 +1,8 @@
+- content_for :subtitle, "404 #{t('errors.http_404_title')}"
+
+.landscape-overlay.error
+
+  h1.title = fa_icon('map-marker-times')
+  h1.title = t('errors.http_404_title')
+
+  p = t('errors.http_404_body')

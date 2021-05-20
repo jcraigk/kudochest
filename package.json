@@ -1,0 +1,19 @@
+{
+  "license": "UNLICENSED",
+  "dependencies": {
+    "@rails/actioncable": "^6.0.0",
+    "@rails/ujs": "^6.0.0",
+    "@rails/webpacker": "5.0.1",
+    "bulma": "^0.8.1",
+    "bulma-switch": "^2.0.0",
+    "bulma-tooltip": "^3.0.2",
+    "chart.js": "^2.9.3",
+    "chartkick": "^3.2.0",
+    "clipboard": "^2.0.4",
+    "jquery": "^3.4.1",
+    "select2": "^4.0.13"
+  },
+  "devDependencies": {
+    "webpack-dev-server": "^3.10.3"
+  }
+}

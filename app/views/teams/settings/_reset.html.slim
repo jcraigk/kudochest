@@ -1,0 +1,8 @@
+.card data-section='reset' style='display: none;'
+  header.card-header
+    p.card-header-title = t('teams.stat_resets')
+  .card-content
+    .centered-text
+      p = t('teams.reset_now_info')
+      br
+      = reset_team_stats_button(@current_team)

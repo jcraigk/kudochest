@@ -1,0 +1,11 @@
+#features-splash
+  .columns
+    .column.is-half
+      .callout.marketing-callout
+        h1 = t("features.#{@platform}.hero_title")
+        p.callout = t("features.#{@platform}.hero_body_html", app: App.app_name)
+
+        - unless current_user
+          = link_to icon_and_text('rocket', t('features.try_month')),
+                    new_user_path,
+                    class: 'button btn-cta'

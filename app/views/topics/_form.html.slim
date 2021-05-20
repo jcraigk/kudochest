@@ -1,0 +1,81 @@
+= form_for @topic, local: true do |f|
+
+  = render 'shared/model_errors', record: @topic
+
+  .field.is-horizontal
+    .field-label.is-normal
+      = f.label :name, t('topics.name'), class: 'label'
+    .field-body
+      .field
+        .control
+          = f.text_field :name, class: 'input narrow3', required: true
+          = tooltip_btn('topics.name_tooltip')
+
+  .field.is-horizontal
+    .field-label.is-normal
+      = f.label :keyword, t('topics.keyword'), class: 'label'
+    .field-body
+      .field
+        .control
+          = f.text_field :keyword, class: 'input narrow2', required: true
+          = tooltip_btn('topics.keyword_tooltip')
+
+  .field.is-horizontal
+    .field-label.is-normal
+      = f.label :emoji, t('topics.emoji'), class: 'label'
+    .field-body
+      .field
+        .control
+          = f.text_field :emoji, class: 'input narrow2', required: true
+          = tooltip_btn('topics.emoji_tooltip')
+
+  .field.is-horizontal
+    .field-label.is-normal
+      = f.label :description, t('topics.description'), class: 'label'
+      = tooltip_btn('topics.description_tooltip')
+    .field-body
+      .field
+        .control
+          = f.text_area :description, class: 'textarea'
+
+  .field.is-horizontal
+    .field-label.is-switch-label
+      = f.label :active, t('topics.active'), class: 'label'
+    .field-body
+      .field
+        .control
+          = f.check_box :active, class: 'switch is-rounded'
+          = f.label :active, '&nbsp;'.html_safe, class: 'label'
+          = tooltip_btn('topics.active_tooltip', 'nudge-up')
+
+  - if @topic.persisted?
+    .field.is-horizontal#quantity-control
+      .field-label.is-normal
+        = f.label :tips, t('topics.karma_count'), class: 'label'
+      .field-body
+        .field
+          .control
+            = link_to "#{t('topics.karma_count')}: #{number_with_delimiter(@topic.tips.count)} ",
+                      tips_path(topic_id: @topic.id),
+                      class: 'button is-link'
+            = tooltip_btn('topics.claims_tooltip')
+
+  .has-text-right
+    - if @topic.persisted? && @topic.tips.count.zero?
+      = link_to \
+        fa_icon('trash-alt'),
+        topic_path(@topic),
+        method: :delete,
+        class: 'button is-danger margin-right',
+        data: { confirm: t('topics.confirm_destroy') }
+    = back_button(topics_path)
+    = submit_button
+
+javascript:
+  // Auto-generate keyword from the name
+  $('#topic_name').on('change', function() {
+    if (! $('#topic_keyword').val()) {
+      var snake_case = $(this).val().match(/[A-Z]{2,}(?=[A-Z][a-z]+[0-9]*|\b)|[A-Z]?[a-z]+[0-9]*|[A-Z]|[0-9]+/g).map(x => x.toLowerCase()).join('_');
+      $('#topic_keyword').val(snake_case)
+    }
+  })

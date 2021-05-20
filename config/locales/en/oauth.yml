@@ -1,0 +1,6 @@
+en:
+  oauth:
+    basic_error: Sorry, something went wrong with chat platform integration
+    code_grant_success_html: App successfully installed!
+    generic_error: Sorry, something went wrong
+    permissions_required: You must grant all requested permissions in order to install the bot

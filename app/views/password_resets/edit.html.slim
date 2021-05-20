@@ -1,0 +1,30 @@
+- content_for :subtitle, t('auth.reset_password')
+- content_for :meta_description, t('meta.reset_password')
+
+#user-container
+
+  h2.subtitle = t('auth.reset_password')
+
+  = form_with model: @user, url: password_reset_path(@token), method: :put, local: true do |f|
+
+    - if @user.errors.any?
+      .notification.is-danger
+        button.delete
+        h2.subtitle = "#{pluralize(@user.errors.count, 'error')} #{t('auth.user_not_saved')}"
+        - @user.errors.full_messages.each do |msg|
+          li = msg
+
+    .field
+      .control.has-icons-left
+        = f.password_field :password, placeholder: t('auth.new_password'), class: 'input', required: true
+        span.icon.is-small.is-left
+          i.fa.fa-lock
+
+    .field
+      .control.has-icons-left
+        = f.password_field :password_confirmation, placeholder: t('auth.confirm_new_password'), class: 'input', required: true
+        span.icon.is-small.is-left
+          i.fa.fa-lock
+        = f.hidden_field :token, value: @token
+
+    = submit_button(t('auth.reset_password'), 'key')

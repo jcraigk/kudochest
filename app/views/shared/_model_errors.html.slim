@@ -1,0 +1,6 @@
+- if record.errors.any?
+  .notification.is-danger.width-full
+    button.delete.delete-notification
+    ul
+      - record.errors.full_messages.each do |msg|
+        li = msg

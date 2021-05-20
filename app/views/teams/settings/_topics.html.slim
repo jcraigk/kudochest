@@ -1,0 +1,21 @@
+.card data-section='topics' style='display: none;'
+  header.card-header
+    p.card-header-title
+      = t('teams.topics')
+  .card-content
+
+    .field.is-horizontal
+      .field-label.is-switch-label
+        = f.label :require_topic, t('teams.require_topic'), class: 'label'
+      .field-body
+        .field
+          .control
+            = f.check_box :require_topic, class: 'switch is-rounded'
+            = f.label :require_topic, '&nbsp;'.html_safe, class: 'label'
+            = tooltip_btn('teams.require_topic_tooltip', 'nudge-up')
+
+    hr
+    .centered-text
+      = link_to icon_and_text('store', t('nav.manage_topics')),
+                topics_path,
+                class: 'button'

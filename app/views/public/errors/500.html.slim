@@ -1,0 +1,8 @@
+- content_for :subtitle, "500 #{t('errors.http_500_title')}"
+
+.landscape-overlay.error
+
+  h1.title = fa_icon('grimace')
+  h1.title = t('errors.http_500_title')
+
+  p = t('errors.http_500_body')

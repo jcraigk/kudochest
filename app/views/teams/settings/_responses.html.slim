@@ -1,0 +1,66 @@
+.card data-section='responses' style='display: none;'
+  header.card-header
+    p.card-header-title = t('teams.chat_responses')
+  .card-content
+
+    .field.is-horizontal
+      .field-label.is-normal
+        = f.label :response_theme, t('teams.response_theme'), class: 'label'
+      .field-body
+        .field
+          .control
+            .select = f.select :response_theme, Team.response_theme.options
+            = tooltip_btn('teams.response_theme_tooltip')
+          = render partial: 'teams/settings/response_theme_info'
+          br
+
+    .field.is-horizontal
+      .field-label.is-normal
+        = f.label :response_mode, t('teams.response_mode'), class: 'label'
+      .field-body
+        .field
+          .control
+            .select = f.select :response_mode, response_mode_options(@current_team)
+            = tooltip_btn('teams.response_mode_tooltip')
+          = render partial: 'teams/settings/response_mode_info'
+          br
+
+    .field.is-horizontal
+      .field-label.is-normal
+        = f.label :log_channel_rid, t('teams.log_channel_rid'), class: 'label'
+      .field-body
+        .field
+          .control
+            .select = channel_select(f, :log_channel_rid)
+            = tooltip_btn('teams.log_channel_rid_tooltip')
+
+    .field.is-horizontal
+      .field-label.is-switch-label
+        = f.label :show_channel, t('teams.show_channel'), class: 'label'
+      .field-body
+        .field
+          .control
+            = f.check_box :show_channel, class: 'switch is-rounded'
+            = f.label :show_channel, '&nbsp;'.html_safe, class: 'label'
+            = tooltip_btn('teams.show_channel_tooltip', 'nudge-up')
+
+    .field.is-horizontal
+      .field-label.is-switch-label
+        = f.label :enable_cheers, t('teams.enable_cheers'), class: 'label'
+      .field-body
+        .field
+          .control
+            = f.check_box :enable_cheers, class: 'switch is-rounded'
+            = f.label :enable_cheers, '&nbsp;'.html_safe, class: 'label'
+            = tooltip_btn('teams.enable_cheers_tooltip', 'nudge-up')
+
+    - if @current_team.platform.slack?
+      .field.is-horizontal
+        .field-label.is-switch-label
+          = f.label :enable_fast_ack, t('teams.fast_ack'), class: 'label'
+        .field-body
+          .field
+            .control
+              = f.check_box :enable_fast_ack, class: 'switch is-rounded'
+              = f.label :enable_fast_ack, '&nbsp;'.html_safe, class: 'label'
+              = tooltip_btn('teams.fast_ack_tooltip', 'nudge-up')

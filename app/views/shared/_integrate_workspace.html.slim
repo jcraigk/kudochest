@@ -1,0 +1,12 @@
+.card.width-750.card-module
+  header.card-header
+    p.card-header-title
+      = image_pack_tag 'media/images/logos/karmachest-web.png', class: 'icon-img', alt: 'App logo'
+      = t('teams.add_new', app: App.app_name)
+
+  .card-content.has-text-centered
+    / p = t('teams.add_new_explain_html', app: App.app_name, count: App.max_team_size)
+    / br
+    .add-btn-container.is-clearfix
+      = render 'shared/add_to_slack_button'
+      = render 'shared/add_to_discord_button'

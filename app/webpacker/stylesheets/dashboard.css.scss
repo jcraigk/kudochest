@@ -1,0 +1,219 @@
+.profile-tile {
+  .media {
+    margin-bottom: 15px !important;
+  }
+  img {
+    border-radius: $radius;
+  }
+
+  .wood {
+    background-image: url('../images/levels/badges/wood.png')
+  }
+  .woodleaves {
+    background-image: url('../images/levels/badges/woodleaves.png')
+  }
+  .stone {
+    background-image: url('../images/levels/badges/stone.png')
+  }
+  .stoneleaves {
+    background-image: url('../images/levels/badges/stoneleaves.png')
+  }
+  .bronze {
+    background-image: url('../images/levels/badges/bronze.png')
+  }
+  .silver {
+    background-image: url('../images/levels/badges/silver.png')
+  }
+  .gold {
+    background-image: url('../images/levels/badges/gold.png')
+  }
+  .sapphire {
+    background-image: url('../images/levels/badges/sapphire.png')
+  }
+  .ruby {
+    background-image: url('../images/levels/badges/ruby.png')
+  }
+  .columnleaves {
+    background-image: url('../images/levels/badges/columnleaves.png')
+  }
+  .trophy-1 {
+    background-image: url('../images/trophies/1.png')
+  }
+  .trophy-2 {
+    background-image: url('../images/trophies/2.png')
+  }
+  .trophy-3 {
+    background-image: url('../images/trophies/3.png')
+  }
+
+  // #achievements {
+  //   margin-top: -13px;
+  //
+  //   .achievement-badge {
+  //     width: 16px;
+  //     height: 16px;
+  //     background-size: 16px;
+  //     display: inline-block;
+  //     float: left;
+  //     margin: 3px;
+  //   }
+  // }
+
+  #level-wrap {
+    background-color: $white-ter;
+    border-radius: $radius;
+    margin-bottom: 20px;
+    padding: 10px;
+
+    .level-badge {
+      display: inline-block;
+      width: 68px;
+      height: 68px;
+      background-size: 68px;
+      text-shadow: 2px 2px $grey-lighter;
+      float: left;
+      margin: 5px 15px 5px 10px;
+      text-align: center;
+      line-height: 5rem;
+      image-rendering: pixelated;
+
+      .digit {
+        border-radius: 0px;
+
+        &:nth-of-type(2) {
+          margin-left: 4px;
+        }
+      }
+    }
+    .profile-level-progress {
+      max-height: 10px;
+      margin-top: 20px;
+      margin-bottom: 0px;
+    }
+    .level-title {
+      font-weight: bold;
+      line-height: 1.5rem;
+      font-size: 1.2rem;
+
+      &.max {
+        margin-top: 15px;
+      }
+    }
+    .level-footer {
+      font-size: 1rem;
+    }
+  }
+  .info {
+    margin-top: -2px;
+    font-size: 1rem;
+  }
+  .media:not(:last-child) {
+    margin-bottom: 0.5rem;
+  }
+  .profile-title {
+    font-size: 1.2rem;
+  }
+  .stats-box {
+    background-color: $white-ter;
+    border-radius: $radius;
+    margin: 10px;
+  }
+}
+.leaderboard-tile {
+  height: 100%;
+
+  .team-avatar {
+    border-radius: $radius;
+  }
+}
+.karma-direction-right {
+  color: $given-color;
+}
+.karma-direction-left {
+  color: $earned-color;
+}
+.profile-subheader {
+  margin-top: -10px;
+}
+.profile-link .avatar {
+  position: relative;
+  top: 4px;
+  margin-right: 5px;
+  border-radius: 2px;
+}
+table.leaderboard {
+  th {
+    position: relative;
+  }
+  .paging {
+    float: right;
+    position: absolute;
+    top: 8px;
+    right: 0px;
+
+    .paging-btn {
+      margin-left: 7px;
+      padding: 0;
+      width: 25px;
+      height: 25px;
+
+      &#leaderboard-page-right {
+        .svg-inline--fa {
+          // position: relative;
+          left: -2px !important;
+        }
+      }
+    }
+  }
+  .highlight {
+    font-weight: bold;
+    background-color: $white-ter;
+  }
+  .delta-col {
+    width: 50px;
+  }
+  .rank-cell {
+    position: relative;
+    text-align: center;
+    font-weight: bold;
+    image-rendering: pixelated;
+
+    .trend-icon {
+      position: absolute;
+      left: 9px;
+      top: 17px;
+      color: $green;
+      font-size: .55rem;
+    }
+  }
+  .rank-col {
+    width: 13%;
+    text-align: center !important;
+  }
+  .col {
+    width: 18%
+  }
+}
+
+@media (max-width: 600px) {
+  .leaderboard-tile {
+    th:nth-child(4),
+    th:nth-child(5),
+    td:nth-child(4),
+    td:nth-child(5) {
+      display: none;
+    }
+  }
+  .recent-activity-tile {
+    th:nth-child(3),
+    th:nth-child(4),
+    th:nth-child(5),
+    th:nth-child(6),
+    td:nth-child(3),
+    td:nth-child(4),
+    td:nth-child(5),
+    td:nth-child(6) {
+      display: none;
+    }
+  }
+}

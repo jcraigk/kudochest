@@ -1,0 +1,72 @@
+
+.platform-discord {
+  border-radius: 500px !important;
+}
+.platform-slack {
+  border-radius: 5px !important;
+}
+.platform-buttons {
+  margin: 0 auto;
+  text-align: center;
+  margin-bottom: 50px;
+
+  .button {
+    margin-right: 20px;
+    margin-bottom: 10px;
+    border-radius: 500px !important;
+    font-size: 1.35rem;
+    color: $dark;
+    padding: 10px 20px;
+    background-color: $light;
+
+    .platform-logo  {
+      position: relative;
+      top: 1px;
+    }
+  }
+  .discord-button {
+    &:hover {
+      background-color: $discord-purple;
+      border-color: $discord-purple !important;
+      color: $light;
+    }
+  }
+  .slack-button {
+    &:hover {
+      background-color: $slack-purple;
+      border-color: $slack-purple !important;
+      color: $light;
+    }
+    img {
+      position: relative;
+      bottom: 3px;
+    }
+  }
+  .selected {
+    border: 3px solid $dark !important;
+    font-weight: bold;
+  }
+  .platform-logo {
+    margin-right: 10px;
+    background-color: $light;
+    padding: 3px;
+    border-radius: 3px;
+    position: relative;
+    top: 3px;
+    height: 30px;
+    width: 30px;
+
+    img {
+      width: 20px;
+      height: auto;
+    }
+  }
+}
+
+.platform-img {
+  width: 30px;
+  height: auto;
+  margin-right: 10px;
+  position: relative;
+  top: 2px;
+}

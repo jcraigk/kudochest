@@ -1,0 +1,24 @@
+en:
+  shop:
+    empty: Uh oh, the shop is empty! Ask your administrator to add some loot.
+    title: Shop
+    karma_balance_html: You have spent <strong>%{claimed}</strong> karma of your total earned <strong>%{accrued}</strong>, leaving <strong>%{remaining}</strong> to spend.
+    karma_balance_chat: You have spent *%{claimed}* karma of your total earned *%{accrued}*, leaving *%{remaining}* to spend.
+    claim_successful: Loot claim succcesful!
+    confirm_claim: Are you sure you want to claim this loot item?
+    claim_item: Claim for %{price} karma!
+    requires_karma: Requires %{price} karma
+    reward_missing: Reward missing
+    profile_missing: Profile missing
+    insufficient_karma: Sorry, you don't have enough karma to claim %{reward}
+    insufficient_quantity: Sorry, that item has been depleted. Ask your admin to replenish it.
+    view_my_claims: View My Claims (%{count})
+    my_claims: My Claims
+    claims_empty: "You haven't made any claims yet. Earn karma and claim items in the Loot Shop!"
+    reward_for_price_chat: '*%{reward}* for *%{quantity}* karma'
+    claimed_for_karma: You succesfully claimed *%{reward}* for *%{quantity}* karma!
+    fulfillment_key_with_val: 'Fulfillment key: %{value}'
+    fulfillment_pending: Fulfillment of the claim is pending admin action
+    unrecognized_reward: Sorry, that loot name doesn't look right. Enter the name of the loot item exactly as it appears in the shop list.
+    command_title: '*Loot Shop*'
+    disabled: Sorry, the Loot Shop is currently disabled. Ask your admin to enable it.

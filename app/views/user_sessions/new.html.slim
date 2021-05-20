@@ -1,0 +1,33 @@
+- content_for :subtitle, t('auth.login')
+- content_for :meta_description, t('meta.login')
+
+#user-container
+
+  h2.subtitle = t('auth.login_existing')
+
+  = form_with url: user_sessions_path, method: :post, local: true do |f|
+
+    .field
+      .control.has-icons-left
+        = f.text_field :email, placeholder: t('auth.email'), class: 'input', required: true
+        span.icon.is-small.is-left
+          i.fa.fa-envelope
+
+    .field
+      .control.has-icons-left
+        = f.password_field :password, placeholder: t('auth.password'), class: 'input', required: true
+        span.icon.is-small.is-left
+          i.fa.fa-lock
+
+    .actions
+      = submit_button(t('auth.login'), 'sign-in')
+
+
+      = link_to icon_and_text('key', t('auth.forgot_password')),
+                new_password_reset_path,
+                class: 'button is-info is-pulled-right margin-left'
+      = link_to icon_and_text('clipboard-user', t('auth.signup')),
+                new_user_path,
+                class: 'button is-info is-pulled-right'
+
+  = render 'shared/external_login_buttons'

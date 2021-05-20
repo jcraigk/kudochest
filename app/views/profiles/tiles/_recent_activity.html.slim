@@ -1,0 +1,64 @@
+.card.recent-activity-tile
+  header.card-header
+    p.card-header-title = t('profiles.karma_history_title')
+  .card-content
+
+    - if tips.none?
+      = t('profiles.no_recent_activity')
+
+    - else
+
+      = column_chart @histogram_data, id: 'histogram'
+      br
+
+      a name='recent'
+      table.table.is-fullwidth
+        thead
+          tr
+            th = t('tips.type')
+            th = t('tips.user')
+            th = t('tips.quantity')
+            - if profile.team.enable_topics?
+              th = t('tips.topic')
+            th
+              span data-tooltip=t('tips.channel_tooltip') = t('tips.channel')
+            th
+              span data-tooltip=t('tips.affiliation_tooltip') = t('tips.affiliation')
+            - if !profile.team.tip_notes.disabled?
+              th = t('tips.note')
+            th
+              i.fa.fa-calendar
+        tbody
+          - tips.each do |tip|
+            tr
+              td = direction_with_icon(tip, profile)
+              td = profile_web_link(tip.from_profile == profile ? tip.to_profile : tip.from_profile)
+              td = karma_format(tip.quantity)
+              - if profile.team.enable_topics?
+                td = tip.topic_name
+              td = channel_ref(tip)
+              td = group_label(tip)
+              - if !profile.team.tip_notes.disabled?
+                td = emojify(tip.note, size: 14)
+              td => time_ago_in_words(tip.created_at) + ' ago'
+
+      = paginate tips, params: { paged: true }
+
+javascript:
+  $(function () {
+    Chart.defaults.global.plugins.datalabels.display = function(ctx) {
+      return ctx.dataset.data[ctx.dataIndex] !== 0;
+    }
+    Chart.defaults.global.layout = {
+      padding: {
+        top: 30
+      }
+    }
+    Chart.defaults.global.defaultFontFamily = 'Barlow Semi Condensed'
+    Chart.defaults.global.defaultFontSize = 13
+    Chart.defaults.global.defaultFontColor = "#{current_user.theme.dark? ? '#fff' : '#555'}"
+    var chart = Chartkick.charts['histogram']
+    if (typeof chart !== 'undefined') {
+      chart.setOptions(chart.options)
+    }
+  })

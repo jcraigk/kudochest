@@ -1,0 +1,6 @@
+.platform-buttons
+  - %i[slack discord].each do |platform|
+    - css = @platform == platform ? 'selected' : ''
+    = link_to url_for(platform: platform), class: "button #{css} #{platform}-button" do
+      .platform-logo = image_tag asset_pack_path("media/images/logos/#{platform}.png")
+      = platform.to_s.titleize

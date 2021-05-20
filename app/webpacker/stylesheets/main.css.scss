@@ -1,0 +1,390 @@
+@charset "utf-8";
+
+$blue: rgb(72, 151, 224);
+$green: rgb(36, 120, 82);
+$blue-green: #428a8a;
+$red: rgb(207, 75, 75);
+$yellow: rgb(225, 196, 129);
+$highlight: rgb(255, 244, 219);
+$highlight-dark: rgb(92, 89, 81);
+$grey-mid: rgb(110, 110, 110);
+$brown: #332416;
+
+$danger: $red;
+$info: $blue-green;
+$link: $blue;
+$primary: $green;
+$success: $green;
+$warning: $yellow;
+
+$given-color: #432478;
+$given-color-dark: #d2b8ff;
+$earned-color: $green;
+$earned-color-dark: #a1f7d0;
+
+$discord-purple: #778ad4;
+$facebook-blue: #4a67ad;
+$google-blue: #5385ed;
+$slack-purple: #441a49;
+
+$radius: 5px;
+
+@import "bulma";
+@import "bulma-tooltip";
+@import "select2";
+@import "vendor/select-pure";
+@import "vendor/bulma-switch";
+
+@import "dashboard";
+@import "errors";
+@import "features";
+@import "fontawesome_svg_fix";
+@import "help";
+@import "navbar";
+@import "platforms";
+@import "shop";
+@import "team_owner";
+@import "topics";
+@import "wallboard";
+
+.add-btn-container {
+  width: 300px;
+  margin: auto;
+
+  .discord-btn {
+    height: 40px;
+    float: right;
+
+    i, svg {
+      color: $discord-purple;
+    }
+  }
+  .slack-btn {
+    float: left
+  }
+}
+
+html {
+  height: 100%;
+
+  body {
+    min-height: 100%;
+    font-family: 'Barlow Semi Condensed', sans-serif;
+    background-color: $white-ter;
+    width: 100%;
+
+    p {
+      line-height: 1.9rem;
+    }
+  }
+}
+
+form {
+  textarea {
+    height: 100px;
+  }
+  label, input, p, textarea, button {
+    font-family: 'Barlow Semi Condensed', sans-serif !important;
+    font-size: 1.3rem;
+    line-height: 1.5rem;
+  }
+  .narrow {
+    width: 60px;
+  }
+  .input-number {
+    width: 80px;
+  }
+  .narrow2 {
+    width: 150px;
+  }
+  .narrow3 {
+    width: 450px;
+  }
+  .is-horizontal {
+    .field-label {
+      min-width: 180px;
+    }
+  }
+  .is-switch-label {
+    margin-top: 11px;
+  }
+  .textarea-narrow {
+    height: 200px;
+    width: 450px;
+  }
+  .cancel {
+    margin-right: 10px;
+  }
+}
+.tabs {
+  a {
+    font-size: 1.5rem;
+    font-weight: bold;
+  }
+}
+.margin-right {
+  margin-right: 10px;
+}
+
+.nowrap {
+  white-space: nowrap;
+}
+.card-module {
+  p {
+    line-height: 2rem;
+  }
+  .icon-img {
+    margin-right: 10px;
+  }
+}
+
+.is-secondary {
+  background-color: $grey-mid;
+  color: $white-ter;
+}
+.is-small {
+  border-radius: 3px !important;
+}
+.logo-hug {
+  position: relative;
+  left: 10px;
+}
+.pull-left {
+  float: left;
+}
+.pull-right {
+  float: right;
+}
+
+.dark-mode {
+  background-color: $dark;
+
+  p, th, table, strong, .subtitle, .button, .panel-content, .card,
+  .label, .title, .subtitle, .stats-box, .team-setting-link, .team_edit_footer,
+  #level-wrap {
+    background-color: transparent !important;
+    color: $light !important;
+    box-shadow: none;
+  }
+  .button, #karma_container, .card {
+    border: 1px solid $grey;
+  }
+  .highlight {
+    background-color: $highlight-dark !important;
+  }
+  .karma-direction-right {
+    color: $given-color-dark;
+  }
+  .karma-direction-left {
+    color: $earned-color-dark;
+  }
+  .command {
+    color: $dark !important;
+  }
+  .pagination {
+    a {
+      color: $light !important;
+    }
+  }
+}
+
+.is-grey {
+  color: $grey;
+}
+
+.centered-text {
+  text-align: center;
+}
+
+img.small-radius {
+  border-radius: 3px;
+}
+
+#main {
+  padding-top: 80px;
+  min-height: 1100px;
+
+  .card {
+    border-radius: $radius;
+  }
+}
+.marketing-callout {
+  border-radius: 20px;
+  background: rgba(255, 255, 255, .85);
+  padding: 30px;
+
+  li:hover {
+    text-decoration: underline;
+  }
+  i {
+    margin-right: 20px;
+  }
+}
+.landscape-overlay {
+  border-radius: 20px;
+  background: rgba(255, 255, 255, .85);
+  padding: 30px;
+}
+.hidden {
+  visibility: none;
+}
+.emoji {
+  vertical-align: middle;
+}
+.btn-icon {
+  margin-right: 7px;
+}
+
+.team-selector-wide {
+  margin-bottom: 20px;
+
+  .team-selector {
+    width: 100%;
+    margin-bottom: 5px;
+
+    .dropdown-trigger {
+      width: 100%;
+
+      button {
+        width: 100%;
+      }
+    }
+  }
+}
+.team-selector {
+  margin-top: 5px;
+  margin-right: 5px;
+}
+
+
+.big-warning {
+  background-color: $warning;
+  text-align: center;
+  border-radius: $radius;
+}
+
+.notification {
+  width: 450px;
+  margin-bottom: 20px;
+  margin: auto;
+}
+
+#user-container {
+  border-radius: $radius;
+  padding: 30px;
+  background-color: $light;
+  max-width: 450px;
+  margin: auto;
+
+  .external-login-container {
+    margin-top: 50px;
+
+    .external-login-btn {
+      width: 100%;
+      margin-top: 15px;
+      justify-content: left;
+      padding-left: 130px;
+      color: $white-ter;
+
+      @media (max-width: 600px) {
+        padding-left: 60px;
+      }
+    }
+    .external-login-icon {
+      margin-right: 10px;
+    }
+  }
+  .login-logo {
+    background-color: white;
+    border-radius: 3px;
+    width: 25px;
+    height: 25px;
+    position: relative;
+    left: -10px;
+    padding: 3px;
+  }
+  .facebook-btn {
+    background-color: $facebook-blue;
+  }
+  .google-btn {
+    background-color: $google-blue;
+  }
+  .slack-btn {
+    background-color: $slack-purple;
+  }
+  .discord-btn {
+    background-color: $discord-purple;
+  }
+}
+
+.width-full {
+  width: 100% !important;
+  text-align: center;
+}
+.width-750 {
+  width: 750px !important;
+  margin: auto;
+
+  @media (max-width: 600px) {
+    width: 100% !important;
+  }
+}
+
+.margin-left {
+  margin-left: 5px;
+}
+
+.reaction-icon {
+  margin-left: 30px;
+}
+
+.command-wrapper {
+  margin-top: 15px;
+  margin: 0 auto;
+
+  .command-callout {
+    border-radius: $radius;
+    padding: 6px 20px;
+    border: 1px solid $dark;
+    background-color: $blue-green;
+    color: $light;
+    display: inline-block;
+    font-weight: bold;
+  }
+  .clipboard-btn {
+    border-radius: $radius;
+    border: 1px solid $dark;
+    background-color: $blue-green;
+    color: $light;
+    position: relative;
+    left: 10px;
+    top: 2px;
+    width: 50px;
+    height: 38px;
+    cursor: pointer;
+    display: inline-block;
+    font-size: 1.3rem;
+  }
+}
+
+.footer {
+  background-color: $dark;
+  color: $light;
+  padding: 5px;
+  width: 100%;
+
+  a {
+    font-size: 1.1rem;
+    line-height: 2rem;
+    color: $light;
+
+    &:hover {
+      color: $light;
+      text-decoration: underline;
+    }
+  }
+  p.copyright {
+    font-weight: bold;
+    font-size: 1rem;
+  }
+}

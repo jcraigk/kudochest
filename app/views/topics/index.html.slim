@@ -1,0 +1,47 @@
+= content_for(:feedback_class) { 'width-full' }
+
+.card
+  .card-content
+    = form_tag topics_path, method: :get
+      .columns
+        .column = search_input(t('topics.search_placeholder'))
+        .column = status_select
+        .column
+          p = pluralize(number_with_delimiter(@topics.total_count), 'item') + ' displayed'
+        .column.has-text-right = search_button
+
+br
+.card
+  .card-content
+    = link_to icon_and_text('plus-square', t('topics.create_new')), new_topic_path, class: 'button is-primary pull-right'
+
+    table.table.is-fullwidth
+      thead
+        th = t('topics.name')
+        th = t('topics.keyword')
+        th = t('topics.emoji')
+        th = t('topics.description')
+        th = t('topics.status')
+        th
+      tbody
+      - if @topics.none?
+        tr
+          td.has-text-centered colspan='100'
+            br
+            br
+            p = t('topics.none_found')
+            br
+            br
+      - else
+        - @topics.each do |topic|
+          tr
+            td
+              strong = topic.name
+            td = topic.keyword
+            td = topic.emoji
+            td = truncate(topic.description, length: 50)
+            td = status_tag(topic.active?)
+            td.has-text-right
+              = link_to fa_icon('edit'), edit_topic_path(topic), class: 'button'
+
+    = paginate @topics

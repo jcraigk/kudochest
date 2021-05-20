@@ -1,0 +1,16 @@
+- content_for :subtitle, t('auth.forgot_password')
+- content_for :meta_description, t('meta.forgot_password')
+
+#user-container
+
+  h2.subtitle = t('auth.forgot_password')
+
+  = form_with url: password_resets_path, method: :post, local: true do |f|
+
+    .field
+      .control.has-icons-left
+        = f.text_field :email, placeholder: t('auth.email'), class: 'input', required: true
+        span.icon.is-small.is-left
+          i.fa.fa-envelope
+
+    = submit_button(t('auth.reset_password'), 'key')

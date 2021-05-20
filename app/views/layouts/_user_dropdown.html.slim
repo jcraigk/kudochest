@@ -1,0 +1,65 @@
+.navbar-item.has-dropdown.dropdown#user-dropdown
+  a.navbar-link.dropdown-trigger
+    - if @current_profile
+      img.small-radius alt='Profile avatar image' src=@current_profile.avatar_url class="platform-#{@current_profile.team.platform}"
+      = @current_profile.webref
+    - else
+      = current_user.email
+
+  .navbar-dropdown.is-right
+    - if current_user.verified?
+      = link_to icon_and_text('tachometer-slow', t('nav.dashboard')),
+                dashboard_path,
+                class: 'navbar-item'
+    - if current_user.profiles.any?
+      = link_to icon_and_text('tv', t('nav.team_wallboard')),
+                wallboard_path,
+                class: 'navbar-item'
+      - if @current_profile&.team&.enable_loot?
+        = link_to icon_and_text('store', t('nav.shop')),
+                  shop_path,
+                  class: 'navbar-item'
+      - if @current_profile&.team&.enable_topics?
+        = link_to icon_and_text('lightbulb', t('nav.topics')),
+                  topic_list_path,
+                  class: 'navbar-item'
+
+    - if current_user.owned_teams.any?
+      .navbar-divider
+      = link_to icon_and_text('cog', t('nav.app_settings')),
+                app_settings_path(section: :bot_presence),
+                class: 'navbar-item'
+      = link_to icon_and_text('eye', t('nav.karma_admin')),
+                tips_path,
+                class: 'navbar-item'
+      = link_to icon_and_text('sitemap', t('nav.manage_topics')),
+                topics_path,
+                class: 'navbar-item'
+      = link_to icon_and_text('store', t('nav.reward_admin')),
+                rewards_path,
+                class: 'navbar-item'
+      = link_to icon_and_text('calculator', t('nav.bonus_calculator')),
+                bonuses_path,
+                class: 'navbar-item'
+
+    .navbar-divider
+
+    - if current_user.profiles.any?
+      = link_to icon_and_text('sliders-h-square', t('nav.profile_settings')),
+                profile_settings_path,
+                class: 'navbar-item'
+    = link_to icon_and_text('user', t('nav.user_settings')),
+              user_settings_path,
+              class: 'navbar-item'
+
+
+    .navbar-divider
+
+    = link_to icon_and_text('info-square',
+              t('nav.help')),
+              help_path,
+              class: 'navbar-item'
+    = link_to icon_and_text('sign-out', t('auth.logout')),
+              logout_path,
+              method: :delete,
+              class: 'navbar-item'

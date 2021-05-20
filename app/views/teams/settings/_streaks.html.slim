@@ -1,0 +1,41 @@
+.card data-section='streaks' style='display: none;'
+  header.card-header
+    p.card-header-title
+      = t('teams.giving_streaks')
+  .card-content
+
+    .field.is-horizontal
+      .field-label.is-switch-label
+        = f.label :enable_streaks, t('teams.enable_streaks'), class: 'label'
+      .field-body
+        .field
+          .control
+            = f.check_box :enable_streaks, class: 'switch is-rounded'
+            = f.label :enable_streaks, '&nbsp;'.html_safe, class: 'label'
+            = tooltip_btn('teams.enable_streaks_tooltip', 'nudge-up')
+
+    .field.is-horizontal
+      .field-label.is-normal
+        = f.label :streak_duration, t('teams.streak_duration'), class: 'label'
+      .field-body
+        .field
+          .control
+            = f.text_field :streak_duration,
+                           class: 'input input-number',
+                           type: 'number',
+                           step: '1',
+                           required: true
+            = tooltip_btn('teams.streak_duration_tooltip')
+
+    .field.is-horizontal
+      .field-label.is-normal
+        = f.label :streak_reward, t('teams.streak_reward'), class: 'label'
+      .field-body
+        .field
+          .control
+            = f.text_field :streak_reward,
+                           class: 'input input-number',
+                           type: 'number',
+                           step: '1',
+                           required: true
+            = tooltip_btn('teams.streak_reward_tooltip')

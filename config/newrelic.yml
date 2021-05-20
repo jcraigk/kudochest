@@ -1,0 +1,17 @@
+common: &default_settings
+  license_key: <%= ENV['NEWRELIC_KEY'] %>
+  app_name: KarmaChest
+  # agent_enabled: false
+  log_level: info
+
+
+development:
+  <<: *default_settings
+  app_name: KarmaChest DEV
+
+test:
+  <<: *default_settings
+  monitor_mode: false
+
+production:
+  <<: *default_settings

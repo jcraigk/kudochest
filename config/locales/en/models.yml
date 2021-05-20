@@ -1,0 +1,30 @@
+en:
+  activerecord:
+    errors:
+      models:
+        profile:
+          attributes:
+            base:
+              one_team_profile_per_user: You cannot connect more than one profile per team
+        team:
+          attributes:
+            token_quantity:
+              within_token_max: must be less than or equal to Max Tokens
+            work_days:
+              at_least_one: must specify at least one working day
+            week_start_day:
+              must_be_working_day: must be a working day
+        tip:
+          attributes:
+            base:
+              cannot_tip_bots: Sorry, you can't give karma to bots
+              cannot_accept_tips: Sorry, I can't receive karma, but I appreciate the thought!
+              cannot_tip_deleted: Sorry, you can't give karma to archived users
+              cannot_tip_guests: Sorry, you can't give karma to guest users
+              cannot_tip_self: Sorry, you can't give karma to yourself
+        reward:
+          attributes:
+            quantity:
+              at_least_claim_count: must be at least the number of existing claims on the loot item
+            fulfillment_keys:
+              must_be_present: must be present if loot item is set to fulfill automatically

@@ -1,0 +1,75 @@
+.card.leaderboard-tile
+  .card-content
+    .media
+      .media-left
+        - team = profile.team
+        = team_avatar_image(team)
+      .media-content
+        p.title.is-4 = team.name
+        p.subtitle.is-5
+          <strong>#{team.member_count}</strong> #{'member'.pluralize(team.member_count)}
+          br
+          <strong>#{karma_format(team.karma_sent)}</strong> total karma given
+    .content
+      - if leaderboard.profiles.none?
+        p = t('teams.leaderboard_empty', seconds: App.leaderboard_refresh_seconds)
+      - else
+        table.table.is-fullwidth.leaderboard
+          thead
+            tr
+              th.rank-col Rank
+              th.col User
+              th.col Karma
+              th.col Share
+              th.col
+                span.has-tooltip data-tooltip=t('teams.leaderboard_last_earned_tooltip')
+                  i.fa.fa-calendar
+                - unless hide_paging
+                  span.paging
+                    a.button.paging-btn#leaderboard-page-left
+                      i.fa.fa-chevron-left.main-icon
+                      i.fa.fa-spinner.fa-spin.spin-icon.is-hidden
+                    a.button.paging-btn#leaderboard-page-right
+                      i.fa.fa-chevron-right.main-icon
+                      i.fa.fa-spinner.fa-spin.spin-icon.is-hidden
+          tbody#leaderboard-body
+            = render partial: 'profiles/tiles/leaderboard_rows',
+                     locals: { leaderboard: leaderboard, profile: profile }
+
+javascript:
+  $(function () {
+    let $left_btn = $('#leaderboard-page-left')
+    let $right_btn = $('#leaderboard-page-right')
+
+    $left_btn.on('click', function() {
+      showSpinner($left_btn)
+      shiftLeaderboardPage('left')
+    })
+    $right_btn.on('click', function() {
+      showSpinner($right_btn)
+      shiftLeaderboardPage()
+    })
+
+    function showSpinner($elem) {
+      $elem.find('.main-icon').addClass('is-hidden')
+      $elem.find('.spin-icon').removeClass('is-hidden')
+    }
+
+    function hideSpinners($elem) {
+      [$left_btn, $right_btn].forEach(function($elem) {
+        $elem.find('.spin-icon').addClass('is-hidden')
+        $elem.find('.main-icon').removeClass('is-hidden')
+      })
+    }
+
+    function shiftLeaderboardPage(dir) {
+      const PER_PAGE = #{App.leaderboard_size}
+      let offset = (dir == 'left' ? 0 - PER_PAGE : PER_PAGE)
+      let new_offset = $('.rank-cell').first().data('rank') - 1 + offset
+      if (new_offset < 0) new_offset = 0
+      $.get(`/teams/leaderboard_page?offset=${new_offset}&count=${PER_PAGE}`, function(data) {
+        if (data != '') $('#leaderboard-body').html(data)
+        hideSpinners()
+      })
+    }
+  })

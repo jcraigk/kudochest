@@ -1,0 +1,74 @@
+.navbar {
+  background: rgba(0, 0, 0, .8) !important;
+  width: 100%;
+  position: fixed !important;
+
+  a {
+    color: $white-ter;
+
+    &:hover {
+      color: $grey-dark;
+      background-color: $white-ter;
+    }
+  }
+  .navbar-title:hover {
+    color: $grey-dark !important;
+    background-color: $grey-lighter !important;
+  }
+  .navbar-item {
+    font-size: 1.3rem;
+  }
+  .navbar-title {
+    font-size: 1.5rem;
+    font-weight: bold;
+    position: relative;
+    top: -1px;
+
+    span.app-name {
+      margin-left: 8px;
+    }
+  }
+  .btn-login {
+    margin-right: 8px;
+    margin-left: 8px;
+  }
+  .navbar-menu.is-active {
+    background-color: rgba(0, 0, 0, .5);
+  }
+  #user-dropdown {
+    color: $white;
+    background-color: transparent;
+
+    .navbar-link {
+      @media (max-width: 600px) {
+        display: none;
+      }
+    }
+    &.is-active, &:hover {
+      .navbar-link {
+        background-color: transparent;
+        color: $white;
+      }
+    }
+    .navbar-link {
+      img {
+        margin-right: 14px;
+      }
+      &::after {
+        border-color: $white-ter;
+      }
+    }
+    .navbar-item {
+      color: rgba(0, 0, 0, .8);
+      background-color: $white;
+
+      &:hover {
+        color: $white;
+        background-color: rgba(0, 0, 0, .8);
+      }
+      .btn-icon {
+        width: 25px;
+      }
+    }
+  }
+}

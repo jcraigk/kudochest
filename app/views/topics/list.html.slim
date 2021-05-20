@@ -1,0 +1,29 @@
+= content_for(:feedback_class) { 'width-full' }
+
+h2.title.has-text-centered
+  = fa_icon('lightbulb')
+  | &nbsp;&nbsp;
+  = t('topics.title')
+
+.card.topic-list
+  .card-content
+    p.is-size-4.has-text-centered
+      = t('topics.list_description')
+      br
+      br
+
+    table.table.is-fullwidth
+      tbody
+      - if @topics.none?
+        tr
+          td.has-text-centered colspan='100'
+            br
+            p = t('topics.list_empty')
+            br
+      - else
+        - @topics.each do |topic|
+          tr
+            td.topic-name = topic.name
+            td.topic-keyword = topic.keyword
+            td.topic-emoji = ":#{topic.emoji}:"
+            td.is-size-5 = topic.description

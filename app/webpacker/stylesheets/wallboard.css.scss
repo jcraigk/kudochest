@@ -1,0 +1,70 @@
+@import "bulma";
+
+.fullscreen-mode {
+  z-index: 100;
+  position: absolute;
+  height: 100%;
+  width: 100%;
+}
+
+#fullscreen-mode {
+  margin-left: 50px;
+}
+
+#refresh-progress {
+  height: 10px;
+
+  &.transition::-webkit-progress-value {
+    transition: width 30s linear;
+  }
+  &.transition2::-webkit-progress-value {
+    transition: width .001s linear;
+  }
+}
+
+#wallboard {
+  .chat-ref {
+    color: $blue;
+  }
+  .ts {
+    font-size: 1.1rem;
+    font-weight: bold;
+  }
+
+  #karma_container {
+    border-radius: $radius;
+    box-shadow: 0 0.5em 1em -0.125em rgba(10, 10, 10, 0.1), 0 0px 0 1px rgba(10, 10, 10, 0.02);
+
+    .panel-heading {
+      border-radius: $radius $radius 0px 0px;
+    }
+    .panel-content {
+      border-radius: $radius;
+      background-color: $white;
+      padding: 20px;
+    }
+
+    #response_container {
+      display: none;
+      padding: 20px;
+
+      #responses {
+        height: 780px;
+        overflow: scroll;
+        -ms-overflow-style: none;
+
+        &::-webkit-scrollbar {
+          display: none;
+          width: 0px;
+          background: transparent;
+        }
+        p {
+          margin-top: 10px;
+          margin-bottom: 10px;
+          padding-bottom: 10px;
+          border-bottom: 1px solid $grey-light;
+        }
+      }
+    }
+  }
+}

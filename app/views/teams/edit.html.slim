@@ -1,0 +1,150 @@
+= content_for(:feedback_class) { 'width-full' }
+
+.columns
+  .column.is-one-quarter
+    .team-selector-wide
+      = render partial: 'shared/owned_team_selector'
+
+    - if @current_team.platform.slack?
+      .team-setting-link data-link='bot_presence'
+        = icon_and_text('robot', t('teams.bot_presence'))
+
+    .team-setting-link data-link='responses'
+      = icon_and_text('comment', t('teams.chat_responses'))
+
+    .team-setting-link data-link='giving_karma'
+      = icon_and_text('hand-holding-seedling', t('teams.giving_karma'))
+
+    .team-setting-link data-link='emoji'
+      = icon_and_text('smile', t('teams.emoji'))
+
+    .team-setting-link data-link='karma_constraints'
+      = icon_and_text('lock', t('teams.karma_constraints'))
+
+    .team-setting-link data-link='streaks'
+      = icon_and_text('rabbit-fast', t('teams.giving_streaks'))
+
+    .team-setting-link data-link='bot_schedule'
+      = icon_and_text('clock', t('teams.bot_schedule'))
+
+    .team-setting-link data-link='reports'
+      = icon_and_text('chart-pie-alt', t('teams.reports'))
+
+    .team-setting-link data-link='leveling'
+        = icon_and_text('signal-alt', t('teams.leveling'))
+
+    .team-setting-link data-link='loot'
+      = icon_and_text('store', t('teams.loot_shop'))
+
+    .team-setting-link data-link='data'
+      = icon_and_text('database', t('teams.data_title'))
+
+    .team-setting-link data-link='reset'
+      = icon_and_text('exclamation-circle', t('teams.stat_resets'))
+
+  .column
+    = form_for @current_team, local: true do |f|
+      = hidden_field_tag :section, session[:section]
+
+      - if @current_team.platform.slack?
+        = render partial: 'teams/settings/bot_presence', locals: { f: f }
+      = render partial: 'teams/settings/responses', locals: { f: f }
+      = render partial: 'teams/settings/giving_karma', locals: { f: f }
+      = render partial: 'teams/settings/emoji', locals: { f: f }
+      = render partial: 'teams/settings/karma_constraints', locals: { f: f }
+      = render partial: 'teams/settings/streaks', locals: { f: f }
+      = render partial: 'teams/settings/bot_schedule', locals: { f: f }
+      = render partial: 'teams/settings/reports', locals: { f: f }
+      = render partial: 'teams/settings/leveling', locals: { f: f }
+      = render partial: 'teams/settings/loot', locals: { f: f }
+      = render partial: 'teams/settings/data', locals: { f: f }
+      = render partial: 'teams/settings/reset', locals: { f: f }
+
+      .team_edit_footer
+        = cancel_changes_button
+        = submit_button
+
+= javascript_include_tag 'https://unpkg.com/select-pure@latest/dist/bundle.min.js'
+
+javascript:
+  var event = new Event('select-pure-change')
+  var select_pure = new SelectPure('#profile-multi-select', {
+    multiple: true,
+    placeholder: false,
+    autocomplete: true,
+    icon: 'fa fa-times',
+    options: #{{@team_profile_options.to_json}},
+    value: #{{@infinite_profile_rids.to_json}},
+    onChange: value => {
+      this.dispatchEvent(event)
+      $('#infinite_profile_rids').val(value.join(':'))
+    }
+  })
+
+
+  var dirty = false
+  var submitted = false
+
+  $(window).on('beforeunload', function(){
+    if (dirty && !submitted) {
+      return 'Are you sure you want to leave?';
+    }
+  });
+
+  function updateButtons() {
+    if (dirty) {
+      $('#btn-save-changes').addClass('is-primary')
+      $('#btn-discard-changes').addClass('is-danger')
+    } else {
+      $('#btn-save-changes').removeClass('is-primary')
+      $('#btn-discard-changes').removeClass('is-danger')
+    }
+  }
+
+  function dirtyForm() {
+    dirty = true
+    updateButtons()
+  }
+
+  function cleanForm() {
+    dirty = false
+    updateButtons()
+  }
+
+  $(function() {
+    updateButtons()
+
+    $('.card').hide()
+
+    if ('#{session[:section]}' != '') {
+      $("[data-section='#{session[:section]}']").show()
+      $("[data-link='#{session[:section]}']").addClass('is-active')
+    } else {
+      $('.card:first').show()
+      $('.team-setting-link:first').addClass('is-active')
+    }
+
+    $('.team-setting-link').on('click', function() {
+      $('.card').hide()
+      $('.team-setting-link').removeClass('is-active')
+      $(this).addClass('is-active')
+      var section_name = $(this).data('link')
+      $('#section').attr('value', section_name)
+      var section_selector = "[data-section='" + section_name  + "']"
+      $(section_selector).show()
+    })
+
+    $(':input').on('change', function() {
+      dirtyForm()
+    })
+    $(window).on('select-pure-change', function() {
+      dirtyForm()
+    })
+
+    $('#btn-discard-changes').on('click', function() {
+      cleanForm
+    })
+    $('#btn-save-changes').on('click', function() {
+      submitted = true
+    })
+  })

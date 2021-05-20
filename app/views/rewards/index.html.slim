@@ -1,0 +1,56 @@
+= content_for(:feedback_class) { 'width-full' }
+
+.tabs
+  ul
+    li.is-active = link_to t('nav.manage_loot'), rewards_path
+    li = link_to t('nav.claim_admin'), claims_path
+
+.card
+  .card-content
+    = form_tag rewards_path, method: :get
+      .columns
+        .column = search_input(t('rewards.search_placeholder'))
+        .column = status_select
+        .column
+          p = pluralize(number_with_delimiter(@rewards.total_count), 'item') + ' displayed'
+        .column.has-text-right = search_button
+
+br
+.card
+  .card-content
+    = link_to icon_and_text('plus-square', t('rewards.create_new')), new_reward_path, class: 'button is-primary pull-right'
+
+    table.table.is-fullwidth
+      thead
+        th = t('rewards.name')
+        th = t('rewards.description')
+        th = t('rewards.price')
+        th = t('rewards.quantity')
+        th = t('rewards.claims')
+        th = t('rewards.remaining')
+        th = t('rewards.automatic')
+        th
+      tbody
+      - if @rewards.none?
+        tr
+          td.has-text-centered colspan='100'
+            br
+            br
+            p = t('rewards.none_found')
+            br
+            br
+      - else
+        - @rewards.each do |reward|
+          tr
+            td
+              strong = reward.name
+            td = truncate(reward.description, length: 50)
+            td = quantity_tag(reward.price)
+            td = quantity_tag(reward.quantity)
+            td = link_to quantity_tag(reward.claims.count), claims_path(reward_id: reward.id)
+            td = remaining_quantity_tag(reward.remaining)
+            td = yes_no_tag(reward.auto_fulfill)
+            td.has-text-right
+              = link_to fa_icon('edit'), edit_reward_path(reward), class: 'button'
+
+    = paginate @rewards

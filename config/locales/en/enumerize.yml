@@ -1,0 +1,15 @@
+en:
+  enumerize:
+    team:
+      response_mode:
+        adaptive: Adaptive
+        convo: Conversational
+        reply: As Reply
+        direct: Direct Message
+        silent: Silent
+      response_theme:
+        basic: Basic Text
+        unobtrusive: Unobtrusive Text
+        fancy: Fancy Text
+        gif_day: Graphical - Day
+        gif_night: Graphical - Night

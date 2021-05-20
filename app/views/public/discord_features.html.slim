@@ -1,0 +1,9 @@
+- content_for :subtitle, t('nav.features')
+- content_for :meta_description, t('meta.features')
+
+= javascript_pack_tag 'discord_features'
+
+= render partial: 'shared/platform_buttons'
+= render partial: 'public/features/callout_splash'
+= render partial: 'public/discord_features/callout_list'
+= render partial: 'public/features/modal'

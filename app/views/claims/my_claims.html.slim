@@ -1,0 +1,30 @@
+h2.title.has-text-centered
+  = fa_icon('ticket-alt')
+  | &nbsp;&nbsp;
+  = t('claims.my_claims_title', count: number_with_delimiter(@current_profile.claims.count))
+
+.card.shop
+  .card-content
+    table.table.is-fullwidth
+      tbody
+        thead
+          th = t('claims.reward')
+          th = t('claims.price')
+          th = t('claims.created_at')
+          th = t('claims.fulfillled')
+          th
+      - if @claims.none?
+        tr
+          td.has-text-centered colspan='100'
+            br
+            span.tag.is-warning.is-large = t('shop.claims_empty')
+            br
+      - else
+        - @claims.each do |claim|
+          tr
+            td = claim.reward.name
+            td = quantity_tag(claim.price)
+            td = claim.created_at.strftime('%-m/%-d/%y %-l:%M%P')
+            td = yes_no_tag(claim.fulfilled?)
+            td.has-text-right
+              = link_to fa_icon('eye'), claim_path(claim), class: 'button'

@@ -1,0 +1,65 @@
+require:
+  - rubocop-performance
+  - rubocop-rails
+  - rubocop-rspec
+
+AllCops:
+  Exclude:
+    - bin/*
+    - db/**/*
+    - node_modules/**/*
+    - vendor/**/*
+  NewCops: enable
+  TargetRubyVersion: 2.7.3
+Layout/EmptyLineAfterGuardClause:
+  Enabled: false
+Layout/EmptyLineAfterMagicComment:
+  Enabled: false
+Layout/LineLength:
+  Max: 100
+Lint/EmptyBlock:
+  Exclude:
+    - spec/**/*
+Metrics/BlockLength:
+  Exclude:
+    - config/**/*
+    - lib/tasks/*
+    - spec/**/*
+Metrics/ClassLength:
+  Max: 250
+Metrics/ModuleLength:
+  Max: 250
+Naming/VariableNumber:
+  Enabled: false
+Rails/EnvironmentVariableAccess:
+  Enabled: false
+Rails/HttpPositionalArguments: # https://github.com/rubocop-hq/rubocop/issues/7264
+  Exclude:
+    - spec/controllers/**/*
+RSpec/DescribeClass:
+  Exclude:
+    - spec/features/**/*
+RSpec/EmptyExampleGroup:
+  Enabled: false
+RSpec/ExampleLength:
+  Exclude:
+    - spec/features/**/*
+RSpec/MultipleExpectations:
+  Max: 2
+  Exclude:
+    - spec/features/**/*
+RSpec/MultipleMemoizedHelpers:
+  Enabled: false
+RSpec/NestedGroups:
+  Max: 4
+Style/AsciiComments:
+  Enabled: false
+Style/ClassAndModuleChildren:
+  Enabled: false
+Style/Documentation:
+  Enabled: false
+Style/DoubleNegation:
+  Enabled: false
+Style/OptionalBooleanParameter:
+  Exclude:
+    - app/workers/**/*

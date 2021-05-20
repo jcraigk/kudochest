@@ -1,0 +1,9 @@
+.columns
+  .column
+    = render partial: 'profiles/tiles/stats', locals: { profile: profile }
+  .column
+    = render partial: 'profiles/tiles/leaderboard',
+             locals: { profile: profile, leaderboard: leaderboard, hide_paging: false }
+.columns
+  .column
+    = render partial: 'profiles/tiles/recent_activity', locals: { profile: profile, tips: tips }

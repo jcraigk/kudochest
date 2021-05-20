@@ -1,0 +1,27 @@
+# frozen_string_literal: true
+class ChannelsJoinWorker
+  include Sidekiq::Worker
+  sidekiq_options queue: :bot_presence,
+                  lock: :until_and_while_executing,
+                  unique_args: ->(args) { [args.first] }
+
+  attr_reader :team_id
+
+  def perform(team_id)
+    @team_id = team_id
+    return unless team.active? && team.platform.slack?
+    join_all_channels
+  end
+
+  private
+
+  def join_all_channels
+    team.channels.each do |channel|
+      Slack::ChannelJoinService.call(team: team, channel_rid: channel.rid)
+    end
+  end
+
+  def team
+    @team ||= Team.find(team_id)
+  end
+end

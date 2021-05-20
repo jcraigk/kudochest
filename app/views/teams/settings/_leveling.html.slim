@@ -1,0 +1,52 @@
+.card data-section='leveling' style='display: none;'
+  header.card-header
+    p.card-header-title
+      = t('teams.leveling')
+  .card-content
+
+    .field.is-horizontal
+      .field-label.is-switch-label
+        = f.label :enable_levels, t('teams.enable'), class: 'label'
+      .field-body
+        .field
+          .control
+            = f.check_box :enable_levels, class: 'switch is-rounded'
+            = f.label :enable_levels, '&nbsp;'.html_safe, class: 'label'
+            = tooltip_btn('teams.enable_levels_tooltip', 'nudge-up')
+
+    .field.is-horizontal
+      .field-label.is-normal
+        = f.label :max_level, t('teams.max_level'), class: 'label'
+      .field-body
+        .field
+          .control
+            = f.text_field :max_level,
+                           class: 'input input-number',
+                           type: 'number',
+                           step: '1',
+                           required: true
+            = tooltip_btn('teams.max_level_tooltip')
+
+    .field.is-horizontal
+      .field-label.is-normal
+        = f.label :max_level_karma, t('teams.max_level_karma'), class: 'label'
+      .field-body
+        .field
+          .control
+            = f.text_field :max_level_karma,
+                           class: 'input input-number',
+                           type: 'number',
+                           step: '1',
+                           required: true
+            = tooltip_btn('teams.max_level_karma_tooltip')
+
+    .field.is-horizontal
+      .field-label.is-normal
+        = f.label :level_curve, t('teams.level_curve'), class: 'label'
+      .field-body
+        .field
+          .control
+            .select = f.select :level_curve, Team.level_curve.options
+            = tooltip_btn('teams.level_curve_tooltip')
+    br
+    = render partial: 'teams/settings/leveling_info'

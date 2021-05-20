@@ -1,0 +1,106 @@
+en:
+  features:
+    slack:
+      screenshot1: 'Give karma by chatting "++"'
+      screenshot2: Give karma with emoji
+      screenshot3: View team leaderboards
+      screenshot4: Use "/karma" for assistance
+      screenshot5: Change settings on the web
+      screenshot6: Monitor your progression
+      screenshot7: Browse your history
+      login_to_add: Sign In to Add to Slack
+      hero_title: Level Up Your Team
+      hero_body_html: "Transform your team's dull chat experience into an <b>engaging space</b> where contributors are <strong>rewarded</strong>!"
+    discord:
+      screenshot1: 'Give karma by chatting "++"'
+      screenshot2: Give karma with emoji
+      screenshot3: View team leaderboards
+      screenshot4: Change settings on the web
+      screenshot5: Monitor your progression
+      screenshot6: Browse your history
+      login_to_add: Sign In to Add to Discord
+      hero_title: Buff Your Guild
+      hero_body_html: "Transform your guild's dull chat experience into an <b>engaging space</b> where contributors are rewarded!"
+    list_of_features: List of Features
+    click_for_detail: Click for detail
+    contact_us: Contact Us
+    sign_up: Sign Up
+    onboarding_deck: Onboarding Deck
+    watch_video: Watch Video
+    view_demo: See How It Works
+    explore_features: Explore Features
+    see_feature_list: See Feature Details
+    help: Help
+    list:
+      give_plusplus:
+        title: Give karma with "++"
+        icon: plus-square
+        detail: Once KarmaChest is installed in your chat workspace, any active user can send and receive karma. Giving karma is an official way of saying "thank you" for a job well done or to call out a special achievement. There are four ways to give karma in Slack, including simply typing "++" after a user, group, or channel name in Slack.
+      give_emoji:
+        title: Give karma with emoji
+        icon: smile-wink
+        detail: You may optionally configure KarmaChest to recognize a special emoji to trigger karma, whether issued inline or as a reaction. The icon and karma quantity can be changed at any time by the administrator.
+      give_modal:
+        title: Give karma with command
+        icon: terminal
+        detail: Users can easily give each other karma by typing a simple command in Slack that opens a modal dialog. This dialog assists the user in selecting recipients and specifying other options. It's a great way to get a feel for how the system works before jumping into using "++" or emoji.
+      levelup:
+        title: Level progression
+        icon: signal-alt
+        detail: KarmaChest provides meaningful and obtainable goals to all users by breaking down the karma grind into smaller levels, similar to how role playing games work. The leveling curve can be set by the administrator to make it easier or harder to get to higher levels.
+      bonus_karma:
+        title: Participation rewards
+        icon: rabbit-fast
+        detail: If a user gives karma several days in a row, they activate a Giving Streak. Each day they extend their streak, they receive bonus karma. This is one of several ways that gamification elements are used to improve user engagement.
+      give_groups:
+        title: Group/channel karma
+        icon: users
+        detail: Karma can be given to individual users, user groups, or entire channels via simple chat commands. When you specify a group or channel, all associated users will recieve karma. The administrator can configure details of how this works.
+      app_settings:
+        title: Advanced configuration
+        icon: cog
+        detail: KarmaChest provides copious options so that each team can customize the experience to fit their culture. For example, some organizations prefer limited karma giving while others prefer unlimited. Some prefer inviting a bot to every channel to listen for "++" while others prefer a more private approach by using only the "/karma" command. After logging in and installing KarmaChest as a workspace owner, go to App Settings to view all options.
+      moderation:
+        title: Admin moderation
+        icon: hammer-war
+        detail: KarmaChest provides full administrator control over karma transactions including historical search/filtering and ability to destroy karma in situations where a user wrote an offensive note or just made a mistake.
+      notifications:
+        title: Notification options
+        icon: satellite-dish
+        detail: Chatbot responses can be sent as replies, standard messages, direct messages, or combined in a unified log channel. Responses can also be completely silenced if desired. Individual users have control over their own notification options as well.
+      web_profile:
+        title: Web-based profiles
+        icon: user
+        detail: Every user immediately has access to slick web-based profiles they can share with other members of their team. Each profile includes a detailed overview of stats, a history graph, a contextual leaderboard, and other helpful visuals.
+      responses:
+        title: Text or GIF responses
+        icon: image
+        detail: When a user gives karma, the bot can respond with a variety of text-based themes or by sending custom animated GIFs. The GIFs can enhance the fun for many teams, but may not be a fit for more formal cultures.
+      loot_shop:
+        title: Loot shop
+        icon: store
+        detail: Admins can setup real-world rewards such as pizza or movie tickets and allow users to claim the items based on the amount of karma they have received. This makes karma more meaningful and encourages team participation. A simple web-based claim system provides a means of automatically or manually fulfilling user rewards.
+      data:
+        title: Data ownership
+        icon: database
+        detail: Administrators can easily import and export data at any time using CSV files so you don't have to worry about vendor lock-in. Coming from another chatbot system? No problem, just import your karma in seconds and keep all your users' pass progress.
+      history:
+        title: Detailed history
+        icon: chart-area
+        detail: As users send and receive karma, each transaction is recorded along with all its details. These data provide the backing for attractive web-based profiles as well as graphical reports, wallboards, and other tools you can use to track karma history either for yourself or across your entire organization.
+      weekly_report:
+        title: Weekly email digest
+        icon: envelope
+        detail: Each week, an email containing a summary of activity from the previous week will be sent to the administrator as well as to each individual user who opts in. This regular communication keeps folks engaged and informed.
+      team_wallboard:
+        title: Team wallboard
+        icon: tv
+        detail: In addition to web-based profiles, wallboards are provided so teams can track karma activity in real-time in open public workspaces outside of the Slack client. Having this visual aid available in your workspace improves user engagement and can act as a great ice-breaking tool for welcoming new team members.
+      bonus_calculator:
+        title: Bonus calculator
+        icon: calculator
+        detail: A great way to assign monetary bonuses to your team is by allowing karma distribution to act as a natural peer review system. KarmaChest provides a Bonus Calculator tool that assists in calculating bonuses for each of your team members so you can take advantage of the collective feedback that's already in the system.
+      help:
+        title: Help when you need it
+        icon: question-circle
+        detail: In-chat and web-based help pages provide quick reference points for users to get up and running with the system quickly. Additionally, human support is just an email away.

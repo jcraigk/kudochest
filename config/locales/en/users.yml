@@ -1,0 +1,15 @@
+en:
+  users:
+    new_email: New email address
+    password_mismatch: The passwords you entered do not match
+    subscribe_newsletter: Subscribe to Newsletter
+    subscribe_newsletter_tooltip: We may send you email occasionally about new features and special events
+    update_email_fail: 'Could not update email: %{msg}'
+    update_email_success: Your email address has been updated and a verification email has been sent to you.
+    update_password_fail: 'Could not update password: %{msg}'
+    update_password_success: Successfully updated password
+    update_prefs_fail: 'Could not update preferences: %{msg}'
+    update_prefs_success: Successfully updated preferences
+    theme: UI Theme
+    current_email: Current email address
+    unsubscribed_html: <strong>%{email}</strong> has been unsubscribed from all future %{app} emails.

@@ -1,0 +1,22 @@
+nav.level#wallboard-options
+  .level-item
+
+    p#fullscreen-mode.button
+      = icon_and_text('tv-alt', t('wallboard.fullscreen'))
+
+.columns
+  .column
+    progress.progress#refresh-progress value='0' max='100'
+
+.columns#wallboard
+  .column
+    #karma_container
+      #placeholder
+        p.panel-heading Karma Activity
+        p.panel-content Give karma to your teammates and it will show up here!
+      #response_container
+        #responses
+  .column
+    #profile
+
+= javascript_pack_tag 'wallboard'

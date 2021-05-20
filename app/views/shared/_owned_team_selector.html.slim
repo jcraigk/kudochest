@@ -1,0 +1,27 @@
+.dropdown.team-selector
+  .dropdown-trigger
+    button.button aria-controls='dropdown-menu' aria-haspopup='true'
+      .media
+        = render partial: 'shared/platform_and_avatar', locals: { team: @current_team }
+        = @current_team.name
+        span.icon.is-small
+          i.fa.fa-angle-down aria-hidden='true'
+  #dropdown-menu.dropdown-menu role='menu'
+    .dropdown-content
+      - other_teams = current_user.owned_teams.reject { |team| team == @current_team }
+      - other_teams.each do |team|
+        = link_to "?team_id=#{team.id}", class: 'dropdown-item' do
+          .media
+            = render partial: 'shared/platform_and_avatar', locals: { team: team }
+            .media-left
+              = team.name
+      - if other_teams.any?
+        hr.dropdown-divider
+      = link_to icon_and_text('plus', t('teams.add_new', app: App.app_name)),
+                new_team_path,
+                class: 'dropdown-item'
+
+javascript:
+  $('.team-selector').on('click', function() {
+    window.href = '?' + $(this).attr('href')
+  })

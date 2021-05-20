@@ -1,0 +1,23 @@
+en:
+  tips:
+    note_required: You must provide a note when giving karma
+    destroyed: Karma successfully removed
+    none_found: No karma found.
+    search_notes_placeholder: Search karma notes
+    from_any_user: From Any User
+    to_any_user: To Any User
+    quantity: Quantity
+    note: Note
+    channel: Channel
+    channel_tooltip: The channel where the karma was given
+    affiliation: Affiliation
+    affiliation_tooltip: Indicates if the karma was given to a user group or channel vs directly to the individual
+    confirm_destroy: Are you sure you want to permanently delete this karma?
+    remove: Remove
+    type: Type
+    user: User
+    nothing_to_undo: Nothing to undo
+    any_topic: Any Topic
+    topic: Topic
+    disabled: Sorry, Topics are currently disabled. Ask your admin to enable them.
+    topic_presence: must be specified - use the "topics" command or visit %{url}

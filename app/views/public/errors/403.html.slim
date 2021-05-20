@@ -1,0 +1,8 @@
+- content_for :subtitle, "403 #{t('errors.http_403_title')}"
+
+.landscape-overlay.error
+
+  h1.title = fa_icon('times-circle')
+  h1.title = t('errors.http_403_title')
+
+  p = t('errors.http_403_body')

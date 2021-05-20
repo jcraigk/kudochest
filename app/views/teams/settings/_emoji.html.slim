@@ -1,0 +1,50 @@
+.card data-section='emoji' style='display: none;'
+  header.card-header
+    p.card-header-title = t('teams.emoji')
+  .card-content
+
+    .field.is-horizontal
+      .field-label.is-switch-label
+        = f.label :enable_emoji, t('teams.enable_emoji'), class: 'label'
+      .field-body
+        .field
+          .control
+            = f.check_box :enable_emoji, class: 'switch is-rounded'
+            = f.label :enable_emoji, '&nbsp;'.html_safe, class: 'label'
+            = tooltip_btn('teams.enable_emoji_tooltip', 'nudge-up')
+
+    .field.is-horizontal
+      .field-label.is-normal
+        = f.label :emoji_quantity, t('teams.emoji_quantity'), class: 'label'
+      .field-body
+        .field
+          .control
+            .select = f.select :emoji_quantity, Team::EMOJI_VALS.map { |v| [karma_format(v), v] }
+            = tooltip_btn('teams.emoji_quantity_tooltip')
+
+    .field.is-horizontal
+      .field-label.is-normal
+        = f.label :karma_emoji, t('teams.karma_emoji'), class: 'label'
+      .field-body
+        - if @current_team.platform.slack?
+          .field
+            .control
+              = f.text_field :karma_emoji, class: 'input narrow2', required: true
+              = tooltip_btn('teams.karma_emoji_tooltip')
+
+        - elsif @current_team.platform.discord?
+          = discord_emoji('32x32')
+          | &nbsp;&nbsp;
+          strong = "(:#{App.discord_emoji}:)"
+
+    hr
+
+    - if @current_team.platform.slack?
+      p.has-text-centered
+        = t('teams.custom_emoji_html', url: 'https://slack.com/help/articles/206870177-Add-custom-emoji')
+        br
+        br
+        = image_pack_tag 'media/images/emoji/karmachest_logo.png', size: '48x48', alt: 'Custom emoji icon'
+        = image_pack_tag 'media/images/emoji/plus_one_v1.png', size: '48x48', alt: 'Custom emoji icon', class: 'reaction-icon'
+        = image_pack_tag 'media/images/emoji/plus_one_v2.png', size: '48x48', alt: 'Custom emoji icon', class: 'reaction-icon'
+        = image_pack_tag 'media/images/emoji/plus_plus.png', size: '48x48', alt: 'Custom emoji icon', class: 'reaction-icon'

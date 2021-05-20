@@ -1,0 +1,24 @@
+.dropdown.team-selector
+  .dropdown-trigger
+    button.button aria-controls='dropdown-menu' aria-haspopup='true'
+      .media
+        = render partial: 'shared/platform_and_avatar', locals: { team: @current_profile.team }
+        => @current_profile.team.name
+        ' -&nbsp;
+        = @current_profile.webref
+        span.icon.is-small
+          i.fa.fa-angle-down.arrow aria-hidden='true'
+  #dropdown-menu.dropdown-menu role='menu'
+    .dropdown-content
+      - other_profiles = current_user.profiles.reject { |profile| profile == @current_profile }
+      - other_profiles.each do |profile|
+        = link_to "?profile_id=#{profile.id}", class: 'dropdown-item' do
+          .media
+            = render partial: 'shared/platform_and_avatar', locals: { team: profile.team }
+            .media-left
+              = "#{profile.team.name} - #{profile.display_name}"
+      - if other_profiles.any?
+        hr.dropdown-divider
+      = link_to icon_and_text('plus', t('profiles.add_new')), new_profile_path, class: 'dropdown-item'
+
+.is-clearfix

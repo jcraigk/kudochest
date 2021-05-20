@@ -1,0 +1,19 @@
+en:
+  claims:
+    none_found: No claims found
+    search_placeholder: Search claims
+    reward: Loot Item
+    price: Karma Price
+    created_at: Requested At
+    user: User
+    fulfilled: Fulfilled?
+    fulfillment_key: Fulfillment Key
+    fulfillment_key_tooltip: If this loot can be delivered electronically, enter the unique URL or code here. Otherwise, just leave it blank.
+    edit: Edit Loot Claim
+    fulfilled_tooltip: Because this claim is on an item that is not set to be fulfilled automatically , it must be fulfilled manually. Once the claim is fulfilled, mark it so using this control.
+    fulfilled_at: Fulfilled At
+    confirm_destroy: Are you sure you want to permanently delete this loot claim?
+    updated: Claim successfully updated
+    pending: Pending
+    view_my_claim: My Loot Claim
+    my_claims_title: My Loot Claims (%{count} total)

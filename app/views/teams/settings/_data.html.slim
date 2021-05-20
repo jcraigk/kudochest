@@ -1,0 +1,16 @@
+.card data-section='data' style='display: none;'
+  header.card-header
+    p.card-header-title = t('teams.data_title')
+
+  .card-content
+
+    p = t('teams.import_instructions')
+
+    br
+    = f.file_field :import_file, accept: 'text/csv', class: 'input', placeholder: 'CSV'
+
+    hr
+    .centered-text
+      p = t('teams.export_instructions')
+      br
+      = export_data_button(@current_team)

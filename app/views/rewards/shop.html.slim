@@ -1,0 +1,37 @@
+= content_for(:feedback_class) { 'width-full' }
+
+h2.title.has-text-centered
+  = fa_icon('store')
+  | &nbsp;&nbsp;
+  = t('shop.title')
+
+.card.shop
+  .card-content
+    p.is-size-4.has-text-centered
+      = t('shop.karma_balance_html',
+          claimed: karma_format(@current_profile.karma_claimed),
+          accrued: karma_format(@current_profile.karma),
+          remaining: karma_format(@current_profile.karma_unclaimed))
+    - if @current_profile.claims.any?
+      br
+      p.has-text-centered
+        = link_to t('shop.view_my_claims', count: number_with_delimiter(@current_profile.claims.count)),
+                  my_claims_path,
+                  class: 'button is-link is-medium'
+    br
+    br
+
+    table.table.is-fullwidth
+      tbody
+      - if @rewards.none?
+        tr
+          td.has-text-centered colspan='100'
+            br
+            p = t('shop.empty')
+            br
+      - else
+        - @rewards.each do |reward|
+          tr
+            td.reward-name = reward.name
+            td.is-size-5 = reward.description
+            td = claim_button(@current_profile, reward)

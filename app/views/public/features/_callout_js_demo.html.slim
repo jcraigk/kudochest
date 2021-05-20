@@ -1,0 +1,41 @@
+#features-js-demo
+  .columns
+    .column
+      .callout
+        .window-controls.is-clearfix
+          .circle
+          .circle
+          .circle
+        .sidebar
+          .team Clemens Inc.
+          .orb
+          .name Mark
+          .header Channels
+          .item # announcements
+          .item.active # general
+          .item # news
+          .header Apps
+          .item KarmaChest
+        .main
+          #chat1-avatar.avatar
+          p#chat1-label
+            span.name Mark
+            span.time 11:34 AM
+          p#chat1-content
+
+          #chat2-container.hidden
+            #chat2-avatar.avatar
+            p#chat2-label
+              span.name = App.app_name
+              span.tag APP
+              span.time 11:34 AM
+            #chat2-content
+              .response-lisa.hidden
+              .response-vincent.hidden
+              .response-top.hidden
+
+  .columns
+    .column.has-text-centered
+      = link_to icon_and_text('info-circle', t('features.see_feature_list')),
+                '#features-list',
+                class: 'button is-primary btn-cta'

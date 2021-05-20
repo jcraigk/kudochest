@@ -1,0 +1,69 @@
+.setting-info
+
+  .theme-info data-name='basic' style='display: none;'
+    .command
+      span.profile_ref> @Mark
+      ' gave
+      span.profile_ref> @Lisa
+      ' 1 karma!
+    p The Basic theme mentions recipients, which may result in a direct notification to them depending on their Slack settings.
+
+  .theme-info data-name='unobtrusive' style='display: none;'
+    - if @current_team.platform.slack?
+      .command
+        span.profile_ref> Mark
+        ' gave
+        span.profile_ref> Lisa
+        ' 1 karma!
+      p The Unobtrusive theme does not mention recipients so they do not get notified. The usernames are linked to web profiles instead.
+
+    - elsif @current_team.platform.discord?
+      .command
+        strong> Mark
+        ' gave
+        strong> Lisa
+        ' 1 karma!
+      p The Unobtrusive theme does not mention recipients so they do not get notified.
+
+  .theme-info data-name='fancy' style='display: none;'
+    .command
+      - if @current_team.enable_levels?
+        span.profile_ref> @Mark
+        ' (level 2) gave
+        span.profile_ref> @Lisa
+        ' (level 3)
+      - else
+        span.profile_ref> @Mark
+        ' (231 karma) gave
+        span.profile_ref> @Lisa
+        ' (3,245 karma)
+      ' 1 karma
+      - if @current_team.platform.slack?
+        | #{emojify(':' + @current_team.karma_emoji + ':', size: 20)}
+      - elsif @current_team.platform.discord?
+        = discord_emoji('16x16')
+      |!
+    p The Fancy theme mention recipients, displays user stats (level or karma), and includes emoji.
+
+  .theme-info data-name='gif_day' style='display: none;'
+    = image_pack_tag "media/images/response_images/day.gif", alt: "Day Graphic", class: 'gif'
+    p The Graphical - Day theme produces an animated GIF response.
+
+  .theme-info data-name='gif_night' style='display: none;'
+    = image_pack_tag "media/images/response_images/night.gif", alt: "Night Graphic", class: 'gif'
+    p The Graphical - Night theme produces an animated GIF response.
+
+
+javascript:
+  $(function() {
+    showInfo($('#team_response_theme').val())
+
+    $('#team_response_theme').on('change', function() {
+      $('.theme-info').hide()
+      showInfo($(this).val())
+    })
+
+    function showInfo(key) {
+      $('.theme-info[data-name="' + key + '"]').show()
+    }
+  })

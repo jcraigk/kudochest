@@ -1,0 +1,20 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+require 'bundler'
+Bundler.setup
+
+require 'rails'
+require File.expand_path('config/environment.rb')
+
+# Compensate for duplicate listeners during deploy
+delay = ENV.fetch('DISCORD_LISTENER_STARTUP_DELAY', 0).to_i
+if delay.positive?
+  puts "Sleeping #{delay} seconds before listening..."
+  sleep(delay)
+end
+
+bot = Discordrb::Bot.new(token: ENV['DISCORD_BOT_TOKEN'])
+Discord::BotEventService.call(bot: bot)
+at_exit { bot.stop }
+bot.run

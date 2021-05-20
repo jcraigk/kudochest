@@ -1,0 +1,10 @@
+en:
+  slack:
+    add_to_slack: Add to Slack
+    ask_admin: 'If you do not have sufficient privileges, ask your Slack administrator to login to %{app} and click the button above.'
+    click_to_install: 'Click the button below to install %{app} into your Slack workspace.'
+    generic_error: Sorry, something went wrong. If the problem persists, please contact support.
+    install: 'Install %{app}'
+    unfurl_description: '%{app} is a team engagement tool for Slack and Discord. Try it free!'
+    not_in_channel: "I couldn't post to %{channel} - please invite me!"
+    modal_help: 'The "%{keyword}" command must be prefixed with `/%{command}`'

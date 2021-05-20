@@ -1,0 +1,9 @@
+.svg-inline--fa {
+  position: relative;
+  left: -5px;
+}
+.command-wrapper {
+  .svg-inline--fa {
+    left: -3px !important;
+  }
+}

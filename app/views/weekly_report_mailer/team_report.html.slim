@@ -1,0 +1,47 @@
+h1
+  | Weekly Digest for #{@team.name}
+  br
+  => Time.use_zone(@team.time_zone) { 1.week.ago }.strftime('%B %-d')
+  ' -
+  = Time.use_zone(@team.time_zone) { Time.current }.strftime('%B %-d')
+
+br
+
+- if @data.top_benefactors.none? && @data.top_recipients.none? && @data.loot_claims_sentence.blank?
+  h2 No team activity this week :(
+  h3 If you're having trouble using the app, please see the #{link_to('help page', App.help_url)}.
+
+- else
+
+  table style='font-size: 1.2rem;'
+    tr
+      td style='text-align: right; vertical-align: top; font-weight: bold; width: 50%;' Total Karma Given:
+      td = @data.karma_received
+    - if @data.karma_from_streak.present?
+      tr
+        td style='text-align: right; vertical-align: top; font-weight: bold; width: 50%;' Karma from Giving Streaks:
+        td = @data.karma_from_streak
+    - if @data.top_benefactors.any?
+      tr
+        td style='text-align: right; vertical-align: top; font-weight: bold; width: 50%;' Top Benefactors:
+        td = @data.top_benefactors.map { |data| "#{profile_mail_link(data.profile)} (#{karma_format(data.quantity)} karma)" }.join('<br>').html_safe
+    - if @data.top_recipients.any?
+      tr
+        td style='text-align: right; vertical-align: top; font-weight: bold; width: 50%;' Top Recipients:
+        td = @data.top_recipients.map { |data| "#{profile_mail_link(data.profile)} (#{karma_format(data.quantity)} karma)" }.join('<br>').html_safe
+    - if @data.levelup_sentence.present?
+      tr
+        td style='text-align: right; vertical-align: top; font-weight: bold; width: 50%;' User Events:
+        td = @data.levelup_sentence
+    - if @data.loot_claims_sentence.present?
+      tr
+        td style='text-align: right; vertical-align: top; font-weight: bold; width: 50%;' Loot Claims:
+        td = @data.loot_claims_sentence
+
+  br
+  br
+  img src="#{ENV['ASSET_HOST']}#{asset_pack_url(@footer_gif)}" alt='Animated GIF' style='margin: 0 auto; width: 48px; height: 48px;'
+
+br
+br
+p You can disable this report in <a href="#{app_settings_url(section: :reports)}">Profile Settings</a> or <a href="#{unsubscribe_url(token: @unsub_token)}">unsubscribe from all #{App.app_name} emails</a>.

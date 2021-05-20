@@ -1,0 +1,12 @@
+# frozen_string_literal: true
+class Actions::TeamJoin < Actions::Base
+  def call
+    sync_team_profiles
+  end
+
+  private
+
+  def sync_team_profiles
+    ProfileWorker.perform_async(params[:team_rid])
+  end
+end

@@ -1,0 +1,298 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://slack.com/api/usergroups.list
+    body:
+      encoding: UTF-8
+      string: include_count=false&include_disabled=false&include_users=true&token=api-key
+    headers:
+      Accept:
+      - application/json; charset=utf-8
+      User-Agent:
+      - Slack Ruby Client/0.14.5
+      Content-Type:
+      - application/x-www-form-urlencoded
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Type:
+      - application/json; charset=utf-8
+      Content-Length:
+      - '411'
+      Connection:
+      - keep-alive
+      Date:
+      - Sun, 12 Jan 2020 03:31:18 GMT
+      Server:
+      - Apache
+      X-Content-Type-Options:
+      - nosniff
+      X-Slack-Req-Id:
+      - 8792f0fb1d917910b3d876264bbd2698
+      X-Oauth-Scopes:
+      - channels:history,channels:read,chat:write,commands,emoji:read,groups:history,groups:read,im:history,im:read,im:write,mpim:history,mpim:read,reactions:read,team:read,usergroups:read,users.profile:read,users:read
+      Expires:
+      - Mon, 26 Jul 1997 05:00:00 GMT
+      Cache-Control:
+      - private, no-cache, no-store, must-revalidate
+      Access-Control-Expose-Headers:
+      - x-slack-req-id, retry-after
+      X-Xss-Protection:
+      - '0'
+      X-Accepted-Oauth-Scopes:
+      - usergroups:read
+      Vary:
+      - Accept-Encoding
+      Pragma:
+      - no-cache
+      Access-Control-Allow-Headers:
+      - slack-route, x-slack-version-ts
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains; preload
+      Referrer-Policy:
+      - no-referrer
+      Access-Control-Allow-Origin:
+      - "*"
+      X-Via:
+      - haproxy-www-gzf0
+      X-Cache:
+      - Miss from cloudfront
+      Via:
+      - 1.1 60977766708edc6ce8219f52eb7a75ca.cloudfront.net (CloudFront)
+      X-Amz-Cf-Pop:
+      - LAX50-C1
+      X-Amz-Cf-Id:
+      - 6rd8o_d8RVdUfl9z0Nmnt94mfy3Hv1I-BVvo75EtgS5nQhuEi4mtrA==
+    body:
+      encoding: ASCII-8BIT
+      string: '{"ok":true,"usergroups":[{"id":"SS5EPQK0B","team_id":"TKS0LJV6W","is_usergroup":true,"is_subteam":true,"name":"Test
+        Group 1","description":"This is the main test group","handle":"test-group1","is_external":false,"date_create":1578644916,"date_update":1578644926,"date_delete":0,"auto_type":null,"auto_provision":false,"enterprise_subteam_id":"S00","created_by":"UL5H1BQTG","updated_by":"UL5H1BQTG","deleted_by":null,"prefs":{"channels":[],"groups":[]},"users":["UL5H1BQTG","ULTHYD4UQ","UNNQ4U048"]},{"id":"SSJMN9FS4","team_id":"TKS0LJV6W","is_usergroup":true,"is_subteam":true,"name":"Test
+        Group 2","description":"Another test","handle":"test-group-2","is_external":false,"date_create":1578783428,"date_update":1578783439,"date_delete":0,"auto_type":null,"auto_provision":false,"enterprise_subteam_id":"S00","created_by":"UL5H1BQTG","updated_by":"UL5H1BQTG","deleted_by":null,"prefs":{"channels":["CL2UC3ABE"],"groups":[]},"users":["ULTHYD4UQ","UNNQ4U048"]},{"id":"existing-rid","team_id":"TKS0LJV6W","is_usergroup":true,"is_subteam":true,"name":"Test
+        Group 3","description":"Yet another test","handle":"test-group-3","is_external":false,"date_create":1578783456,"date_update":1578786824,"date_delete":0,"auto_type":null,"auto_provision":false,"enterprise_subteam_id":"S00","created_by":"UL5H1BQTG","updated_by":"UL5H1BQTG","deleted_by":null,"prefs":{"channels":[],"groups":[]}}]}'
+    http_version:
+  recorded_at: Sun, 12 Jan 2020 03:31:18 GMT
+- request:
+    method: post
+    uri: https://slack.com/api/usergroups.users.list
+    body:
+      encoding: UTF-8
+      string: token=api-key&usergroup=SS5EPQK0B
+    headers:
+      Accept:
+      - application/json; charset=utf-8
+      User-Agent:
+      - Slack Ruby Client/0.14.5
+      Content-Type:
+      - application/x-www-form-urlencoded
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Type:
+      - application/json; charset=utf-8
+      Content-Length:
+      - '73'
+      Connection:
+      - keep-alive
+      Date:
+      - Sun, 12 Jan 2020 03:31:18 GMT
+      Server:
+      - Apache
+      X-Content-Type-Options:
+      - nosniff
+      X-Slack-Req-Id:
+      - e33cbc909125dd14210cd8216de67460
+      X-Oauth-Scopes:
+      - channels:history,channels:read,chat:write,commands,emoji:read,groups:history,groups:read,im:history,im:read,im:write,mpim:history,mpim:read,reactions:read,team:read,usergroups:read,users.profile:read,users:read
+      Expires:
+      - Mon, 26 Jul 1997 05:00:00 GMT
+      Cache-Control:
+      - private, no-cache, no-store, must-revalidate
+      Access-Control-Expose-Headers:
+      - x-slack-req-id, retry-after
+      X-Xss-Protection:
+      - '0'
+      X-Accepted-Oauth-Scopes:
+      - usergroups:read
+      Vary:
+      - Accept-Encoding
+      Pragma:
+      - no-cache
+      Access-Control-Allow-Headers:
+      - slack-route, x-slack-version-ts
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains; preload
+      Referrer-Policy:
+      - no-referrer
+      Access-Control-Allow-Origin:
+      - "*"
+      X-Via:
+      - haproxy-www-ylj6
+      X-Cache:
+      - Miss from cloudfront
+      Via:
+      - 1.1 29d55562cdb80771afbb951b9f12a387.cloudfront.net (CloudFront)
+      X-Amz-Cf-Pop:
+      - LAX50-C1
+      X-Amz-Cf-Id:
+      - cQFqSKKd7-UbEqBOUDbaIcGq3_SZDpDPGtV5Ybjql7uKeMU00X1Q4w==
+    body:
+      encoding: ASCII-8BIT
+      string: '{"ok":true,"users":["UL5H1BQTG","ULTHYD4UQ","UNNQ4U048"]}'
+    http_version:
+  recorded_at: Sun, 12 Jan 2020 03:31:18 GMT
+- request:
+    method: post
+    uri: https://slack.com/api/usergroups.users.list
+    body:
+      encoding: UTF-8
+      string: token=api-key&usergroup=SSJMN9FS4
+    headers:
+      Accept:
+      - application/json; charset=utf-8
+      User-Agent:
+      - Slack Ruby Client/0.14.5
+      Content-Type:
+      - application/x-www-form-urlencoded
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Type:
+      - application/json; charset=utf-8
+      Content-Length:
+      - '65'
+      Connection:
+      - keep-alive
+      Date:
+      - Sun, 12 Jan 2020 03:31:19 GMT
+      Server:
+      - Apache
+      X-Content-Type-Options:
+      - nosniff
+      X-Slack-Req-Id:
+      - 72096d2d29df7b2951bdb15329420c0f
+      X-Oauth-Scopes:
+      - channels:history,channels:read,chat:write,commands,emoji:read,groups:history,groups:read,im:history,im:read,im:write,mpim:history,mpim:read,reactions:read,team:read,usergroups:read,users.profile:read,users:read
+      Expires:
+      - Mon, 26 Jul 1997 05:00:00 GMT
+      Cache-Control:
+      - private, no-cache, no-store, must-revalidate
+      Access-Control-Expose-Headers:
+      - x-slack-req-id, retry-after
+      X-Xss-Protection:
+      - '0'
+      X-Accepted-Oauth-Scopes:
+      - usergroups:read
+      Vary:
+      - Accept-Encoding
+      Pragma:
+      - no-cache
+      Access-Control-Allow-Headers:
+      - slack-route, x-slack-version-ts
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains; preload
+      Referrer-Policy:
+      - no-referrer
+      Access-Control-Allow-Origin:
+      - "*"
+      X-Via:
+      - haproxy-www-tghb
+      X-Cache:
+      - Miss from cloudfront
+      Via:
+      - 1.1 1e94f8bfedca9b1ad3b9259538f9432a.cloudfront.net (CloudFront)
+      X-Amz-Cf-Pop:
+      - LAX50-C1
+      X-Amz-Cf-Id:
+      - tzhyivuNMe-2BZuQrU1adt7ieUDDc8sZwxhXKkQR6MzzRfFo9ao8Cw==
+    body:
+      encoding: ASCII-8BIT
+      string: '{"ok":true,"users":["ULTHYD4UQ","UNNQ4U048"]}'
+    http_version:
+  recorded_at: Sun, 12 Jan 2020 03:31:19 GMT
+- request:
+    method: post
+    uri: https://slack.com/api/usergroups.users.list
+    body:
+      encoding: UTF-8
+      string: token=api-key&usergroup=existing-rid
+    headers:
+      Accept:
+      - application/json; charset=utf-8
+      User-Agent:
+      - Slack Ruby Client/0.14.5
+      Content-Type:
+      - application/x-www-form-urlencoded
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Type:
+      - application/json; charset=utf-8
+      Content-Length:
+      - '42'
+      Connection:
+      - keep-alive
+      Date:
+      - Sun, 12 Jan 2020 03:31:19 GMT
+      Server:
+      - Apache
+      X-Content-Type-Options:
+      - nosniff
+      X-Slack-Req-Id:
+      - a75e5aff65f912b02fd055e1bcf723eb
+      X-Oauth-Scopes:
+      - channels:history,channels:read,chat:write,commands,emoji:read,groups:history,groups:read,im:history,im:read,im:write,mpim:history,mpim:read,reactions:read,team:read,usergroups:read,users.profile:read,users:read
+      Expires:
+      - Mon, 26 Jul 1997 05:00:00 GMT
+      Cache-Control:
+      - private, no-cache, no-store, must-revalidate
+      Access-Control-Expose-Headers:
+      - x-slack-req-id, retry-after
+      X-Xss-Protection:
+      - '0'
+      X-Accepted-Oauth-Scopes:
+      - usergroups:read
+      Vary:
+      - Accept-Encoding
+      Pragma:
+      - no-cache
+      Access-Control-Allow-Headers:
+      - slack-route, x-slack-version-ts
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains; preload
+      Referrer-Policy:
+      - no-referrer
+      Access-Control-Allow-Origin:
+      - "*"
+      X-Via:
+      - haproxy-www-8d9e
+      X-Cache:
+      - Miss from cloudfront
+      Via:
+      - 1.1 d440a00f2a23058d6ebb4241e0a5ff0a.cloudfront.net (CloudFront)
+      X-Amz-Cf-Pop:
+      - LAX50-C1
+      X-Amz-Cf-Id:
+      - k1wy5FonJ04GqbZRPVDy5Ehv94kpUM_Qp7TaUVu8ilovi382A_H8aA==
+    body:
+      encoding: ASCII-8BIT
+      string: '{"ok":true,"users":[]}'
+    http_version:
+  recorded_at: Sun, 12 Jan 2020 03:31:19 GMT
+recorded_with: VCR 5.0.0

@@ -1,0 +1,24 @@
+.card data-section='loot' style='display: none;'
+  header.card-header
+    p.card-header-title
+      = t('teams.loot_shop')
+  .card-content
+
+    .field.is-horizontal
+      .field-label.is-switch-label
+        = f.label :enable_loot, t('teams.enable'), class: 'label'
+      .field-body
+        .field
+          .control
+            = f.check_box :enable_loot, class: 'switch is-rounded'
+            = f.label :enable_loot, '&nbsp;'.html_safe, class: 'label'
+            = tooltip_btn('teams.enable_loot_tooltip', 'nudge-up')
+
+    hr
+    .centered-text
+      = link_to icon_and_text('store', t('nav.manage_loot')),
+                rewards_path,
+                class: 'button margin-right'
+      = link_to icon_and_text('ticket-alt', t('nav.claim_admin')),
+                claims_path,
+                class: 'button'

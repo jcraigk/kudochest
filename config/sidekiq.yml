@@ -1,0 +1,24 @@
+:concurrency: 1
+:max_retries: 5
+:queues:
+  - ['bot_presence', 1]
+  - ['channel_sync', 1]
+  - ['chat_events', 2]
+  - ['data_export', 1]
+  - ['default', 1]
+  - ['discord_event', 1]
+  - ['hourly', 1]
+  - ['mailers', 1]
+  - ['team_rename', 1]
+  - ['team_reset', 1]
+  - ['team_sync', 2]
+  - ['token_dispersal', 1]
+  - ['token_reset', 1]
+  - ['weekly_report', 1]
+
+:schedule:
+  HourlyTeamWorker:
+    cron: '0 0 * * * * America/Los_Angeles' # Hourly
+
+  WeeklyReport::RecurrentWorker:
+    cron: '0 0 6 * * 1 America/Los_Angeles' # Every Monday at 6am

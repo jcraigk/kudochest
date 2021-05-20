@@ -1,0 +1,46 @@
+.help-layout {
+  background-color: $light !important;
+  font-size: 1.5rem;
+
+  table {
+    width: 100%;
+    font-size: 1rem;
+
+    .karma_action {
+      font-size: 1rem;
+      white-space: nowrap;
+    }
+  }
+  .command {
+    border-radius: 3px;
+    border: 1px solid $grey;
+    font-family: monospace;
+    background-color: $grey-lighter;
+    padding: 3px;
+    line-height: 2.5rem;
+    margin-bottom: 0.8rem;
+  }
+  .description {
+    margin-bottom: 3rem;
+  }
+  p {
+    line-height: 2rem;
+  }
+
+  .youtube-video {
+    margin-right: 20px;
+  }
+
+  @media (max-width: 660px) {
+    .youtube-video {
+      width: 280px;
+      height: 158px;
+    }
+  }
+  @media (min-width: 661px) {
+    .youtube-video {
+      width: 560px;
+      height: 316px;
+    }
+  }
+}

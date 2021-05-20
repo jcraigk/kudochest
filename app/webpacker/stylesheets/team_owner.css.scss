@@ -1,0 +1,104 @@
+
+.team-setting-link {
+  padding: 10px;
+  border-bottom: 1px solid $grey-light;
+  font-size: 1.2rem;
+  color: $grey-dark;
+
+  &:hover {
+    background-color: $dark;
+    color: $light;
+    cursor: pointer;
+  }
+  &.is-active {
+    background-color: $dark;
+    color: $light;
+  }
+}
+.team_edit_footer {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 80px;
+  box-shadow: 0px -4px 8px #ccc;
+  text-align: right;
+  background-color: $grey-lighter;
+  z-index: 100;
+
+  button {
+    margin-right: 20px;
+    margin-top: 20px;
+  }
+}
+
+.show-settings {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+.setting-info {
+  margin-top: 10px;
+
+  p {
+    font-size: .9rem;
+    line-height: 1.2rem;
+  }
+
+  .command {
+    border: 1px solid $grey-lighter;
+    border-radius: $radius;
+    padding: 10px;
+    background-color: $white-ter;
+
+    .profile_ref {
+      color: $blue;
+    }
+  }
+
+  .gif {
+    border: 1px solid $grey-lighter;
+    border-radius: $radius;
+  }
+}
+
+#tip-admin-controls {
+  input, select {
+    width: 100%;
+  }
+  .select2-selection__rendered {
+    line-height: 36px !important;
+  }
+  .select2-container .select2-selection--single {
+    height: 40px !important;
+  }
+  .select2-selection__arrow {
+    height: 39px !important;
+  }
+  mark {
+    background-color: $yellow;
+  }
+}
+
+.tooltip-btn {
+  position: relative;
+  top: 7px;
+  margin-left: 12px;
+  font-size: 1.1rem;
+  background: none;
+  border: none;
+
+  &::before {
+    text-align: center;
+  }
+  &.nudge-up {
+    position: relative;
+    top: 0px;
+  }
+}
+
+.theme-info {
+  p {
+    margin-top: 10px;
+    margin-bottom: -13px;
+  }
+}

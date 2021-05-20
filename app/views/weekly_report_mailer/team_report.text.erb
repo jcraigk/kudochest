@@ -1,0 +1,26 @@
+Greetings,
+
+Here's your Weekly Digest for <%= @team.name %>.
+
+<% if @data.top_benefactors.none? && @data.top_recipients.none? && @data.loot_claims_sentence.blank? %>
+No team activity this week. If you're having trouble using the app, please see <%= App.help_url %>.
+<% else %>
+Total Karma Given: <%= @data.karma_received %>
+<% if @data.karma_from_streak.present? %>
+Karma from Giving Streaks: <%= @data.karma_from_streak %>
+<% end %>
+<% if @data.top_benefactors.any? %>
+Top Benefactors: <%= @data.top_benefactors.map { |data| data.profile.display_name }.join('<br>').html_safe %>
+<% end %>
+<% if @data.top_recipients.any? %>
+Top Recipients: <%= @data.top_recipients.map { |data| data.profile.display_name }.join('<br>').html_safe %>
+<% end %>
+<% if @data.levelup_sentence.present? %>
+User Events: <%= @data.levelup_sentence %>
+<% end %>
+<% if @data.loot_claims_sentence.present? %>
+Loot Claims: <%= @data.loot_claims_sentence %>
+<% end %>
+<% end %>
+
+You can disable this report at <%= app_settings_url(section: :reports) %> or unsubscribe from all <%= App.app_name %> emails at <%= unsubscribe_url(token: @unsub_token) %>.

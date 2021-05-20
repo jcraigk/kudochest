@@ -1,0 +1,116 @@
+= form_for @reward, local: true do |f|
+
+  = render 'shared/model_errors', record: @reward
+
+  .field.is-horizontal
+    .field-label.is-normal
+      = f.label :name, t('rewards.name'), class: 'label'
+    .field-body
+      .field
+        .control
+          = f.text_field :name, class: 'input narrow3', required: true
+          = tooltip_btn('rewards.name_tooltip')
+
+  .field.is-horizontal
+    .field-label.is-normal
+      = f.label :description, t('rewards.description'), class: 'label'
+      = tooltip_btn('rewards.description_tooltip')
+    .field-body
+      .field
+        .control
+          = f.text_area :description, class: 'textarea'
+
+  .field.is-horizontal
+    .field-label.is-switch-label
+      = f.label :active, t('rewards.active'), class: 'label'
+    .field-body
+      .field
+        .control
+          = f.check_box :active, class: 'switch is-rounded'
+          = f.label :active, '&nbsp;'.html_safe, class: 'label'
+          = tooltip_btn('rewards.active_tooltip', 'nudge-up')
+
+  .field.is-horizontal
+    .field-label.is-normal
+      = f.label :price, t('rewards.price'), class: 'label'
+    .field-body
+      .field
+        .control
+          = f.text_field :price,
+                         class: 'input input-number',
+                         type: 'number',
+                         step: '1',
+                         required: true
+          = tooltip_btn('rewards.price_tooltip')
+
+  .field.is-horizontal
+    .field-label.is-switch-label
+      = f.label :auto_fulfill, t('rewards.fulfill_automatically'), class: 'label'
+    .field-body
+      .field
+        .control
+          = f.check_box :auto_fulfill, class: 'switch is-rounded'
+          = f.label :auto_fulfill, '&nbsp;'.html_safe, class: 'label'
+          = tooltip_btn('rewards.auto_fulfill_tooltip', 'nudge-up')
+
+  .field.is-horizontal#keys-control style='display: none;'
+    .field-label.is-normal
+      = f.label :fulfillment_keys, t('rewards.fulfillment_keys'), class: 'label'
+      = tooltip_btn('rewards.fulfillment_keys_tooltip')
+    .field-body
+      .field
+        .control
+          = f.text_area :fulfillment_keys, class: 'input textarea'
+
+  .field.is-horizontal#quantity-control style='display: none;'
+    .field-label.is-normal
+      = f.label :quantity, t('rewards.quantity'), class: 'label'
+    .field-body
+      .field
+        .control
+          = f.text_field :quantity,
+                         class: 'input input-number',
+                         type: 'number',
+                         step: '1',
+                         required: true
+          = tooltip_btn('rewards.quantity_tooltip')
+
+  - if @reward.persisted?
+    .field.is-horizontal#quantity-control
+      .field-label.is-normal
+        = f.label :claims, t('rewards.claims'), class: 'label'
+      .field-body
+        .field
+          .control
+            = link_to "#{number_with_delimiter(@reward.claims.count)} #{t('rewards.claims').pluralize(@reward.claims.count)}",
+                      claims_path(reward_id: @reward.id),
+                      class: 'button is-link'
+            = tooltip_btn('rewards.claims_tooltip')
+
+  .has-text-right
+    - if @reward.persisted? && @reward.claims.count.zero?
+      = link_to \
+        fa_icon('trash-alt'),
+        reward_path(@reward),
+        method: :delete,
+        class: 'button is-danger margin-right',
+        data: { confirm: t('rewards.confirm_destroy') }
+    = back_button(rewards_path)
+    = submit_button
+
+javascript:
+  $(function() {
+    var $auto_fulfill = $('input[name="reward[auto_fulfill]"]')
+    $auto_fulfill.on('click', function() { toggleInputs() })
+    toggleInputs()
+
+    function toggleInputs() {
+      if ($auto_fulfill.is(':checked')) {
+        $('#quantity-control').hide()
+        $('#keys-control').show()
+      } else {
+        $('#quantity-control').show()
+        $('#keys-control').hide()
+      }
+    }
+  })

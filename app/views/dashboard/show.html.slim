@@ -1,0 +1,14 @@
+= content_for(:feedback_class) { 'width-750' }
+
+- if current_user.verified?
+  - if @current_profile
+    = render partial: 'profiles/tiles', locals: { profile: @current_profile, tips: @tips, leaderboard: @leaderboard }
+  - else
+    - if current_user.owned_teams.none?
+      = render partial: 'shared/integrate_workspace'
+      br
+
+    = render partial: 'shared/connect_profile'
+
+- else
+  = render partial: 'shared/verification_required'

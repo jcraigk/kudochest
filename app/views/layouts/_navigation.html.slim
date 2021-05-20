@@ -1,0 +1,27 @@
+nav#navbar.navbar aria-label='main navigation' role='navigation'
+  .navbar-brand
+    a.navbar-item.navbar-title href=(logged_in? ? dashboard_path : features_path)
+      = image_pack_tag 'media/images/logos/karmachest-web.png', size: '32x'
+      span.app-name = App.app_name
+
+    a.navbar-burger role='button' aria-label='menu' aria-expanded='false'
+      span aria-hidden='true'
+      span aria-hidden='true'
+      span aria-hidden='true'
+
+  #navigation.navbar-menu
+    .navbar-start
+
+      - if !logged_in?
+        = link_to t('nav.features'), features_path, class: 'navbar-item'
+        = link_to t('nav.help'), help_path, class: 'navbar-item'
+
+    .navbar-end
+      - if logged_in?
+        = render partial: 'layouts/user_dropdown'
+
+      - else
+        .buttons
+          = link_to icon_and_text('sign-in', t('auth.login')),
+                    :login,
+                    class: 'button is-primary btn-login'

@@ -1,0 +1,22 @@
+en:
+  profiles:
+    login_to_connect: Please login or sign up to connect your chat profile
+    add_new: Add a Profile
+    connect_invalid: Invalid token provided
+    connect_chat: Connect Your Chat Profile
+    karma_history_title: Recent Activity
+    connect_instructions: 'Paste this message in a public channel in your chat client:'
+    update_fail: 'Could not update profile settings: %{msg}'
+    update_success: Successfully updated profile settings
+    allow_unprompted_dm: Allow Direct Messages
+    allow_unprompted_dm_tooltip: Sometimes the chatbot will send you direct notifications if your team admin has setup the system that way. To silence these messages, deselect this option.
+    email_weekly_report: Email Weekly Digest
+    email_weekly_report_tooltip: Send a weekly activity report to the email listed in User Settings
+    connect_success: '%{profile} from %{team} successfully connected to your account'
+    connect_success_email: '%{profile} successfully connected to account %{email}'
+    already_connected: '%{profile} is already connected to account %{email}'
+    to_connect: 'To connect your %{team} profile with your web account, visit: %{url}'
+    muted: ":speak_no_evil: Okay, I won't send you unsolicited direct messages"
+    unmuted: ':loudspeaker: Okay, I may sometimes send you unsolicated direct messages'
+    no_recent_activity: You have not given or earned any karma recently
+    app_home_opened: "Hi, we're glad you're here! *%{app}* is a team engagement tool that allows users to give each other karma points that accrue over time. For more info, see %{url}"

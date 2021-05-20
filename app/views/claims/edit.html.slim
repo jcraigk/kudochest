@@ -1,0 +1,8 @@
+= content_for(:feedback_class) { 'width-full' }
+
+.card
+  header.card-header
+    p.card-header-title = t('claims.edit')
+
+  .card-content
+    = render 'form'

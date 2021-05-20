@@ -1,0 +1,131 @@
+= content_for(:feedback_class) { 'width-full' }
+
+.card
+  header.card-header
+    p.card-header-title = t('nav.bonus_calculator')
+
+  .card-content
+
+    p = t('bonuses.calculator_info')
+    br
+    br
+
+    = form_tag(url: bonuses_path, local: true, method: :post) do
+
+      .field.is-horizontal
+        .field-label.is-normal
+          = label_tag :start_date, t('bonuses.start_date'), class: 'label'
+        .field-body
+          .field
+            .control
+              = text_field_tag :start_date,
+                               params[:start_date].presence || Time.use_zone(@current_team.time_zone) { @current_team.created_at }.strftime('%Y-%m-%d'),
+                               class: 'input narrow2',
+                               required: true,
+                               type: 'date'
+              = tooltip_btn('bonuses.start_date_tooltip')
+
+      .field.is-horizontal
+        .field-label.is-normal
+          = label_tag :end_date, t('bonuses.end_date'), class: 'label'
+        .field-body
+          .field
+            .control
+              = text_field_tag :end_date,
+                               params[:end_date].presence || Time.use_zone(@current_team.time_zone) { Time.current }.strftime('%Y-%m-%d'),
+                               class: 'input narrow2',
+                               required: true,
+                               type: 'date'
+              = tooltip_btn('bonuses.end_date_tooltip')
+
+      .field.is-horizontal
+        .field-label.is-switch-label
+          = label_tag :include_streak_karma, t('bonuses.include_streak_karma'), class: 'label'
+        .field-body
+          .field
+            .control
+              = check_box_tag :include_streak_karma,
+                              1,
+                              true,
+                              class: 'switch is-rounded'
+              = label_tag :include_streak_karma, '&nbsp;'.html_safe, class: 'label'
+              = tooltip_btn('bonuses.include_streak_karma_tooltip', 'nudge-up')
+
+      .field.is-horizontal
+        .field-label.is-switch-label
+          = label_tag :include_imported_karma, t('bonuses.include_imported_karma'), class: 'label'
+        .field-body
+          .field
+            .control
+              = check_box_tag :include_imported_karma,
+                              1,
+                              true, class: 'switch is-rounded'
+              = label_tag :include_imported_karma, '&nbsp;'.html_safe, class: 'label'
+              = tooltip_btn('bonuses.include_imported_karma_tooltip', 'nudge-up')
+
+      .field.is-horizontal
+        .field-label.is-switch-label
+          = label_tag :style, t('bonuses.calc_style'), class: 'label'
+        .field-body
+          .field
+            .control
+              .select = select_bonus_calc_style
+              = tooltip_btn('bonuses.calc_style_tooltip')
+            .setting-info
+              .style-info data-name='split_pot' style='display: none;'
+                p = t('bonuses.split_pot_info_html')
+              .style-info data-name='karma_value' style='display: none;'
+                p = t('bonuses.karma_value_info_html')
+              .style-info data-name='salary_percent' style='display: none;'
+                p = t('bonuses.salary_percent_info_html')
+              br
+
+      .style-control data-name='split_pot' style='display: none;'
+        .field.is-horizontal
+          .field-label.is-normal
+            = label_tag :pot_size, t('bonuses.pot_size'), class: 'label'
+          .field-body
+            .field
+              .control
+                = text_field_tag :pot_size,
+                                 nil,
+                                 class: 'input narrow2',
+                                 type: 'number',
+                                 min: 1
+                = tooltip_btn('bonuses.pot_size_tooltip')
+
+      .style-control data-name='karma_value' style='display: none;'
+        .field.is-horizontal
+          .field-label.is-normal
+            = label_tag :karma_point_value, t('bonuses.karma_point_value'), class: 'label'
+          .field-body
+            .field
+              .control
+                = text_field_tag :karma_point_value,
+                                 nil,
+                                 class: 'input narrow2',
+                                 type: 'number',
+                                 min: 1
+                = tooltip_btn('bonuses.karma_point_value_tooltip')
+
+      br
+      br
+      .has-text-right
+        = submit_button t('bonuses.request_csv'), 'cloud-download-alt'
+
+
+javascript:
+  $(function() {
+    showInfo($('#bonus-calc-style').val())
+
+    $('#bonus-calc-style').on('change', function() {
+      $('.style-info').hide()
+      $('.style-control').hide()
+      showInfo($(this).val())
+    })
+
+    function showInfo(key) {
+      $('.style-info[data-name="' + key + '"]').show()
+      $('.style-control[data-name="' + key + '"]').show()
+    }
+  })

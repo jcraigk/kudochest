@@ -1,0 +1,12 @@
+meta name='Description' content=yield(:meta_description)
+meta http-equiv='Content-Type' content='text/html; charset=utf-8'
+meta charset='Unicode/UTF-8'
+
+meta name='viewport' content='width=device-width, initial-scale=1'
+
+meta name='slack-app-id' content="#{App.slack_app_id}"
+
+meta property='og:url' content="#{App.base_url}"
+meta property='og:title' content="#{App.app_name}"
+meta property='og:description' content="#{I18n.t('slack.unfurl_description', app: App.app_name)}"
+meta property='og:image' content="#{asset_pack_path('media/images/logos/karmachest-144.png')}"

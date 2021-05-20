@@ -1,0 +1,27 @@
+@import "../stylesheets/main";
+
+$widescreen-enabled: false;
+$fullhd-enabled: false;
+
+body {
+  @media (max-width: 600px) {
+    background-image: url('../images/backgrounds/vertical-mural-mobile.png') !important;
+  }
+
+  background-color: $brown !important;
+  background-image: url('../images/backgrounds/vertical-mural.png');
+  background-repeat: no-repeat;
+  background-size: 100% auto;
+
+  @supports (-moz-appearance:none) {
+    image-rendering: crisp-edges;
+  }
+  @supports not(-moz-appearance:none) {
+    image-rendering: pixelated;
+  }
+  .footer {
+    background-color: $brown !important;
+    padding-bottom: 50px;
+    padding-top: 50px;
+  }
+}

@@ -1,0 +1,31 @@
+= form_with model: current_user,
+            url: update_preferences_user_path(current_user),
+            method: :patch,
+            local: true do |f|
+
+  .card
+    header.card-header
+      p.card-header-title = t('nav.user_settings')
+    .card-content
+
+      .field.is-horizontal
+        .field-label.is-switch-label
+          = f.label :subscribe_newsletter, t('users.subscribe_newsletter'), class: 'label'
+        .field-body
+          .field
+            .control
+              = f.check_box :subscribe_newsletter, class: 'switch is-rounded'
+              = f.label :subscribe_newsletter, '&nbsp;'.html_safe, class: 'label'
+              = tooltip_btn('users.subscribe_newsletter_tooltip', 'nudge-up')
+
+      .field.is-horizontal
+        .field-label.is-normal
+          = f.label :theme, t('users.theme'), class: 'label'
+        .field-body
+          .field
+            .control
+              .select
+                = f.select :theme, User.theme.options
+
+  br
+  = submit_button

@@ -1,0 +1,25 @@
+doctype html
+html
+  head
+    - if Rails.env.production?
+      = render partial: 'layouts/google_analytics'
+
+    title #{App.app_name} - #{yield(:subtitle)}
+
+    = render partial: 'layouts/meta'
+
+    = stylesheet_link_tag 'https://fonts.gstatic.com', rel: 'preconnect', crossorigin: :anonymous
+    = stylesheet_link_tag "https://fonts.googleapis.com/css?family=Barlow+Semi+Condensed&display=swap"
+    = stylesheet_link_tag 'https://pro.fontawesome.com/releases/v5.10.0/css/all.css'
+    = stylesheet_link_tag 'public'
+    = javascript_pack_tag 'application'
+
+  body
+    = render 'layouts/navigation'
+
+    .section#main
+      .container
+        = render 'layouts/notifications' if notice.present? || alert.present?
+        = yield
+
+    = render 'layouts/footer'

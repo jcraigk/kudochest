@@ -1,0 +1,44 @@
+.card data-section='bot_schedule' style='display: none;'
+  header.card-header
+    p.card-header-title = t('teams.bot_schedule')
+  .card-content
+
+    .field.is-horizontal
+      .field-label.is-normal
+        = f.label :time_zone, t('teams.time_zone'), class: 'label'
+      .field-body
+        .field
+          .control
+            .select = f.time_zone_select(:time_zone)
+            = tooltip_btn('teams.time_zone_tooltip')
+
+    .field.is-horizontal
+      .field-label.is-normal
+        = f.label :token_hour, t('teams.token_hour'), class: 'label'
+      .field-body
+        .field
+          .control
+            .select = hour_select(f, :token_hour)
+            = tooltip_btn('teams.token_hour_tooltip')
+
+    .field.is-horizontal
+      .field-label.is-normal
+        = f.label :week_start_day, t('teams.week_start_day'), class: 'label'
+      .field-body
+        .field
+          .control
+            .select = f.select :week_start_day, Team.week_start_day.options
+            = tooltip_btn('teams.week_start_day_tooltip')
+
+    .field.is-horizontal
+      .field-label.is-normal
+        = f.label :work_days, t('teams.work_days'), class: 'label'
+        = tooltip_btn('teams.work_days_tooltip')
+      .field-body
+        .field
+          .control
+            - for weekday in Team::WEEKDAYS
+              = check_box_tag "team[work_days][#{weekday}]", weekday, f.object.work_days.include?(weekday), name: 'team[work_days][]', class: 'switch is-rounded'
+              = label_tag "team_work_days_#{weekday}", weekday.humanize
+              br
+            = hidden_field_tag 'team[work_days][]', ''

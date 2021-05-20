@@ -1,0 +1,21 @@
+.card data-section='bot_presence' style='display: none;'
+  header.card-header
+    p.card-header-title
+      = t('teams.bot_presence')
+  .card-content
+
+    .field.is-horizontal
+      .field-label.is-switch-label
+        = f.label :join_channels, t('teams.auto_join_channels'), class: 'label'
+      .field-body
+        .field
+          .control
+            = f.check_box :join_channels, class: 'switch is-rounded'
+            = f.label :join_channels, '&nbsp;'.html_safe, class: 'label'
+            = tooltip_btn('teams.auto_join_channels_tooltip', 'nudge-up')
+
+    hr
+    .centered-text
+      p = t('teams.join_channel_buttons')
+      br
+      = join_all_channels_button(@current_team)

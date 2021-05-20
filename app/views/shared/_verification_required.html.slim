@@ -1,0 +1,7 @@
+article.message.is-warning
+  .message-header
+    p = t('auth.verification_required')
+  .message-body.has-text-centered
+    p = t('auth.verification_check_email')
+    br
+    = link_to t('auth.resend_verification'), resend_verification_users_path, class: 'button'

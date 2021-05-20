@@ -1,0 +1,11 @@
+.columns
+  .column
+    - if notice.present?
+      .notification.is-success class=content_for(:feedback_class)
+        button.delete.delete-notification
+        = notice.html_safe
+
+    - if alert.present?
+      .notification.is-danger class=content_for(:feedback_class)
+        button.delete.delete-notification
+        = alert.html_safe

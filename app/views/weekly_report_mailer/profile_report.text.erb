@@ -1,0 +1,27 @@
+Greetings,
+
+Here's your Weekly Digest for <%= "#{PROF_PREFIX}#{@profile.display_name}" %> of <%= "#{PROF_PREFIX}#{@profile.team.name}" %>.
+
+<% if @data.top_benefactors.none? && @data.top_recipients.none? %>
+No activity this week. If you're having trouble using the app, please see the #{App.help_url}.
+<% else %>
+Karma Received: <%= @data.karma_received %>
+Karma Given: <%= @data.karma_sent %>
+<% if @data.karma_from_streak.present? %>
+Karma from Giving Streaks: <%= @data.karma_from_streak %>
+<% end %>
+<% if @data.top_benefactors_sentence.present? %>
+Top Benefactors: <%= @data.top_benefactors_sentence %>
+<% end %>
+<% if @data.top_recipients_sentence.present? %>
+Top Recipients: <%= @data.top_recipients_sentence %>
+<% end %>
+<% if @data.levelup_sentence.present? %>
+Level: <%= @data.levelup_sentence %>
+<% end %>
+<% if @data.rank_sentence.present? %>
+Leaderboard Rank: <%= @data.rank_sentence %>
+<% end %>
+<% end %>
+
+You can disable this report at <%= profile_settings_url %> or unsubscribe from all <%= App.app_name %> emails at <%= unsubscribe_url(token: @unsub_token) %>.
