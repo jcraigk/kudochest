@@ -29,17 +29,22 @@ You may provide `DATABASE_URL` or `config/database.yml`.
 
 You may provide `RAILS_MASTER_KEY` or `config/master.key`.
 
-You mavey provide `REDIS_URL` or leave it blank for default localhost.
+You may provide `REDIS_URL` or leave it blank for default localhost.
 
 The following must be provided to enable web-based features.
 
 ```
 ASSET_HOST
+WEB_DOMAIN
+```
+
+STMP config must be provided for email-based signup and password reset.
+
+```
 SMTP_ADDRESS
 SMTP_DOMAIN
 SMTP_PASSWORD
 SMTP_USERNAME
-WEB_DOMAIN
 ```
 
 If you are working on Slack integration, create a Slack App specifically for development (you could name it "KarmaChestDev") and provide its details in the following variables. For more information on how to setup the Slack App, see the wiki.
@@ -91,7 +96,7 @@ Most of the app's basic settings are configured in `config/application.rb` using
 You'll want to configure when `WeeklyReport::RecurrentWorker` runs in `config/sidekiq.yml` or disable it.
 
 
-## Fire It Up
+## Fire Up Rails
 
 ```bash
 make services
@@ -108,3 +113,9 @@ bundle exec sidekiq
 # Start Discord listener (terminal 3) - Discord only
 bin/discord_listener
 ```
+
+## Install in Chat Client
+
+You'll want to setup a workspace in Slack or Discord specifically for KarmaChest development. Do not use your organization's production workspace to develop against.
+
+Visit `https://localhost:3000` (or your public tunnel URL) and sign in. Follow the installation instructions on the landing page to install the app into the chat client. You now have admin control over the workspace. You may also connect your web profile by following the instructions on the landing page.
