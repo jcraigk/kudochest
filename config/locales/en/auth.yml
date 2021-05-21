@@ -34,6 +34,8 @@ en:
     verification_check_email: Please check your email for verification instructions before proceeding
     verification_required: Verify Your Email
     verification_resent: 'Verification instructions sent to %{email}'
+    user_email_domains: Email address must end with %{domains}
+    restricted_domain: You must use an approved email domain to login
   auth_email:
     account_verified: '%{app} Account Verified'
     login_link: 'To sign in, follow this link: %{url}'

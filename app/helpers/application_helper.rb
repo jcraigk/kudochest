@@ -143,4 +143,11 @@ module ApplicationHelper
     return rank unless rank.in?(1..3)
     image_pack_tag "media/images/trophies/#{rank}.png", size: '20x25'
   end
+
+  def user_email_domains_sentence
+    App.user_email_domains.to_sentence(
+      two_words_connector: ' or ',
+      last_word_connector: ', or '
+    )
+  end
 end

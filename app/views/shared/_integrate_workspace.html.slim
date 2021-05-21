@@ -7,6 +7,10 @@
   .card-content.has-text-centered
     / p = t('teams.add_new_explain_html', app: App.app_name, count: App.max_team_size)
     / br
-    .add-btn-container.is-clearfix
-      = render 'shared/add_to_slack_button'
-      = render 'shared/add_to_discord_button'
+    - if max_allowed_teams?
+      p = t('teams.max_allowed_html')
+      br
+    - else
+      .add-btn-container.is-clearfix
+        = render 'shared/add_to_slack_button'
+        = render 'shared/add_to_discord_button'

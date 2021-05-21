@@ -8,12 +8,13 @@ class TeamRegistrar < Base::Service
   option :owner_user_id
 
   def call
-    create_or_update_team.tap { |team| team.sync_remote(first_run: true) }
+    create_or_update_team.tap { |team| team&.sync_remote(first_run: true) }
   end
 
   private
 
   def create_or_update_team
+    return if Team.active.count >= App.max_teams
     return existing_team.tap { |team| team.update!(update_attrs) } if existing_team
     Team.create!(new_attrs)
   end
