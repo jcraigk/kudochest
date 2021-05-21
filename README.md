@@ -9,9 +9,9 @@ This is a Ruby on Rails application that uses Postgres and Redis for storage. It
 Download the [Onboarding Deck](https://github.com/jcraigk/karmachest/files/6523729/KarmaChest-Onboarding.pdf) for a quick intro or take a deeper dive in the [Wiki](https://github.com/jcraigk/karmachest/wiki).
 
 
-# App Installation
+# Installation
 
-If you want to install KarmaChest into your organization's Slack or Discord team, you must setup a Slack App (or Discord App) at the third party and host this Rails app internally or on a public server you control. See the [Wiki](https://github.com/jcraigk/karmachest/wiki/App-Installation) for detailed instructions.
+If you want to install KarmaChest into your organization's Slack or Discord team, you must setup a Slack App (or Discord App) at the third party and host this Rails app and its dependencies on a web server you control. See the [Wiki](https://github.com/jcraigk/karmachest/wiki/Installation) for detailed instructions.
 
 
 # Development Setup
@@ -31,14 +31,14 @@ You may provide `RAILS_MASTER_KEY` or `config/master.key`.
 
 You may provide `REDIS_URL` or leave it blank for default localhost.
 
-Provide the following to enable the web UI where app administration takes place.
+Provide the following to enable the web UI where app administration takes place. For local development, these will likely be `ASSET_HOST=http://localhost:3000` and `WEB_DOMAIN=localhost:3000` or, better yet, use your publie [ngrok](https://ngrok.com/) info.
 
 ```
 ASSET_HOST
 WEB_DOMAIN
 ```
 
-STMP config must be provided to enable email-based signup and password reset.
+STMP config must be provided to enable email-based signup and password reset. You may use an external service such as [SendGrid](https://sendgrid.com/) (recommended for single team installs) or you may provide your own SMTP support.
 
 ```
 SMTP_ADDRESS
@@ -47,14 +47,14 @@ SMTP_PASSWORD
 SMTP_USERNAME
 ```
 
-For Sidekiq web admin (at `/sidekiq`), setup desired username and password used for HTTP Basic Auth:
+For Sidekiq web admin (at `/sidekiq`), setup desired username and password:
 
 ```
 SIDEKIQ_USERNAME
 SIDEKIQ_PASSWORD
 ```
 
-If you are working on Slack integration, create a Slack App specifically for development and provide its details in the following variables. Make sure you set `config.bot_name` in `config/application.rb` appropriately. For a detailed guide, see [Slack App Setup](https://github.com/jcraigk/karmachest/wiki/Slack-App-Setup).
+If you are working on Slack integration, create a Slack App specifically for development and provide its details in the following variables. Make sure you set `config.bot_name` in `config/application.rb` accordingly. For a detailed guide, see [Slack App Setup](https://github.com/jcraigk/karmachest/wiki/Slack-App-Setup).
 
 ```
 SLACK_APP_ID
@@ -63,7 +63,7 @@ SLACK_CLIENT_SECRET
 SLACK_SIGNING_SECRET
 ```
 
-If you are working on Discord integration, create a Discord App specifically for development and provide its details in the following variables.  Make sure you set `config.bot_name` in `config/application.rb` appropriately. You'll also want to fire up the Discord Gateway Listener from a fresh terminal using `bin/discord_listener`. For a detailed guide, see [Discord App Setup](https://github.com/jcraigk/karmachest/wiki/Discord-App-Setup).
+If you are working on Discord integration, create a Discord App specifically for development and provide its details in the following variables.  Make sure you set `config.bot_name` in `config/application.rb` accordingly. You'll also want to fire up the Discord Gateway Listener from a fresh terminal using `bin/discord_listener`. For a detailed guide, see [Discord App Setup](https://github.com/jcraigk/karmachest/wiki/Discord-App-Setup).
 
 ```
 DISCORD_APP_USERNAME
@@ -83,7 +83,7 @@ OAUTH_GOOGLE_KEY
 OAUTH_GOOGLE_SECRET
 ```
 
-For working on graphical image responses, setup an AWS bucket to cache the composed images and provide the credentials.
+For working on graphical image responses, setup an AWS bucket to cache the composed images and provide the details.
 
 ```
 RESPONSE_IMAGE_AWS_ACCESS_KEY_ID
@@ -95,15 +95,15 @@ RESPONSE_IMAGE_HOST
 
 ## Fine Tuning
 
-Most of the app's basic settings are configured in `config/application.rb`.
+Most of the app's basic settings are configured in `config/application.rb`. It is worth browsing the list of configuration options to get a sense of the features and to help debug issues that may arise.
 
 
 ## Periodic Jobs
 
-You'll want to configure when `WeeklyReport::RecurrentWorker` runs in `config/sidekiq.yml` or disable it.
+You'll want to configure when `WeeklyReport::RecurrentWorker` runs in `config/sidekiq.yml` or disable it. The weekly report requires working SMTP configuration (see above).
 
 
-## Fire Up Rails
+## Run the App Components
 
 ```bash
 make services
@@ -125,4 +125,8 @@ bin/discord_listener
 
 You'll want to setup a workspace in Slack or Discord specifically for KarmaChest development. Do not use your organization's production workspace to develop against.
 
-Visit `http://localhost:3000` (or your public [ngrok](https://ngrok.com/) URL) and sign in. Follow the installation instructions on the landing page to install the app into the chat client. You now have admin control over the workspace. You may also connect your web profile by following the instructions on the landing page
+Visit `http://localhost:3000` (or your public [ngrok](https://ngrok.com/) URL) and sign up. Click the "Add to Slack" or "Add to Discord" button on the dashboard. After confirming the installation and being redirected to the website, you are now the sole administrator of the app. Click your email address in the upper right and select "App Settings". From here you can control various aspects of the user experience.
+
+For a detailed guide, see [Administration](https://github.com/jcraigk/karmachest/wiki/Administration).
+
+Just like any other user, you may use the `connect` command to connect your profile so that your dashboard displays your progress.
