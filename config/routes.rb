@@ -10,7 +10,6 @@ Rails.application.routes.draw do
   root to: 'public#landing'
 
   # Public
-  get :features, to: 'public#features', as: :features
   get :help, to: 'public#help', as: :help
   get '/help/discord', to: redirect('/help?platform=discord')
 

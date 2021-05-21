@@ -22,12 +22,12 @@
     .actions
       = submit_button(t('auth.login'), 'sign-in')
 
-
-      = link_to icon_and_text('key', t('auth.forgot_password')),
-                new_password_reset_path,
-                class: 'button is-info is-pulled-right margin-left'
       = link_to icon_and_text('clipboard-user', t('auth.signup')),
                 new_user_path,
                 class: 'button is-info is-pulled-right'
 
   = render 'shared/external_login_buttons'
+
+  .centered-text
+    br
+    = link_to t('auth.forgot_password'), new_password_reset_path

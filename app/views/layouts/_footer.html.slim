@@ -2,8 +2,6 @@ footer.footer
   .content.has-text-centered
 
     - if !logged_in?
-      = link_to t('nav.features'), features_path
-      | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
       = link_to t('auth.signup'), new_user_path
       | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 

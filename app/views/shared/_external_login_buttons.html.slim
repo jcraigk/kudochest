@@ -1,5 +1,5 @@
 .external-login-container
-  - Rails.config.oauth_providers.each do |platform|
+  - App.oauth_providers.each do |platform|
     = link_to oauth_at_provider_path(provider: platform),
               class: "button external-login-btn #{platform}-btn" do
       .login-logo = image_tag asset_pack_path("media/images/logos/#{platform}.png")

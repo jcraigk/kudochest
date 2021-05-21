@@ -6,11 +6,7 @@ class PublicController < ApplicationController
   layout 'public'
 
   def landing
-    redirect_to(current_user ? dashboard_path : features_path)
-  end
-
-  def features
-    render 'public/discord_features' if @platform == :discord
+    redirect_to(current_user ? dashboard_path : login_path)
   end
 
   def help
