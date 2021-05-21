@@ -21,14 +21,18 @@ module KarmaChest
     config.action_cable.worker_pool_size = 4
     config.active_job.queue_adapter = :sidekiq
 
-    # Custom config
+    # Basic Info
     config.app_name = 'KarmaChest'
     config.bot_name = 'KarmaChest'
     config.base_url = "https://#{ENV['WEB_DOMAIN']}"
     config.from_email = "KarmaChest <noreply@#{ENV['WEB_DOMAIN']}>"
     config.help_url = "#{config.base_url}/help"
     config.feedback_url = "#{config.base_url}/feedback"
-    config.oauth_providers = %i[slack discord google facebook]
+
+    # Access Control
+    config.max_teams = 1 # Default to single-team install
+    config.user_email_domains = ['gmail.com'] # ['karma.org'] to restrict to `bob@karma.org` etc
+    config.oauth_providers = %i[slack discord google facebook] # disabled if any user_email_domains
 
     # Slack
     config.slack_app_id = ENV['SLACK_APP_ID']

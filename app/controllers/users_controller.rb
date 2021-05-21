@@ -9,6 +9,8 @@ class UsersController < ApplicationController
   end
 
   def create
+    return redirect_restricted_domain unless email_domain_allowed?(user_params[:email])
+
     @user = User.new(user_params)
     if @user.save
       auto_login(@user, true)
@@ -98,5 +100,9 @@ class UsersController < ApplicationController
   def update_email_fail
     flash.now[:alert] = t('users.update_email_fail', msg: user_errors)
     render :edit_preferences
+  end
+
+  def redirect_restricted_domain
+    redirect_to new_user_path, alert: t('auth.restricted_domain')
   end
 end

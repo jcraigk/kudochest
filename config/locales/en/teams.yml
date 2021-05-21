@@ -111,3 +111,4 @@ en:
     enable_emoji_tooltip: When enabled, users can give karma by reacting with emoji (see below) or using emoji in place of "++" in a message.
     require_topic: Require Topic
     require_topic_tooltip: When enabled, users must specify a topic when giving karma. Topics can be company values or processes you want your team to adopt.
+    max_allowed_html: The maximum number of active teams has been reached. Change the <strong>config.max_teams</strong> server setting to integrate more workspaces.

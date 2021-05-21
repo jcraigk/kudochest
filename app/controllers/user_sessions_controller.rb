@@ -10,7 +10,7 @@ class UserSessionsController < ApplicationController
   end
 
   def create
-    if login(params[:email], params[:password], true) # remember_me = true
+    if login_success?
       redirect_back_or_to dashboard_path
     else
       flash.now[:alert] = t('auth.login_fail')
@@ -21,5 +21,11 @@ class UserSessionsController < ApplicationController
   def destroy
     logout
     redirect_to login_path, notice: t('auth.logged_out')
+  end
+
+  private
+
+  def login_success?
+    email_domain_allowed?(params[:email]) && login(params[:email], params[:password], true)
   end
 end

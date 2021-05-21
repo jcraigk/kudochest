@@ -29,6 +29,7 @@ RSpec.describe TeamRegistrar, :freeze_time do
   end
 
   before do
+    allow(App).to receive(:max_teams).and_return(100)
     allow(Slack::Web::Client).to receive(:new).and_return(slack_client)
     allow(team).to receive(:sync_remote)
   end
