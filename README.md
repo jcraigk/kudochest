@@ -6,19 +6,19 @@ KarmaChest is a team engagement tool for Slack and Discord. It allows users with
 
 This is a Ruby on Rails application that uses Postgres and Redis for storage. It integrates tightly with chat platforms (currently Slack and Discord), keeping teams and users synced server-side. This enables web-based user profiles/history, improved admin management, and gamification features.
 
-For a full list of features, see the [Wiki](https://github.com/jcraigk/karmachest/wiki).
+Download the [Onboarding Deck](https://github.com/jcraigk/karmachest/files/6523729/KarmaChest-Onboarding.pdf) for a quick intro or take a deeper dive in the [Wiki](https://github.com/jcraigk/karmachest/wiki).
 
 
 # App Installation
 
-If you want to install KarmaChest into your organization's Slack or Discord team, you must setup a Slack App (or Discord App) at the third party and host this Rails app internally or on a public server you control. See the [Wiki](https://github.com/jcraigk/karmachest/wiki) for detailed instructions.
+If you want to install KarmaChest into your organization's Slack or Discord team, you must setup a Slack App (or Discord App) at the third party and host this Rails app internally or on a public server you control. See the [Wiki](https://github.com/jcraigk/karmachest/wiki/App-Installation) for detailed instructions.
 
 
 # Development Setup
 
-You may run Postgres and Redis in Docker or natively.
+You may run Postgres and Redis using the included `Dockerfile` or natively.
 
-For Slack callbacks, a tunneling service such as [ngrok](https://ngrok.com/) is recommended to expose your local server.
+For Slack and OAuth callbacks, a tunneling service such as [ngrok](https://ngrok.com/) is recommended to expose your local server publicly.
 
 
 ## Environment variables
@@ -31,7 +31,7 @@ You may provide `RAILS_MASTER_KEY` or `config/master.key`.
 
 You may provide `REDIS_URL` or leave it blank for default localhost.
 
-The following must be provided to enable web-based features, which are required for app installation and administration.
+Provide the following to enable the web UI where app administration takes place.
 
 ```
 ASSET_HOST
@@ -54,7 +54,7 @@ SIDEKIQ_USERNAME
 SIDEKIQ_PASSWORD
 ```
 
-If you are working on Slack integration, create a Slack App specifically for development (you could name it "KarmaChestDev") and provide its details in the following variables. For more information on how to setup the Slack App, see the [Wiki](https://github.com/jcraigk/karmachest/wiki).
+If you are working on Slack integration, create a Slack App specifically for development and provide its details in the following variables. Make sure you set `config.bot_name` in `config/application.rb` appropriately. For a detailed guide, see [Slack App Setup](https://github.com/jcraigk/karmachest/wiki/Slack-App-Setup).
 
 ```
 SLACK_APP_ID
@@ -63,7 +63,7 @@ SLACK_CLIENT_SECRET
 SLACK_SIGNING_SECRET
 ```
 
-Similarly, if you are working on Discord integration, create a Discord App specifically for development and provide its details. You'll also want to fire up the Discord listener using `bin/discord_listener`.
+If you are working on Discord integration, create a Discord App specifically for development and provide its details in the following variables.  Make sure you set `config.bot_name` in `config/application.rb` appropriately. You'll also want to fire up the Discord Gateway Listener from a fresh terminal using `bin/discord_listener`. For a detailed guide, see [Discord App Setup](https://github.com/jcraigk/karmachest/wiki/Discord-App-Setup).
 
 ```
 DISCORD_APP_USERNAME
@@ -74,7 +74,7 @@ DISCORD_LISTENER_STARTUP_DELAY
 DISCORDRB_NONACL=true
 ```
 
-If you are working on OAuth integration, create the appropriate apps in the third party services and provide their values. You'll want to set the `config.oauth_providers` value in `config/application.rb` according to the integrations you have setup.
+If you are working on OAuth integration, create the appropriate apps in the third party services and provide their values. You'll want to set `config.oauth_providers` in `config/application.rb` according to the integrations you have setup.
 
 ```
 OAUTH_FACEBOOK_KEY
@@ -83,7 +83,7 @@ OAUTH_GOOGLE_KEY
 OAUTH_GOOGLE_SECRET
 ```
 
-If you are working on graphical image responses, setup an AWS bucket to hold the composed images and provide the details.
+For working on graphical image responses, setup an AWS bucket to cache the composed images and provide the credentials.
 
 ```
 RESPONSE_IMAGE_AWS_ACCESS_KEY_ID
@@ -95,7 +95,7 @@ RESPONSE_IMAGE_HOST
 
 ## Fine Tuning
 
-Most of the app's basic settings are configured in `config/application.rb` using `Rails.config`.
+Most of the app's basic settings are configured in `config/application.rb`.
 
 
 ## Periodic Jobs
@@ -125,4 +125,4 @@ bin/discord_listener
 
 You'll want to setup a workspace in Slack or Discord specifically for KarmaChest development. Do not use your organization's production workspace to develop against.
 
-Visit `https://localhost:3000` (or your public tunnel URL) and sign in. Follow the installation instructions on the landing page to install the app into the chat client. You now have admin control over the workspace. You may also connect your web profile by following the instructions on the landing page.
+Visit `http://localhost:3000` (or your public [ngrok](https://ngrok.com/) URL) and sign in. Follow the installation instructions on the landing page to install the app into the chat client. You now have admin control over the workspace. You may also connect your web profile by following the instructions on the landing page

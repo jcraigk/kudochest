@@ -23,7 +23,7 @@ module KarmaChest
 
     # Custom config
     config.app_name = 'KarmaChest'
-    config.bot_name = Rails.env.production? ? 'KarmaChest' : 'KarmaChestDev'
+    config.bot_name = 'KarmaChest'
     config.base_url = "https://#{ENV['WEB_DOMAIN']}"
     config.from_email = "KarmaChest <noreply@#{ENV['WEB_DOMAIN']}>"
     config.help_url = "#{config.base_url}/help"
