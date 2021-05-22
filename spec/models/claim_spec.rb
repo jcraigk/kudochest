@@ -44,4 +44,29 @@ RSpec.describe Claim do
     claim.fulfilled_at = Time.current
     expect(claim.pending?).to eq(false)
   end
+
+  describe 'callbacks' do
+    subject(:claim) { build(:claim, profile: profile, price: 50) }
+
+    let(:profile) { create(:profile) }
+
+    context 'when destroyed' do
+      before do
+        claim.save
+        claim.destroy
+      end
+
+      it 'decrements karma_claimed' do
+        expect(profile.reload.karma_claimed).to eq(0)
+      end
+    end
+
+    context 'when created' do
+      before { claim.save }
+
+      it 'increments karma_claimed' do
+        expect(profile.reload.karma_claimed).to eq(50)
+      end
+    end
+  end
 end
