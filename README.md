@@ -12,16 +12,20 @@ Download the [Onboarding Deck](https://github.com/jcraigk/karmachest/files/65237
 
 # Installation
 
-If you want to install KarmaChest into your organization's Slack or Discord team, you must setup a Slack App (or Discord App) at the third party and host this Rails app and its dependencies on a web server you control. Follow the [Installation Instructions](https://github.com/jcraigk/karmachest/wiki/Installation) to proceed.
+To install KarmaChest into your organization's Slack or Discord workspace, you must host this Rails repo on a web server you control and configure the Slack or Discord App at the third party website.
+
+See the [Installation Instructions](https://github.com/jcraigk/karmachest/wiki/Installation) for more detail.
 
 
 # Development Setup
 
-For Slack and OAuth callbacks, a tunneling service such as [ngrok](https://ngrok.com/) is recommended to expose your local server publicly.
-
 For local development, start by reading the [Installation Instructions](https://github.com/jcraigk/karmachest/wiki/Installation). Note that you will only need certain portions of what is described there, depending on your specific area of development.
 
-You'll want to setup a dedicated workspace and App in Slack/Discord specifically for KarmaChest development. Do not use your organization's production workspace to develop against.
+For Slack and OAuth callbacks, a tunneling service such as [ngrok](https://ngrok.com/) is recommended to expose your local server publicly via SSL.
+
+You'll want to setup a dedicated workspace and App in Slack/Discord specifically for KarmaChest development. Do not use your organization's production workspace or App to develop against.
+
+If you're working on response images and running Sidekiq in Docker, you'll need to configure a local storage location in `docker-compose.yml` to map to `/storage` in the `sidekiq` container.
 
 
 ## Run the App Components
@@ -32,7 +36,7 @@ You may run all components in Docker with logging exposed using the command
 make up
 ```
 
-or you can run services (PG and Redis) in Docker and the Rails processes natively. This may be better for debugging and development.
+or you can run services (PG and Redis) in Docker and the Rails processes natively. This may ease debugging and development.
 
 ```bash
 make services

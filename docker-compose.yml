@@ -2,7 +2,7 @@ version: '3'
 
 services:
   app:
-    image: jcraigk/karmachest
+    build: .
     depends_on:
       - pg
       - redis
@@ -13,7 +13,7 @@ services:
       - 3000:3000
 
   sidekiq:
-    image: jcraigk/karmachest
+    build: .
     depends_on:
       - pg
       - redis
@@ -24,7 +24,7 @@ services:
       - /j/app_content/karmachest:/storage
 
   discord_listener:
-    image: jcraigk/karmachest
+    build: .
     depends_on:
       - pg
       - redis
