@@ -8,25 +8,25 @@ class CreateTriggersClaimsInsertOrClaimsDelete < ActiveRecord::Migration[6.0]
     create_trigger('claims_after_insert_row_tr', generated: true, compatibility: 1).
         on('claims').
         after(:insert) do
-      <<-SQL_ACTIONS
-PERFORM pg_advisory_xact_lock(1, CAST(NEW.profile_id AS int));
-UPDATE profiles
-  SET karma_claimed = karma_claimed + NEW.price
-  WHERE id = NEW.profile_id;
-PERFORM pg_advisory_unlock_all();
-      SQL_ACTIONS
+      <<~SQL.squish
+        PERFORM pg_advisory_xact_lock(1, CAST(NEW.profile_id AS int));
+        UPDATE profiles
+          SET karma_claimed = karma_claimed + NEW.price
+          WHERE id = NEW.profile_id;
+        PERFORM pg_advisory_unlock_all();
+      SQL
     end
 
     create_trigger('claims_after_delete_row_tr', generated: true, compatibility: 1).
         on('claims').
         after(:delete) do
-      <<-SQL_ACTIONS
-PERFORM pg_advisory_xact_lock(1, CAST(OLD.profile_id AS int));
-UPDATE profiles
-  SET karma_claimed = karma_claimed - OLD.price
-  WHERE id = OLD.profile_id;
-PERFORM pg_advisory_unlock_all();
-      SQL_ACTIONS
+      <<~SQL.squish
+        PERFORM pg_advisory_xact_lock(1, CAST(OLD.profile_id AS int));
+        UPDATE profiles
+          SET karma_claimed = karma_claimed - OLD.price
+          WHERE id = OLD.profile_id;
+        PERFORM pg_advisory_unlock_all();
+      SQL
     end
   end
 
