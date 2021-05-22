@@ -3,7 +3,7 @@ class Hooks::Slack::BaseController < Hooks::BaseController
   include ActionView::Helpers::NumberHelper
   include EntityReferenceHelper
 
-  # before_action :verify_challenge_param # For new Slack App integration
+  before_action :verify_challenge_param
   before_action :ignore_irrelevant_messages!
   before_action :verify_slack_request!
   before_action :verify_team_active!
@@ -118,8 +118,8 @@ class Hooks::Slack::BaseController < Hooks::BaseController
     @json_payload ||= JSON[params[:payload]]
   end
 
-  # def verify_challenge_param
-  #   return if params[:challenge].blank?
-  #   render plain: params[:challenge]
-  # end
+  def verify_challenge_param
+    return if params[:challenge].blank?
+    render plain: params[:challenge]
+  end
 end

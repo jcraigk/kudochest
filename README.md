@@ -49,3 +49,7 @@ bundle exec sidekiq
 # Start Discord listener (terminal 3) - Discord only
 bin/discord_listener
 ```
+
+## Contributions
+
+All contributions are welcome via Issues and Pull Requests. If you notice something wrong in the Wiki, please feel free to fix it!

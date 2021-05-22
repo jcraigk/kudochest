@@ -31,7 +31,7 @@ module KarmaChest
 
     # Access Control
     config.max_teams = 1 # Default to single-team install
-    config.user_email_domains = ['gmail.com'] # ['karma.org'] to restrict to `bob@karma.org` etc
+    config.user_email_domains = [] # ['karma.org'] to restrict to `bob@karma.org` etc
     config.oauth_providers = %i[slack discord google facebook] # disabled if any user_email_domains
 
     # Slack
