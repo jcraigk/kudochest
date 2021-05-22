@@ -6,16 +6,20 @@ ENV APP_NAME=${APP_NAME} \
     INSTALL_PATH=/${APP_NAME} \
     IN_DOCKER=true
 
-RUN apt-get update -qq && \
-    apt-get install -y \
+RUN apt-get update -qq && apt-get upgrade -qq
+RUN apt-get install -y curl
+RUN curl -sL https://deb.nodesource.com/setup_12.x | bash
+RUN apt-get install -y \
       build-essential \
       git \
+      libmagickwand-dev \
       libpq-dev \
       libsodium-dev \
       memcached \
       postgresql-client \
-      libmagickwand-dev \
+      nodejs \
     && apt-get clean
+RUN npm install --global yarn
 
 COPY lib/image_magick/policy.xml /etc/ImageMagick-6/policy.xml
 
