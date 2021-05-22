@@ -10,7 +10,7 @@ services:
 addons:
   apt:
     update: true
-  postgresql: '9.6'
+  postgresql: 9.6
 before_install:
   - psql -c 'create database karmachest_test;' -U postgres
   - gem update --system --no-document
