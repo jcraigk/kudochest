@@ -13,6 +13,9 @@ class Claim < ApplicationRecord
     where('lower(claims.fulfillment_key) LIKE lower(?)', "%#{sanitize_sql_like(term)}%")
   }
 
+  after_create_commit :after_create
+  after_destroy_commit :after_destroy
+
   def fulfilled?
     fulfilled_at.present?
   end
@@ -21,27 +24,15 @@ class Claim < ApplicationRecord
     fulfilled_at.blank?
   end
 
-  # From console:
-  # Zeitwerk::Loader.eager_load_all
-  # Rails.application.load_tasks
-  # Rake::Task['db:generate_trigger_migration'].invoke
-  trigger.after(:insert) do
-    <<~SQL.squish
-      PERFORM pg_advisory_xact_lock(1, CAST(NEW.profile_id AS int));
-      UPDATE profiles
-        SET karma_claimed = karma_claimed + NEW.price
-        WHERE id = NEW.profile_id;
-      PERFORM pg_advisory_unlock_all();
-    SQL
+  private
+
+  # rubocop:disable Rails/SkipsModelValidations
+  def after_create
+    profile.increment!(:karma_claimed, price)
   end
 
-  trigger.after(:delete) do
-    <<~SQL.squish
-      PERFORM pg_advisory_xact_lock(1, CAST(OLD.profile_id AS int));
-      UPDATE profiles
-        SET karma_claimed = karma_claimed - OLD.price
-        WHERE id = OLD.profile_id;
-      PERFORM pg_advisory_unlock_all();
-    SQL
+  def after_destroy
+    profile.decrement!(:karma_claimed, price)
   end
+  # rubocop:enable Rails/SkipsModelValidations
 end

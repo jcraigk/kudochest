@@ -24,15 +24,18 @@ class TeamResetService < Base::Service
     profile.update!(
       karma_received: 0,
       karma_sent: 0,
+      karma_claimed: 0,
       tokens_accrued: 0,
-      tokens_forfeited: 0
+      tokens_forfeited: 0,
+      last_tip_received_at: nil,
+      last_tip_sent_at: nil
     )
   end
 
   def destroy_tips(profile)
     Tip.where(to_profile: profile)
        .or(Tip.where(from_profile: profile))
-       .destroy_all
+       .delete_all
   end
 
   def notify_user(profile, text)

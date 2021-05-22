@@ -192,8 +192,8 @@ class TipResponseService < Base::Service
   def levelups
     @levelups ||= (
       tips.group_by(&:to_profile).map do |profile, profile_tips|
-        old_karma = profile.karma_received
-        new_karma = old_karma + profile_tips.sum(&:quantity)
+        new_karma = profile.karma_received
+        old_karma = new_karma - profile_tips.sum(&:quantity)
         next unless level_for(new_karma) > level_for(old_karma)
         OpenStruct.new(profile: profile, new_karma: new_karma)
       end + [sender_profile_levelup]

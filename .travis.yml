@@ -1,0 +1,23 @@
+dist: trusty
+language: ruby
+rvm:
+  - 2.7.3
+cache: bundler
+notifications:
+  email: false
+services:
+  - redis-server
+addons:
+  apt:
+    update: true
+  postgresql: '9.6'
+before_install:
+  - psql -c 'create database karmachest_test;' -U postgres
+  - gem update --system --no-document
+  - gem install bundler --no-document
+script:
+  - bundle exec rubocop
+  - bundle exec rspec spec
+branches:
+  only:
+    - master

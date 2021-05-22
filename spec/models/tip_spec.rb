@@ -136,7 +136,7 @@ RSpec.describe Tip do
     end
   end
 
-  describe 'database triggers' do
+  describe 'callbacks' do
     let(:team) { create(:team) }
     let(:sender) { create(:profile, team: team) }
     let(:recipient) { create(:profile, team: team) }

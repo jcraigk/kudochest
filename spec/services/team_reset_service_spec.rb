@@ -33,8 +33,8 @@ RSpec.describe TeamResetService do
 
   it 'resets profile stats' do
     call
-    expect(profile.karma_received).to eq(0)
-    expect(profile.karma_sent).to eq(0)
+    expect(profile.reload.karma_received).to eq(0)
+    expect(profile.reload.karma_sent).to eq(0)
   end
 
   it 'resets team stats' do

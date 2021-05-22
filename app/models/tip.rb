@@ -26,7 +26,8 @@ class Tip < ApplicationRecord
   validates_with RecipientNotDeletedValidator
   validates_with RecipientNotSelfValidator
 
-  after_destroy_commit :delete_chat_response
+  after_create_commit :after_create
+  after_destroy_commit :after_destroy
 
   scope :undoable, lambda {
     where(source: %w[modal plusplus reaction reply streak])
@@ -37,71 +38,58 @@ class Tip < ApplicationRecord
     where('lower(tips.note) LIKE lower(?)', "%#{sanitize_sql_like(term)}%")
   }
 
-  # From console:
-  # Zeitwerk::Loader.eager_load_all
-  # Rails.application.load_tasks
-  # Rake::Task['db:generate_trigger_migration'].invoke
-  trigger.after(:insert) do
-    <<~SQL.squish
-      PERFORM pg_advisory_xact_lock(1, CAST(NEW.from_profile_id AS int));
-      UPDATE profiles
-        SET
-          last_tip_sent_at = NEW.created_at,
-          karma_sent = karma_sent + NEW.quantity
-        WHERE id = NEW.from_profile_id;
-      PERFORM pg_advisory_unlock_all();
-
-      PERFORM pg_advisory_xact_lock(1, CAST(NEW.to_profile_id AS int));
-      UPDATE profiles
-        SET
-          last_tip_received_at = NEW.created_at,
-          karma_received = karma_received + NEW.quantity
-        WHERE id = NEW.to_profile_id;
-      PERFORM pg_advisory_unlock_all();
-
-      PERFORM pg_advisory_xact_lock(2, CAST((SELECT team_id FROM profiles WHERE id = NEW.from_profile_id) AS int));
-      UPDATE teams
-        SET
-          karma_sent = karma_sent + NEW.quantity
-        WHERE id = (SELECT team_id FROM profiles WHERE id = NEW.to_profile_id);
-      PERFORM pg_advisory_unlock_all();
-    SQL
-  end
-
-  trigger.after(:delete) do
-    <<~SQL.squish
-      PERFORM pg_advisory_xact_lock(1, CAST(OLD.from_profile_id AS int));
-      UPDATE profiles
-        SET
-          last_tip_sent_at =
-            (SELECT created_at FROM tips WHERE from_profile_id = OLD.from_profile_id ORDER BY created_at DESC LIMIT 1),
-          karma_sent = karma_sent - OLD.quantity
-        WHERE id = OLD.from_profile_id;
-      PERFORM pg_advisory_unlock_all();
-
-      PERFORM pg_advisory_xact_lock(1, CAST(OLD.to_profile_id AS int));
-      UPDATE profiles
-        SET
-          last_tip_received_at =
-            (SELECT created_at FROM tips WHERE to_profile_id = OLD.to_profile_id ORDER BY created_at DESC LIMIT 1),
-          karma_received = karma_received - OLD.quantity
-        WHERE id = OLD.to_profile_id;
-      PERFORM pg_advisory_unlock_all();
-
-      PERFORM pg_advisory_xact_lock(2, CAST((SELECT team_id FROM profiles WHERE id = OLD.from_profile_id) AS int));
-      UPDATE teams
-        SET
-          karma_sent = karma_sent - OLD.quantity
-        WHERE id = (SELECT team_id FROM profiles WHERE id = OLD.to_profile_id);
-      PERFORM pg_advisory_unlock_all();
-    SQL
-  end
-
   def topic_name
     topic&.name || 'None'
   end
 
   private
+
+  def after_create
+    transaction do
+      update_timestamps
+      increment_karma
+    end
+  end
+
+  def update_timestamps
+    from_profile.update!(last_tip_sent_at: created_at)
+    to_profile.update!(last_tip_received_at: created_at)
+  end
+
+  def after_destroy
+    transaction do
+      reset_timestamps
+      decrement_karma
+      delete_chat_response
+    end
+  end
+
+  def reset_timestamps
+    from_profile.update!(last_tip_sent_at: last_sent_tip&.created_at)
+    to_profile.update!(last_tip_received_at: last_received_tip&.created_at)
+  end
+
+  def last_sent_tip
+    Tip.where(from_profile_id: from_profile_id).order(created_at: :desc).first
+  end
+
+  def last_received_tip
+    Tip.where(to_profile_id: to_profile_id).order(created_at: :desc).first
+  end
+
+  # rubocop:disable Rails/SkipsModelValidations
+  def increment_karma
+    from_profile.increment!(:karma_sent, quantity)
+    to_profile.increment!(:karma_received, quantity)
+    to_profile.team.increment!(:karma_sent, quantity)
+  end
+
+  def decrement_karma
+    from_profile.decrement!(:karma_sent, quantity)
+    to_profile.decrement!(:karma_received, quantity)
+    to_profile.team.decrement!(:karma_sent, quantity)
+  end
+  # rubocop:enable Rails/SkipsModelValidations
 
   def delete_chat_response
     return if response_channel_rid.blank? || response_ts.blank?

@@ -1,6 +1,7 @@
-![KarmaChest Logo](https://github.com/jcraigk/karmachest/blob/master/app/webpacker/images/logos/karmachest-144.png)
+[![Maintainability](https://api.codeclimate.com/v1/badges/ac612f0aec880d523ab4/maintainability)](https://codeclimate.com/github/jcraigk/karmachest/maintainability)
+[![Build Status](https://www.travis-ci.com/jcraigk/karmachest.svg?branch=master)](https://www.travis-ci.com/jcraigk/karmachest)
 
-# KarmaChest
+![KarmaChest Logo](https://github.com/jcraigk/karmachest/blob/master/app/webpacker/images/logos/karmachest-full.png)
 
 KarmaChest is a team engagement tool for Slack and Discord. It allows users within a workspace to give each other karma points that accrue over time. A karma point represents a token of appreciation or recognition for a job well done. Users can view their profile, browse their history, and access leaderboards on the web or within the chat client. Numerous options are provided via web-based admin.
 
