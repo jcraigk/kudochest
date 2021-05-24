@@ -38,11 +38,22 @@ make up
 
 or you can run services (PG and Redis) in Docker and the Rails processes natively. This may ease debugging and development.
 
+For running the Rails stack locally you'll need the following:
+* Ruby (use [rvm](https://rvm.io/) or [asdf](https://asdf-vm.com/))
+* [NodeJS](https://nodejs.org/en/)
+* [Yarn](https://www.npmjs.com/package/yarn)
+
 ```bash
-make services
+# Install Ruby dependencies
 bundle install
+
+# Initialize database
+make services
 bundle exec rails db:create
 bundle exec rails db:reset
+
+# Install javascript dependencies
+yarn install
 
 # Start web server (terminal 1)
 bundle exec rails s
