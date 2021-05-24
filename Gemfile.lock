@@ -456,7 +456,7 @@ DEPENDENCIES
   clipboard-rails
   colorize
   database_cleaner-active_record (~> 1.8)
-  discordrb (= 3.4.0)
+  discordrb
   dotenv-rails
   dry-initializer
   enumerize
