@@ -1,5 +1,6 @@
 [![Maintainability](https://api.codeclimate.com/v1/badges/ac612f0aec880d523ab4/maintainability)](https://codeclimate.com/github/jcraigk/karmachest/maintainability)
 [![Build Status](https://www.travis-ci.com/jcraigk/karmachest.svg?branch=master)](https://www.travis-ci.com/jcraigk/karmachest)
+[![Test Coverage](https://api.codeclimate.com/v1/badges/ac612f0aec880d523ab4/test_coverage)](https://codeclimate.com/github/jcraigk/karmachest/test_coverage)
 
 ![KarmaChest Logo](https://github.com/jcraigk/karmachest/blob/master/app/webpacker/images/logos/karmachest-full.png)
 

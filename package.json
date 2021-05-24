@@ -16,5 +16,8 @@
   },
   "devDependencies": {
     "webpack-dev-server": "^3.10.3"
+  },
+  "scripts": {
+    "test": "./node_modules/.bin/istanbul cover ./node_modules/tape/bin/tape ./test/*.js"
   }
 }
