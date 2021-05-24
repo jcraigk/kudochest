@@ -9,7 +9,7 @@ gem 'aws-sdk-s3'
 gem 'bulma-rails'
 gem 'chartkick'
 gem 'clipboard-rails'
-gem 'discordrb', '3.4.0' # TODO: Check if 3.4.1 works
+gem 'discordrb'
 gem 'dry-initializer'
 gem 'enumerize'
 gem 'gemoji'

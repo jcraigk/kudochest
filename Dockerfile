@@ -10,11 +10,11 @@ RUN apt-get update -qq && \
     apt-get install -y \
       build-essential \
       git \
+      libmagickwand-dev \
       libpq-dev \
       libsodium-dev \
       memcached \
       postgresql-client \
-      libmagickwand-dev \
     && apt-get clean
 
 COPY lib/image_magick/policy.xml /etc/ImageMagick-6/policy.xml
