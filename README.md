@@ -4,16 +4,16 @@
 
 ![KarmaChest Logo](https://github.com/jcraigk/karmachest/blob/master/app/webpacker/images/logos/karmachest-full.png)
 
-KarmaChest is a team engagement tool for Slack and Discord. It allows users within a workspace to give each other karma points that accrue over time. A karma point represents a token of appreciation or recognition for a job well done. Users can view their profile, browse their history, and access leaderboards on the web or within the chat client. Numerous options are provided via web-based admin.
+KarmaChest is a team engagement tool for Slack and Discord (a "karma bot"). It allows users within a workspace to give each other karma points that accrue over time. A karma point represents a token of appreciation or recognition for a job well done. Users can view their profile, browse their history, and access leaderboards on the web or within the chat client. App settings and moderation tools are provided via web UI.
 
-This is a Ruby on Rails application that uses Postgres and Redis for storage. It integrates tightly with chat platforms (currently Slack and Discord), keeping teams and users synced server-side. This enables web-based user profiles/history, improved admin management, and gamification features.
+This is a Ruby on Rails application backed by Postgres and Redis. It integrates tightly with chat platforms (Slack and Discord), keeping teams and users synced server-side. This enables web-based user profiles and other UX enhancements not possible in standard karma bots.
 
-Download the [Onboarding Deck](https://github.com/jcraigk/karmachest/files/6523729/KarmaChest-Onboarding.pdf) for a quick intro or take a deeper dive in the [Wiki](https://github.com/jcraigk/karmachest/wiki).
+Download the [Onboarding Deck](https://github.com/jcraigk/karmachest/files/6523729/KarmaChest-Onboarding.pdf) for a very basic feature intro or take a deeper dive in the [Wiki](https://github.com/jcraigk/karmachest/wiki).
 
 
 # Installation
 
-To install KarmaChest into your organization's Slack or Discord workspace, you must host this Rails repo on a web server you control and configure the Slack or Discord App at the third party website.
+To install KarmaChest into your organization's Slack or Discord workspace, you must host this Rails application on a web server you control and configure the Slack or Discord App at the appropriate third party website.
 
 See the [Installation Instructions](https://github.com/jcraigk/karmachest/wiki/Installation) for more detail.
 
