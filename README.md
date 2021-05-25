@@ -1,5 +1,5 @@
-[![Maintainability](https://api.codeclimate.com/v1/badges/ac612f0aec880d523ab4/maintainability)](https://codeclimate.com/github/jcraigk/karmachest/maintainability)
 [![Build Status](https://www.travis-ci.com/jcraigk/karmachest.svg?branch=master)](https://www.travis-ci.com/jcraigk/karmachest)
+[![Maintainability](https://api.codeclimate.com/v1/badges/ac612f0aec880d523ab4/maintainability)](https://codeclimate.com/github/jcraigk/karmachest/maintainability)
 [![Test Coverage](https://api.codeclimate.com/v1/badges/ac612f0aec880d523ab4/test_coverage)](https://codeclimate.com/github/jcraigk/karmachest/test_coverage)
 
 ![KarmaChest Logo](https://github.com/jcraigk/karmachest/blob/master/app/webpacker/images/logos/karmachest-full.png)
@@ -66,6 +66,43 @@ bundle exec sidekiq
 bin/discord_listener
 ```
 
+
+## Testing
+
+To run specs in Docker:
+
+```
+make spec
+```
+
+To run specs natively:
+
+```
+make services
+rspec
+```
+
+To generate seed data for manual testing (Topics, Karma, and Rewards), first install your local instance of KarmaChest into a development workspace and then run
+
+```
+rails seeds:all
+```
+
+
 ## Contributions
 
 All contributions are welcome via Issues and Pull Requests. If you notice something wrong in the Wiki, please feel free to fix it!
+
+
+## Contributors
+
+Application design and implementation by [Justin Craig-Kuhn](https://github.com/jcraigk/)
+
+Logo and background mural by Evan Mahnke (Discord `8-bit adventurer#3751` / `gallanthomeslice at yahoo`)
+
+Animated GIFs and icons by Milton Monroe (Discord `carmelcamel#5829` / `milton dot p dot monroe at gmail`)
+
+
+## Copyright
+
+See [MIT-LICENSE](https://github.com/jcraigk/karmachest/blob/master/MIT-LICENSE)
