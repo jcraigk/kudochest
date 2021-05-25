@@ -82,21 +82,18 @@ make services
 rspec
 ```
 
-To generate seed data for manual testing (Topics, Karma, and Rewards), first install your local instance of KarmaChest into a development workspace and then run
+To generate seed data for manual testing, first install your local instance of KarmaChest into a development workspace and then run
 
 ```
 rails seeds:all
 ```
 
 
-## Contributions
+## Contributors
 
 All contributions are welcome via Issues and Pull Requests. If you notice something wrong in the Wiki, please feel free to fix it!
 
-
-## Contributors
-
-Application design and implementation by [Justin Craig-Kuhn](https://github.com/jcraigk/)
+Software design and implementation by [Justin Craig-Kuhn](https://github.com/jcraigk/)
 
 Logo and background mural by Evan Mahnke (Discord `8-bit adventurer#3751` / `gallanthomeslice at yahoo`)
 
