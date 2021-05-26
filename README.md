@@ -26,9 +26,11 @@ See the [Installation Instructions](https://github.com/jcraigk/karmachest/wiki/I
 &nbsp;  
 
 
-# Development Setup
+# Development
 
 For local development, start by reading the [Installation Instructions](https://github.com/jcraigk/karmachest/wiki/Installation), paying special attention to the [Environment Variables](https://github.com/jcraigk/karmachest/wiki/Installation#environment-variables) section. Note that you will only need certain portions of what is described there, depending on your specific area of development.
+
+## Setup
 
 For Slack and OAuth callbacks, a tunneling service such as [ngrok](https://ngrok.com/) is recommended to expose your local server publicly.
 
@@ -96,7 +98,7 @@ bundle exec rails seeds:all
 &nbsp;  
 
 
-## Contributors
+# Contributors
 
 All contributions are welcome via Issues and Pull Requests. If you notice something wrong in the Wiki, please feel free to fix it!
 
@@ -107,6 +109,6 @@ All contributions are welcome via Issues and Pull Requests. If you notice someth
 &nbsp;  
 
 
-## Copyright
+# Copyright
 
 This software is released under an [MIT-LICENSE](https://github.com/jcraigk/karmachest/blob/master/MIT-LICENSE).
