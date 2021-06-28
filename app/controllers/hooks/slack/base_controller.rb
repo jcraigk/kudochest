@@ -10,7 +10,7 @@ class Hooks::Slack::BaseController < Hooks::BaseController
 
   def receiver
     enqueue_slack_event_worker
-    head 200
+    head :ok
   end
 
   protected
@@ -75,7 +75,7 @@ class Hooks::Slack::BaseController < Hooks::BaseController
       params.dig(:message, :subtype) != 'bot_message' &&
       params.dig(:event, :bot_id).blank? &&
       params.dig(:event, :subtype).blank?
-    head 200
+    head :ok
   end
 
   def verify_slack_request!
@@ -83,12 +83,12 @@ class Hooks::Slack::BaseController < Hooks::BaseController
   rescue Slack::Events::Request::MissingSigningSecret,
          Slack::Events::Request::TimestampExpired,
          Slack::Events::Request::InvalidSignature
-    head 403
+    head :forbidden
   end
 
   def verify_team_active!
     return if team_config.active
-    head 200
+    head :ok
   end
 
   # If an action, a command, a "++"/emoji, or an app mention
