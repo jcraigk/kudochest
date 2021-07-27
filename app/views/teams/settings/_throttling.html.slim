@@ -61,10 +61,10 @@
 
     .field.is-horizontal
       .field-label.is-switch-label
-        = f.label :notify_tokens_disbursed, t('teams.notify_tokens_disbursed'), class: 'label'
+        = f.label :notify_tokens, t('teams.notify_tokens'), class: 'label'
       .field-body
         .field
           .control
-            = f.check_box :notify_tokens_disbursed, class: 'switch is-rounded'
-            = f.label :notify_tokens_disbursed, '&nbsp;'.html_safe, class: 'label'
-            = tooltip_btn('teams.notify_tokens_disbursed_tooltip', 'nudge-up')
+            = f.check_box :notify_tokens, class: 'switch is-rounded'
+            = f.label :notify_tokens, '&nbsp;'.html_safe, class: 'label'
+            = tooltip_btn('teams.notify_tokens_tooltip', 'nudge-up')

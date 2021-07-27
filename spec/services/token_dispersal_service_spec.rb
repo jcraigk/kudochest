@@ -95,8 +95,8 @@ RSpec.describe TokenDispersalService do
     end
   end
 
-  context 'when `team.notify_tokens_disbursed` option is false' do
-    before { team.update(notify_tokens_disbursed: false) }
+  context 'when `team.notify_tokens` option is false' do
+    before { team.update(notify_tokens: false) }
 
     it 'does not send notifications' do
       service

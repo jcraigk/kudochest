@@ -162,7 +162,7 @@ ActiveRecord::Schema.define(version: 2020_12_10_014052) do
     t.string "response_theme"
     t.boolean "installed", null: false
     t.boolean "enable_fast_ack", null: false
-    t.boolean "notify_tokens_disbursed", null: false
+    t.boolean "notify_tokens", null: false
     t.string "platform"
     t.string "app_subteam_rid"
     t.boolean "join_channels", default: false, null: false
