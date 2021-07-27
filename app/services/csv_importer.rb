@@ -7,7 +7,7 @@ class CsvImporter < Base::Service
     @num_imported = 0
     @invalid_names = []
 
-    import_karma
+    import_tips
     result_sentence
   end
 
@@ -21,7 +21,7 @@ class CsvImporter < Base::Service
     TEXT
   end
 
-  def import_karma
+  def import_tips
     text.split("\n").each do |line|
       display_name, quantity = line.split(',')
       profile = team.profiles.find_by(display_name: display_name.tr('@', ''))
@@ -33,7 +33,7 @@ class CsvImporter < Base::Service
   def create_import_tip(profile, quantity)
     Tip.transaction do
       create_tip(profile, quantity)
-      profile.update!(karma_claimed: profile.karma_claimed + quantity)
+      profile.update!(points_claimed: profile.points_claimed + quantity)
     end
     @num_imported += 1
   end

@@ -8,7 +8,7 @@ RSpec.describe Commands::Levels do
   let(:profile) { create(:profile, team: team) }
   let(:response) { OpenStruct.new(mode: :private, text: text) }
   let(:text) do
-    "```\nLevel  Karma  Delta\n-----  -----  -----\n" \
+    "```\nLevel  #{App.points_term.titleize}  Delta\n-----  -----  -----\n" \
       "1      0      0\n2      13     13\n3      35     22\n" \
       "4      63     28\n5      97     34\n6      135    38\n" \
       "7      178    43\n8      224    46\n9      274    50\n" \

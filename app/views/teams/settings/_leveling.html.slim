@@ -29,11 +29,11 @@
 
     .field.is-horizontal
       .field-label.is-normal
-        = f.label :max_level_karma, t('teams.max_level_points', points_title: App.points_term.titleize), class: 'label'
+        = f.label :max_level_points, t('teams.max_level_points', points_title: App.points_term.titleize), class: 'label'
       .field-body
         .field
           .control
-            = f.text_field :max_level_karma,
+            = f.text_field :max_level_points,
                            class: 'input input-number',
                            type: 'number',
                            step: '1',

@@ -16,11 +16,11 @@ br
   table style='font-size: 1.2rem;'
     tr
       td style='text-align: right; vertical-align: top; font-weight: bold; width: 50%;' Total #{App.points_term.titleize} Given:
-      td = @data.karma_received
-    - if @data.karma_from_streak.present?
+      td = @data.points_received
+    - if @data.points_from_streak.present?
       tr
         td style='text-align: right; vertical-align: top; font-weight: bold; width: 50%;' #{App.points_term.titleize} from Giving Streaks:
-        td = @data.karma_from_streak
+        td = @data.points_from_streak
     - if @data.top_benefactors.any?
       tr
         td style='text-align: right; vertical-align: top; font-weight: bold; width: 50%;' Top Benefactors:

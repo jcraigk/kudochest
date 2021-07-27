@@ -40,7 +40,7 @@ RSpec.describe Commands::Stats do
         *Stats for #{profile.link}*
         *Leaderboard Rank:* #{rank}
         *Level:* 1
-        *Karma:* 0
+        *#{App.points_term.titleize}:* 0
         *Given:* 0
         *Tokens:* 0 (receiving #{team.token_quantity} tokens in 2 days)
         *Giving Streak:* 0 days
@@ -56,7 +56,7 @@ RSpec.describe Commands::Stats do
           *Stats for #{profile.link}*
           *Leaderboard Rank:* #{rank}
           *Level:* 1
-          *Karma:* 0
+          *#{App.points_term.titleize}:* 0
           *Given:* 0
           *Tokens:* Unlimited
           *Giving Streak:* 0 days
@@ -78,7 +78,7 @@ RSpec.describe Commands::Stats do
         *Stats for #{profile2.link}*
         *Leaderboard Rank:* #{rank}
         *Level:* 1
-        *Karma:* 0
+        *#{App.points_term.titleize}:* 0
         *Given:* 0
         *Giving Streak:* 0 days
         *Profile:* <#{profile2.web_link}>
@@ -95,7 +95,7 @@ RSpec.describe Commands::Stats do
       <<~TEXT.chomp
         *Stats for #{profile2.link}*
         *Leaderboard Rank:* #{rank}
-        *Karma:* 0
+        *#{App.points_term.titleize}:* 0
         *Given:* 0
         *Giving Streak:* 0 days
         *Profile:* <#{profile2.web_link}>
@@ -115,7 +115,7 @@ RSpec.describe Commands::Stats do
         *Stats for #{profile2.link}*
         *Leaderboard Rank:* #{rank}
         *Level:* 1
-        *Karma:* 0
+        *#{App.points_term.titleize}:* 0
         *Given:* 0
         *Giving Streak:* 0 days
         *Profile:* <#{profile2.web_link}>
@@ -135,7 +135,7 @@ RSpec.describe Commands::Stats do
         *Stats for #{profile2.link}*
         *Leaderboard Rank:* #{rank}
         *Level:* 1
-        *Karma:* 0
+        *#{App.points_term.titleize}:* 0
         *Given:* 0
         *Profile:* <#{profile2.web_link}>
       TEXT

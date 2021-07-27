@@ -65,8 +65,8 @@ ActiveRecord::Schema.define(version: 2020_12_10_014052) do
     t.boolean "infinite_tokens", null: false
     t.integer "tokens_accrued", null: false
     t.decimal "tokens_forfeited", precision: 9, scale: 2, null: false
-    t.decimal "karma_received", precision: 9, scale: 2, null: false
-    t.decimal "karma_sent", precision: 9, scale: 2, null: false
+    t.decimal "points_received", precision: 9, scale: 2, null: false
+    t.decimal "points_sent", precision: 9, scale: 2, null: false
     t.datetime "last_tip_received_at"
     t.date "streak_date"
     t.integer "streak_count", null: false
@@ -74,13 +74,13 @@ ActiveRecord::Schema.define(version: 2020_12_10_014052) do
     t.datetime "updated_at", precision: 6, null: false
     t.datetime "welcomed_at"
     t.datetime "last_tip_sent_at"
-    t.integer "karma_claimed", default: 0, null: false
+    t.integer "points_claimed", default: 0, null: false
     t.boolean "weekly_report", default: false, null: false
     t.index ["created_at"], name: "index_profiles_on_created_at"
     t.index ["display_name"], name: "index_profiles_on_display_name"
-    t.index ["karma_received"], name: "index_profiles_on_karma_received"
-    t.index ["karma_sent"], name: "index_profiles_on_karma_sent"
     t.index ["last_tip_received_at"], name: "index_profiles_on_last_tip_received_at"
+    t.index ["points_received"], name: "index_profiles_on_points_received"
+    t.index ["points_sent"], name: "index_profiles_on_points_sent"
     t.index ["reg_token"], name: "index_profiles_on_reg_token", unique: true
     t.index ["rid", "team_id"], name: "index_profiles_on_rid_and_team_id", unique: true
     t.index ["slug"], name: "index_profiles_on_slug", unique: true
@@ -132,7 +132,7 @@ ActiveRecord::Schema.define(version: 2020_12_10_014052) do
     t.string "avatar_url", null: false
     t.string "api_key", null: false
     t.boolean "throttle_tips", null: false
-    t.integer "max_karma_per_tip", null: false
+    t.integer "max_points_per_tip", null: false
     t.integer "token_hour", null: false
     t.string "token_frequency", null: false
     t.integer "token_quantity", null: false
@@ -148,9 +148,9 @@ ActiveRecord::Schema.define(version: 2020_12_10_014052) do
     t.boolean "enable_levels", null: false
     t.string "level_curve", null: false
     t.integer "max_level", null: false
-    t.integer "max_level_karma", null: false
+    t.integer "max_level_points", null: false
     t.datetime "tokens_disbursed_at"
-    t.decimal "karma_sent", precision: 9, scale: 2, null: false
+    t.decimal "points_sent", precision: 9, scale: 2, null: false
     t.boolean "active", null: false
     t.boolean "enable_streaks", null: false
     t.integer "streak_duration", null: false
@@ -168,7 +168,7 @@ ActiveRecord::Schema.define(version: 2020_12_10_014052) do
     t.boolean "join_channels", default: false, null: false
     t.boolean "enable_cheers", default: true, null: false
     t.boolean "enable_loot", default: true, null: false
-    t.decimal "karma_increment", precision: 4, scale: 2
+    t.decimal "tip_increment", precision: 4, scale: 2
     t.decimal "emoji_quantity", precision: 4, scale: 2
     t.boolean "split_tip", default: false, null: false
     t.boolean "weekly_report", default: true, null: false

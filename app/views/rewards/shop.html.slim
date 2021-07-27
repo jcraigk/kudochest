@@ -10,9 +10,9 @@ h2.title.has-text-centered
     p.is-size-4.has-text-centered
       = t('shop.balance_html',
           points: App.points_term,
-          claimed: points_format(@current_profile.karma_claimed),
-          accrued: points_format(@current_profile.karma),
-          remaining: points_format(@current_profile.karma_unclaimed))
+          claimed: points_format(@current_profile.points_claimed),
+          accrued: points_format(@current_profile.points),
+          remaining: points_format(@current_profile.points_unclaimed))
     - if @current_profile.claims.any?
       br
       p.has-text-centered

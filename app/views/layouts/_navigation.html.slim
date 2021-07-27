@@ -1,7 +1,7 @@
 nav#navbar.navbar aria-label='main navigation' role='navigation'
   .navbar-brand
     a.navbar-item.navbar-title href=(logged_in? ? dashboard_path : login_path)
-      = image_pack_tag 'media/images/logos/karmachest-web.png', size: '32x'
+      = image_pack_tag 'media/images/logos/app-web.png', size: '32x'
       span.app-name = App.app_name
 
     a.navbar-burger role='button' aria-label='menu' aria-expanded='false'

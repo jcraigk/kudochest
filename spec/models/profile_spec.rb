@@ -20,8 +20,8 @@ RSpec.describe Profile do
   it { is_expected.to validate_presence_of(:display_name) }
   it { is_expected.to validate_presence_of(:slug) }
 
-  it 'aliases #karma to #karma_received' do
-    expect(profile.karma).to eq(profile.karma_received)
+  it 'aliases #points to #points_received' do
+    expect(profile.points).to eq(profile.points_received)
   end
 
   describe 'active?' do
@@ -149,9 +149,9 @@ RSpec.describe Profile do
   end
 
   describe '#token_balance' do
-    before { profile.update(tokens_accrued: 30, karma_sent: 20) }
+    before { profile.update(tokens_accrued: 30, points_sent: 20) }
 
-    it 'returns tokens_accrued - karma_sent' do
+    it 'returns tokens_accrued - points_sent' do
       expect(profile.token_balance).to eq(10)
     end
   end

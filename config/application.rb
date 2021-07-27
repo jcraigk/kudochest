@@ -34,7 +34,7 @@ module KarmaChest
 
     # Access Control
     config.max_teams = 1 # Default to single-team install
-    config.user_email_domains = [] # ['karma.org'] to restrict to `bob@karma.org` etc
+    config.user_email_domains = [] # ['example.org'] to restrict to `bob@example.org` etc
     config.oauth_providers = %i[slack discord google facebook] # disabled if any user_email_domains
 
     # Slack
@@ -63,9 +63,9 @@ module KarmaChest
     # Feature settings
     config.max_response_mentions = 3
     config.undo_cutoff = 5.minutes
-    config.max_karma_per_tip = 10
+    config.max_points_per_tip = 10
     config.default_max_level = 20
-    config.default_max_level_karma = 1_000
+    config.default_max_level_points = 1_000
     config.error_emoji = 'grimacing'
     config.default_tip_emoji = 'high_brightness'
     config.default_token_quantity = 50

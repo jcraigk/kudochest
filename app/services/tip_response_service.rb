@@ -52,7 +52,7 @@ class TipResponseService < Base::Service
   def main_fragment(platform)
     [
       profile_ref(from_profile, platform),
-      karma_fragment(platform)
+      points_fragment(platform)
     ].compact.join(' ')
   end
 
@@ -60,7 +60,7 @@ class TipResponseService < Base::Service
     everyone_lead || entity_lead(platform)
   end
 
-  # Lead with "Everyone in X has received karma" if X is the only aggregate entity mention
+  # Lead with "Everyone in X has received points" if X is the only aggregate entity mention
   def entity_lead(platform)
     channel_leader = channel_lead(platform)
     subteam_leader = subteam_lead(platform)
@@ -71,19 +71,19 @@ class TipResponseService < Base::Service
     return unless to_channels.one?
     channel = to_channels.first
     channel_ref = channel_ref(channel.rid, channel.name, platform)
-    "Everyone in #{channel_ref} has received karma!"
+    "Everyone in #{channel_ref} has received #{App.points_term}!"
   end
 
   def subteam_lead(platform)
     return unless to_subteams.one?
     subteam = to_subteams.first
     subteam_ref = subteam_ref(subteam.rid, subteam.handle, platform)
-    "Everyone in #{subteam_ref} has received karma!"
+    "Everyone in #{subteam_ref} has received #{App.points_term}!"
   end
 
   def everyone_lead
     return if tips.find(&:to_everyone?).blank?
-    'Everyone has received karma!'
+    "Everyone has received #{App.points_term}!"
   end
 
   def to_channels
@@ -120,8 +120,8 @@ class TipResponseService < Base::Service
     end
   end
 
-  def profile_ref(profile, platform, new_karma = nil)
-    profile.karma_received = new_karma if new_karma
+  def profile_ref(profile, platform, new_points = nil)
+    profile.points_received = new_points if new_points
     case platform
     when :slack, :discord then chat_profile_ref(profile)
     when :image then "#{IMG_DELIM}#{PROF_PREFIX}#{profile.display_name} #{IMG_DELIM}"
@@ -182,26 +182,26 @@ class TipResponseService < Base::Service
   def sender_profile_levelup
     return unless streak_rewarded?
 
-    old_karma = from_profile.karma_received
-    new_karma = old_karma + team.streak_reward
-    return unless level_for(new_karma) > level_for(old_karma)
+    old_points = from_profile.points_received
+    new_points = old_points + team.streak_reward
+    return unless level_for(new_points) > level_for(old_points)
 
-    OpenStruct.new(profile: from_profile, new_karma: new_karma)
+    OpenStruct.new(profile: from_profile, new_points: new_points)
   end
 
   def levelups
     @levelups ||= (
       tips.group_by(&:to_profile).map do |profile, profile_tips|
-        new_karma = profile.karma_received
-        old_karma = new_karma - profile_tips.sum(&:quantity)
-        next unless level_for(new_karma) > level_for(old_karma)
-        OpenStruct.new(profile: profile, new_karma: new_karma)
+        new_points = profile.points_received
+        old_points = new_points - profile_tips.sum(&:quantity)
+        next unless level_for(new_points) > level_for(old_points)
+        OpenStruct.new(profile: profile, new_points: new_points)
       end + [sender_profile_levelup]
     ).flatten.compact
   end
 
-  def level_for(karma)
-    PointsToLevelService.call(team: team, karma: karma)
+  def level_for(points)
+    PointsToLevelService.call(team: team, points: points)
   end
 
   def levelup_sentence(platform)
@@ -209,7 +209,7 @@ class TipResponseService < Base::Service
     levelups.map { |levelup| profile_ref(levelup.profile, platform) }.to_sentence
   end
 
-  def karma_fragment(platform)
+  def points_fragment(platform)
     return if tips_by_quantity.none?
     "gave #{points_clause(platform)}"
   end
@@ -247,8 +247,8 @@ class TipResponseService < Base::Service
 
   def profile_refs_from(quantity_tips, platform)
     quantity_tips.map do |tip|
-      new_karma = levelups.find { |levelup| levelup.profile == tip.to_profile }&.new_karma
-      profile_ref(tip.to_profile, platform, new_karma)
+      new_points = levelups.find { |levelup| levelup.profile == tip.to_profile }&.new_points
+      profile_ref(tip.to_profile, platform, new_points)
     end
   end
 

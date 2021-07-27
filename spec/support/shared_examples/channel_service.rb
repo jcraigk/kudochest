@@ -7,7 +7,7 @@ RSpec.shared_examples 'ChannelService' do
   let(:team) { create(:team, api_key: 'api-key', join_channels: true) }
   let!(:existing_channel) { create(:channel, team: team, rid: 'existing-rid') }
   let!(:archived_channel) { create(:channel, team: team) }
-  let(:expected_channel_names) { %w[bot existing general karma] }
+  let(:expected_channel_names) { %w[bot existing general kudos] }
   let(:team_channel_names) { team.reload.channels.order(name: :asc).map(&:name) }
 
   before do

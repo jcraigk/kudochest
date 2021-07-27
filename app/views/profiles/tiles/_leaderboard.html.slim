@@ -9,7 +9,7 @@
         p.subtitle.is-5
           | #{team.member_count} #{'member'.pluralize(team.member_count)}
           br
-          = points_format(team.karma_sent, label: true)
+          = points_format(team.points_sent, label: true)
     .content
       - if leaderboard.profiles.none?
         p = t('teams.leaderboard_empty', seconds: App.leaderboard_refresh_seconds)

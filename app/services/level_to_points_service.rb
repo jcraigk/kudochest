@@ -4,17 +4,17 @@ class LevelToPointsService < Base::Service
   option :level
 
   def call
-    level_to_karma
+    level_to_points
   end
 
   private
 
-  def level_to_karma
-    level == 1 ? 0 : compute_karma
+  def level_to_points
+    level == 1 ? 0 : compute_points
   end
 
-  def compute_karma
-    (send("#{level_curve}_progress") * max_level_karma).ceil
+  def compute_points
+    (send("#{level_curve}_progress") * max_level_points).ceil
   end
 
   def linear_progress
@@ -33,8 +33,8 @@ class LevelToPointsService < Base::Service
     @max_level ||= team.max_level
   end
 
-  def max_level_karma
-    @max_level_karma ||= team.max_level_karma
+  def max_level_points
+    @max_level_points ||= team.max_level_points
   end
 
   def level_curve

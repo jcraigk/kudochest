@@ -35,12 +35,12 @@ RSpec.describe Team do
       .is_less_than_or_equal_to(App.max_token_quantity)
   end
 
-  it { is_expected.to validate_numericality_of(:max_karma_per_tip).is_greater_than_or_equal_to(1) }
+  it { is_expected.to validate_numericality_of(:max_points_per_tip).is_greater_than_or_equal_to(1) }
 
   it do
     expect(team)
-      .to validate_numericality_of(:max_karma_per_tip)
-      .is_less_than_or_equal_to(App.max_karma_per_tip)
+      .to validate_numericality_of(:max_points_per_tip)
+      .is_less_than_or_equal_to(App.max_points_per_tip)
   end
 
   it { is_expected.to validate_numericality_of(:token_max).is_greater_than_or_equal_to(1) }
@@ -53,8 +53,8 @@ RSpec.describe Team do
 
   it { is_expected.to validate_numericality_of(:max_level).is_greater_than_or_equal_to(10) }
   it { is_expected.to validate_numericality_of(:max_level).is_less_than_or_equal_to(99) }
-  it { is_expected.to validate_numericality_of(:max_level_karma).is_greater_than_or_equal_to(100) }
-  it { is_expected.to validate_numericality_of(:max_level_karma).is_less_than_or_equal_to(10_000) }
+  it { is_expected.to validate_numericality_of(:max_level_points).is_greater_than_or_equal_to(100) }
+  it { is_expected.to validate_numericality_of(:max_level_points).is_less_than_or_equal_to(10_000) }
 
   it do
     expect(team)
@@ -235,8 +235,8 @@ RSpec.describe Team do
       include_examples 'cache busting'
     end
 
-    describe 'cache busting on max_karma_per_tip update' do
-      before { team.update(max_karma_per_tip: 2) }
+    describe 'cache busting on max_points_per_tip update' do
+      before { team.update(max_points_per_tip: 2) }
 
       include_examples 'cache busting'
     end
@@ -254,11 +254,11 @@ RSpec.describe Team do
     end
   end
 
-  describe 'when activating karma limiting' do
+  describe 'when activating tip throttling' do
     subject(:team) { create(:team, :with_profiles, throttle_tips: false) }
 
     before do
-      team.profiles.each { |profile| profile.update(karma_sent: 10, tokens_accrued: 300) }
+      team.profiles.each { |profile| profile.update(points_sent: 10, tokens_accrued: 300) }
       allow(TokenResetWorker).to receive(:perform_async)
       team.update(throttle_tips: true)
     end

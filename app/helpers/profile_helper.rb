@@ -20,7 +20,7 @@ module ProfileHelper
   end
 
   def points_toward_next_level(profile)
-    profile.karma - points_required_for_current_level(profile)
+    profile.points - points_required_for_current_level(profile)
   end
 
   def points_required_for_current_level(profile)

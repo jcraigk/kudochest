@@ -32,11 +32,11 @@ RSpec.describe TipHistogramService do
     end
   end
 
-  context 'when no karma has been given or earned' do
+  context 'when no points have been given or earned' do
     let(:expected_result) do
       [
         {
-          name: 'Karma Given',
+          name: "#{App.points_term.titleize} Given",
           data: {
             'Nov 1' => 0,
             'Nov 2' => 0,
@@ -47,7 +47,7 @@ RSpec.describe TipHistogramService do
           library: library
         },
         {
-          name: 'Karma Received',
+          name: "#{App.points_term.titleize} Received",
           data: {
             'Nov 1' => 0,
             'Nov 2' => 0,
@@ -63,11 +63,11 @@ RSpec.describe TipHistogramService do
     include_examples 'expected result'
   end
 
-  context 'when karma has been given and earned' do
+  context 'when points have been given and earned' do
     let(:expected_result) do
       [
         {
-          name: 'Karma Given',
+          name: "#{App.points_term.titleize} Given",
           data: {
             'Nov 1' => 0,
             'Nov 2' => 2,
@@ -78,7 +78,7 @@ RSpec.describe TipHistogramService do
           library: library
         },
         {
-          name: 'Karma Received',
+          name: "#{App.points_term.titleize} Received",
           data: {
             'Nov 1' => 0,
             'Nov 2' => 2,

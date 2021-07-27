@@ -4,7 +4,7 @@ require 'rails_helper'
 RSpec.describe QuantityValidator do
   subject(:validate) { described_class.new.validate(tip) }
 
-  let(:team) { build(:team, karma_increment: increment) }
+  let(:team) { build(:team, tip_increment: increment) }
   let(:profile) { build(:profile, team: team) }
   let(:tip) { build(:tip, source: source, quantity: quantity, from_profile: profile) }
   let(:quantity) { 0 }
@@ -13,7 +13,7 @@ RSpec.describe QuantityValidator do
   shared_examples 'invalid' do
     let(:error_text) do
       <<~TEXT.chomp
-        must be an increment of #{points_format(increment)} and a maximum of #{App.max_karma_per_tip}
+        must be an increment of #{points_format(increment)} and a maximum of #{App.max_points_per_tip}
       TEXT
     end
 

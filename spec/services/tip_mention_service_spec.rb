@@ -36,7 +36,7 @@ RSpec.describe TipMentionService, :freeze_time do
   context 'when sender requires more tokens' do
     let(:text) do
       <<~TEXT.squish
-        :#{App.error_emoji}: Giving 1 karma would exceed your token balance of 0. The next dispersal of #{team.token_quantity} tokens will occur in about 10 hours.
+        :#{App.error_emoji}: Giving #{points_format(1, label: true)} would exceed your token balance of 0. The next dispersal of #{team.token_quantity} tokens will occur in about 10 hours.
       TEXT
     end
     let(:result) { OpenStruct.new(mode: :error, text: text) }

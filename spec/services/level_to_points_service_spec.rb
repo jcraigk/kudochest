@@ -8,18 +8,18 @@ RSpec.describe LevelToPointsService do
     create(
       :team,
       max_level: max_level,
-      max_level_karma: max_level_karma,
+      max_level_points: max_level_points,
       level_curve: curve
     )
   end
   let(:max_level) { 20 }
-  let(:max_level_karma) { 500 }
+  let(:max_level_points) { 500 }
   let(:level) { 13 }
 
   context 'with gentle curve' do
     let(:curve) { 'gentle' }
 
-    it 'returns expected karma' do
+    it 'returns expected points' do
       expect(call).to eq(251)
     end
 
@@ -35,7 +35,7 @@ RSpec.describe LevelToPointsService do
   context 'with steep curve' do
     let(:curve) { 'steep' }
 
-    it 'returns expected karma' do
+    it 'returns expected points' do
       expect(call).to eq(191)
     end
   end
@@ -43,7 +43,7 @@ RSpec.describe LevelToPointsService do
   context 'with linear curve' do
     let(:curve) { 'linear' }
 
-    it 'returns expected karma' do
+    it 'returns expected points' do
       expect(call).to eq(316)
     end
   end

@@ -25,7 +25,7 @@ module ProfileDecorator
   end
 
   def link_with_points
-    "#{link} (#{points_format(karma, label: true)})"
+    "#{link} (#{points_format(points, label: true)})"
   end
 
   def webref
@@ -41,7 +41,7 @@ module ProfileDecorator
   end
 
   def webref_with_points
-    "#{webref} (#{points_format(karma_received, label: true)})"
+    "#{webref} (#{points_format(points_received, label: true)})"
   end
 
   def long_name
@@ -57,11 +57,11 @@ module ProfileDecorator
 
   def points_required_for_next_level
     return 0 if max_level?
-    LevelToPointsService.call(team: team, level: next_level) - karma_received
+    LevelToPointsService.call(team: team, level: next_level) - points_received
   end
 
   def level
-    PointsToLevelService.call(team: team, karma: karma_received)
+    PointsToLevelService.call(team: team, points: points_received)
   end
 
   def next_level
@@ -112,8 +112,8 @@ module ProfileDecorator
     "#{web_url}|View web profile"
   end
 
-  def karma_unclaimed
-    karma_received - karma_claimed
+  def points_unclaimed
+    points_received - points_claimed
   end
 
   private

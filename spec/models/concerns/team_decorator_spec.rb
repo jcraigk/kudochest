@@ -6,12 +6,12 @@ RSpec.describe TeamDecorator do
 
   describe '#levels_table' do
     subject(:team) do
-      build(:team, max_level: 10, max_level_karma: 450, level_curve: :steep)
+      build(:team, max_level: 10, max_level_points: 450, level_curve: :steep)
     end
 
     let(:expected_text) do
       <<~TEXT.strip
-        Level  Karma  Delta
+        Level  #{App.points_term.titleize}  Delta
         -----  -----  -----
         1      0      0
         2      5      5

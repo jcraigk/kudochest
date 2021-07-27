@@ -26,8 +26,8 @@ class WeeklyReport::TeamWorker
 
   def data
     OpenStruct.new(
-      karma_received: points_format(karma_received),
-      karma_from_streak: points_format(karma_from_streak),
+      points_received: points_format(points_received),
+      points_from_streak: points_format(points_from_streak),
       levelup_sentence: levelup_sentence,
       top_recipients: top_recipients,
       top_benefactors: top_benefactors,
@@ -77,11 +77,11 @@ class WeeklyReport::TeamWorker
          .order(quantity: :desc)
   end
 
-  def karma_received
-    @karma_received ||= tips_received.sum(:quantity)
+  def points_received
+    @points_received ||= tips_received.sum(:quantity)
   end
 
-  def karma_from_streak
+  def points_from_streak
     tips_received.where(source: 'streak').sum(:quantity)
   end
 
@@ -97,8 +97,12 @@ class WeeklyReport::TeamWorker
 
   def profile_levelups
     profiles.map do |profile|
-      karma_received = quantity_to(profile)
-      previous_level = PointsToLevelService.call(team: team, karma: profile.karma - karma_received)
+      points_received = quantity_to(profile)
+      previous_level =
+        PointsToLevelService.call(
+          team: team,
+          points: profile.points - points_received
+        )
       OpenStruct.new(name: profile.display_name, delta: profile.level - previous_level)
     end
   end

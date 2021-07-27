@@ -28,9 +28,9 @@ class Commands::Shop < Commands::Base
     t(
       'shop.balance_chat',
       points: App.points_term,
-      claimed: points_format(profile.karma_claimed),
-      accrued: points_format(profile.karma),
-      remaining: points_format(profile.karma_unclaimed)
+      claimed: points_format(profile.points_claimed),
+      accrued: points_format(profile.points),
+      remaining: points_format(profile.points_unclaimed)
     )
   end
 

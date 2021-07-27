@@ -6,8 +6,8 @@ class Team < ApplicationRecord
 
   CACHED_ATTRS = %w[
     active api_key app_profile_rid app_subteam_rid avatar_url enable_cheers enable_fast_ack
-    tip_emoji enable_emoji emoji_quantity karma_increment log_channel_rid
-    max_karma_per_tip platform response_mode response_theme show_channel time_zone
+    tip_emoji enable_emoji emoji_quantity tip_increment log_channel_rid
+    max_points_per_tip platform response_mode response_theme show_channel time_zone
     tip_notes enable_topics require_topic
   ].freeze
   TIP_INCREMENTS = [1.0, 0.5, 0.25, 0.1, 0.05, 0.01].freeze
@@ -42,41 +42,41 @@ class Team < ApplicationRecord
             in: Date::DAYNAMES.map(&:downcase),
             default: 'monday'
 
-  attribute :active,            :boolean, default: true
-  attribute :enable_cheers,     :boolean, default: true
-  attribute :enable_emoji,      :boolean, default: true
-  attribute :enable_fast_ack,   :boolean, default: true
-  attribute :enable_levels,     :boolean, default: true
-  attribute :enable_loot,       :boolean, default: true
-  attribute :enable_streaks,    :boolean, default: true
-  attribute :enable_topics,     :boolean, default: false
-  attribute :installed,         :boolean, default: true
-  attribute :throttle_tips,     :boolean, default: false
-  attribute :notify_tokens,     :boolean, default: true
-  attribute :require_topic,     :boolean, default: false
-  attribute :show_channel,      :boolean, default: true
-  attribute :show_note,         :boolean, default: true
-  attribute :split_tip,         :boolean, default: false
-  attribute :weekly_report,     :boolean, default: true
-  attribute :tip_emoji,         :string,  default: App.default_tip_emoji
-  attribute :time_zone,         :string,  default: App.default_time_zone
-  attribute :streak_duration,   :integer, default: App.default_streak_duration
-  attribute :streak_reward,     :integer, default: App.default_streak_reward
-  attribute :max_level,         :integer, default: App.default_max_level
-  attribute :max_level_karma,   :integer, default: App.default_max_level_karma
-  attribute :token_quantity,    :integer, default: App.default_token_quantity
-  attribute :token_max,         :integer, default: App.default_token_max
-  attribute :token_hour,        :integer, default: App.default_token_hour
-  attribute :work_days_mask,    :integer, default: 62 # monday - friday
-  attribute :member_count,      :integer, default: 0
-  attribute :karma_sent,        :decimal, default: 0.0
-  attribute :max_karma_per_tip, :integer, default: 5
-  attribute :emoji_quantity,    :decimal, default: 1
-  attribute :karma_increment,   :decimal, default: 1
+  attribute :active,             :boolean, default: true
+  attribute :enable_cheers,      :boolean, default: true
+  attribute :enable_emoji,       :boolean, default: true
+  attribute :enable_fast_ack,    :boolean, default: true
+  attribute :enable_levels,      :boolean, default: true
+  attribute :enable_loot,        :boolean, default: true
+  attribute :enable_streaks,     :boolean, default: true
+  attribute :enable_topics,      :boolean, default: false
+  attribute :installed,          :boolean, default: true
+  attribute :throttle_tips,      :boolean, default: false
+  attribute :notify_tokens,      :boolean, default: true
+  attribute :require_topic,      :boolean, default: false
+  attribute :show_channel,       :boolean, default: true
+  attribute :show_note,          :boolean, default: true
+  attribute :split_tip,          :boolean, default: false
+  attribute :weekly_report,      :boolean, default: true
+  attribute :tip_emoji,          :string,  default: App.default_tip_emoji
+  attribute :time_zone,          :string,  default: App.default_time_zone
+  attribute :streak_duration,    :integer, default: App.default_streak_duration
+  attribute :streak_reward,      :integer, default: App.default_streak_reward
+  attribute :max_level,          :integer, default: App.default_max_level
+  attribute :max_level_points,   :integer, default: App.default_max_level_points
+  attribute :token_quantity,     :integer, default: App.default_token_quantity
+  attribute :token_max,          :integer, default: App.default_token_max
+  attribute :token_hour,         :integer, default: App.default_token_hour
+  attribute :work_days_mask,     :integer, default: 62 # monday - friday
+  attribute :member_count,       :integer, default: 0
+  attribute :points_sent,        :decimal, default: 0.0
+  attribute :max_points_per_tip, :integer, default: 5
+  attribute :emoji_quantity,     :decimal, default: 1
+  attribute :tip_increment,      :decimal, default: 1
 
   validates :platform, presence: true
   validates :api_key, uniqueness: true
-  validates :karma_increment, inclusion: { in: TIP_INCREMENTS }
+  validates :tip_increment, inclusion: { in: TIP_INCREMENTS }
   validates :emoji_quantity, inclusion: { in: EMOJI_VALS }
   validates :name, presence: true
   validates :rid, presence: true, uniqueness: true
@@ -98,13 +98,13 @@ class Team < ApplicationRecord
     greater_than_or_equal_to: 10,
     less_than_or_equal_to: 99
   }
-  validates :max_level_karma, numericality: {
+  validates :max_level_points, numericality: {
     greater_than_or_equal_to: 100,
     less_than_or_equal_to: 10_000
   }
-  validates :max_karma_per_tip, numericality: {
+  validates :max_points_per_tip, numericality: {
     greater_than_or_equal_to: 1,
-    less_than_or_equal_to: App.max_karma_per_tip
+    less_than_or_equal_to: App.max_points_per_tip
   }
   validates :streak_duration, numericality: {
     greater_than_or_equal_to: App.min_streak_duration,

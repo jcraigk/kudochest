@@ -2,19 +2,19 @@
 require 'rails_helper'
 
 RSpec.describe PointsToLevelService do
-  subject(:call) { described_class.call(team: team, karma: karma) }
+  subject(:call) { described_class.call(team: team, points: points) }
 
   let(:team) do
     create(
       :team,
       max_level: max_level,
-      max_level_karma: max_level_karma,
+      max_level_points: max_level_points,
       level_curve: curve
     )
   end
   let(:max_level) { 20 }
-  let(:max_level_karma) { 500 }
-  let(:karma) { 259 }
+  let(:max_level_points) { 500 }
+  let(:points) { 259 }
 
   context 'with gentle curve' do
     let(:curve) { 'gentle' }
@@ -23,8 +23,8 @@ RSpec.describe PointsToLevelService do
       expect(call).to eq(13)
     end
 
-    context 'when karma is zero' do
-      let(:karma) { 0 }
+    context 'when points is zero' do
+      let(:points) { 0 }
 
       it 'returns 1' do
         expect(call).to eq(1)
@@ -50,7 +50,7 @@ RSpec.describe PointsToLevelService do
 
   context 'with max level attained' do
     let(:curve) { 'linear' }
-    let(:karma) { 10_000 }
+    let(:points) { 10_000 }
 
     it 'returns expected level' do
       expect(call).to eq(max_level)

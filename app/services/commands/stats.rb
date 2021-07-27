@@ -14,8 +14,8 @@ class Commands::Stats < Commands::Base
     ary = [stats_title]
     ary << rank_fragment
     ary << level_fragment if team.enable_levels?
-    ary << karma_received_fragment
-    ary << karma_given_fragment
+    ary << points_received_fragment
+    ary << points_given_fragment
     ary << token_fragment if team.throttle_tips? && requested_profile.rid == profile_rid
     ary << streak_fragment if team.enable_streaks?
     ary << web_profile_fragment
@@ -49,15 +49,15 @@ class Commands::Stats < Commands::Base
     TEXT
   end
 
-  def karma_received_fragment
+  def points_received_fragment
     <<~TEXT.chomp
-      *#{App.points_term.titleize}:* #{points_format(requested_profile.karma)}
+      *#{App.points_term.titleize}:* #{points_format(requested_profile.points)}
     TEXT
   end
 
-  def karma_given_fragment
+  def points_given_fragment
     <<~TEXT.chomp
-      *Given:* #{points_format(requested_profile.karma_sent)}
+      *Given:* #{points_format(requested_profile.points_sent)}
     TEXT
   end
 

@@ -56,16 +56,16 @@ RSpec.describe Claim do
         claim.destroy
       end
 
-      it 'decrements karma_claimed' do
-        expect(profile.reload.karma_claimed).to eq(0)
+      it 'decrements points_claimed' do
+        expect(profile.reload.points_claimed).to eq(0)
       end
     end
 
     context 'when created' do
       before { claim.save }
 
-      it 'increments karma_claimed' do
-        expect(profile.reload.karma_claimed).to eq(50)
+      it 'increments points_claimed' do
+        expect(profile.reload.points_claimed).to eq(50)
       end
     end
   end

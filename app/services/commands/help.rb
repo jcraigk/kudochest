@@ -35,7 +35,7 @@ class Commands::Help < Commands::Base
 
   def discord_text
     <<~TEXT.chomp
-      **Giving karma:**
+      **Giving #{App.points_term.titleize}:**
         #{discord_giving_points}
 
       **Issuing commands:**

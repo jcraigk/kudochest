@@ -5,7 +5,7 @@ RSpec.describe RewardClaimService, :freeze_time do
   subject(:call) { described_class.call(profile: profile, reward: reward) }
 
   let(:team) { create(:team) }
-  let(:profile) { create(:profile, team: team, karma_received: 100) }
+  let(:profile) { create(:profile, team: team, points_received: 100) }
   let(:reward) { create(:reward, team: team, price: 100, quantity: 1) }
   let(:base_attrs) do
     {
@@ -21,10 +21,10 @@ RSpec.describe RewardClaimService, :freeze_time do
     end
   end
 
-  context 'when profile has insufficient karma' do
+  context 'when profile has insufficient points' do
     let(:error) { I18n.t('shop.insufficient_points', reward: reward.name, points: App.points_term) }
 
-    before { profile.update(karma_received: reward.price - 1) }
+    before { profile.update(points_received: reward.price - 1) }
 
     include_examples 'error'
   end

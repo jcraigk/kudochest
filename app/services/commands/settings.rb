@@ -41,7 +41,7 @@ class Commands::Settings < Commands::Base
 
   def increment_text
     <<~TEXT.chomp
-      *Minimum Increment:* #{points_format(team.karma_increment, label: true)}
+      *Minimum Increment:* #{points_format(team.tip_increment, label: true)}
     TEXT
   end
 
@@ -70,7 +70,7 @@ class Commands::Settings < Commands::Base
     <<~TEXT.chomp
 
       *Maximum Level:* #{team.max_level}
-      *Required for Max Level:* #{points_format(team.max_level_karma, label: true)}
+      *Required for Max Level:* #{points_format(team.max_level_points, label: true)}
       *Progression Curve:* #{team.level_curve.titleize}
     TEXT
   end

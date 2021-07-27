@@ -33,7 +33,7 @@ class DataExportWorker
     [
       profile.rid,
       profile.display_name,
-      profile.karma
+      profile.points
     ]
   end
 

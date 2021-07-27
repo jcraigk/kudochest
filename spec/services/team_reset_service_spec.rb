@@ -33,13 +33,13 @@ RSpec.describe TeamResetService do
 
   it 'resets profile stats' do
     call
-    expect(profile.reload.karma_received).to eq(0)
-    expect(profile.reload.karma_sent).to eq(0)
+    expect(profile.reload.points_received).to eq(0)
+    expect(profile.reload.points_sent).to eq(0)
   end
 
   it 'resets team stats' do
     call
-    expect(team.karma_sent).to eq(0)
+    expect(team.points_sent).to eq(0)
   end
 
   it 'disburses fresh tokens' do

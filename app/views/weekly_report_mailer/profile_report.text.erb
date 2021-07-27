@@ -5,10 +5,10 @@ Here's your Weekly Digest for <%= "#{PROF_PREFIX}#{@profile.display_name}" %> of
 <% if @data.top_benefactors.none? && @data.top_recipients.none? %>
 No activity this week. If you're having trouble using the app, please see the #{App.help_url}.
 <% else %>
-<%= App.points_term.titleize %> Received: <%= @data.karma_received %>
-<%= App.points_term.titleize %> Given: <%= @data.karma_sent %>
-<% if @data.karma_from_streak.present? %>
-<%= App.points_term.titleize %> from Giving Streaks: <%= @data.karma_from_streak %>
+<%= App.points_term.titleize %> Received: <%= @data.points_received %>
+<%= App.points_term.titleize %> Given: <%= @data.points_sent %>
+<% if @data.points_from_streak.present? %>
+<%= App.points_term.titleize %> from Giving Streaks: <%= @data.points_from_streak %>
 <% end %>
 <% if @data.top_benefactors_sentence.present? %>
 Top Benefactors: <%= @data.top_benefactors_sentence %>

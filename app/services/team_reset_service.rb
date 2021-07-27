@@ -4,27 +4,27 @@ class TeamResetService < Base::Service
 
   def call
     Team.transaction do
-      reset_all_karma
+      reset_all_stats
       TokenDispersalService.call(team: team, notify: false)
     end
   end
 
   private
 
-  def reset_all_karma
+  def reset_all_stats
     team.profiles.find_each do |profile|
       destroy_tips(profile)
       reset_profile_stats(profile)
       notify_user(profile, t('teams.stats_reset'))
     end
-    team.update!(karma_sent: 0)
+    team.update!(points_sent: 0)
   end
 
   def reset_profile_stats(profile)
     profile.update!(
-      karma_received: 0,
-      karma_sent: 0,
-      karma_claimed: 0,
+      points_received: 0,
+      points_sent: 0,
+      points_claimed: 0,
       tokens_accrued: 0,
       tokens_forfeited: 0,
       last_tip_received_at: nil,

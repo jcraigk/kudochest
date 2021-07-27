@@ -67,14 +67,14 @@ class LeaderboardService < Base::Service
 
   def sorted_ranked_profile_data # rubocop:disable Metrics/MethodLength
     rank = 0
-    karma = 0
+    points = 0
     timestamp = nil
 
     profiles = sorted_active_profiles.map do |prof|
       last_timestamp = last_timestamp_for(prof)
-      if karma != prof.karma || timestamp != last_timestamp
+      if points != prof.points || timestamp != last_timestamp
         rank += 1
-        karma = prof.karma
+        points = prof.points
         timestamp = last_timestamp
       end
 
@@ -85,8 +85,8 @@ class LeaderboardService < Base::Service
   end
 
   def profile_data(prof, rank, timestamp) # rubocop:disable Metrics/MethodLength
-    karma = effective_karma(prof)
-    percent = percent_share(prof, karma)
+    points = effective_points(prof)
+    percent = percent_share(prof, points)
     OpenStruct.new(
       id: prof.id,
       rank: rank,
@@ -95,25 +95,25 @@ class LeaderboardService < Base::Service
       link: prof.link,
       display_name: prof.display_name,
       real_name: prof.real_name,
-      karma: karma,
+      points: points,
       percent_share: percent,
       last_timestamp: timestamp.to_s,
       avatar_url: prof.avatar_url
     )
   end
 
-  def effective_karma(prof)
+  def effective_points(prof)
     if topic_id.present?
       @topic_tip_data.find { |data| data.profile_id == prof.id }&.total
     else
-      givingboard ? prof.karma_sent : prof.karma
+      givingboard ? prof.points_sent : prof.points_received
     end
   end
 
-  def percent_share(prof, karma)
-    return 0 if prof.team.karma_sent.zero?
-    total = topic_id.present? ? topic_total : prof.team.karma_sent
-    (karma / total.to_f) * 100
+  def percent_share(prof, points)
+    return 0 if prof.team.points_sent.zero?
+    total = topic_id.present? ? topic_total : prof.team.points_sent
+    (points / total.to_f) * 100
   end
 
   def topic_total
@@ -128,8 +128,8 @@ class LeaderboardService < Base::Service
     @leaderboard_type ||= givingboard ? 'given' : 'received'
   end
 
-  def karma_col
-    @karma_col ||= "karma_#{verb}"
+  def points_col
+    @points_col ||= "points_#{verb}"
   end
 
   def verb
@@ -151,8 +151,8 @@ class LeaderboardService < Base::Service
   def general_active_profiles
     team.profiles
         .active
-        .where("#{karma_col} > ?", 0)
-        .order(karma_col => :desc, last_timestamp_col => :asc)
+        .where("#{points_col} > ?", 0)
+        .order(points_col => :desc, last_timestamp_col => :asc)
   end
 
   def topic_active_profiles
@@ -185,14 +185,14 @@ class LeaderboardService < Base::Service
 
   def previous_leaderboard # rubocop:disable Metrics/MethodLength
     rank = 0
-    karma = 0
+    points = 0
     timestamp = nil
 
-    previous_karma_sums.sort_by(&:karma).reverse_each.with_object([]) do |prof, ary|
+    previous_point_sums.sort_by(&:points).reverse_each.with_object([]) do |prof, ary|
       last_timestamp = last_timestamp_for(prof)
-      if karma != prof.karma || timestamp != last_timestamp
+      if points != prof.points || timestamp != last_timestamp
         rank += 1
-        karma = prof.karma
+        points = prof.points
         timestamp = last_timestamp
       end
 
@@ -200,16 +200,16 @@ class LeaderboardService < Base::Service
     end
   end
 
-  def previous_karma_sums
+  def previous_point_sums
     sorted_active_profiles.map do |prof|
       OpenStruct.new(
         id: prof.id,
-        karma: previous_karma_for(prof)
+        points: previous_points_for(prof)
       )
     end
   end
 
-  def previous_karma_for(prof)
+  def previous_points_for(prof)
     assoc = givingboard ? 'tips_sent' : 'tips_received'
     rel = prof.send(assoc)
     rel = rel.where(topic_id: topic_id) if topic_id.present?

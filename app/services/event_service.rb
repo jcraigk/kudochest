@@ -59,7 +59,7 @@ class EventService < Base::Service
   end
 
   def error_text(exception)
-    return 'Duplicate karma request ignored' if exception.is_a?(ActiveRecord::RecordNotUnique)
+    return 'Duplicate request ignored' if exception.is_a?(ActiveRecord::RecordNotUnique)
     return shortened_message(exception) if exception.is_a?(ActiveRecord::RecordInvalid)
     I18n.t('slack.generic_error')
   end

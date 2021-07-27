@@ -4,7 +4,7 @@ class TokenResetService < Base::Service
 
   def call
     team.profiles.find_each do |profile|
-      profile.update(tokens_accrued: profile.karma_sent)
+      profile.update(tokens_accrued: profile.points_sent)
     end
 
     TokenDispersalService.call(team: team, notify: false) if team.throttle_tips?

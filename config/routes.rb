@@ -71,8 +71,8 @@ Rails.application.routes.draw do
   end
   get 'profile-settings', to: 'profiles#edit', as: :profile_settings
 
-  resources :tips, only: %i[index destroy], path: :karma
-  resources :rewards, except: %i[show], path: :loot
+  resources :tips, only: %i[index destroy]
+  resources :rewards, except: %i[show]
   resources :topics, except: %i[show]
   resources :bonuses, only: %i[index create]
   resources :claims, except: %i[new create]

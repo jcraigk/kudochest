@@ -1,16 +1,16 @@
 # frozen_string_literal: true
 class PointsToLevelService < Base::Service
   option :team
-  option :karma
+  option :points
 
   def call
-    karma_to_level
+    points_to_level
   end
 
   private
 
-  def karma_to_level
-    karma.zero? ? 1 : [compute_level, team.max_level].min
+  def points_to_level
+    points.zero? ? 1 : [compute_level, team.max_level].min
   end
 
   def compute_level
@@ -18,7 +18,7 @@ class PointsToLevelService < Base::Service
   end
 
   def linear_progress
-    karma / max_level_karma.to_f
+    points / max_level_points.to_f
   end
 
   def gentle_progress
@@ -33,8 +33,8 @@ class PointsToLevelService < Base::Service
     @max_level ||= team.max_level
   end
 
-  def max_level_karma
-    @max_level_karma ||= team.max_level_karma
+  def max_level_points
+    @max_level_points ||= team.max_level_points
   end
 
   def level_curve

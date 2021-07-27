@@ -12,23 +12,23 @@ RSpec.describe LeaderboardService, :freeze_time do
     )
   end
   let(:profile1) do
-    create(:profile, team: team, karma: 10, last_tip_received_at: 1.day.ago,
+    create(:profile, team: team, points: 10, last_tip_received_at: 1.day.ago,
                      display_name: 'profile1')
   end
   let(:profile2) do
-    create(:profile, team: team, karma: 5, last_tip_received_at: 2.days.ago,
+    create(:profile, team: team, points: 5, last_tip_received_at: 2.days.ago,
                      display_name: 'profile2')
   end
   let(:profile3) do
-    create(:profile, team: team, karma: 13, last_tip_received_at: Time.current,
+    create(:profile, team: team, points: 13, last_tip_received_at: Time.current,
                      display_name: 'profile3')
   end
   let(:profile4) do
-    create(:profile, team: team, karma: 13, last_tip_received_at: Time.current,
+    create(:profile, team: team, points: 13, last_tip_received_at: Time.current,
                      display_name: 'profile4')
   end
   let(:profile5) do
-    create(:profile, team: team, karma: 20, last_tip_received_at: 3.days.ago,
+    create(:profile, team: team, points: 20, last_tip_received_at: 3.days.ago,
                      display_name: 'profile5')
   end
 
@@ -38,19 +38,19 @@ RSpec.describe LeaderboardService, :freeze_time do
     end
   end
 
-  before { allow(team).to receive(:karma_sent).and_return(team_karma) }
+  before { allow(team).to receive(:points_sent).and_return(team_points) }
 
   context 'when empty team is given' do
     let(:args) { { team: team } }
     let(:ranked_profiles) { [] }
-    let(:team_karma) { 0 }
+    let(:team_points) { 0 }
 
     include_examples 'success'
   end
 
   context 'when team with profiles is given' do
     let(:args) { { team: team } }
-    let(:team_karma) { 61 }
+    let(:team_points) { 61 }
     let!(:ranked_profiles) do # rubocop:disable RSpec/LetSetup
       [
         profile_data(profile5, 1),
@@ -66,7 +66,7 @@ RSpec.describe LeaderboardService, :freeze_time do
 
   context 'when team and count are given, truncates the list' do
     let(:args) { { team: team, count: 3 } }
-    let(:team_karma) { 61 }
+    let(:team_points) { 61 }
     let!(:ranked_profiles) do # rubocop:disable RSpec/LetSetup
       [
         profile_data(profile5, 1),
@@ -76,8 +76,8 @@ RSpec.describe LeaderboardService, :freeze_time do
     end
 
     before do # Profiles that are outside count scope
-      create(:profile, team: team, karma: 5) # profile2
-      create(:profile, team: team, karma: 10) # profile1
+      create(:profile, team: team, points: 5) # profile2
+      create(:profile, team: team, points: 10) # profile1
     end
 
     include_examples 'success'
@@ -85,18 +85,18 @@ RSpec.describe LeaderboardService, :freeze_time do
 
   context 'when profile and count are given, contextual snippet is returned' do
     let(:args) { { team: team, profile: profile3, count: 3 } }
-    let(:team_karma) { 61 }
+    let(:team_points) { 61 }
     let!(:ranked_profiles) do # rubocop:disable RSpec/LetSetup
       [
-        profile_data(profile5, 2), # 20 karma
-        profile_data(profile3, 3), # 13 karma
-        profile_data(profile4, 3) # 13 karma
+        profile_data(profile5, 2), # 20 points
+        profile_data(profile3, 3), # 13 points
+        profile_data(profile4, 3) # 13 points
       ]
     end
 
     before do # Profiles that are outside count scope
-      create(:profile, team: team, karma: 30, display_name: 'extra-rank-1') # Rank: 1
-      create(:profile, team: team, karma: 5, display_name: 'extra-rank-5') # Rank: 5
+      create(:profile, team: team, points: 30, display_name: 'extra-rank-1') # Rank: 1
+      create(:profile, team: team, points: 5, display_name: 'extra-rank-5') # Rank: 5
     end
 
     include_examples 'success'
@@ -116,7 +116,7 @@ RSpec.describe LeaderboardService, :freeze_time do
     end
     let(:tip_last_week) { create(:tip, to_profile: profile4, quantity: 5) }
     let(:created_at) { Time.current - App.leaderboard_trend_days.days - 1.day }
-    let(:team_karma) { 41 }
+    let(:team_points) { 41 }
 
     before do
       tip_last_week.update(created_at: created_at)
@@ -132,7 +132,7 @@ RSpec.describe LeaderboardService, :freeze_time do
   xcontext 'when offset is given (paging)' do
   end
 
-  xcontext 'when profiles have same karma but one is earned more recently' do
+  xcontext 'when profiles have same points but one is earned more recently' do
     it 'ranks the one earned more recently higher' do
     end
   end
@@ -152,8 +152,8 @@ RSpec.describe LeaderboardService, :freeze_time do
       link: profile.link,
       display_name: profile.display_name,
       real_name: profile.real_name,
-      karma: profile.karma,
-      percent_share: (profile.karma / team_karma.to_f) * 100,
+      points: profile.points,
+      percent_share: (profile.points / team_points.to_f) * 100,
       last_timestamp: profile.last_tip_received_at.to_s,
       avatar_url: profile.avatar_url
     )

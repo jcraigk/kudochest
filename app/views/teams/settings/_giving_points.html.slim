@@ -6,24 +6,24 @@
 
     .field.is-horizontal
       .field-label.is-normal
-        = f.label :karma_increment, t('teams.increment'), class: 'label'
+        = f.label :tip_increment, t('teams.increment'), class: 'label'
       .field-body
         .field
           .control
-            .select = f.select :karma_increment, Team::TIP_INCREMENTS.map { |v| [points_format(v), v]}
+            .select = f.select :tip_increment, Team::TIP_INCREMENTS.map { |v| [points_format(v), v]}
             = tooltip_btn('teams.increment_tooltip', nil, chars: App.max_note_length, points: App.points_term)
 
     .field.is-horizontal
       .field-label.is-normal
-        = f.label :max_karma_per_tip, t('teams.max_points_per_tip'), class: 'label'
+        = f.label :max_points_per_tip, t('teams.max_points_per_tip'), class: 'label'
       .field-body
         .field
           .control
-            .select = f.select :max_karma_per_tip, (1..App.max_karma_per_tip).to_a, class: 'input'
+            .select = f.select :max_points_per_tip, (1..App.max_points_per_tip).to_a, class: 'input'
             = tooltip_btn \
                 'teams.max_points_per_tip_tooltip',
                 nil,
-                max: App.max_karma_per_tip,
+                max: App.max_points_per_tip,
                 points: App.points_term
 
     .field.is-horizontal

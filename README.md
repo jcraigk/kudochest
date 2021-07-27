@@ -4,13 +4,13 @@
 &nbsp;  
 &nbsp;  
 
-![KarmaChest Logo](https://github.com/jcraigk/karmachest/blob/master/app/webpacker/images/logos/karmachest-full.png)
+![KarmaChest Logo](https://github.com/jcraigk/karmachest/blob/master/app/webpacker/images/logos/app-full.png)
 &nbsp;  
 &nbsp;  
 
-**KarmaChest** is a team engagement tool for **Slack** and **Discord**. It allows users within a workspace to give each other karma points that accrue over time. A karma point represents a token of appreciation or recognition for a job well done. Users can view their profile, browse their history, and access leaderboards on the web or within the chat client. App settings and moderation tools are provided via web UI.
+**KarmaChest** is a team engagement tool for **Slack** and **Discord**. It allows users within a workspace to give each other points that accrue over time. A point represents a token of appreciation or recognition for a job well done. Users can view their profile, browse their history, and access leaderboards on the web or within the chat client. App settings and moderation tools are provided via web UI.
 
-This is a **Ruby on Rails** application backed by **Postgres** and **Redis**. It integrates tightly with chat platforms, keeping teams and users synced server-side. This enables web-based user profiles and other UX enhancements not possible in standard karma bots.
+This is a **Ruby on Rails** application backed by **Postgres** and **Redis**. It integrates tightly with chat platforms, keeping teams and users synced server-side. This enables web-based user profiles and other UX enhancements not possible in standard bots.
 
 Download the **[Onboarding Deck](https://github.com/jcraigk/karmachest/files/6523729/KarmaChest-Onboarding.pdf)** for a basic intro or take a deeper dive in the **[Wiki](https://github.com/jcraigk/karmachest/wiki)**.
 &nbsp;  

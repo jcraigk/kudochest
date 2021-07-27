@@ -32,7 +32,7 @@ RSpec.describe TokenLimitService do
     context 'when profile.accrued_tokens is not sufficient' do
       let(:text) do
         <<~TEXT.chomp
-          :#{App.error_emoji}: Giving 2 karma would exceed your token balance of 1. The next dispersal of #{team.token_quantity} tokens will occur in 6 days.
+          :#{App.error_emoji}: Giving #{points_format(2, label: true)} would exceed your token balance of 1. The next dispersal of #{team.token_quantity} tokens will occur in 6 days.
         TEXT
       end
 

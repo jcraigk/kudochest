@@ -12,13 +12,13 @@ RSpec.describe Commands::Settings do
   let(:response) { OpenStruct.new(mode: :private, text: text) }
   let(:text) do
     <<~TEXT.chomp
-      *Throttle Karma:* Yes
+      *Throttle #{App.points_term.titleize}:* Yes
       *Exempt Users:* None
       *Token Dispersal Hour:* 7:00am
       *Token Dispersal Frequency:* Weekly
       *Token Dispersal Quantity:* #{team.token_quantity}
       *Token Max Balance:* #{team.token_max}
-      *Minimum Increment:* #{points_format(team.karma_increment, label: true)}
+      *Minimum Increment:* #{points_format(team.tip_increment, label: true)}
       *Topics Enabled:* Yes
       *Topic Required:* No
       *Active Topics:* 0
@@ -28,11 +28,11 @@ RSpec.describe Commands::Settings do
       *Emoji Value:* #{points_format(team.emoji_quantity, label: true)}
       *Leveling Enabled:* Yes
       *Maximum Level:* #{team.max_level}
-      *Required for Max Level:* #{points_format(team.max_level_karma, label: true)}
+      *Required for Max Level:* #{points_format(team.max_level_points, label: true)}
       *Progression Curve:* Gentle
       *Streaks Enabled:* Yes
       *Streak Duration:* #{team.streak_duration} days
-      *Streak Reward:* #{team.streak_reward} karma
+      *Streak Reward:* #{points_format(team.streak_reward, label: true)}
       *Time Zone:* (GMT+00:00) UTC
       *Work Days:* Monday, Tuesday, Wednesday, Thursday, Friday
       *Work Start Day:* Monday

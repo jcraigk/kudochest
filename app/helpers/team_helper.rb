@@ -75,7 +75,7 @@ module TeamHelper
   end
 
   def claim_button(profile, reward)
-    return active_claim_button(reward) if profile.karma_unclaimed >= reward.price
+    return active_claim_button(reward) if profile.points_unclaimed >= reward.price
     inactive_claim_button(reward)
   end
 
