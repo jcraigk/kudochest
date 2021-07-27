@@ -8,7 +8,7 @@ class CreateTeams < ActiveRecord::Migration[6.0]
       t.string :slug, null: false
       t.string :avatar_url, null: false
       t.string :api_key, null: false
-      t.boolean :limit_karma, null: false
+      t.boolean :throttle_tips, null: false
       t.integer :max_karma_per_tip, null: false
       t.integer :token_hour, null: false
       t.string :token_frequency, null: false

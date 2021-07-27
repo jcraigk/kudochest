@@ -4,7 +4,7 @@ require 'rails_helper'
 RSpec.describe TokenResetService do
   subject(:service) { described_class.call(team: team) }
 
-  let(:team) { create(:team, :with_profiles, limit_karma: true) }
+  let(:team) { create(:team, :with_profiles, throttle_tips: true) }
 
   it 'calls resets tokens_accrued on profiles' do
     service

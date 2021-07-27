@@ -76,8 +76,8 @@ class Commands::Settings < Commands::Base
   end
 
   def throttle_points_text
-    txt = "*Throttle #{App.points_term.titleize}:* #{boolean_str(team.limit_karma)}"
-    return txt unless team.limit_karma
+    txt = "*Throttle #{App.points_term.titleize}:* #{boolean_str(team.throttle_tips)}"
+    return txt unless team.throttle_tips
     txt + throttle_detail_text
   end
 

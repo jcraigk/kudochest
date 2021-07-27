@@ -4,7 +4,7 @@ require 'rails_helper'
 RSpec.describe TipMentionService, :freeze_time do
   subject(:service) { described_class.call(opts) }
 
-  let(:team) { create(:team, limit_karma: true, split_tip: false) }
+  let(:team) { create(:team, throttle_tips: true, split_tip: false) }
   let(:channel) { create(:channel, team: team) }
   let(:profile) { create(:profile, team: team) }
   let(:to_profile) { create(:profile, team: team) }
@@ -114,7 +114,7 @@ RSpec.describe TipMentionService, :freeze_time do
     let(:other_profile) { create(:profile, team: team) }
 
     before do
-      team.limit_karma = false
+      team.throttle_tips = false
       subteam.profiles << [subteam_profile, to_profile, other_profile]
       allow(TipFactory).to receive(:call).and_call_original
       allow(TipResponseService).to receive(:call).and_return(tip_response)

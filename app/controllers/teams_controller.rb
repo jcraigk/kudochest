@@ -85,7 +85,7 @@ class TeamsController < ApplicationController
 
   def team_params
     params.require(:team).permit(
-      :limit_karma, :token_frequency, :token_quantity, :token_max, :token_hour,
+      :throttle_tips, :token_frequency, :token_quantity, :token_max, :token_hour,
       :notify_tokens_disbursed, :max_karma_per_tip, :tip_notes, :show_channel,
       :enable_fast_ack, :week_start_day, :enable_levels, :level_curve,
       :enable_emoji, :emoji_quantity, :max_level, :max_level_karma, :response_mode,

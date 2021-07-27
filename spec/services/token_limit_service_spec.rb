@@ -8,9 +8,9 @@ RSpec.describe TokenLimitService do
   let(:profile) { create(:profile, team: team) }
   let(:quantity) { 2 }
 
-  context 'when team.limit_karma is true' do
+  context 'when team.throttle_tips is true' do
     before do
-      team.update(limit_karma: true)
+      team.update(throttle_tips: true)
     end
 
     context 'when profile.infinite_tokens is true' do
@@ -47,9 +47,9 @@ RSpec.describe TokenLimitService do
     end
   end
 
-  context 'when team.limit_karma is false' do
+  context 'when team.throttle_tips is false' do
     before do
-      team.update(limit_karma: false)
+      team.update(throttle_tips: false)
     end
 
     it 'returns false' do

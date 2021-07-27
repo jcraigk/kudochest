@@ -6,7 +6,7 @@ RSpec.describe Commands::Stats do
     described_class.call(team_rid: team.rid, profile_rid: profile_rid, text: request_text)
   end
 
-  let(:team) { create(:team, limit_karma: true) }
+  let(:team) { create(:team, throttle_tips: true) }
   let(:profile) { create(:profile, team: team) }
   let(:profile_rid) { profile.rid }
   let(:response) { OpenStruct.new(mode: :public, text: response_text) }
@@ -107,7 +107,7 @@ RSpec.describe Commands::Stats do
     include_examples 'expected response'
   end
 
-  context 'when team.limit_karma is false' do
+  context 'when team.throttle_tips is false' do
     let(:profile2) { create(:profile, team: team) }
     let(:request_text) { profile2.link }
     let(:response_text) do
@@ -122,7 +122,7 @@ RSpec.describe Commands::Stats do
       TEXT
     end
 
-    before { team.update(limit_karma: false) }
+    before { team.update(throttle_tips: false) }
 
     include_examples 'expected response'
   end

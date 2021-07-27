@@ -44,7 +44,7 @@ RSpec.describe HourlyTeamWorker do
     end
 
     before do
-      allow(Team).to receive(:where).with(limit_karma: true).and_return(mock_relation)
+      allow(Team).to receive(:where).with(throttle_tips: true).and_return(mock_relation)
       allow(mock_relation).to \
         receive(:find_each).and_yield(team1).and_yield(team2).and_yield(team4).and_yield(team5)
       travel_to((Time.current + 1.month).change(hour: current_hour))

@@ -6,12 +6,12 @@
 
     .field.is-horizontal
       .field-label.is-switch-label
-        = f.label :limit_karma, t('teams.limit_points'), class: 'label'
+        = f.label :throttle_tips, t('teams.limit_points'), class: 'label'
       .field-body
         .field
           .control
-            = f.check_box :limit_karma, class: 'switch is-rounded'
-            = f.label :limit_karma, '&nbsp;'.html_safe, class: 'label'
+            = f.check_box :throttle_tips, class: 'switch is-rounded'
+            = f.label :throttle_tips, '&nbsp;'.html_safe, class: 'label'
             = tooltip_btn('teams.limit_points_tooltip', 'nudge-up', points: App.points_term)
 
     .field.is-horizontal

@@ -16,7 +16,7 @@ class Commands::Stats < Commands::Base
     ary << level_fragment if team.enable_levels?
     ary << karma_received_fragment
     ary << karma_given_fragment
-    ary << token_fragment if team.limit_karma? && requested_profile.rid == profile_rid
+    ary << token_fragment if team.throttle_tips? && requested_profile.rid == profile_rid
     ary << streak_fragment if team.enable_streaks?
     ary << web_profile_fragment
     ary.compact.join("\n")

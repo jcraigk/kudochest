@@ -51,7 +51,7 @@ class Team < ApplicationRecord
   attribute :enable_streaks,          :boolean,  default: true
   attribute :enable_topics,           :boolean,  default: false
   attribute :installed,               :boolean,  default: true
-  attribute :limit_karma,             :boolean,  default: false
+  attribute :throttle_tips,             :boolean,  default: false
   attribute :notify_tokens_disbursed, :boolean,  default: true
   attribute :require_topic,           :boolean,  default: false
   attribute :show_channel,            :boolean,  default: true
@@ -122,7 +122,7 @@ class Team < ApplicationRecord
 
   before_update :bust_cache, if: -> { (changes.keys & CACHED_ATTRS).any? }
   before_update :sync_topic_attrs
-  after_update_commit :reset_profile_tokens, if: :saved_change_to_limit_karma?
+  after_update_commit :reset_profile_tokens, if: :saved_change_to_throttle_tips?
   after_update_commit :sync_remote, if: :saved_change_to_active?
   after_update_commit :join_log_channel, if: :saved_change_to_log_channel_rid?
 

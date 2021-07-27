@@ -11,7 +11,7 @@ class TokenLimitService < Base::Service
   private
 
   def need_tokens?
-    !profile.infinite_tokens && profile.team.limit_karma? && profile.token_balance < quantity
+    !profile.infinite_tokens && profile.team.throttle_tips? && profile.token_balance < quantity
   end
 
   def error_text

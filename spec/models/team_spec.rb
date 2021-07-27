@@ -255,12 +255,12 @@ RSpec.describe Team do
   end
 
   describe 'when activating karma limiting' do
-    subject(:team) { create(:team, :with_profiles, limit_karma: false) }
+    subject(:team) { create(:team, :with_profiles, throttle_tips: false) }
 
     before do
       team.profiles.each { |profile| profile.update(karma_sent: 10, tokens_accrued: 300) }
       allow(TokenResetWorker).to receive(:perform_async)
-      team.update(limit_karma: true)
+      team.update(throttle_tips: true)
     end
 
     it 'calls TokenRessetWorker' do

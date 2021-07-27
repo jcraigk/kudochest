@@ -45,7 +45,7 @@
             br
             | #{App.points_term.titleize} given: &nbsp;<strong>#{points_format(profile.karma_sent)}</strong>
 
-            - if profile.team.limit_karma? && profile == @current_profile
+            - if profile.team.throttle_tips? && profile == @current_profile
               br
               - if profile.infinite_tokens?
                 | Tokens: &nbsp;<strong>unlimited</strong>

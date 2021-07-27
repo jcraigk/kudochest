@@ -7,6 +7,6 @@ class TokenResetService < Base::Service
       profile.update(tokens_accrued: profile.karma_sent)
     end
 
-    TokenDispersalService.call(team: team, notify: false) if team.limit_karma?
+    TokenDispersalService.call(team: team, notify: false) if team.throttle_tips?
   end
 end

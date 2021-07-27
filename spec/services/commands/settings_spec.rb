@@ -7,7 +7,7 @@ RSpec.describe Commands::Settings do
   subject(:command) { described_class.call(team_rid: team.rid, profile_rid: profile.rid) }
 
   let(:user) { create(:user) }
-  let(:team) { create(:team, owning_user: user, limit_karma: true, enable_topics: true) }
+  let(:team) { create(:team, owning_user: user, throttle_tips: true, enable_topics: true) }
   let(:profile) { create(:profile, team: team) }
   let(:response) { OpenStruct.new(mode: :private, text: text) }
   let(:text) do
