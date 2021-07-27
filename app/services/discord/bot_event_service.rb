@@ -185,7 +185,7 @@ class Discord::BotEventService < Base::Service
 
   def no_dm_support
     ":#{App.error_emoji}: " \
-    "#{I18n.t('errors.no_dm_support', url: "<#{App.help_url}/discord>", cmd: App.base_command)}"
+      "#{I18n.t('errors.no_dm_support', url: "<#{App.help_url}/discord>", cmd: App.base_command)}"
   end
 
   def relevant_emoji?(event)

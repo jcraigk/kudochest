@@ -15,7 +15,7 @@ class Slack::ModalView < Base::Service
       callback_id: :modal_submit,
       title: {
         type: :plain_text,
-        text: 'Give Karma'
+        text: "Give #{App.points_term.titleize}"
       },
       submit: {
         type: :plain_text,
@@ -52,7 +52,7 @@ class Slack::ModalView < Base::Service
       type: :input,
       label: {
         type: :plain_text,
-        text: 'Amount'
+        text: 'Quantity'
       },
       element: {
         type: :static_select,
@@ -60,7 +60,7 @@ class Slack::ModalView < Base::Service
         initial_option: {
           text: {
             type: :plain_text,
-            text: '1 Karma'
+            text: points_format(1, label: true).titleize
           },
           value: '1'
         },
@@ -68,7 +68,7 @@ class Slack::ModalView < Base::Service
           {
             text: {
               type: :plain_text,
-              text: "#{quantity} Karma"
+              text: points_format(quantity, label: true).titleize
             },
             value: quantity.to_s
           }

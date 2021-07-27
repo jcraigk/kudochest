@@ -4,8 +4,9 @@ module PointsHelper
     str = formatted_points(points)
     return str unless opts[:label] == true
 
-    str = App.one_replacement if points.to_i == 1 && App.one_replacement.present?
-    label = (points == 1 ? App.point_term : App.points_term)
+    one = points.to_i == 1
+    str = App.one_replacement if one && App.one_replacement.present?
+    label = (one ? App.point_term : App.points_term)
     "#{str} #{label}".squish
   end
 

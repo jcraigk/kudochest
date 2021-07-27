@@ -41,7 +41,7 @@ class Commands::Claim < Commands::Base
       'shop.claimed_for_points',
       reward: reward.name,
       quantity: claim.price,
-      points: App.points.term
+      points: App.points_term
     )
   end
 

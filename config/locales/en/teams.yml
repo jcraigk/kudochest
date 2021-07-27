@@ -92,7 +92,7 @@ en:
     increment_tooltip: This represents the smallest amount of %{points} that can be given or displayed.
     emoji_quantity: Default Value
     emoji_quantity_tooltip: Specify the default amount of %{points} given when an emoji is used to give %{points}.
-    split_group_points: Split Group %{points}
+    split_group_points: Split Group %{points_title}
     split_group_points_tooltip: When %{points} are given to a user group or channel, the specified %{points} can either be split evenly among the members or, if this option is disabled, each member will receive the entire specified amount of %{points}.
     response_mode_adaptive_html: In Adaptive mode, responses are posted in the context where %{points} are given. Similar to Conversational mode, but responses to emoji reactions are posted in a thread instead of the public channel.
     response_mode_convo_slack_html: In Conversational mode, responses are posted in the context where %{points} are given. Similar to Adaptive mode, but responses to emoji reactions are posted in the public channel.

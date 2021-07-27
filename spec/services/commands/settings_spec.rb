@@ -12,7 +12,7 @@ RSpec.describe Commands::Settings do
   let(:response) { OpenStruct.new(mode: :private, text: text) }
   let(:text) do
     <<~TEXT.chomp
-      *Limit Karma:* Yes
+      *Throttle Karma:* Yes
       *Exempt Users:* None
       *Token Dispersal Hour:* 7:00am
       *Token Dispersal Frequency:* Weekly
@@ -22,13 +22,13 @@ RSpec.describe Commands::Settings do
       *Topics Enabled:* Yes
       *Topic Required:* No
       *Active Topics:* 0
-      *Karma Notes:* Optional
+      *Notes:* Optional
       *Emoji Enabled:* Yes
       *Emoji Icon:* #{team.karma_emoj}
-      *Emoji Value:* #{points_format(team.emoji_quantity)}
+      *Emoji Value:* #{points_format(team.emoji_quantity, label: true)}
       *Leveling Enabled:* Yes
       *Maximum Level:* #{team.max_level}
-      *Maximum Level Karma:* #{number_with_delimiter(team.max_level_karma)}
+      *Required for Max Level:* #{points_format(team.max_level_karma, label: true)}
       *Progression Curve:* Gentle
       *Streaks Enabled:* Yes
       *Streak Duration:* #{team.streak_duration} days

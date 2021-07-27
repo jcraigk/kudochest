@@ -41,7 +41,7 @@ class Commands::Settings < Commands::Base
 
   def increment_text
     <<~TEXT.chomp
-      *Minimum #{App.points_term} Increment:* #{points_format(team.karma_increment)}
+      *Minimum #{App.points_term.titleize} Increment:* #{points_format(team.karma_increment)}
     TEXT
   end
 
@@ -83,6 +83,7 @@ class Commands::Settings < Commands::Base
 
   def throttle_detail_text
     <<~TEXT.chomp
+
       *Exempt Users:* #{team.infinite_profiles_sentence}
       *Token Dispersal Hour:* #{num_to_hour(team.token_hour)}
       *Token Dispersal Frequency:* #{team.token_frequency.titleize}
@@ -95,6 +96,7 @@ class Commands::Settings < Commands::Base
     txt = "*Streaks Enabled:* #{boolean_str(team.enable_streaks?)}"
     return txt unless team.enable_streaks?
     txt + <<~TEXT.chomp
+
       *Streak Duration:* #{pluralize(team.streak_duration, 'day')}
       *Streak Reward:* #{points_format(team.streak_reward, label: true)}
     TEXT

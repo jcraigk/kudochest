@@ -37,7 +37,7 @@
 
     .field.is-horizontal
       .field-label.is-switch-label
-        = f.label :split_tip, t('teams.split_group_points', points: App.points_term), class: 'label'
+        = f.label :split_tip, t('teams.split_group_points', points_title: App.points_term.titleize), class: 'label'
       .field-body
         .field
           .control

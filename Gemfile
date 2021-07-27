@@ -16,6 +16,7 @@ gem 'gemoji'
 gem 'groupdate'
 gem 'http'
 gem 'jquery-rails'
+gem 'json', '>= 2.0.0' # To remove warning on specs
 gem 'kaminari'
 gem 'numbers_and_words'
 gem 'pg'

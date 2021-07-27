@@ -142,12 +142,12 @@ RSpec.describe TipResponseService do
   context 'when a streak is rewarded' do
     let(:chat_snippet) do
       <<~TEXT.chomp
-        #{from_profile.link} earned #{team.streak_reward} bonus karma for achieving a Giving Streak of 5 days
+        #{from_profile.link} earned #{team.streak_reward} karma for achieving a Giving Streak of 5 days
       TEXT
     end
     let(:web_snippet) do
       <<~TEXT.chomp
-        #{from_profile.webref} earned #{team.streak_reward} bonus karma for achieving a Giving Streak of 5 days
+        #{from_profile.webref} earned #{team.streak_reward} karma for achieving a Giving Streak of 5 days
       TEXT
     end
 
