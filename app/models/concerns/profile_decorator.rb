@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 module ProfileDecorator
-  include KarmaHelper
+  include PointsHelper
   extend ActiveSupport::Concern
 
   def helpers
@@ -9,7 +9,7 @@ module ProfileDecorator
 
   def token_balance_sentence
     return 'no tokens remaining' if token_balance.zero?
-    "#{karma_format(token_balance)} tokens remaining"
+    "#{points_format(token_balance)} tokens remaining"
   end
 
   def link
@@ -25,7 +25,7 @@ module ProfileDecorator
   end
 
   def link_with_karma
-    "#{link} (#{karma_format(karma)} karma)"
+    "#{link} (#{points_format(karma, label: true)})"
   end
 
   def webref
@@ -41,7 +41,7 @@ module ProfileDecorator
   end
 
   def webref_with_karma
-    "#{webref} (#{karma_format(karma_received)} karma)"
+    "#{webref} (#{points_format(karma_received, label: true)})"
   end
 
   def long_name
@@ -50,12 +50,12 @@ module ProfileDecorator
     str
   end
 
-  def next_level_karma_sentence
+  def next_level_points_sentence
     return 'max level' if max_level?
-    "#{karma_format(karma_required_for_next_level)} karma until level #{level + 1}"
+    "#{points_format(points_required_for_next_level, label: true)} until level #{level + 1}"
   end
 
-  def karma_required_for_next_level
+  def points_required_for_next_level
     return 0 if max_level?
     LevelToKarmaService.call(team: team, level: next_level) - karma_received
   end

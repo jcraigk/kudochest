@@ -13,7 +13,7 @@ RSpec.describe QuantityValidator do
   shared_examples 'invalid' do
     let(:error_text) do
       <<~TEXT.chomp
-        must be an increment of #{karma_format(increment)} and a maximum of #{App.max_karma_per_tip}
+        must be an increment of #{points_format(increment)} and a maximum of #{App.max_karma_per_tip}
       TEXT
     end
 

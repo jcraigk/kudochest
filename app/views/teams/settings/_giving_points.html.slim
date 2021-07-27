@@ -1,26 +1,30 @@
-.card data-section='giving_karma' style='display: none;'
+.card data-section='giving_points' style='display: none;'
   header.card-header
     p.card-header-title
-      = t('teams.giving_karma')
+      = t('teams.giving_points', points_title: App.points_term.titleize)
   .card-content
 
     .field.is-horizontal
       .field-label.is-normal
-        = f.label :karma_increment, t('teams.karma_increment'), class: 'label'
+        = f.label :karma_increment, t('teams.increment'), class: 'label'
       .field-body
         .field
           .control
-            .select = f.select :karma_increment, Team::TIP_INCREMENTS.map { |v| [karma_format(v), v]}
-            = tooltip_btn('teams.karma_increment_tooltip', nil, chars: App.max_note_length)
+            .select = f.select :karma_increment, Team::TIP_INCREMENTS.map { |v| [points_format(v), v]}
+            = tooltip_btn('teams.increment_tooltip', nil, chars: App.max_note_length, points: App.points_term)
 
     .field.is-horizontal
       .field-label.is-normal
-        = f.label :max_karma_per_tip, t('teams.max_karma_per_tip'), class: 'label'
+        = f.label :max_karma_per_tip, t('teams.max_points_per_tip'), class: 'label'
       .field-body
         .field
           .control
             .select = f.select :max_karma_per_tip, (1..App.max_karma_per_tip).to_a, class: 'input'
-            = tooltip_btn('teams.max_karma_per_tip_tooltip', nil, max: App.max_karma_per_tip)
+            = tooltip_btn \
+                'teams.max_points_per_tip_tooltip',
+                nil,
+                max: App.max_karma_per_tip,
+                points: App.points_term
 
     .field.is-horizontal
       .field-label.is-normal
@@ -29,17 +33,17 @@
         .field
           .control
             .select = f.select :tip_notes, Team.tip_notes.options
-            = tooltip_btn('teams.tip_notes_tooltip', nil, chars: App.max_note_length)
+            = tooltip_btn('teams.tip_notes_tooltip', nil, chars: App.max_note_length, points: App.points_term)
 
     .field.is-horizontal
       .field-label.is-switch-label
-        = f.label :split_tip, t('teams.split_group_karma'), class: 'label'
+        = f.label :split_tip, t('teams.split_group_points', points: App.points_term), class: 'label'
       .field-body
         .field
           .control
             = f.check_box :split_tip, class: 'switch is-rounded'
             = f.label :split_tip, '&nbsp;'.html_safe, class: 'label'
-            = tooltip_btn('teams.split_group_karma_tooltip', 'nudge-up')
+            = tooltip_btn('teams.split_group_points_tooltip', 'nudge-up', points: App.points_term)
 
     .field.is-horizontal
       .field-label.is-switch-label
@@ -49,7 +53,7 @@
           .control
             = f.check_box :enable_topics, class: 'switch is-rounded'
             = f.label :enable_topics, '&nbsp;'.html_safe, class: 'label'
-            = tooltip_btn('teams.enable_topics_tooltip', 'nudge-up')
+            = tooltip_btn('teams.enable_topics_tooltip', 'nudge-up', points: App.points_term)
 
     .field.is-horizontal
       .field-label.is-switch-label
@@ -59,7 +63,7 @@
           .control
             = f.check_box :require_topic, class: 'switch is-rounded'
             = f.label :require_topic, '&nbsp;'.html_safe, class: 'label'
-            = tooltip_btn('teams.require_topic_tooltip', 'nudge-up')
+            = tooltip_btn('teams.require_topic_tooltip', 'nudge-up', points: App.points_term)
 
     hr
 

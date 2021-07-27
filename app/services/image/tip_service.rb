@@ -248,7 +248,7 @@ class Image::TipService < Base::ImageService
     draw.gravity = Magick::NorthWestGravity
     x = avatar_stack_right + 44
     y = 3
-    text = "+#{karma_format(first_tip.quantity)}"
+    text = "+#{points_format(first_tip.quantity)}"
     draw.annotate(comp, 0, 0, x, y, text) { self.fill = '#3b1b20' }
     draw.annotate(comp, 0, 0, x - 2, y - 2, text) { self.fill = '#f0cf28' }
 

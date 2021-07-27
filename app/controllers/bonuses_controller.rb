@@ -17,11 +17,11 @@ class BonusesController < ApplicationController
       team_id: current_team.id,
       start_date: params[:start_date],
       end_date: params[:end_date],
-      include_streak_karma: params[:include_streak_karma],
-      include_imported_karma: params[:include_imported_karma],
+      include_streak_points: params[:include_streak_points],
+      include_imported_points: params[:include_imported_points],
       style: params[:style],
       pot_size: params[:pot_size],
-      karma_point_value: params[:karma_point_value]
+      dollar_per_point: params[:dollar_per_point]
     }
   end
 

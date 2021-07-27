@@ -6,7 +6,7 @@
 
   .card-content
 
-    p = t('bonuses.calculator_info')
+    p = t('bonuses.calculator_info', points: App.points_term)
     br
     br
 
@@ -23,7 +23,7 @@
                                class: 'input narrow2',
                                required: true,
                                type: 'date'
-              = tooltip_btn('bonuses.start_date_tooltip')
+              = tooltip_btn('bonuses.start_date_tooltip', nil, points: App.points_term)
 
       .field.is-horizontal
         .field-label.is-normal
@@ -36,32 +36,38 @@
                                class: 'input narrow2',
                                required: true,
                                type: 'date'
-              = tooltip_btn('bonuses.end_date_tooltip')
+              = tooltip_btn('bonuses.end_date_tooltip', nil, points: App.points_term)
 
       .field.is-horizontal
         .field-label.is-switch-label
-          = label_tag :include_streak_karma, t('bonuses.include_streak_karma'), class: 'label'
+          = label_tag :include_streak_points, t('bonuses.include_streak_points'), class: 'label'
         .field-body
           .field
             .control
-              = check_box_tag :include_streak_karma,
+              = check_box_tag :include_streak_points,
                               1,
                               true,
                               class: 'switch is-rounded'
-              = label_tag :include_streak_karma, '&nbsp;'.html_safe, class: 'label'
-              = tooltip_btn('bonuses.include_streak_karma_tooltip', 'nudge-up')
+              = label_tag :include_streak_points, '&nbsp;'.html_safe, class: 'label'
+              = tooltip_btn \
+                  'bonuses.include_streak_points_tooltip',
+                  'nudge-up',
+                  points: App.points_term
 
       .field.is-horizontal
         .field-label.is-switch-label
-          = label_tag :include_imported_karma, t('bonuses.include_imported_karma'), class: 'label'
+          = label_tag :include_imported_points, t('bonuses.include_imported_points'), class: 'label'
         .field-body
           .field
             .control
-              = check_box_tag :include_imported_karma,
+              = check_box_tag :include_imported_points,
                               1,
                               true, class: 'switch is-rounded'
-              = label_tag :include_imported_karma, '&nbsp;'.html_safe, class: 'label'
-              = tooltip_btn('bonuses.include_imported_karma_tooltip', 'nudge-up')
+              = label_tag :include_imported_points, '&nbsp;'.html_safe, class: 'label'
+              = tooltip_btn \
+                  'bonuses.include_imported_points_tooltip',
+                  'nudge-up',
+                  points: App.points_term
 
       .field.is-horizontal
         .field-label.is-switch-label
@@ -73,11 +79,11 @@
               = tooltip_btn('bonuses.calc_style_tooltip')
             .setting-info
               .style-info data-name='split_pot' style='display: none;'
-                p = t('bonuses.split_pot_info_html')
-              .style-info data-name='karma_value' style='display: none;'
-                p = t('bonuses.karma_value_info_html')
+                p = t('bonuses.split_pot_info_html', points: App.points_term)
+              .style-info data-name='points_value' style='display: none;'
+                p = t('bonuses.points_value_info_html')
               .style-info data-name='salary_percent' style='display: none;'
-                p = t('bonuses.salary_percent_info_html')
+                p = t('bonuses.salary_percent_info_html', points: App.points_term)
               br
 
       .style-control data-name='split_pot' style='display: none;'
@@ -92,21 +98,24 @@
                                  class: 'input narrow2',
                                  type: 'number',
                                  min: 1
-                = tooltip_btn('bonuses.pot_size_tooltip')
+                = tooltip_btn('bonuses.pot_size_tooltip', nil, points: App.points_term)
 
-      .style-control data-name='karma_value' style='display: none;'
+      .style-control data-name='points_value' style='display: none;'
         .field.is-horizontal
           .field-label.is-normal
-            = label_tag :karma_point_value, t('bonuses.karma_point_value'), class: 'label'
+            = label_tag \
+                :dollar_per_point,
+                t('bonuses.dollar_per_point', point_title: App.point_term.titleize),
+                class: 'label'
           .field-body
             .field
               .control
-                = text_field_tag :karma_point_value,
+                = text_field_tag :dollar_per_point,
                                  nil,
                                  class: 'input narrow2',
                                  type: 'number',
                                  min: 1
-                = tooltip_btn('bonuses.karma_point_value_tooltip')
+                = tooltip_btn('bonuses.dollar_per_point_tooltip', point: App.point_term)
 
       br
       br

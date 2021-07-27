@@ -18,14 +18,14 @@ RSpec.describe Commands::Settings do
       *Token Dispersal Frequency:* Weekly
       *Token Dispersal Quantity:* #{team.token_quantity}
       *Token Max Balance:* #{team.token_max}
-      *Minimum Karma Increment:* #{karma_format(team.karma_increment)}
+      *Minimum Karma Increment:* #{points_format(team.karma_increment)}
       *Topics Enabled:* Yes
       *Topic Required:* No
       *Active Topics:* 0
       *Karma Notes:* Optional
       *Emoji Enabled:* Yes
       *Emoji Icon:* #{team.karma_emoj}
-      *Emoji Value:* #{karma_format(team.emoji_quantity)}
+      *Emoji Value:* #{points_format(team.emoji_quantity)}
       *Leveling Enabled:* Yes
       *Maximum Level:* #{team.max_level}
       *Maximum Level Karma:* #{number_with_delimiter(team.max_level_karma)}

@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 class QuantityValidator < ActiveModel::Validator
-  include KarmaHelper
+  include PointsHelper
 
   attr_reader :record
 
@@ -16,7 +16,7 @@ class QuantityValidator < ActiveModel::Validator
 
   def error_msg
     <<~TEXT.chomp
-      must be an increment of #{karma_format(increment)} and a maximum of #{App.max_karma_per_tip}
+      must be an increment of #{points_format(increment)} and a maximum of #{App.max_karma_per_tip}
     TEXT
   end
 

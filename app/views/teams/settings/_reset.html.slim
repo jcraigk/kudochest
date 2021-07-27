@@ -1,8 +1,8 @@
 .card data-section='reset' style='display: none;'
   header.card-header
-    p.card-header-title = t('teams.stat_resets')
+    p.card-header-title = t('teams.stat_resets', points_title: App.points_term.titleize)
   .card-content
     .centered-text
-      p = t('teams.reset_now_info')
+      p = t('teams.reset_now_info', points: App.points_term)
       br
       = reset_team_stats_button(@current_team)

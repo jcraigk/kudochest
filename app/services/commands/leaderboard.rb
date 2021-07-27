@@ -63,7 +63,7 @@ class Commands::Leaderboard < Commands::Base
 
   def row(prof)
     <<~TEXT.chomp
-      #{prof.rank}. #{prof.link} - #{karma_format(prof.karma)} karma last #{verb} #{time_ago_in_words(Time.zone.parse(prof.last_timestamp))} ago
+      #{prof.rank}. #{prof.link} - #{points_format(prof.karma, label: true)} last #{verb} #{time_ago_in_words(Time.zone.parse(prof.last_timestamp))} ago
     TEXT
   end
 

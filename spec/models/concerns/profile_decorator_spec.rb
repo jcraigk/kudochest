@@ -137,23 +137,23 @@ RSpec.describe ProfileDecorator do
     end
   end
 
-  describe '#next_level_karma_sentence' do
+  describe '#next_level_points_sentence' do
     subject(:profile) { build(:profile, team: team, karma: 359) }
 
     let(:team) { build(:team, max_level: 10, max_level_karma: 450, level_curve: :steep) }
     let(:expected_text) { '91 karma until level 10' }
 
     it 'returns expected text' do
-      expect(profile.next_level_karma_sentence).to eq(expected_text)
+      expect(profile.next_level_points_sentence).to eq(expected_text)
     end
   end
 
-  describe '#karma_required_for_next_level' do
+  describe '#points_required_for_next_level' do
     context 'when profile is at max level' do
       before { profile.update(karma_received: profile.team.max_level_karma) }
 
       it 'returns 0' do
-        expect(profile.karma_required_for_next_level).to eq(0)
+        expect(profile.points_required_for_next_level).to eq(0)
       end
     end
 
@@ -161,7 +161,7 @@ RSpec.describe ProfileDecorator do
       before { profile.update(karma_received: 26) }
 
       it 'returns karma quantity' do
-        expect(profile.karma_required_for_next_level).to eq(9)
+        expect(profile.points_required_for_next_level).to eq(9)
       end
     end
   end

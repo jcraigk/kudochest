@@ -19,8 +19,8 @@ en:
     name_tooltip: Enter a short name for the item such as Pizza. Each item must have a unique name.
     description_tooltip: Enter a short description of what the item is. It may also be helpful to enter instructions on how to redeem the item if it's physical.
     auto_fulfill_tooltip: Digital items such as coupon codes or URLs can be fulfilled automatically by the system. If you select Fulfill Automatically, you will be prompted to enter keys that users can claim. However, if the item must be physically delivered, then do not select this option.
-    price: Karma Price
-    price_tooltip: Enter the amount of karma required to claim this item. Users may spend each karma point they have earned only once.
+    price: Price
+    price_tooltip: Enter the amount of %{points} required by a user to claim this item.
     active: Active
     active_tooltip: You may disable this item at any time to prevent users from claiming it.
     fulfillment_keys: Fulfillment Keys

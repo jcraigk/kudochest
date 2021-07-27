@@ -12,7 +12,7 @@
           .control
             = f.check_box :require_topic, class: 'switch is-rounded'
             = f.label :require_topic, '&nbsp;'.html_safe, class: 'label'
-            = tooltip_btn('teams.require_topic_tooltip', 'nudge-up')
+            = tooltip_btn('teams.require_topic_tooltip', 'nudge-up', points: App.points_term)
 
     hr
     .centered-text

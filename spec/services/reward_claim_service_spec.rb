@@ -22,7 +22,7 @@ RSpec.describe RewardClaimService, :freeze_time do
   end
 
   context 'when profile has insufficient karma' do
-    let(:error) { I18n.t('shop.insufficient_karma', reward: reward.name) }
+    let(:error) { I18n.t('shop.insufficient_points', reward: reward.name, points: App.points_term) }
 
     before { profile.update(karma_received: reward.price - 1) }
 

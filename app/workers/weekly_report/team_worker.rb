@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 class WeeklyReport::TeamWorker
   include ActionView::Helpers::TextHelper
-  include KarmaHelper
+  include PointsHelper
   include Sidekiq::Worker
 
   sidekiq_options queue: :weekly_report
@@ -26,8 +26,8 @@ class WeeklyReport::TeamWorker
 
   def data
     OpenStruct.new(
-      karma_received: karma_format(karma_received),
-      karma_from_streak: karma_format(karma_from_streak),
+      karma_received: points_format(karma_received),
+      karma_from_streak: points_format(karma_from_streak),
       levelup_sentence: levelup_sentence,
       top_recipients: top_recipients,
       top_benefactors: top_benefactors,

@@ -3,11 +3,11 @@ class BonusCalculatorService < Base::Service
   option :team
   option :start_date
   option :end_date
-  option :include_streak_karma
-  option :include_imported_karma
+  option :include_streak_points
+  option :include_imported_points
   option :style
   option :pot_size
-  option :karma_point_value
+  option :dollar_per_point
 
   def call
     @style = style.to_sym
@@ -27,7 +27,7 @@ class BonusCalculatorService < Base::Service
 
   def header_row
     ary = ['ID', 'Name', 'Karma Earned']
-    ary << 'Share of Total' unless style == :karma_value
+    ary << 'Share of Total' unless style == :points_value
     ary << 'Bonus'
   end
 
@@ -36,7 +36,7 @@ class BonusCalculatorService < Base::Service
     share = share_of(karma)
     bonus = style_bonus(karma, share)
     ary = [profile.rid, profile.display_name, karma]
-    ary << share_display(share) unless style == :karma_value
+    ary << share_display(share) unless style == :points_value
     ary << bonus_display(bonus)
   end
 
@@ -52,7 +52,7 @@ class BonusCalculatorService < Base::Service
   def style_bonus(karma, share)
     case style
     when :split_pot then (pot_size * share).round(2)
-    when :karma_value then (karma_point_value * karma).round(2)
+    when :points_value then (dollar_per_point * karma).round(2)
     else ''
     end
   end
@@ -73,8 +73,8 @@ class BonusCalculatorService < Base::Service
   def profile_karma(profile)
     @profile_karma[profile.id] ||= begin
       tips = tip_relation(profile)
-      tips = tips.where.not(source: :streak) unless include_streak_karma
-      tips = tips.where.not(source: :import) unless include_imported_karma
+      tips = tips.where.not(source: :streak) unless include_streak_points
+      tips = tips.where.not(source: :import) unless include_imported_points
       tips.sum(:quantity)
     end
   end

@@ -28,6 +28,9 @@ module KarmaChest
     config.from_email = "KarmaChest <noreply@#{ENV['WEB_DOMAIN']}>"
     config.help_url = "#{config.base_url}/help"
     config.feedback_url = "#{config.base_url}/feedback"
+    config.point_term = 'karma' # You received 1 karma
+    config.one_replacement = '' # You received karma
+    config.points_term = 'karma' # You received 2 karma
 
     # Access Control
     config.max_teams = 1 # Default to single-team install

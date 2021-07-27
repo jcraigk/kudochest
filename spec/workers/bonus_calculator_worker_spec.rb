@@ -10,18 +10,18 @@ RSpec.describe BonusCalculatorWorker do
       team_id: team.id,
       start_date: '2020-10-10',
       end_date: '2020-10-10',
-      include_streak_karma: '1',
-      include_imported_karma: '1',
+      include_streak_points: '1',
+      include_imported_points: '1',
       style: 'split_pot',
       pot_size: 100,
-      karma_point_value: 2
+      dollar_per_point: 2
     }
   end
   let(:args) do
     params.merge(
       team: team,
-      include_streak_karma: true,
-      include_imported_karma: true
+      include_streak_points: true,
+      include_imported_points: true
     )
   end
 

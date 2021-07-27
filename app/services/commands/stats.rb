@@ -25,7 +25,7 @@ class Commands::Stats < Commands::Base
   def token_fragment
     return '*Tokens:* Unlimited' if requested_profile.infinite_tokens?
     <<~TEXT.chomp
-      *Tokens:* #{karma_format(requested_profile.token_balance)} (receiving #{team.token_quantity} tokens in #{next_token_dispersal})
+      *Tokens:* #{points_format(requested_profile.token_balance)} (receiving #{team.token_quantity} tokens in #{next_token_dispersal})
     TEXT
   end
 
@@ -51,13 +51,13 @@ class Commands::Stats < Commands::Base
 
   def karma_received_fragment
     <<~TEXT.chomp
-      *Karma:* #{karma_format(requested_profile.karma)}
+      *#{App.points_term.titleize}:* #{points_format(requested_profile.karma)}
     TEXT
   end
 
   def karma_given_fragment
     <<~TEXT.chomp
-      *Given:* #{karma_format(requested_profile.karma_sent)}
+      *Given:* #{points_format(requested_profile.karma_sent)}
     TEXT
   end
 

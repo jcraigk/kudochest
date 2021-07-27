@@ -1,23 +1,23 @@
-.card data-section='karma_constraints' style='display: none;'
+.card data-section='throttling' style='display: none;'
   header.card-header
     p.card-header-title
-      = t('teams.karma_constraints')
+      = t('teams.throttling')
   .card-content
 
     .field.is-horizontal
       .field-label.is-switch-label
-        = f.label :limit_karma, t('teams.limit_karma'), class: 'label'
+        = f.label :limit_karma, t('teams.limit_points'), class: 'label'
       .field-body
         .field
           .control
             = f.check_box :limit_karma, class: 'switch is-rounded'
             = f.label :limit_karma, '&nbsp;'.html_safe, class: 'label'
-            = tooltip_btn('teams.limit_karma_tooltip', 'nudge-up')
+            = tooltip_btn('teams.limit_points_tooltip', 'nudge-up', points: App.points_term)
 
     .field.is-horizontal
       .field-label.is-normal
         label.label for='profile-multi-select' = t('teams.infinite_profiles')
-        = tooltip_btn('teams.infinite_profiles_tooltip', 'nudge-up')
+        = tooltip_btn('teams.infinite_profiles_tooltip', 'nudge-up', points: App.points_term)
       .field-body
         .field
           .control
@@ -31,7 +31,7 @@
         .field
           .control
             .select = f.select :token_frequency, Team.token_frequency.options
-            = tooltip_btn('teams.token_frequency_tooltip')
+            = tooltip_btn('teams.token_frequency_tooltip', points: App.points_term)
 
     .field.is-horizontal
       .field-label.is-normal

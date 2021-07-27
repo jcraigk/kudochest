@@ -2,7 +2,7 @@
 class TipResponseService < Base::Service
   include EmojiHelper
   include EntityReferenceHelper
-  include KarmaHelper
+  include PointsHelper
 
   option :tips
 
@@ -154,7 +154,7 @@ class TipResponseService < Base::Service
   def streak_fragment(platform)
     return unless streak_rewarded?
     <<~TEXT.squish
-      #{profile_ref(from_profile, platform)} earned #{team.streak_reward} bonus karma for achieving a Giving Streak of #{number_with_delimiter(from_profile.streak_count)} days
+      #{profile_ref(from_profile, platform)} earned #{points_format(team.streak_reward, label: true)} for achieving a Giving Streak of #{number_with_delimiter(from_profile.streak_count)} days
     TEXT
   end
 
@@ -227,11 +227,11 @@ class TipResponseService < Base::Service
 
   def compose_str(platform, quantity, topic_id, similar_tips)
     recipient_sentence = profile_sentence(profile_refs_from(similar_tips, platform))
-    quant_str = karma_format(quantity)
+    quant_str = points_format(quantity)
     topic = team.topics.find { |t| t.id == topic_id }
     emoji = emoji_sequence(platform, quantity, topic)
     topic_str = topic&.name ? "for #{topic.name}" : nil
-    "#{recipient_sentence} #{quant_str} karma #{emoji} #{topic_str}".squish
+    "#{recipient_sentence} #{points_format(quant_str, label: true)} #{emoji} #{topic_str}".squish
   end
 
   def profile_sentence(refs)

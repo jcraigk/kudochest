@@ -21,7 +21,7 @@ en:
     user_settings: User Settings
     app_settings: App Settings
     team_wallboard: Wallboard
-    karma_admin: Browse Karma
+    points_admin: Browse %{points_title}
     reward_admin: Manage Shop
     manage_topics: Manage Topics
     manage_loot: Manage Loot
@@ -35,4 +35,3 @@ en:
     login: Sign in to the website to manage service settings or view your web profile
     forgot_password: Enter your email address to reset a forgotten password
     reset_password: Reset your password using the special link emailed to you
-    features: KarmaChest is a team engagement tool for Slack and Discord that allows users to give each other karma points that accrue over time. Users can view their status in the chat client or on the web.

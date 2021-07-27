@@ -8,22 +8,22 @@ module ProfileHelper
     tag.span(class: 'progress-footer') do
       break 'Maximum level' if profile.max_level?
       <<~TEXT.chomp
-        Earn #{karma_format(profile.karma_required_for_next_level)} karma to level up
+        Earn #{points_format(profile.points_required_for_next_level, label: true)} to level up
       TEXT
     end
   end
 
   def percent_of_current_level(profile)
     return 100 if profile.max_level?
-    return 0 unless (karma_toward_next = karma_toward_next_level(profile)).positive?
-    ((karma_toward_next / profile.karma_required_for_next_level.to_f) * 100).floor
+    return 0 unless (points_toward_next = points_toward_next_level(profile)).positive?
+    ((points_toward_next / profile.points_required_for_next_level.to_f) * 100).floor
   end
 
-  def karma_toward_next_level(profile)
-    profile.karma - karma_required_for_current_level(profile)
+  def points_toward_next_level(profile)
+    profile.karma - points_required_for_current_level(profile)
   end
 
-  def karma_required_for_current_level(profile)
+  def points_required_for_current_level(profile)
     LevelToKarmaService.call(team: profile.team, level: profile.level)
   end
 
@@ -32,7 +32,7 @@ module ProfileHelper
       class: 'progress profile-level-progress',
       value: percent_of_current_level(profile),
       max: 100,
-      title: profile.next_level_karma_sentence
+      title: profile.next_level_points_sentence
     )
   end
 
@@ -55,7 +55,7 @@ module ProfileHelper
 
   def direction_with_icon(tip, profile)
     dir, word = tip.from_profile == profile ? %w[right Given] : %w[left Earned]
-    tag.span(class: "karma-direction-#{dir}") do
+    tag.span(class: "points-direction-#{dir}") do
       tag.i(class: "fas fa-arrow-#{dir}") + ' ' + word # rubocop:disable Style/StringConcatenation
     end
   end

@@ -10,7 +10,12 @@ RSpec.describe Actions::AppHomeOpened, :freeze_time do
   let(:expected_response) do
     OpenStruct.new(
       mode: :direct,
-      text: I18n.t('profiles.app_home_opened', app: App.app_name, url: App.help_url)
+      text: I18n.t(
+        'profiles.app_home_opened',
+        app: App.app_name,
+        url: App.help_url,
+        points: App.points_term
+      )
     )
   end
 

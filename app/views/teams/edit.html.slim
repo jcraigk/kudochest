@@ -12,14 +12,14 @@
     .team-setting-link data-link='responses'
       = icon_and_text('comment', t('teams.chat_responses'))
 
-    .team-setting-link data-link='giving_karma'
-      = icon_and_text('hand-holding-seedling', t('teams.giving_karma'))
+    .team-setting-link data-link='giving_points'
+      = icon_and_text('hand-holding-seedling', t('teams.giving_points', points_title: App.points_term.titleize))
 
     .team-setting-link data-link='emoji'
       = icon_and_text('smile', t('teams.emoji'))
 
-    .team-setting-link data-link='karma_constraints'
-      = icon_and_text('lock', t('teams.karma_constraints'))
+    .team-setting-link data-link='throttling'
+      = icon_and_text('tachometer', t('teams.throttling'))
 
     .team-setting-link data-link='streaks'
       = icon_and_text('rabbit-fast', t('teams.giving_streaks'))
@@ -40,7 +40,7 @@
       = icon_and_text('database', t('teams.data_title'))
 
     .team-setting-link data-link='reset'
-      = icon_and_text('exclamation-circle', t('teams.stat_resets'))
+      = icon_and_text('exclamation-circle', t('teams.stat_resets', points_title: App.points_term.titleize))
 
   .column
     = form_for @current_team, local: true do |f|
@@ -49,9 +49,9 @@
       - if @current_team.platform.slack?
         = render partial: 'teams/settings/bot_presence', locals: { f: f }
       = render partial: 'teams/settings/responses', locals: { f: f }
-      = render partial: 'teams/settings/giving_karma', locals: { f: f }
+      = render partial: 'teams/settings/giving_points', locals: { f: f }
       = render partial: 'teams/settings/emoji', locals: { f: f }
-      = render partial: 'teams/settings/karma_constraints', locals: { f: f }
+      = render partial: 'teams/settings/throttling', locals: { f: f }
       = render partial: 'teams/settings/streaks', locals: { f: f }
       = render partial: 'teams/settings/bot_schedule', locals: { f: f }
       = render partial: 'teams/settings/reports', locals: { f: f }

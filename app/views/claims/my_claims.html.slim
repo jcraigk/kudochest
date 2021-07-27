@@ -9,7 +9,7 @@ h2.title.has-text-centered
       tbody
         thead
           th = t('claims.reward')
-          th = t('claims.price')
+          th = t('claims.price', points_title: App.points_term.titleize)
           th = t('claims.created_at')
           th = t('claims.fulfillled')
           th
@@ -17,7 +17,7 @@ h2.title.has-text-centered
         tr
           td.has-text-centered colspan='100'
             br
-            span.tag.is-warning.is-large = t('shop.claims_empty')
+            span.tag.is-warning.is-large = t('shop.claims_empty', points: App.points_term)
             br
       - else
         - @claims.each do |claim|

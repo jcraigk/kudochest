@@ -60,7 +60,7 @@ RSpec.describe Commands::Claim do
         let(:response) { OpenStruct.new(mode: :private, text: response_text) }
         let(:response_text) do
           <<~TEXT.chomp
-            #{I18n.t('shop.claimed_for_karma', reward: reward.name, quantity: reward.price)}
+            #{I18n.t('shop.claimed_for_points', reward: reward.name, quantity: reward.price, points: App.points_term)}
             #{I18n.t('shop.fulfillment_pending')}
           TEXT
         end

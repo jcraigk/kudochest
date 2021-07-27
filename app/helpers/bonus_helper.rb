@@ -6,7 +6,7 @@ module BonusHelper
       options_for_select(
         [
           [t('bonuses.split_pot'), :split_pot],
-          [t('bonuses.karma_value'), :karma_value],
+          [t('bonuses.points_value', points_title: App.points_term.titleize), :points_value],
           [t('bonuses.salary_percent'), :salary_percent]
         ]
       ),

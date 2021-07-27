@@ -10,7 +10,7 @@
         .field
           .control
             .select = f.select :response_theme, Team.response_theme.options
-            = tooltip_btn('teams.response_theme_tooltip')
+            = tooltip_btn('teams.response_theme_tooltip', nil, points: App.points_term)
           = render partial: 'teams/settings/response_theme_info'
           br
 
@@ -21,7 +21,7 @@
         .field
           .control
             .select = f.select :response_mode, response_mode_options(@current_team)
-            = tooltip_btn('teams.response_mode_tooltip')
+            = tooltip_btn('teams.response_mode_tooltip', nil, points: App.points_term)
           = render partial: 'teams/settings/response_mode_info'
           br
 
@@ -42,7 +42,7 @@
           .control
             = f.check_box :show_channel, class: 'switch is-rounded'
             = f.label :show_channel, '&nbsp;'.html_safe, class: 'label'
-            = tooltip_btn('teams.show_channel_tooltip', 'nudge-up')
+            = tooltip_btn('teams.show_channel_tooltip', 'nudge-up', points: App.points_term)
 
     .field.is-horizontal
       .field-label.is-switch-label
@@ -63,4 +63,4 @@
             .control
               = f.check_box :enable_fast_ack, class: 'switch is-rounded'
               = f.label :enable_fast_ack, '&nbsp;'.html_safe, class: 'label'
-              = tooltip_btn('teams.fast_ack_tooltip', 'nudge-up')
+              = tooltip_btn('teams.fast_ack_tooltip', 'nudge-up', points: App.points_term)

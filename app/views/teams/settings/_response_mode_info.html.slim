@@ -1,23 +1,23 @@
 .setting-info
 
   .setting-value data-name='adaptive' style='display: none;'
-    p = t('teams.response_mode_adaptive_html')
+    p = t('teams.response_mode_adaptive_html', points: App.points_term)
 
   .setting-value data-name='convo' style='display: none;'
     - if @current_team.platform.slack?
-      p = t('teams.response_mode_convo_slack_html')
+      p = t('teams.response_mode_convo_slack_html', points: App.points_term)
 
     - elsif @current_team.platform.discord?
-      p = t('teams.response_mode_convo_discord_html')
+      p = t('teams.response_mode_convo_discord_html', points: App.points_term)
 
   .setting-value data-name='reply' style='display: none;'
-    p = t('teams.response_mode_reply_html')
+    p = t('teams.response_mode_reply_html', points: App.points_term)
 
   .setting-value data-name='direct' style='display: none;'
-    p = t('teams.response_mode_reply_html')
+    p = t('teams.response_mode_direct_html', points: App.points_term)
 
   .setting-value data-name='silent' style='display: none;'
-    p = t('teams.response_mode_silent_html')
+    p = t('teams.response_mode_silent_html', points: App.points_term)
 
 javascript:
   $(function() {

@@ -18,6 +18,11 @@ class Actions::AppHomeOpened < Actions::Base
   end
 
   def text
-    I18n.t('profiles.app_home_opened', app: App.app_name, url: team.help_url)
+    I18n.t(
+      'profiles.app_home_opened',
+      app: App.app_name,
+      url: team.help_url,
+      points: App.points_term
+    )
   end
 end

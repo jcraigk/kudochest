@@ -4,13 +4,13 @@
 
   .card-content
 
-    p = t('teams.import_instructions')
+    p = t('teams.import_instructions', points: App.points_term)
 
     br
     = f.file_field :import_file, accept: 'text/csv', class: 'input', placeholder: 'CSV'
 
     hr
     .centered-text
-      p = t('teams.export_instructions')
+      p = t('teams.export_instructions', points: App.points_term)
       br
       = export_data_button(@current_team)

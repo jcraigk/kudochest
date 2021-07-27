@@ -22,10 +22,10 @@ class TokenLimitService < Base::Service
   end
 
   def formatted_quantity
-    karma_format(quantity)
+    points_format(quantity)
   end
 
   def formatted_balance
-    karma_format(profile.token_balance)
+    points_format(profile.token_balance)
   end
 end

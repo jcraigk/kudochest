@@ -27,7 +27,7 @@
       .field
         .control
           = f.text_field :emoji, class: 'input narrow2', required: true
-          = tooltip_btn('topics.emoji_tooltip')
+          = tooltip_btn('topics.emoji_tooltip', nil, points: App.points_term)
 
   .field.is-horizontal
     .field-label.is-normal
@@ -51,14 +51,14 @@
   - if @topic.persisted?
     .field.is-horizontal#quantity-control
       .field-label.is-normal
-        = f.label :tips, t('topics.karma_count'), class: 'label'
+        = f.label :tips, t('topics.total_points', points_title: App.points_term.titleize), class: 'label'
       .field-body
         .field
           .control
-            = link_to "#{t('topics.karma_count')}: #{number_with_delimiter(@topic.tips.count)} ",
+            = link_to points_format(@topic.tips.sum(&:quantity), label: true),
                       tips_path(topic_id: @topic.id),
                       class: 'button is-link'
-            = tooltip_btn('topics.claims_tooltip')
+            = tooltip_btn('rewards.claims_tooltip')
 
   .has-text-right
     - if @topic.persisted? && @topic.tips.count.zero?

@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 class Commands::Base < Base::Service
-  include KarmaHelper
+  include PointsHelper
 
   option :team_rid
   option :profile_rid

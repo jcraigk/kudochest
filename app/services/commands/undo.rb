@@ -36,7 +36,7 @@ class Commands::Undo < Commands::Base
 
   def karma_clause
     relevant_tips_by_quantity.map do |quantity, quant_tips|
-      str = "#{karma_format(quantity)} karma from #{frag_sentence(quant_tips)}"
+      str = "#{points_format(quantity, label: true)} from #{frag_sentence(quant_tips)}"
       str += ' each' if quant_tips.size.between?(2, App.max_response_mentions)
       str
     end.to_sentence

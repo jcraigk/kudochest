@@ -12,7 +12,7 @@
           .control
             = f.check_box :enable_loot, class: 'switch is-rounded'
             = f.label :enable_loot, '&nbsp;'.html_safe, class: 'label'
-            = tooltip_btn('teams.enable_loot_tooltip', 'nudge-up')
+            = tooltip_btn('teams.enable_loot_tooltip', 'nudge-up', points: App.points_term)
 
     hr
     .centered-text

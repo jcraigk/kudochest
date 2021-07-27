@@ -29,7 +29,7 @@
       = link_to icon_and_text('cog', t('nav.app_settings')),
                 app_settings_path(section: :bot_presence),
                 class: 'navbar-item'
-      = link_to icon_and_text('eye', t('nav.karma_admin')),
+      = link_to icon_and_text('eye', t('nav.points_admin', points_title: App.points_term.titleize)),
                 tips_path,
                 class: 'navbar-item'
       = link_to icon_and_text('sitemap', t('nav.manage_topics')),
