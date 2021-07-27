@@ -141,7 +141,7 @@ ActiveRecord::Schema.define(version: 2020_12_10_014052) do
     t.string "response_mode"
     t.string "log_channel_rid"
     t.string "tip_notes", null: false
-    t.string "karma_emoji", null: false
+    t.string "tip_emoji", null: false
     t.boolean "show_channel", null: false
     t.integer "work_days_mask", null: false
     t.string "week_start_day", null: false

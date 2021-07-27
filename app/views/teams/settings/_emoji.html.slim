@@ -24,12 +24,12 @@
 
     .field.is-horizontal
       .field-label.is-normal
-        = f.label :karma_emoji, t('teams.emoji'), class: 'label'
+        = f.label :tip_emoji, t('teams.emoji'), class: 'label'
       .field-body
         - if @current_team.platform.slack?
           .field
             .control
-              = f.text_field :karma_emoji, class: 'input narrow2', required: true
+              = f.text_field :tip_emoji, class: 'input narrow2', required: true
               = tooltip_btn('teams.emoji_tooltip', nil, points: App.points_term)
 
         - elsif @current_team.platform.discord?

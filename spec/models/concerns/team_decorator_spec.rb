@@ -31,9 +31,9 @@ RSpec.describe TeamDecorator do
     end
   end
 
-  describe 'karma_emoj' do
-    it 'wraps karma_emoji in colons' do
-      expect(team.karma_emoj).to eq(":#{team.karma_emoji}:")
+  describe 'tip_emoj' do
+    it 'wraps tip_emoji in colons' do
+      expect(team.tip_emoj).to eq(":#{team.tip_emoji}:")
     end
   end
 
@@ -88,7 +88,7 @@ RSpec.describe TeamDecorator do
       before { team.platform = :slack }
 
       it 'is `workspace`' do
-        expect(team.custom_emoj).to eq(team.karma_emoj)
+        expect(team.custom_emoj).to eq(team.tip_emoj)
       end
     end
 
@@ -96,7 +96,7 @@ RSpec.describe TeamDecorator do
       before { team.platform = :discord }
 
       it 'is `guild`' do
-        expect(team.custom_emoj).to eq("<:#{App.discord_emoji}:#{team.karma_emoji}>")
+        expect(team.custom_emoj).to eq("<:#{App.discord_emoji}:#{team.tip_emoji}>")
       end
     end
   end

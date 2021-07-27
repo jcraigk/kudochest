@@ -39,7 +39,7 @@
         ' (#{points_format(3,245, label: true)})
       ' #{points_format(1, label: true)}
       - if @current_team.platform.slack?
-        | #{emojify(':' + @current_team.karma_emoji + ':', size: 20)}
+        | #{emojify(':' + @current_team.tip_emoji + ':', size: 20)}
       - elsif @current_team.platform.discord?
         = discord_emoji('16x16')
       |!

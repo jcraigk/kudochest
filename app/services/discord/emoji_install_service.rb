@@ -25,7 +25,7 @@ class Discord::EmojiInstallService < Base::Service
   end
 
   def install_emoji
-    team.update!(karma_emoji: new_remote_emoji.id)
+    team.update!(tip_emoji: new_remote_emoji.id)
   end
 
   def new_remote_emoji

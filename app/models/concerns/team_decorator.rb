@@ -16,8 +16,8 @@ module TeamDecorator
     (levels_table_titles + rows).join("\n")
   end
 
-  def karma_emoj
-    ":#{karma_emoji}:"
+  def tip_emoj
+    ":#{tip_emoji}:"
   end
 
   def infinite_profiles_sentence
@@ -44,8 +44,8 @@ module TeamDecorator
 
   def custom_emoj
     case platform
-    when 'slack' then karma_emoj
-    when 'discord' then "<:#{App.discord_emoji}:#{karma_emoji}>"
+    when 'slack' then tip_emoj
+    when 'discord' then "<:#{App.discord_emoji}:#{tip_emoji}>"
     end
   end
 

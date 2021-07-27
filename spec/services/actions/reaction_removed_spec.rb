@@ -34,7 +34,7 @@ RSpec.describe Actions::ReactionRemoved do
           item: {
             ts: ts
           },
-          reaction: team.karma_emoji
+          reaction: team.tip_emoji
         }
       }
     end

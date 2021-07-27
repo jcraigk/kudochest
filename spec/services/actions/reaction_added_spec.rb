@@ -42,7 +42,7 @@ RSpec.describe Actions::ReactionAdded do
   end
 
   context 'when reaction is standard emoji' do
-    let(:reaction) { team.karma_emoji }
+    let(:reaction) { team.tip_emoji }
     let(:expected_args) do
       {
         profile: sender,

@@ -18,7 +18,7 @@ class CreateTeams < ActiveRecord::Migration[6.0]
       t.string :response_mode
       t.string :log_channel_rid
       t.string :tip_notes, null: false
-      t.string :karma_emoji, null: false
+      t.string :tip_emoji, null: false
       t.boolean :enable_emoji, null: false
       t.boolean :show_stats, null: false
       t.boolean :show_channel, null: false

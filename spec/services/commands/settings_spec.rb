@@ -24,7 +24,7 @@ RSpec.describe Commands::Settings do
       *Active Topics:* 0
       *Notes:* Optional
       *Emoji Enabled:* Yes
-      *Emoji Icon:* #{team.karma_emoj}
+      *Emoji Icon:* #{team.tip_emoj}
       *Emoji Value:* #{points_format(team.emoji_quantity, label: true)}
       *Leveling Enabled:* Yes
       *Maximum Level:* #{team.max_level}
