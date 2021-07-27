@@ -51,7 +51,7 @@ class TeamsController < ApplicationController
   end
 
   def handle_import
-    flash[:notice] = KarmaCsvImporter.call(
+    flash[:notice] = CsvImporter.call(
       team: current_team,
       text: params[:team][:import_file].read
     )

@@ -86,7 +86,7 @@ class WeeklyReport::ProfileWorker
   end
 
   def previous_level
-    KarmaToLevelService.call(team: profile.team, karma: profile.karma - karma_received)
+    PointsToLevelService.call(team: profile.team, karma: profile.karma - karma_received)
   end
 
   def rank_sentence

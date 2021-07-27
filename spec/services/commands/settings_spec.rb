@@ -18,7 +18,7 @@ RSpec.describe Commands::Settings do
       *Token Dispersal Frequency:* Weekly
       *Token Dispersal Quantity:* #{team.token_quantity}
       *Token Max Balance:* #{team.token_max}
-      *Minimum Karma Increment:* #{points_format(team.karma_increment)}
+      *Minimum Increment:* #{points_format(team.karma_increment, label: true)}
       *Topics Enabled:* Yes
       *Topic Required:* No
       *Active Topics:* 0

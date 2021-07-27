@@ -12,10 +12,6 @@ class Actions::ReactionRemoved < Actions::Base
     OpenStruct.new(mode: :silent)
   end
 
-  def prepare_response
-    @text = "You revoked #{karma_clause}"
-  end
-
   def tip
     @tip ||= Tip.undoable.where(event_ts: params[:message_ts]).find_by(from_profile: profile)
   end

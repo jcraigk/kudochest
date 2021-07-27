@@ -7,7 +7,7 @@ class EmojiQuantityValidator < ActiveModel::Validator
 
     record.errors.add(
       :emoji_quantity,
-      "must be a multiple of the Karma Increment (#{record.karma_increment})"
+      "must be a multiple of the #{App.points_term.titleize} Increment (#{record.karma_increment})"
     )
   end
 end

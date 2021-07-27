@@ -201,7 +201,7 @@ class TipResponseService < Base::Service
   end
 
   def level_for(karma)
-    KarmaToLevelService.call(team: team, karma: karma)
+    PointsToLevelService.call(team: team, karma: karma)
   end
 
   def levelup_sentence(platform)
@@ -211,10 +211,10 @@ class TipResponseService < Base::Service
 
   def karma_fragment(platform)
     return if tips_by_quantity.none?
-    "gave #{karma_clause(platform)}"
+    "gave #{points_clause(platform)}"
   end
 
-  def karma_clause(platform)
+  def points_clause(platform)
     fragments = tips_by_quantity.map do |quantity, quantity_tips|
       quantity_tips.group_by(&:topic_id).map do |topic_id, similar_tips|
         str = compose_str(platform, quantity, topic_id, similar_tips)

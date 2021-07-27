@@ -24,7 +24,7 @@ module ProfileHelper
   end
 
   def points_required_for_current_level(profile)
-    LevelToKarmaService.call(team: profile.team, level: profile.level)
+    LevelToPointsService.call(team: profile.team, level: profile.level)
   end
 
   def level_progress_bar(profile)

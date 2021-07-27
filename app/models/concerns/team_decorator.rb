@@ -6,14 +6,14 @@ module TeamDecorator
     @slack_client ||= Slack::Web::Client.new(token: api_key)
   end
 
-  def level_karma_table
-    last_karma = 0
-    rows = level_karma_map.map do |level, karma|
-      delta = karma - last_karma
-      last_karma = karma
-      level_karma_table_row(level, karma, delta)
+  def levels_table
+    last_points = 0
+    rows = level_points_map.map do |level, points|
+      delta = points - last_points
+      last_points = points
+      levels_table_row(level, points, delta)
     end
-    (level_karma_table_title_rows + rows).join("\n")
+    (levels_table_titles + rows).join("\n")
   end
 
   def karma_emoj
@@ -31,8 +31,8 @@ module TeamDecorator
     profile_links.to_sentence
   end
 
-  def level_karma_map
-    (1..max_level).index_with { |level| LevelToKarmaService.call(team: self, level: level) }
+  def level_points_map
+    (1..max_level).index_with { |level| LevelToPointsService.call(team: self, level: level) }
   end
 
   def workspace_noun
@@ -66,18 +66,18 @@ module TeamDecorator
 
   private
 
-  def level_karma_table_title_rows
+  def levels_table_titles
     [
-      'Level  Karma  Delta',
-      '-----  -----  -----'
+      "Level  #{App.points_term.titleize}  Delta",
+      "-----  #{'-' * App.points_term.size}  -----"
     ]
   end
 
-  def level_karma_table_row(level, karma, delta)
+  def levels_table_row(level, points, delta)
     format(
-      '%<level>-5d  %<karma>-5d  %<delta>-5d',
+      "%<level>-5d  %<points>-#{App.points_term.size}d  %<delta>-5d",
       level: level,
-      karma: karma,
+      points: points,
       delta: delta
     ).strip
   end

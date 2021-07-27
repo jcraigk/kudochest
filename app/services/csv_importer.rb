@@ -1,5 +1,5 @@
 # frozen_string_literal: true
-class KarmaCsvImporter < Base::Service
+class CsvImporter < Base::Service
   option :team
   option :text
 

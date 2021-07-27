@@ -98,7 +98,7 @@ class WeeklyReport::TeamWorker
   def profile_levelups
     profiles.map do |profile|
       karma_received = quantity_to(profile)
-      previous_level = KarmaToLevelService.call(team: team, karma: profile.karma - karma_received)
+      previous_level = PointsToLevelService.call(team: team, karma: profile.karma - karma_received)
       OpenStruct.new(name: profile.display_name, delta: profile.level - previous_level)
     end
   end

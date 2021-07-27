@@ -60,14 +60,14 @@ module KarmaChest
       password: ENV['SMTP_PASSWORD']
     }
 
-    # Defaults
+    # Feature settings
     config.max_response_mentions = 3
     config.undo_cutoff = 5.minutes
     config.max_karma_per_tip = 10
     config.default_max_level = 20
     config.default_max_level_karma = 1_000
     config.error_emoji = 'grimacing'
-    config.default_karma_emoji = 'high_brightness'
+    config.default_tip_emoji = 'high_brightness'
     config.default_token_quantity = 50
     config.max_token_quantity = 1_000
     config.default_token_max = 50

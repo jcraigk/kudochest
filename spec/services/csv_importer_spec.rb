@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 require 'rails_helper'
 
-RSpec.describe KarmaCsvImporter do
+RSpec.describe CsvImporter do
   subject(:call) { described_class.call(team: team, text: csv_text) }
 
   let(:team) { create(:team, :with_app_profile) }

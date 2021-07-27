@@ -20,7 +20,7 @@ class Commands::Undo < Commands::Base
   end
 
   def prepare_response
-    @text = "You revoked #{karma_clause}"
+    @text = "You revoked #{points_clause}"
   end
 
   def tips
@@ -34,7 +34,7 @@ class Commands::Undo < Commands::Base
        .limit(1)
   end
 
-  def karma_clause
+  def points_clause
     relevant_tips_by_quantity.map do |quantity, quant_tips|
       str = "#{points_format(quantity, label: true)} from #{frag_sentence(quant_tips)}"
       str += ' each' if quant_tips.size.between?(2, App.max_response_mentions)

@@ -17,14 +17,14 @@ module ProfileDecorator
   end
 
   def link_with_stat
-    team.enable_levels? ? link_with_level : link_with_karma
+    team.enable_levels? ? link_with_level : link_with_points
   end
 
   def link_with_level
     "#{link} (level #{level})"
   end
 
-  def link_with_karma
+  def link_with_points
     "#{link} (#{points_format(karma, label: true)})"
   end
 
@@ -33,14 +33,14 @@ module ProfileDecorator
   end
 
   def webref_with_stat
-    team.enable_levels? ? webref_with_level : webref_with_karma
+    team.enable_levels? ? webref_with_level : webref_with_points
   end
 
   def webref_with_level
     "#{webref} (level #{level})"
   end
 
-  def webref_with_karma
+  def webref_with_points
     "#{webref} (#{points_format(karma_received, label: true)})"
   end
 
@@ -57,11 +57,11 @@ module ProfileDecorator
 
   def points_required_for_next_level
     return 0 if max_level?
-    LevelToKarmaService.call(team: team, level: next_level) - karma_received
+    LevelToPointsService.call(team: team, level: next_level) - karma_received
   end
 
   def level
-    KarmaToLevelService.call(team: team, karma: karma_received)
+    PointsToLevelService.call(team: team, karma: karma_received)
   end
 
   def next_level

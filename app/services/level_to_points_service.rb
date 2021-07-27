@@ -1,5 +1,5 @@
 # frozen_string_literal: true
-class LevelToKarmaService < Base::Service
+class LevelToPointsService < Base::Service
   option :team
   option :level
 

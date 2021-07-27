@@ -41,7 +41,7 @@ class Commands::Settings < Commands::Base
 
   def increment_text
     <<~TEXT.chomp
-      *Minimum #{App.points_term.titleize} Increment:* #{points_format(team.karma_increment)}
+      *Minimum Increment:* #{points_format(team.karma_increment, label: true)}
     TEXT
   end
 

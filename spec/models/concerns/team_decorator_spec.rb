@@ -4,7 +4,7 @@ require 'rails_helper'
 RSpec.describe TeamDecorator do
   subject(:team) { build(:team) }
 
-  describe '#level_karma_table' do
+  describe '#levels_table' do
     subject(:team) do
       build(:team, max_level: 10, max_level_karma: 450, level_curve: :steep)
     end
@@ -27,7 +27,7 @@ RSpec.describe TeamDecorator do
     end
 
     it 'returns expected text' do
-      expect(team.level_karma_table).to eq(expected_text)
+      expect(team.levels_table).to eq(expected_text)
     end
   end
 

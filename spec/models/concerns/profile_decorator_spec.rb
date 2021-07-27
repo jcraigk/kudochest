@@ -50,7 +50,7 @@ RSpec.describe ProfileDecorator do
       before { team.enable_levels = false }
 
       it 'returns expected text' do
-        expect(profile.link_with_stat).to eq(profile.link_with_karma)
+        expect(profile.link_with_stat).to eq(profile.link_with_points)
       end
     end
   end
@@ -65,13 +65,13 @@ RSpec.describe ProfileDecorator do
     end
   end
 
-  describe '#link_with_karma' do
+  describe '#link_with_points' do
     let(:text) { "#{profile.link} (2,678 karma)" }
 
     before { profile.karma_received = 2_678 }
 
     it 'returns expected text' do
-      expect(profile.link_with_karma).to eq(text)
+      expect(profile.link_with_points).to eq(text)
     end
   end
 
@@ -105,7 +105,7 @@ RSpec.describe ProfileDecorator do
       before { team.enable_levels = false }
 
       it 'returns expected text' do
-        expect(profile.webref_with_stat).to eq(profile.webref_with_karma)
+        expect(profile.webref_with_stat).to eq(profile.webref_with_points)
       end
     end
   end
@@ -120,13 +120,13 @@ RSpec.describe ProfileDecorator do
     end
   end
 
-  describe '#webref_with_karma' do
+  describe '#webref_with_points' do
     let(:text) { "#{profile.webref} (2,678 karma)" }
 
     before { profile.karma_received = 2_678 }
 
     it 'returns expected text' do
-      expect(profile.webref_with_karma).to eq(text)
+      expect(profile.webref_with_points).to eq(text)
     end
   end
 
@@ -167,11 +167,11 @@ RSpec.describe ProfileDecorator do
   end
 
   describe '#level' do
-    before { allow(KarmaToLevelService).to receive(:call) }
+    before { allow(PointsToLevelService).to receive(:call) }
 
-    it 'calls KarmaToLevelService' do
+    it 'calls PointsToLevelService' do
       profile.level
-      expect(KarmaToLevelService).to have_received(:call).with(
+      expect(PointsToLevelService).to have_received(:call).with(
         team: profile.team, karma: profile.karma
       )
     end

@@ -22,7 +22,7 @@ class DataExportWorker
 
   def csv_str
     CSV.generate do |csv|
-      csv << %w[ID Name Karma]
+      csv << ['ID', 'Name', App.points_term.titleize]
       team.profiles.active.order(display_name: :asc).each do |profile|
         csv << csv_row(profile)
       end

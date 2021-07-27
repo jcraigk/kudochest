@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 require 'rails_helper'
 
-RSpec.describe KarmaToLevelService do
+RSpec.describe PointsToLevelService do
   subject(:call) { described_class.call(team: team, karma: karma) }
 
   let(:team) do

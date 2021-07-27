@@ -16,7 +16,7 @@ class Commands::Levels < Commands::Base
   def level_table_text
     <<~TEXT.strip
       ```
-      #{team.level_karma_table}
+      #{team.levels_table}
       ```
     TEXT
   end
