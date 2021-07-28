@@ -60,7 +60,7 @@ class Slack::ModalView < Base::Service
         initial_option: {
           text: {
             type: :plain_text,
-            text: points_format(1, label: true).titleize
+            text: '1'
           },
           value: '1'
         },
@@ -68,7 +68,7 @@ class Slack::ModalView < Base::Service
           {
             text: {
               type: :plain_text,
-              text: points_format(quantity, label: true).titleize
+              text: quantity.to_s
             },
             value: quantity.to_s
           }

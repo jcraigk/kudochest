@@ -4,22 +4,22 @@
 &nbsp;  
 &nbsp;  
 
-![KarmaChest Logo](https://github.com/jcraigk/karmachest/blob/master/app/webpacker/images/logos/app-full.png)
+![KudoChest Logo](https://github.com/jcraigk/karmachest/blob/master/app/webpacker/images/logos/app-full.png)
 &nbsp;  
 &nbsp;  
 
-**KarmaChest** is a team engagement tool for **Slack** and **Discord**. It allows users within a workspace to give each other points that accrue over time. A point represents a token of appreciation or recognition for a job well done. Users can view their profile, browse their history, and access leaderboards on the web or within the chat client. App settings and moderation tools are provided via web UI.
+**KudoChest** is a team engagement tool for **Slack** and **Discord**. It allows users within a workspace to give each points that accrue over time. A point represents a token of appreciation or recognition for a job well done. Users can view their profile, browse their history, and access leaderboards on the web or within the chat client. App settings and moderation tools are provided via web UI.
 
 This is a **Ruby on Rails** application backed by **Postgres** and **Redis**. It integrates tightly with chat platforms, keeping teams and users synced server-side. This enables web-based user profiles and other UX enhancements not possible in standard bots.
 
-Download the **[Onboarding Deck](https://github.com/jcraigk/karmachest/files/6523729/KarmaChest-Onboarding.pdf)** for a basic intro or take a deeper dive in the **[Wiki](https://github.com/jcraigk/karmachest/wiki)**.
+See the **[Wiki](https://github.com/jcraigk/karmachest/wiki)** for a deeper dive.
 &nbsp;  
 &nbsp;  
 
 
 # Installation
 
-To install KarmaChest into your organization's Slack or Discord workspace, you must host the Rails components on a web server you control and configure the Slack or Discord App at the appropriate platform's site.
+To install KudoChest into your organization's Slack or Discord workspace, you must host the Rails components on a web server you control and configure the Slack or Discord App at the appropriate platform's site.
 
 See the [Installation Instructions](https://github.com/jcraigk/karmachest/wiki/Installation) for more detail.
 &nbsp;  
@@ -34,7 +34,7 @@ For local development, start by reading the [Installation Instructions](https://
 
 For Slack and OAuth callbacks, a tunneling service such as [ngrok](https://ngrok.com/) is recommended to expose your local server publicly.
 
-You'll want to setup a dedicated workspace and App in Slack/Discord specifically for KarmaChest development. Do not use your organization's production workspace or App to develop against.
+You'll want to setup a dedicated workspace and App in Slack/Discord specifically for KudoChest development. Do not use your organization's production workspace or App to develop against.
 
 If you're working on response images and running Sidekiq in Docker, you'll need to configure a local storage location in `docker-compose.yml` to map to `/storage` in the `sidekiq` container.
 &nbsp;  
@@ -43,7 +43,7 @@ If you're working on response images and running Sidekiq in Docker, you'll need 
 
 ## Run the App Components
 
-You may run all components in Docker with logging exposed using the command `make up` and then connect to the `karmachest_app` container and create the database.
+You may run all components in Docker with logging exposed using the command `make up` and then connect to the `kudochest_app` container and create the database.
 
 Alternatively you can run services (PG and Redis) in Docker while running the Rails processes natively. This often eases debugging and development.
 
@@ -90,7 +90,7 @@ make services
 bundle exec rspec
 ```
 
-To generate seed data for manual testing, first install your local instance of KarmaChest into a development workspace and then run
+To generate seed data for manual testing, first install your local instance of KudoChest into a development workspace and then run
 
 ```
 bundle exec rails seeds:all

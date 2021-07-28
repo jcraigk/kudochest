@@ -5,7 +5,7 @@ module PointsHelper
     return str unless opts[:label] == true
 
     one = points.to_i == 1
-    str = App.one_replacement if one && App.one_replacement.present?
+    str = App.singular_prefix if one && App.singular_prefix.present?
     label = (one ? App.point_term : App.points_term)
     "#{str} #{label}".squish
   end

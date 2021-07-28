@@ -7,4 +7,4 @@ test:
 production:
   adapter: redis
   url: <%= ENV['redis_url'] %>
-  channel_prefix: karmachest
+  channel_prefix: kudochest
