@@ -372,6 +372,10 @@ img.small-radius {
   padding: 5px;
   width: 100%;
 
+  p.oss a {
+    text-decoration: underline;
+  }
+
   a {
     font-size: 1.1rem;
     line-height: 2rem;
