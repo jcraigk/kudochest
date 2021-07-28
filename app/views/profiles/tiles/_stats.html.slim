@@ -41,16 +41,16 @@
       .columns
         .column.is-half.stats-box
           p.subtitle.is-5
-            | Karma earned: &nbsp;<strong>#{karma_format(profile.karma)}</strong>
+            | #{App.points_term.titleize} earned: &nbsp;<strong>#{points_format(profile.points)}</strong>
             br
-            | Karma given: &nbsp;<strong>#{karma_format(profile.karma_sent)}</strong>
+            | #{App.points_term.titleize} given: &nbsp;<strong>#{points_format(profile.points_sent)}</strong>
 
-            - if profile.team.limit_karma? && profile == @current_profile
+            - if profile.team.throttle_tips? && profile == @current_profile
               br
               - if profile.infinite_tokens?
                 | Tokens: &nbsp;<strong>unlimited</strong>
               - else
-                | Tokens: &nbsp;<strong>#{karma_format(profile.token_balance)}</strong>
+                | Tokens: &nbsp;<strong>#{points_format(profile.token_balance)}</strong>
                 br
                 span.info You get #{profile.team.token_quantity} more tokens in #{time_until_next_dispersal(profile.team)}
 
@@ -60,4 +60,4 @@
               ' Giving streak: &nbsp;<strong>#{pluralize(profile.active_streak, 'day')}</strong>
               - if profile.active_streak.positive?
                 br
-                span.info Give karma #{profile.next_streak_date_distance} to prolong
+                span.info Give #{App.points_term} #{profile.next_streak_date_distance} to prolong

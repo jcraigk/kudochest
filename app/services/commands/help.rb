@@ -21,22 +21,22 @@ class Commands::Help < Commands::Base
     <<~TEXT.chomp
       * `connect`  Connect your chat profile to your web account
         * `help`  You're looking at it!
-        * `levels`  See a chart mapping karma to levels
+        * `levels`  See a chart mapping #{App.points_term} to levels
         * `me`  See your current stats
         * `mute`  Disable unsolicited direct messages
         * `settings`  See app configuration (set by admin)
         * `stats #{PROF_PREFIX}user`  See another user's stats (minus private stuff)
-        * `top`  See the leaderboard of karma earners
-        * `topics`  See all karma topics
-        * `undo`  Revoke karma you just gave
+        * `top`  See the leaderboard
+        * `topics`  See all topics
+        * `undo`  Revoke #{App.points_term} you just gave
         * `unmute`  Enable unsolicited direct messages
     TEXT
   end
 
   def discord_text
     <<~TEXT.chomp
-      **Giving karma:**
-        #{discord_giving_karma}
+      **Giving #{App.points_term.titleize}:**
+        #{discord_giving_points}
 
       **Issuing commands:**
         * `#{App.discord_command} [keyword]`
@@ -51,7 +51,7 @@ class Commands::Help < Commands::Base
   end
 
   # rubocop:disable Layout/LineLength
-  def discord_giving_karma
+  def discord_giving_points
     str = "* Type `#{PROF_PREFIX}user++`, `#{PROF_PREFIX}role++`, `#{CHAN_PREFIX}channel++`, or `#{CHAN_PREFIX}everyone++` in a guild channel"
     return str unless team.enable_emoji?
     str += "\n  * Type `#{PROF_PREFIX}user`#{team.custom_emoj}, `#{PROF_PREFIX}role`#{team.custom_emoj}, `#{CHAN_PREFIX}channel`#{team.custom_emoj}, or `#{CHAN_PREFIX}everyone`#{team.custom_emoj} in a guild channel"
@@ -61,8 +61,8 @@ class Commands::Help < Commands::Base
 
   def slack_text
     <<~TEXT.chomp
-      *Giving karma:*
-        #{slack_giving_karma}
+      *Giving #{App.points_term}:*
+        #{slack_giving_points}
 
       *Issuing commands:*
         * `/#{App.base_command} [keyword]`
@@ -78,8 +78,8 @@ class Commands::Help < Commands::Base
   end
 
   # rubocop:disable Layout/LineLength
-  def slack_giving_karma
-    str = '* `/karma` by itself for assistance _(tip: use Tab key)_'
+  def slack_giving_points
+    str = "* `/#{App.base_command}` by itself for assistance _(tip: use Tab key)_"
     str += "\n  * Type `#{PROF_PREFIX}user++`, `#{PROF_PREFIX}group++`, `#{CHAN_PREFIX}channel++`, or `#{CHAN_PREFIX}everyone++` where bot can hear"
     if team.enable_emoji?
       str += "\n  * Type `#{PROF_PREFIX}user`#{team.custom_emoj}, `#{PROF_PREFIX}group`#{team.custom_emoj}, `#{CHAN_PREFIX}channel`#{team.custom_emoj}, or `#{CHAN_PREFIX}everyone`#{team.custom_emoj} where bot can hear"

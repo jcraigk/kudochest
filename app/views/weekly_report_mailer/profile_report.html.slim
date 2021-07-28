@@ -13,15 +13,15 @@ h1
   br
   table style='font-size: 1.2rem;'
     tr
-      td style='text-align: right; font-weight: bold; width: 50%;' Karma Received:
-      td = @data.karma_received
+      td style='text-align: right; font-weight: bold; width: 50%;' #{App.points_term.titleize} Received:
+      td = @data.points_received
     tr
-      td style='text-align: right; font-weight: bold; width: 50%;' Karma Given:
-      td = @data.karma_sent
-    - if @data.karma_from_streak.present?
+      td style='text-align: right; font-weight: bold; width: 50%;' #{App.points_term.titleize} Given:
+      td = @data.points_sent
+    - if @data.points_from_streak.present?
       tr
-        td style='text-align: right; font-weight: bold; width: 50%;' Karma from Giving Streaks:
-        td = @data.karma_from_streak
+        td style='text-align: right; font-weight: bold; width: 50%;' #{App.points_term.titleize} from Giving Streaks:
+        td = @data.points_from_streak
     - if @data.top_benefactors.any?
       tr
         td style='text-align: right; font-weight: bold; width: 50%;' Top Benefactors:

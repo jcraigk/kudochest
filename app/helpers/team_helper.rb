@@ -1,16 +1,54 @@
 # frozen_string_literal: true
 module TeamHelper
+  # rubocop:disable Metrics/MethodLength
   def reset_team_stats_button(team)
     link_to(
-      icon_and_text('exclamation-circle', t('teams.reset_stats_now')),
+      icon_and_text(
+        'exclamation-circle',
+        t('teams.reset_stats_now', points_title: App.points_term.titleize)
+      ),
       reset_stats_team_path(team),
       class: 'button is-danger',
       method: :patch,
       data: {
-        confirm: t('teams.confirm_reset_stats')
+        confirm: t('teams.confirm_reset_stats', points: App.points_term)
       }
     )
   end
+
+  def active_claim_button(reward)
+    link_to(
+      icon_and_text(
+        'sparkles',
+        t(
+          'shop.claim_item',
+          amount: number_with_delimiter(reward.price),
+          points: App.points_term
+        )
+      ),
+      claim_reward_path(id: reward.id),
+      method: :post,
+      class: 'button is-primary is-large',
+      data: { confirm: t('shop.confirm_claim') }
+    )
+  end
+
+  def inactive_claim_button(reward)
+    link_to(
+      icon_and_text(
+        'do-not-enter',
+        t(
+          'shop.requires_points',
+          amount: number_with_delimiter(reward.price),
+          points: App.points_term
+        )
+      ),
+      '#',
+      class: 'button is-large btn-claim-disabled',
+      disabled: true
+    )
+  end
+  # rubocop:enable Metrics/MethodLength
 
   def join_all_channels_button(team)
     link_to(
@@ -26,7 +64,7 @@ module TeamHelper
 
   def export_data_button(team)
     link_to(
-      icon_and_text('cloud-download', t('teams.export_karma_data')),
+      icon_and_text('cloud-download', t('teams.export_data')),
       export_data_team_path(team),
       class: 'button',
       method: :patch,
@@ -37,33 +75,8 @@ module TeamHelper
   end
 
   def claim_button(profile, reward)
-    return active_claim_button(reward) if profile.karma_unclaimed >= reward.price
+    return active_claim_button(reward) if profile.points_unclaimed >= reward.price
     inactive_claim_button(reward)
-  end
-
-  def active_claim_button(reward)
-    link_to(
-      icon_and_text(
-        'sparkles',
-        t('shop.claim_item', price: number_with_delimiter(reward.price))
-      ),
-      claim_reward_path(id: reward.id),
-      method: :post,
-      class: 'button is-primary is-large',
-      data: { confirm: t('shop.confirm_claim') }
-    )
-  end
-
-  def inactive_claim_button(reward)
-    link_to(
-      icon_and_text(
-        'do-not-enter',
-        t('shop.requires_karma', price: number_with_delimiter(reward.price))
-      ),
-      '#',
-      class: 'button is-large btn-claim-disabled',
-      disabled: true
-    )
   end
 
   def time_until_next_dispersal(team)

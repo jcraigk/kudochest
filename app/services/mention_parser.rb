@@ -94,7 +94,7 @@ class MentionParser < Base::Service
   # TODO: Split this out into 2 Tips
   def num_inline_emoji(emoji_string)
     emoji_string.split(':').reject(&:blank?).count do |emoji|
-      emoji == team.karma_emoji || emoji.in?(team.topics.active.map(&:emoji))
+      emoji == team.tip_emoji || emoji.in?(team.topics.active.map(&:emoji))
     end
   end
 

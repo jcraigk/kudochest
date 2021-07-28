@@ -3,15 +3,15 @@ class BonusCalculatorService < Base::Service
   option :team
   option :start_date
   option :end_date
-  option :include_streak_karma
-  option :include_imported_karma
+  option :include_streak_points
+  option :include_imported_points
   option :style
   option :pot_size
-  option :karma_point_value
+  option :dollar_per_point
 
   def call
     @style = style.to_sym
-    @profile_karma = {}
+    @profile_points = {}
 
     TeamOwnerMailer.bonus_calculator(team, csv_str).deliver_later
   end
@@ -26,17 +26,17 @@ class BonusCalculatorService < Base::Service
   end
 
   def header_row
-    ary = ['ID', 'Name', 'Karma Earned']
-    ary << 'Share of Total' unless style == :karma_value
+    ary = ['ID', 'Name', App.points_term.titleize]
+    ary << 'Share of Total' unless style == :points_value
     ary << 'Bonus'
   end
 
   def csv_row(profile)
-    karma = profile_karma(profile)
-    share = share_of(karma)
-    bonus = style_bonus(karma, share)
-    ary = [profile.rid, profile.display_name, karma]
-    ary << share_display(share) unless style == :karma_value
+    points = profile_points(profile)
+    share = share_of(points)
+    bonus = style_bonus(points, share)
+    ary = [profile.rid, profile.display_name, points]
+    ary << share_display(share) unless style == :points_value
     ary << bonus_display(bonus)
   end
 
@@ -49,32 +49,32 @@ class BonusCalculatorService < Base::Service
     format('$%<bonus>.2f', bonus: bonus)
   end
 
-  def style_bonus(karma, share)
+  def style_bonus(points, share)
     case style
     when :split_pot then (pot_size * share).round(2)
-    when :karma_value then (karma_point_value * karma).round(2)
+    when :points_value then (dollar_per_point * points).round(2)
     else ''
     end
   end
 
-  def share_of(karma)
-    return 0 unless karma.positive? && total_karma.positive?
-    karma / total_karma.to_f
+  def share_of(points)
+    return 0 unless points.positive? && total_points.positive?
+    points / total_points.to_f
   end
 
-  def total_karma
-    @total_karma ||= active_profiles.sum { |prof| profile_karma(prof) }
+  def total_points
+    @total_points ||= active_profiles.sum { |prof| profile_points(prof) }
   end
 
   def active_profiles
     @active_profiles ||= team.profiles.active.order(display_name: :asc)
   end
 
-  def profile_karma(profile)
-    @profile_karma[profile.id] ||= begin
+  def profile_points(profile)
+    @profile_points[profile.id] ||= begin
       tips = tip_relation(profile)
-      tips = tips.where.not(source: :streak) unless include_streak_karma
-      tips = tips.where.not(source: :import) unless include_imported_karma
+      tips = tips.where.not(source: :streak) unless include_streak_points
+      tips = tips.where.not(source: :import) unless include_imported_points
       tips.sum(:quantity)
     end
   end

@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 class Base::ImageService < Base::Service
-  include KarmaHelper
+  include PointsHelper
 
   option :team_config
 

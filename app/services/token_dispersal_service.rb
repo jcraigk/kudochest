@@ -19,7 +19,7 @@ class TokenDispersalService < Base::Service
   end
 
   def notify_user(profile)
-    return unless notify && team.notify_tokens_disbursed && profile.allow_unprompted_dm?
+    return unless notify && team.notify_tokens && profile.allow_unprompted_dm?
     send_direct_message(profile)
   end
 
@@ -32,7 +32,7 @@ class TokenDispersalService < Base::Service
 
   def success_text(profile)
     <<~TEXT.chomp
-      You received #{number_with_delimiter(quantity)} tokens#{discord_guild}, bringing your total to #{karma_format(profile.token_balance)}.
+      You received #{number_with_delimiter(quantity)} tokens#{discord_guild}, bringing your total to #{points_format(profile.token_balance)}.
     TEXT
   end
 

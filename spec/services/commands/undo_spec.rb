@@ -38,7 +38,7 @@ RSpec.describe Commands::Undo, :freeze_time do
 
   context 'when a recent undoable tip exists' do
     let(:recipient) { create(:profile, team: team) }
-    let(:text) { "You revoked 1 karma from #{recipient.link}" }
+    let(:text) { "You revoked #{points_format(1, label: true)} from #{recipient.link}" }
     let(:response) { OpenStruct.new(mode: :private, text: text) }
 
     before do
@@ -60,7 +60,7 @@ RSpec.describe Commands::Undo, :freeze_time do
     let(:recipient2) { create(:profile, team: team) }
     let(:text) do
       <<~TEXT.chomp
-        You revoked 2 karma from #{recipient2.link} and 1 karma from #{recipient1.link}
+        You revoked #{points_format(2, label: true)} from #{recipient2.link} and #{points_format(1, label: true)} from #{recipient1.link}
       TEXT
     end
     let(:response) { OpenStruct.new(mode: :private, text: text) }

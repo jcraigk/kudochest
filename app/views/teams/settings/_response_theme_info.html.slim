@@ -5,7 +5,7 @@
       span.profile_ref> @Mark
       ' gave
       span.profile_ref> @Lisa
-      ' 1 karma!
+      ' #{points_format(1, label: true)}!
     p The Basic theme mentions recipients, which may result in a direct notification to them depending on their Slack settings.
 
   .theme-info data-name='unobtrusive' style='display: none;'
@@ -14,7 +14,7 @@
         span.profile_ref> Mark
         ' gave
         span.profile_ref> Lisa
-        ' 1 karma!
+        ' #{points_format(1, label: true)}!
       p The Unobtrusive theme does not mention recipients so they do not get notified. The usernames are linked to web profiles instead.
 
     - elsif @current_team.platform.discord?
@@ -22,7 +22,7 @@
         strong> Mark
         ' gave
         strong> Lisa
-        ' 1 karma!
+        ' #{points_format(1, label: true)}!
       p The Unobtrusive theme does not mention recipients so they do not get notified.
 
   .theme-info data-name='fancy' style='display: none;'
@@ -34,16 +34,16 @@
         ' (level 3)
       - else
         span.profile_ref> @Mark
-        ' (231 karma) gave
+        ' (#{points_format(231, label: true)}) gave
         span.profile_ref> @Lisa
-        ' (3,245 karma)
-      ' 1 karma
+        ' (#{points_format(3,245, label: true)})
+      ' #{points_format(1, label: true)}
       - if @current_team.platform.slack?
-        | #{emojify(':' + @current_team.karma_emoji + ':', size: 20)}
+        | #{emojify(':' + @current_team.tip_emoji + ':', size: 20)}
       - elsif @current_team.platform.discord?
         = discord_emoji('16x16')
       |!
-    p The Fancy theme mention recipients, displays user stats (level or karma), and includes emoji.
+    p The Fancy theme mention recipients, displays user stats (level or #{App.points_term}), and includes emoji.
 
   .theme-info data-name='gif_day' style='display: none;'
     = image_pack_tag "media/images/response_images/day.gif", alt: "Day Graphic", class: 'gif'

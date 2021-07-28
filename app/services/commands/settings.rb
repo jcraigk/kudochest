@@ -2,7 +2,7 @@
 class Commands::Settings < Commands::Base
   include ActionView::Helpers::TextHelper
   include ApplicationHelper
-  include KarmaHelper
+  include PointsHelper
 
   def call
     respond_success
@@ -16,10 +16,10 @@ class Commands::Settings < Commands::Base
 
   def base_text
     <<~TEXT.chomp
-      #{limit_karma_text}
-      #{karma_increment_text}
+      #{throttle_points_text}
+      #{increment_text}
       #{topic_text}
-      #{karma_notes_text}
+      #{notes_text}
       #{emoji_text}
       #{level_text}
       #{streak_text}
@@ -35,13 +35,13 @@ class Commands::Settings < Commands::Base
     str + "*Active Topics:* #{team.topics.active.count}"
   end
 
-  def karma_notes_text
-    "*Karma Notes:* #{team.tip_notes.titleize}"
+  def notes_text
+    "*Notes:* #{team.tip_notes.titleize}"
   end
 
-  def karma_increment_text
+  def increment_text
     <<~TEXT.chomp
-      *Minimum Karma Increment:* #{karma_format(team.karma_increment)}
+      *Minimum Increment:* #{points_format(team.tip_increment, label: true)}
     TEXT
   end
 
@@ -57,7 +57,7 @@ class Commands::Settings < Commands::Base
     txt = "*Emoji Enabled:* #{boolean_str(team.enable_emoji?)}"
     return txt unless team.enable_emoji?
     txt += "\n*Emoji Icon:* #{team.custom_emoj}"
-    txt + "\n*Emoji Value:* #{karma_format(team.emoji_quantity)}"
+    txt + "\n*Emoji Value:* #{points_format(team.emoji_quantity, label: true)}"
   end
 
   def level_text
@@ -70,18 +70,18 @@ class Commands::Settings < Commands::Base
     <<~TEXT.chomp
 
       *Maximum Level:* #{team.max_level}
-      *Maximum Level Karma:* #{number_with_delimiter(team.max_level_karma)}
+      *Required for Max Level:* #{points_format(team.max_level_points, label: true)}
       *Progression Curve:* #{team.level_curve.titleize}
     TEXT
   end
 
-  def limit_karma_text
-    txt = "*Limit Karma:* #{boolean_str(team.limit_karma)}"
-    return txt unless team.limit_karma
-    txt + limit_detail_text
+  def throttle_points_text
+    txt = "*Throttle #{App.points_term.titleize}:* #{boolean_str(team.throttle_tips)}"
+    return txt unless team.throttle_tips
+    txt + throttle_detail_text
   end
 
-  def limit_detail_text
+  def throttle_detail_text
     <<~TEXT.chomp
 
       *Exempt Users:* #{team.infinite_profiles_sentence}
@@ -98,7 +98,7 @@ class Commands::Settings < Commands::Base
     txt + <<~TEXT.chomp
 
       *Streak Duration:* #{pluralize(team.streak_duration, 'day')}
-      *Streak Reward:* #{team.streak_reward} karma
+      *Streak Reward:* #{points_format(team.streak_reward, label: true)}
     TEXT
   end
 

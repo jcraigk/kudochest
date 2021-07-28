@@ -15,7 +15,7 @@ class Slack::ModalView < Base::Service
       callback_id: :modal_submit,
       title: {
         type: :plain_text,
-        text: 'Give Karma'
+        text: "Give #{App.points_term.titleize}"
       },
       submit: {
         type: :plain_text,
@@ -52,7 +52,7 @@ class Slack::ModalView < Base::Service
       type: :input,
       label: {
         type: :plain_text,
-        text: 'Amount'
+        text: 'Quantity'
       },
       element: {
         type: :static_select,
@@ -60,7 +60,7 @@ class Slack::ModalView < Base::Service
         initial_option: {
           text: {
             type: :plain_text,
-            text: '1 Karma'
+            text: '1'
           },
           value: '1'
         },
@@ -68,7 +68,7 @@ class Slack::ModalView < Base::Service
           {
             text: {
               type: :plain_text,
-              text: "#{quantity} Karma"
+              text: quantity.to_s
             },
             value: quantity.to_s
           }
@@ -135,11 +135,11 @@ class Slack::ModalView < Base::Service
   end
 
   def quantity_options
-    (fractional_quantity_options + (1..team_config.max_karma_per_tip).to_a).compact
+    (fractional_quantity_options + (1..team_config.max_points_per_tip).to_a).compact
   end
 
   def fractional_quantity_options
-    case team_config.karma_increment
+    case team_config.tip_increment
     when 0.01 then [0.01, 0.05, 0.1, 0.25, 0.5, 0.75]
     when 0.1 then [0.1, 0.5]
     when 0.25 then [0.25, 0.5, 0.75]

@@ -12,7 +12,7 @@ FactoryBot.define do
     app_subteam_rid { FactoryHelper.rid(:discord) }
     tokens_disbursed_at { Time.current }
     max_level { App.default_max_level }
-    max_level_karma { App.default_max_level_karma }
+    max_level_points { App.default_max_level_points }
     token_max { App.default_token_max }
     time_zone { 'UTC' }
     token_hour { 7 }

@@ -6,7 +6,7 @@ RSpec.describe Commands::Stats do
     described_class.call(team_rid: team.rid, profile_rid: profile_rid, text: request_text)
   end
 
-  let(:team) { create(:team, limit_karma: true) }
+  let(:team) { create(:team, throttle_tips: true) }
   let(:profile) { create(:profile, team: team) }
   let(:profile_rid) { profile.rid }
   let(:response) { OpenStruct.new(mode: :public, text: response_text) }
@@ -40,7 +40,7 @@ RSpec.describe Commands::Stats do
         *Stats for #{profile.link}*
         *Leaderboard Rank:* #{rank}
         *Level:* 1
-        *Karma:* 0
+        *#{App.points_term.titleize}:* 0
         *Given:* 0
         *Tokens:* 0 (receiving #{team.token_quantity} tokens in 2 days)
         *Giving Streak:* 0 days
@@ -56,7 +56,7 @@ RSpec.describe Commands::Stats do
           *Stats for #{profile.link}*
           *Leaderboard Rank:* #{rank}
           *Level:* 1
-          *Karma:* 0
+          *#{App.points_term.titleize}:* 0
           *Given:* 0
           *Tokens:* Unlimited
           *Giving Streak:* 0 days
@@ -78,7 +78,7 @@ RSpec.describe Commands::Stats do
         *Stats for #{profile2.link}*
         *Leaderboard Rank:* #{rank}
         *Level:* 1
-        *Karma:* 0
+        *#{App.points_term.titleize}:* 0
         *Given:* 0
         *Giving Streak:* 0 days
         *Profile:* <#{profile2.web_link}>
@@ -95,7 +95,7 @@ RSpec.describe Commands::Stats do
       <<~TEXT.chomp
         *Stats for #{profile2.link}*
         *Leaderboard Rank:* #{rank}
-        *Karma:* 0
+        *#{App.points_term.titleize}:* 0
         *Given:* 0
         *Giving Streak:* 0 days
         *Profile:* <#{profile2.web_link}>
@@ -107,7 +107,7 @@ RSpec.describe Commands::Stats do
     include_examples 'expected response'
   end
 
-  context 'when team.limit_karma is false' do
+  context 'when team.throttle_tips is false' do
     let(:profile2) { create(:profile, team: team) }
     let(:request_text) { profile2.link }
     let(:response_text) do
@@ -115,14 +115,14 @@ RSpec.describe Commands::Stats do
         *Stats for #{profile2.link}*
         *Leaderboard Rank:* #{rank}
         *Level:* 1
-        *Karma:* 0
+        *#{App.points_term.titleize}:* 0
         *Given:* 0
         *Giving Streak:* 0 days
         *Profile:* <#{profile2.web_link}>
       TEXT
     end
 
-    before { team.update(limit_karma: false) }
+    before { team.update(throttle_tips: false) }
 
     include_examples 'expected response'
   end
@@ -135,7 +135,7 @@ RSpec.describe Commands::Stats do
         *Stats for #{profile2.link}*
         *Leaderboard Rank:* #{rank}
         *Level:* 1
-        *Karma:* 0
+        *#{App.points_term.titleize}:* 0
         *Given:* 0
         *Profile:* <#{profile2.web_link}>
       TEXT

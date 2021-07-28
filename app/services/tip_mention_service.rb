@@ -196,7 +196,7 @@ class TipMentionService < Base::Service
     quantity = mention.quantity
     num_profiles = mention.profiles.size
     if team.split_tip?
-      floor_increment((quantity / num_profiles.to_f), team.karma_increment)
+      floor_increment((quantity / num_profiles.to_f), team.tip_increment)
     else
       quantity * num_profiles
     end

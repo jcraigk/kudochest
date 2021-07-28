@@ -15,20 +15,20 @@ br
 
   table style='font-size: 1.2rem;'
     tr
-      td style='text-align: right; vertical-align: top; font-weight: bold; width: 50%;' Total Karma Given:
-      td = @data.karma_received
-    - if @data.karma_from_streak.present?
+      td style='text-align: right; vertical-align: top; font-weight: bold; width: 50%;' Total #{App.points_term.titleize} Given:
+      td = @data.points_received
+    - if @data.points_from_streak.present?
       tr
-        td style='text-align: right; vertical-align: top; font-weight: bold; width: 50%;' Karma from Giving Streaks:
-        td = @data.karma_from_streak
+        td style='text-align: right; vertical-align: top; font-weight: bold; width: 50%;' #{App.points_term.titleize} from Giving Streaks:
+        td = @data.points_from_streak
     - if @data.top_benefactors.any?
       tr
         td style='text-align: right; vertical-align: top; font-weight: bold; width: 50%;' Top Benefactors:
-        td = @data.top_benefactors.map { |data| "#{profile_mail_link(data.profile)} (#{karma_format(data.quantity)} karma)" }.join('<br>').html_safe
+        td = @data.top_benefactors.map { |data| "#{profile_mail_link(data.profile)} (#{points_format(data.quantity, label: true)})" }.join('<br>').html_safe
     - if @data.top_recipients.any?
       tr
         td style='text-align: right; vertical-align: top; font-weight: bold; width: 50%;' Top Recipients:
-        td = @data.top_recipients.map { |data| "#{profile_mail_link(data.profile)} (#{karma_format(data.quantity)} karma)" }.join('<br>').html_safe
+        td = @data.top_recipients.map { |data| "#{profile_mail_link(data.profile)} (#{points_format(data.quantity, label: true)})" }.join('<br>').html_safe
     - if @data.levelup_sentence.present?
       tr
         td style='text-align: right; vertical-align: top; font-weight: bold; width: 50%;' User Events:

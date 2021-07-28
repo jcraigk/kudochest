@@ -8,4 +8,4 @@ en:
     http_500_body: Sorry, something went wrong.
     generic: 'An error occurred: %{sentence}'
     bad_command: "Sorry, I don't understand \"%{text}\". Tell me `help` to see what you can do!"
-    no_dm_support: "Sorry, I don't support direct messaging. Try typing `!karma help` in a guild channel where I'm installed or visit %{url}"
+    no_dm_support: "Sorry, I don't support direct messaging. Try typing `!%{cmd} help` in a guild channel where I'm installed or visit %{url}"

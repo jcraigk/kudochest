@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 class WeeklyReport::ProfileWorker
   include ActionView::Helpers::TextHelper
-  include KarmaHelper
+  include PointsHelper
   include Sidekiq::Worker
 
   sidekiq_options queue: :weekly_report
@@ -24,9 +24,9 @@ class WeeklyReport::ProfileWorker
 
   def data
     OpenStruct.new(
-      karma_received: karma_format(karma_received),
-      karma_sent: karma_format(karma_sent),
-      karma_from_streak: karma_format(karma_from_streak),
+      points_received: points_format(points_received),
+      points_sent: points_format(points_sent),
+      points_from_streak: points_format(points_from_streak),
       levelup_sentence: levelup_sentence,
       rank_sentence: rank_sentence,
       top_recipients: top_recipients,
@@ -57,15 +57,15 @@ class WeeklyReport::ProfileWorker
          .order(quantity: :desc)
   end
 
-  def karma_received
-    @karma_received ||= tips_received.sum(:quantity)
+  def points_received
+    @points_received ||= tips_received.sum(:quantity)
   end
 
-  def karma_sent
-    @karma_sent ||= tips_sent.sum(:quantity)
+  def points_sent
+    @points_sent ||= tips_sent.sum(:quantity)
   end
 
-  def karma_from_streak
+  def points_from_streak
     return unless team.enable_streaks?
     tips_received.where(source: 'streak').sum(:quantity)
   end
@@ -86,7 +86,7 @@ class WeeklyReport::ProfileWorker
   end
 
   def previous_level
-    KarmaToLevelService.call(team: profile.team, karma: profile.karma - karma_received)
+    PointsToLevelService.call(team: profile.team, points: profile.points - points_received)
   end
 
   def rank_sentence

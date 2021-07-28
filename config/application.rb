@@ -10,7 +10,7 @@ require 'active_record/railtie'
 
 Bundler.require(*Rails.groups)
 
-module KarmaChest
+module KudoChest
   class Application < Rails::Application
     config.load_defaults '6.1'
     Rails.autoloaders.main.ignore(Rails.root.join('app/webpacker'))
@@ -21,31 +21,38 @@ module KarmaChest
     config.action_cable.worker_pool_size = 4
     config.active_job.queue_adapter = :sidekiq
 
-    # Basic Info
-    config.app_name = 'KarmaChest'
-    config.bot_name = 'KarmaChest'
-    config.base_url = "https://#{ENV['WEB_DOMAIN']}"
-    config.from_email = "KarmaChest <noreply@#{ENV['WEB_DOMAIN']}>"
+    ## Basic Info
+    config.app_name = ENV.fetch('APP_NAME', 'KudoChest')
+    config.bot_name = ENV.fetch('BOT_NAME', 'KudoChest')
+    config.base_url = ENV.fetch('BASE_URL', "https://#{ENV['WEB_DOMAIN']}")
+    config.from_email = ENV.fetch('FROM_EMAIL', "KudoChest <noreply@#{ENV['WEB_DOMAIN']}>")
+    config.point_term = ENV.fetch('POINT_TERM', 'kudo')
+    config.points_term = ENV.fetch('POINTS_TERM', 'kudos')
+    config.singular_prefix = ENV.fetch('SINGULAR_PREFIX', 'a')
     config.help_url = "#{config.base_url}/help"
-    config.feedback_url = "#{config.base_url}/feedback"
 
-    # Access Control
-    config.max_teams = 1 # Default to single-team install
-    config.user_email_domains = [] # ['karma.org'] to restrict to `bob@karma.org` etc
-    config.oauth_providers = %i[slack discord google facebook] # disabled if any user_email_domains
+    ## Access Control
+    # Default to single team install
+    config.max_teams = ENV.fetch('MAX_TEAMS', 1)
+    # ['example.org'] to restrict to `bob@example.org` etc
+    domains = ENV['USER_EMAIL_DOMAINS'].presence&.split(',')
+    config.user_email_domains = domains || []
+    # Possible values: [slack discord google facebook]
+    providers = ENV['OAUTH_PROVIDERS'].presence&.split(',')&.map(&:to_sym)
+    config.oauth_providers = providers || []
 
-    # Slack
+    ## Slack
     config.slack_app_id = ENV['SLACK_APP_ID']
-    config.base_command = 'karma'
+    config.base_command = ENV.fetch('BASE_COMMAND', 'kudos')
 
-    # Discord
+    ## Discord
     config.discord_cdn_base = 'https://cdn.discordapp.com'
     config.discord_token = "Bot #{ENV['DISCORD_BOT_TOKEN']}"
-    config.discord_command = '!karma'
-    config.discord_emoji = 'karma_plus_one'
+    config.discord_command = "!#{config.base_command}"
+    config.discord_emoji = 'plus_one'
     config.discord_permission = '1073743872' # Manage Emojis, Send Messages
 
-    # SMTP
+    ## Email
     config.action_mailer.default_url_options = { host: config.base_url }
     config.action_mailer.delivery_method = :smtp
     config.action_mailer.smtp_settings = {
@@ -57,14 +64,14 @@ module KarmaChest
       password: ENV['SMTP_PASSWORD']
     }
 
-    # Defaults
+    ## Feature defaults/limits
     config.max_response_mentions = 3
     config.undo_cutoff = 5.minutes
-    config.max_karma_per_tip = 10
+    config.max_points_per_tip = 10
     config.default_max_level = 20
-    config.default_max_level_karma = 1_000
+    config.default_max_level_points = 1_000
     config.error_emoji = 'grimacing'
-    config.default_karma_emoji = 'high_brightness'
+    config.default_tip_emoji = 'high_brightness'
     config.default_token_quantity = 50
     config.max_token_quantity = 1_000
     config.default_token_max = 50

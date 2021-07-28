@@ -18,7 +18,7 @@ RSpec.describe Discord::ProfileService do
       },
       {
         id: 'app-profile-rid',
-        username: 'KarmaChest',
+        username: 'KudoChest',
         bot: true
       },
       {
@@ -30,7 +30,7 @@ RSpec.describe Discord::ProfileService do
   end
 
   before do
-    ENV['DISCORD_APP_USERNAME'] = 'KarmaChest'
+    ENV['DISCORD_APP_USERNAME'] = 'KudoChest'
     allow(Discordrb::API::Server).to receive(:resolve_members)
       .with(App.discord_token, team.rid, 1_000).and_return(profile_data.to_json)
   end

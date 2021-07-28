@@ -8,6 +8,6 @@ class RecipientNotABotValidator < ActiveModel::Validator
       else
         :cannot_tip_bots
       end
-    record.errors.add(:base, i18nkey)
+    record.errors.add(:base, i18nkey, message: I18n.t(i18nkey, points: App.points_term))
   end
 end

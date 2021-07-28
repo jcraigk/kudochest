@@ -9,22 +9,22 @@ class TipHistogramService < Base::Service
   def call
     @limit ||= App.default_tip_history_days
 
-    [karma_given, karma_received]
+    [points_given, points_received]
   end
 
   private
 
-  def karma_given
+  def points_given
     {
-      name: 'Karma Given',
+      name: "#{App.points_term.titleize} Given",
       data: histogram_data(:tips_sent),
       library: chartjs_library_options(user)
     }
   end
 
-  def karma_received
+  def points_received
     {
-      name: 'Karma Received',
+      name: "#{App.points_term.titleize} Received",
       data: histogram_data(:tips_received),
       library: chartjs_library_options(user)
     }

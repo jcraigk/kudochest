@@ -165,16 +165,16 @@ form {
     color: $light !important;
     box-shadow: none;
   }
-  .button, #karma_container, .card {
+  .button, #activity_container, .card {
     border: 1px solid $grey;
   }
   .highlight {
     background-color: $highlight-dark !important;
   }
-  .karma-direction-right {
+  .points-direction-right {
     color: $given-color-dark;
   }
-  .karma-direction-left {
+  .points-direction-left {
     color: $earned-color-dark;
   }
   .command {

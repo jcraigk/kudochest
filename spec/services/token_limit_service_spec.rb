@@ -8,9 +8,9 @@ RSpec.describe TokenLimitService do
   let(:profile) { create(:profile, team: team) }
   let(:quantity) { 2 }
 
-  context 'when team.limit_karma is true' do
+  context 'when team.throttle_tips is true' do
     before do
-      team.update(limit_karma: true)
+      team.update(throttle_tips: true)
     end
 
     context 'when profile.infinite_tokens is true' do
@@ -32,7 +32,7 @@ RSpec.describe TokenLimitService do
     context 'when profile.accrued_tokens is not sufficient' do
       let(:text) do
         <<~TEXT.chomp
-          :#{App.error_emoji}: Giving 2 karma would exceed your token balance of 1. The next dispersal of #{team.token_quantity} tokens will occur in 6 days.
+          :#{App.error_emoji}: Giving #{points_format(2, label: true)} would exceed your token balance of 1. The next dispersal of #{team.token_quantity} tokens will occur in 6 days.
         TEXT
       end
 
@@ -47,9 +47,9 @@ RSpec.describe TokenLimitService do
     end
   end
 
-  context 'when team.limit_karma is false' do
+  context 'when team.throttle_tips is false' do
     before do
-      team.update(limit_karma: false)
+      team.update(throttle_tips: false)
     end
 
     it 'returns false' do

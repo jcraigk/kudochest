@@ -8,12 +8,12 @@ default: &default
 
 development:
   <<: *default
-  database: karmachest_dev
+  database: kudochest_dev
   min_messages: warning
 
 test:
   <<: *default
-  database: karmachest_test
+  database: kudochest_test
   min_messages: error
   variables:
     statement_timeout: 90s

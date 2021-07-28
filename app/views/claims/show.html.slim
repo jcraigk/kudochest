@@ -13,7 +13,7 @@
 
     .field.is-horizontal
       .field-label.is-normal
-        = label_tag :name, t('claims.price'), class: 'label'
+        = label_tag :name, t('claims.price', points_title: App.points_term.titleize), class: 'label'
       .field-body
         .field
           .control = quantity_tag(@claim.price)

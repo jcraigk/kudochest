@@ -27,7 +27,7 @@ class Commands::Leaderboard < Commands::Base
       type: 'leaderboard',
       team_config: team.config,
       profile_data: profile_data,
-      title: leaderboard_title
+      title: title
     )
   end
 
@@ -35,7 +35,7 @@ class Commands::Leaderboard < Commands::Base
     if profile_data.none?
       return I18n.t('teams.leaderboard_empty', seconds: App.leaderboard_refresh_seconds)
     end
-    [leaderboard_title, leaderboard_rows].join("\n")
+    [title, rows].join("\n")
   end
 
   def topic_suffix
@@ -43,9 +43,9 @@ class Commands::Leaderboard < Commands::Base
     " for #{Topic.find(topic_id).name}"
   end
 
-  def leaderboard_title
-    @leaderboard_title ||=
-      "*Top #{profile_count} Karma #{title_verb}#{topic_suffix}*".gsub(/\s+/, ' ')
+  def title
+    @title ||=
+      "*Top #{profile_count} #{App.points_term.titleize} #{title_verb}#{topic_suffix}*".squish
   end
 
   def profile_count
@@ -53,7 +53,7 @@ class Commands::Leaderboard < Commands::Base
     number_with_delimiter(profile_data.count)
   end
 
-  def leaderboard_rows
+  def rows
     profile_data.map do |prof|
       str = row(prof)
       str = "*#{str}*" if prof.id == profile.id
@@ -63,7 +63,7 @@ class Commands::Leaderboard < Commands::Base
 
   def row(prof)
     <<~TEXT.chomp
-      #{prof.rank}. #{prof.link} - #{karma_format(prof.karma)} karma last #{verb} #{time_ago_in_words(Time.zone.parse(prof.last_timestamp))} ago
+      #{prof.rank}. #{prof.link} - #{points_format(prof.points, label: true)} last #{verb} #{time_ago_in_words(Time.zone.parse(prof.last_timestamp))} ago
     TEXT
   end
 

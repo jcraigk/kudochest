@@ -21,7 +21,7 @@ services:
       - .env
     command: sidekiq
     volumes:
-      - /j/app_content/karmachest:/storage
+      - /j/app_content/kudochest:/storage
 
   discord_listener:
     build: .

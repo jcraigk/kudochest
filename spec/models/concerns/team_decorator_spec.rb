@@ -4,14 +4,14 @@ require 'rails_helper'
 RSpec.describe TeamDecorator do
   subject(:team) { build(:team) }
 
-  describe '#level_karma_table' do
+  describe '#levels_table' do
     subject(:team) do
-      build(:team, max_level: 10, max_level_karma: 450, level_curve: :steep)
+      build(:team, max_level: 10, max_level_points: 450, level_curve: :steep)
     end
 
     let(:expected_text) do
       <<~TEXT.strip
-        Level  Karma  Delta
+        Level  #{App.points_term.titleize}  Delta
         -----  -----  -----
         1      0      0
         2      5      5
@@ -27,13 +27,13 @@ RSpec.describe TeamDecorator do
     end
 
     it 'returns expected text' do
-      expect(team.level_karma_table).to eq(expected_text)
+      expect(team.levels_table).to eq(expected_text)
     end
   end
 
-  describe 'karma_emoj' do
-    it 'wraps karma_emoji in colons' do
-      expect(team.karma_emoj).to eq(":#{team.karma_emoji}:")
+  describe 'tip_emoj' do
+    it 'wraps tip_emoji in colons' do
+      expect(team.tip_emoj).to eq(":#{team.tip_emoji}:")
     end
   end
 
@@ -88,7 +88,7 @@ RSpec.describe TeamDecorator do
       before { team.platform = :slack }
 
       it 'is `workspace`' do
-        expect(team.custom_emoj).to eq(team.karma_emoj)
+        expect(team.custom_emoj).to eq(team.tip_emoj)
       end
     end
 
@@ -96,7 +96,7 @@ RSpec.describe TeamDecorator do
       before { team.platform = :discord }
 
       it 'is `guild`' do
-        expect(team.custom_emoj).to eq("<:#{App.discord_emoji}:#{team.karma_emoji}>")
+        expect(team.custom_emoj).to eq("<:#{App.discord_emoji}:#{team.tip_emoji}>")
       end
     end
   end

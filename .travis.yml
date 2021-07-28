@@ -12,7 +12,7 @@ addons:
     update: true
   postgresql: 9.6
 before_install:
-  - psql -c 'create database karmachest_test;' -U postgres
+  - psql -c 'create database kudochest_test;' -U postgres
   - gem update --system --no-document
   - gem install bundler --no-document
 before_script:

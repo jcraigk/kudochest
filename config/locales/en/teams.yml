@@ -4,60 +4,60 @@ en:
     time_zone_tooltip: Select the time zone in which most of your team works. If your team is global, we recommended sticking with UTC.
     theme: Theme
     data_title: Import / Export
-    import_instructions: You can import karma from other systems by providing a CSV file with chat display_name (string) in the first column and total karma (integer) in the second column.
-    export_instructions: To have a CSV file emailed to you that contains total karma counts for all users, click the button below.
-    export_karma_data: Export Data
-    data_export_email_body: As requested, attached you will find a CSV file containing total karma counts for all users from %{team}.
-    confirm_export_data: Are you sure you want to export all karma data?
+    import_instructions: You can import %{points} from other systems by providing a CSV file with chat display_name (string) in the first column and total %{points} (integer) in the second column.
+    export_instructions: To have a CSV file emailed to you that contains summed %{points} data for all users, click the button below.
+    export_data: Export Data
+    data_export_email_body: As requested, attached you will find a CSV file containing summed %{points} counts for all users from %{team}.
+    confirm_export_data: Are you sure you want to export all %{points} data?
     infinite_profiles: Exempt Users
-    infinite_profiles_tooltip: It often makes sense to exempt certain people from karma limits so they can give karma to the entire organization at once. For example, a CEO may want to give karma to the entire company when a milestone is reached.
+    infinite_profiles_tooltip: It often makes sense to exempt certain people from %{points} limits so they can give %{points} to the entire organization at once. For example, a CEO may want to give %{points} to the entire company when a milestone is reached.
     giving_streaks: Giving Streaks
     enable_streaks: Enable
-    enable_streaks_tooltip: Giving Streaks provide bonus karma to users who maintain habits of giving karma at least once per working day.
+    enable_streaks_tooltip: Giving Streaks provide bonus %{points} to users who maintain habits of giving %{points} at least once per working day.
     streak_duration: Duration
-    streak_duration_tooltip: The number of consecutive days the user must give karma to trigger a streak. Only Working Days are considered (configured separately).
-    streak_reward: Bonus Karma
-    streak_reward_tooltip: The karma quantity a user will receive per day for continuing a streak after triggering it. For example, if Duration is set to 3 and Bonus Karma to 2, after 3 consecutive days of giving karma, the user will receive 2 bonus karma when they give karma the first time on the 4th day. They will continue to receive 2 bonus karma for each consecutive day they continue to give.
-    giving_karma: Giving Karma
-    karma_emoji: Icon
-    karma_emoji_tooltip: Enter the name of the emoji icon (without the surrounding colons) you want to use to signify karma.
-    max_karma_per_tip: Maximum Quantity
-    max_karma_per_tip_tooltip: Maximum amount of karma a user can gift at a time. Must be between 1 and %{max}.
-    limit_karma: Enable
-    limit_karma_tooltip: When enabled, tokens are disbursed at periodic intervals and each time a user sends karma their token balance is decreased. When their balance reaches zero, the user must wait for the next dispersal before giving more karma.
+    streak_duration_tooltip: The number of consecutive days the user must give %{points} to trigger a streak. Only Working Days are considered (configured separately).
+    streak_reward: Bonus Quantity
+    streak_reward_tooltip: The %{points} quantity a user will receive per day for continuing a streak after triggering it. For example, if Duration is set to 3 and Bonus Quantity to 2, after 3 consecutive days of giving %{points}, the user will receive 2 bonus %{points} when they give any %{points} for the first time on the 4th day. They will continue to receive 2 bonus %{points} for each consecutive day they continue to give.
+    giving_points: Giving %{points_title}
+    emoji: Icon
+    emoji_tooltip: Enter the name of the emoji icon (without the surrounding colons) you want to use to signify %{points}.
+    max_points_per_tip: Maximum Quantity
+    max_points_per_tip_tooltip: Maximum amount of %{points} a user can gift at a time. Must be between 1 and %{max}.
+    limit_points: Enable
+    limit_points_tooltip: When enabled, tokens are disbursed at periodic intervals and each time a user sends %{points} their token balance is decreased. When their balance reaches zero, the user must wait for the next dispersal before giving more %{points}.
     add_new_explain_html: "The largest team we can accommodate is %{count} members. Click a button only if you're an admin."
     add_new: Install %{app}
-    confirm_reset_stats: Are you sure you want to reset all profile stats immediately? This action cannot be undone.
-    enable_levels_tooltip: Leveling provides incremental acheivements for users to attain by breaking up the accrual of longterm karma. If levelinng is disabled, total karma will be shown in its place.
+    confirm_reset_stats: Are you sure you want to reset all user %{points} immediately? This action cannot be undone.
+    enable_levels_tooltip: Leveling provides incremental acheivements for users to attain by breaking up the accrual of longterm %{points}. If levelinng is disabled, total %{points} will be shown in its place.
     enable: Enable
     leaderboard_empty: No activity yet. The leaderboard updates every %{seconds} seconds.
-    leaderboard_last_earned_tooltip: When the most recent karma was earned
-    level_curve_tooltip: A user's level is determined by how much karma they have compared to the Max Level Karma amount. Having 0% = Level 1 and having 100%+ = Max Level. The levels in between can be computed in different ways. Typical RPG games use an exponential scale to make later levels harder to progress through. You can choose a gentle or steep exponential curve in addition to a linear one.
+    leaderboard_last_earned_tooltip: When the most recent %{points} was earned
+    level_curve_tooltip: A user's level is determined by how much %{points} they have compared to the maximum level %{points} configuration. Having 0% = level 1 and having 100%+ = max level. The levels in between can be computed in different ways. Typical RPG games use an exponential scale to make later levels harder to progress through. You can choose a gentle or steep exponential curve in addition to a linear one.
     level_curve: Progression Curve
     leveling: Level Progression
-    max_level_karma_tooltip: The amount of karma a user must accrue to attain the maximum level.
-    max_level_karma: Max Level Karma
-    max_level_tooltip: The maximum level a user can attain.
+    max_level_points: Max Level %{points_title}
+    max_level_points_tooltip: The amount of %{points} a user must accrue to attain the maximum level.
     max_level: Maximum Level
+    max_level_tooltip: The maximum level a user can attain.
     response_mode: Mode
-    response_mode_tooltip: When karma is sent, the chatbot will respond with a confirmation message. Here you can select where these messages go in Slack.
+    response_mode_tooltip: When %{points} is sent, the chatbot will respond with a confirmation message. Here you can select where these messages go in Slack.
     response_theme: Theme
-    response_theme_tooltip: When karma is sent, the chatbot will respond with a confirmation message. Here you can select a theme that defines how those responses appear.
+    response_theme_tooltip: When %{points} is sent, the chatbot will respond with a confirmation message. Here you can select a theme that defines how those responses appear.
     log_channel_rid: Log Channel
     log_channel_rid_tooltip: To see a copy of all responses in one channel, select one here. The bot will be added to the channel when you change this setting.
-    reset_now_info: You can reset all user karma to zero by clicking the button below. Each user will automatically receive an initial token dispersal if Karma Limits are enabled.
+    reset_now_info: You can reset all user %{points} to zero by clicking the button below. Each user will automatically receive an initial token dispersal if throttling is enabled.
     reset_requested: Team stats will be reset momentarily
-    reset_stats_now: Reset All Karma Now
-    show_channel_tooltip: Whether karma responses may include a reference to the channel where the karma was given.
+    reset_stats_now: Reset All %{points_title} Now
+    show_channel_tooltip: Whether %{points} responses may include a reference to the channel where the %{points} were given.
     show_channel: Show Channel
     enable_cheers: Enable Cheers
     enable_cheers_tooltip: Cheers are extra bits of text that celebrate user progression events like levelups and streak rewards.
-    tip_notes_tooltip: When someone sends karma they can include a reason or a brief note about it, which is recorded and displayed to other users. This can be required or disabled entirely. Long notes are truncated to a maximum of %{chars} characters.
+    tip_notes_tooltip: When someone sends %{points} they can include a reason or a brief note about it, which is recorded and displayed to other users. This can be required or disabled entirely. Long notes are truncated to a maximum of %{chars} characters.
     tip_notes: Note
     chat_responses: Bot Responses
-    stat_resets: Reset Karma
-    karma_constraints: Karma Limits
-    token_frequency_tooltip: The frequency at which users receive tokens, which are required to give karma to other users. See the Time section to configure when tokens are distributed.
+    stat_resets: Reset %{points_title}
+    throttling: Throttling
+    token_frequency_tooltip: The frequency at which users receive tokens, which are required to give %{points} to other users. See the Time section to configure when tokens are distributed.
     token_frequency: Token Dispersal Frequency
     token_hour_tooltip: The hour of the day when the bot takes action for your team and does things like distributing tokens. You may want to adjust this to occur during normal working hours so users actively see the associated notifications.
     token_hour: Bot Action Hour
@@ -73,9 +73,9 @@ en:
     work_days_tooltip: Specify the standard work days for your team. This determines how token dispersals and giving streaks are awarded.
     custom_emoji_html: 'Here are a few custom emoji icons you can <a href="%{url}">use in Slack</a>:'
     fast_ack: Fast Acknowledgement
-    fast_ack_tooltip: 'Some commands may take a few seconds for the system to execute, such as when an entire channel is given karma. Instead of waiting for the result of this operation, the bot can display a "Working..." message to acknowledge receipt of the command. It will then edit this message with the result when the operation is done. The tradeoff is that the message will appear as "(edited)" and any user mentions will not actually notify the users.'
-    notify_tokens_disbursed: Token Notifications
-    notify_tokens_disbursed_tooltip: Each time tokens are distributed to users, a direct message can be sent to each user letting them know. If you leave this on, be mindful of choosing an appropriate Bot Action Hour in the Time tab so users are notified during working hours.
+    fast_ack_tooltip: 'Some commands may take a few seconds for the system to execute, such as when an entire channel is given %{points}. Instead of waiting for the result of this operation, the bot can display a "Working..." message to acknowledge receipt of the command. It will then edit this message with the result when the operation is done. The tradeoff is that the message will appear as "(edited)" and any user mentions will not actually notify the users.'
+    notify_tokens: Token Notifications
+    notify_tokens_tooltip: Each time tokens are distributed to users, a direct message can be sent to each user letting them know. If you leave this on, be mindful of choosing an appropriate Bot Action Hour in the Time tab so users are notified during working hours.
     bot_presence: Bot Presence
     auto_join_channels: Join New Public Channels
     auto_join_channels_tooltip: When enabled, the bot will automatically be added to new public channels when they are created in Slack.
@@ -85,30 +85,30 @@ en:
     join_all_channels_requested: The bot will be added to all public channels momentarily
     export_data_requested: You will receive an email at %{email} with attached CSV file
     loot_shop: Loot Shop
-    enable_loot_tooltip: The loot shop allows you to setup real reward items for users to claim based on the amount of karma they have.
+    enable_loot_tooltip: The loot shop allows you to setup real reward items for users to claim based on the amount of %{points} they have.
     bot_schedule: Schedule
     stats_reset: Your stats have been reset by your administrator
-    karma_increment: Increment
-    karma_increment_tooltip: This represents the smallest amount of karma that can be given or displayed.
+    increment: Increment
+    increment_tooltip: This represents the smallest amount of %{points} that can be given or displayed.
     emoji_quantity: Default Value
-    emoji_quantity_tooltip: Specify the default amount of karma given when an emoji is used to give karma.
-    split_group_karma: Split Group Karma
-    split_group_karma_tooltip: When karma is given to a user group or channel, the specified karma can either be split evenly among the members or, if this option is disabled, each member will receive the entire specified amount of karma.
-    response_mode_adaptive_html: In Adaptive mode, responses are posted in the context where karma is given. Similar to Conversational mode, but responses to emoji reactions are posted in a thread instead of the public channel.
-    response_mode_convo_slack_html: In Conversational mode, responses are posted in the context where karma is given. Similar to Adaptive mode, but responses to emoji reactions are posted in the public channel.
-    response_mode_convo_discord_html: In Conversational mode, responses are posted in the same channel where the karma was given.
-    response_mode_reply_html: As Reply mode posts a reply to the original message that invoked the karma gift, creaing a new thread if necessary.
-    response_mode_direct_html: In Direct Message mode, responses are sent directly to individual givers and earners of karma.
-    response_mode_silent_html: When Silent, the bot will not respond when karma is given. It will still post to the Log Channel, if specified.
+    emoji_quantity_tooltip: Specify the default amount of %{points} given when an emoji is used to give %{points}.
+    split_group_points: Split Group %{points_title}
+    split_group_points_tooltip: When %{points} are given to a user group or channel, the specified %{points} can either be split evenly among the members or, if this option is disabled, each member will receive the entire specified amount of %{points}.
+    response_mode_adaptive_html: In Adaptive mode, responses are posted in the context where %{points} are given. Similar to Conversational mode, but responses to emoji reactions are posted in a thread instead of the public channel.
+    response_mode_convo_slack_html: In Conversational mode, responses are posted in the context where %{points} are given. Similar to Adaptive mode, but responses to emoji reactions are posted in the public channel.
+    response_mode_convo_discord_html: In Conversational mode, responses are posted in the same channel where the %{points} was given.
+    response_mode_reply_html: As Reply mode posts a reply to the original message that invoked the %{points} gift, creaing a new thread if necessary.
+    response_mode_direct_html: In Direct Message mode, responses are sent directly to individual givers and earners of %{points}.
+    response_mode_silent_html: When Silent, the bot will not respond when %{points} are given. It will still post to the Log Channel, if specified.
     reports: Reports
     weekly_report: Email Weekly Team Digest
     weekly_report_tooltip: Email a weekly digest of team activity to your address on file in User Settings.
     topics: Topics
     enable_topics: Enable Topics
-    enable_topics_tooltip: When enabled, users can specify a topic when giving karma. Topics can be company values or processes you want your team to adopt.
+    enable_topics_tooltip: When enabled, users can specify a topic when giving %{points}. Topics can be company values or processes you want your team to adopt.
     emoji: Emoji
     enable_emoji: Enable
-    enable_emoji_tooltip: When enabled, users can give karma by reacting with emoji (see below) or using emoji in place of "++" in a message.
+    enable_emoji_tooltip: When enabled, users can give %{points} by reacting with emoji (see below) or using emoji in place of "++" in a message.
     require_topic: Require Topic
-    require_topic_tooltip: When enabled, users must specify a topic when giving karma. Topics can be company values or processes you want your team to adopt.
+    require_topic_tooltip: When enabled, users must specify a topic when giving %{points}. Topics can be company values or processes you want your team to adopt.
     max_allowed_html: The maximum number of active teams has been reached. Change the <strong>config.max_teams</strong> server setting to integrate more workspaces.

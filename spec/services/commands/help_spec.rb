@@ -10,6 +10,6 @@ RSpec.describe Commands::Help do
   it 'returns help text' do
     result = command
     expect(result.mode).to eq(:private)
-    expect(result.text).to include('Giving karma:')
+    expect(result.text).to include("Giving #{App.points_term}:")
   end
 end

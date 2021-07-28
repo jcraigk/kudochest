@@ -19,7 +19,7 @@ class Actions::ReactionAdded < Actions::Base
   end
 
   def topic_id
-    return if emoji == team.karma_emoji
+    return if emoji == team.tip_emoji
     team.config.topics.find { |topic| topic.emoji == emoji }&.id
   end
 
@@ -50,7 +50,7 @@ class Actions::ReactionAdded < Actions::Base
   end
 
   def slack_standard_emoji?
-    team.platform.slack? && emoji == team.karma_emoji
+    team.platform.slack? && emoji == team.tip_emoji
   end
 
   def discord_standard_emoji?

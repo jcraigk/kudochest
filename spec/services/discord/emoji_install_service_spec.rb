@@ -44,6 +44,6 @@ RSpec.describe Discord::EmojiInstallService do
   end
 
   it 'adds emoji and updates team' do
-    expect(team.reload.karma_emoji).to eq(new_emoji_rid)
+    expect(team.reload.tip_emoji).to eq(new_emoji_rid)
   end
 end

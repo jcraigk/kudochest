@@ -8,10 +8,11 @@ h2.title.has-text-centered
 .card.shop
   .card-content
     p.is-size-4.has-text-centered
-      = t('shop.karma_balance_html',
-          claimed: karma_format(@current_profile.karma_claimed),
-          accrued: karma_format(@current_profile.karma),
-          remaining: karma_format(@current_profile.karma_unclaimed))
+      = t('shop.balance_html',
+          points: App.points_term,
+          claimed: points_format(@current_profile.points_claimed),
+          accrued: points_format(@current_profile.points),
+          remaining: points_format(@current_profile.points_unclaimed))
     - if @current_profile.claims.any?
       br
       p.has-text-centered

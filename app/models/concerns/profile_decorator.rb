@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 module ProfileDecorator
-  include KarmaHelper
+  include PointsHelper
   extend ActiveSupport::Concern
 
   def helpers
@@ -9,7 +9,7 @@ module ProfileDecorator
 
   def token_balance_sentence
     return 'no tokens remaining' if token_balance.zero?
-    "#{karma_format(token_balance)} tokens remaining"
+    "#{points_format(token_balance)} tokens remaining"
   end
 
   def link
@@ -17,15 +17,15 @@ module ProfileDecorator
   end
 
   def link_with_stat
-    team.enable_levels? ? link_with_level : link_with_karma
+    team.enable_levels? ? link_with_level : link_with_points
   end
 
   def link_with_level
     "#{link} (level #{level})"
   end
 
-  def link_with_karma
-    "#{link} (#{karma_format(karma)} karma)"
+  def link_with_points
+    "#{link} (#{points_format(points, label: true)})"
   end
 
   def webref
@@ -33,15 +33,15 @@ module ProfileDecorator
   end
 
   def webref_with_stat
-    team.enable_levels? ? webref_with_level : webref_with_karma
+    team.enable_levels? ? webref_with_level : webref_with_points
   end
 
   def webref_with_level
     "#{webref} (level #{level})"
   end
 
-  def webref_with_karma
-    "#{webref} (#{karma_format(karma_received)} karma)"
+  def webref_with_points
+    "#{webref} (#{points_format(points_received, label: true)})"
   end
 
   def long_name
@@ -50,18 +50,18 @@ module ProfileDecorator
     str
   end
 
-  def next_level_karma_sentence
+  def next_level_points_sentence
     return 'max level' if max_level?
-    "#{karma_format(karma_required_for_next_level)} karma until level #{level + 1}"
+    "#{points_format(points_required_for_next_level, label: true)} until level #{level + 1}"
   end
 
-  def karma_required_for_next_level
+  def points_required_for_next_level
     return 0 if max_level?
-    LevelToKarmaService.call(team: team, level: next_level) - karma_received
+    LevelToPointsService.call(team: team, level: next_level) - points_received
   end
 
   def level
-    KarmaToLevelService.call(team: team, karma: karma_received)
+    PointsToLevelService.call(team: team, points: points_received)
   end
 
   def next_level
@@ -112,8 +112,8 @@ module ProfileDecorator
     "#{web_url}|View web profile"
   end
 
-  def karma_unclaimed
-    karma_received - karma_claimed
+  def points_unclaimed
+    points_received - points_claimed
   end
 
   private

@@ -2,30 +2,27 @@
 
   .setting-value data-name='gentle' style='display: none;'
     - @current_team.level_curve = 'gentle'
-    = column_chart_with_labels( \
-        name: 'Karma required to attain level',
-        data: @current_team.level_karma_map,
+    = column_chart_with_labels \
+        name: "#{App.points_term.titleize} required to attain level",
+        data: @current_team.level_points_map,
         user: @current_user,
-        id: 'level-chart1',
-      )
+        id: 'level-chart1'
 
   .setting-value data-name='steep' style='display: none;'
     - @current_team.level_curve = 'steep'
-    = column_chart_with_labels( \
-        name: 'Karma required to attain level',
-        data: @current_team.level_karma_map,
+    = column_chart_with_labels \
+        name: "#{App.points_term.titleize} required to attain level",
+        data: @current_team.level_points_map,
         user: @current_user,
-        id: 'level-chart2',
-      )
+        id: 'level-chart2'
 
   .setting-value data-name='linear' style='display: none;'
     - @current_team.level_curve = 'linear'
-    = column_chart_with_labels( \
-        name: 'Karma required to attain level',
-        data: @current_team.level_karma_map,
+    = column_chart_with_labels \
+        name: "#{App.points_term.titleize} required to attain level",
+        data: @current_team.level_points_map,
         user: @current_user,
-        id: 'level-chart3',
-      )
+        id: 'level-chart3'
 
 
 javascript:

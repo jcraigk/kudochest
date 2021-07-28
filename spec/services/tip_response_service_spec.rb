@@ -34,7 +34,7 @@ RSpec.describe TipResponseService do
   let(:main_frag) { nil }
   let(:image_main_frag) do
     <<~TEXT.chomp
-      #{IMG_DELIM}#{PROF_PREFIX}#{from_profile.display_name} #{IMG_DELIM} gave #{IMG_DELIM}#{PROF_PREFIX}#{to_profile.display_name} #{IMG_DELIM} #{quantity} karma!
+      #{IMG_DELIM}#{PROF_PREFIX}#{from_profile.display_name} #{IMG_DELIM} gave #{IMG_DELIM}#{PROF_PREFIX}#{to_profile.display_name} #{IMG_DELIM} #{points_format(quantity, label: true)}!
     TEXT
   end
   let(:note_frag) { "\"_#{tip.note}_\"" }
@@ -55,7 +55,7 @@ RSpec.describe TipResponseService do
   let(:from_profile_webref_with_stat) { emojify(from_profile.webref_with_stat, size: 12) }
   let(:to_profile_webref_with_stat) { emojify(to_profile.webref_with_stat, size: 12) }
   let(:platform) { :slack }
-  let(:karma_emoji) { emojify(team.karma_emoj, size: 12) }
+  let(:tip_emoji) { emojify(team.tip_emoj, size: 12) }
 
   shared_examples 'expected response' do
     it 'produces expected message' do
@@ -71,13 +71,13 @@ RSpec.describe TipResponseService do
     let(:platform) { :discord }
     let(:main_frag) do
       <<~TEXT.chomp
-        **#{from_profile.display_name}** gave **#{to_profile.display_name}** #{quantity} karma!
+        **#{from_profile.display_name}** gave **#{to_profile.display_name}** #{points_format(quantity, label: true)}!
       TEXT
     end
     let(:note_frag) { "\"*#{tip.note}*\"" }
     let(:web_response) do
       <<~TEXT.chomp
-        #{web_ts} #{from_profile.webref} gave #{to_profile.webref} #{quantity} karma in #{channel.webref}<br>"<i>#{note}</i>"
+        #{web_ts} #{from_profile.webref} gave #{to_profile.webref} #{points_format(quantity, label: true)} in #{channel.webref}<br>"<i>#{note}</i>"
       TEXT
     end
 
@@ -90,12 +90,12 @@ RSpec.describe TipResponseService do
     context 'when response_theme is `basic`' do
       let(:main_frag) do
         <<~TEXT.chomp
-          #{from_profile.link} gave #{to_profile.link} #{quantity} karma!
+          #{from_profile.link} gave #{to_profile.link} #{points_format(quantity, label: true)}!
         TEXT
       end
       let(:web_response) do
         <<~TEXT.chomp
-          #{web_ts} #{from_profile.webref} gave #{to_profile.webref} #{quantity} karma in #{channel.webref}<br>"<i>#{note}</i>"
+          #{web_ts} #{from_profile.webref} gave #{to_profile.webref} #{points_format(quantity, label: true)} in #{channel.webref}<br>"<i>#{note}</i>"
         TEXT
       end
 
@@ -108,12 +108,12 @@ RSpec.describe TipResponseService do
   context 'when response_theme is `unobtrusive`' do
     let(:main_frag) do
       <<~TEXT.chomp
-        <#{App.base_url}/profiles/#{from_profile.slug}|#{from_profile.display_name}> gave <#{App.base_url}/profiles/#{to_profile.slug}|#{to_profile.display_name}> #{quantity} karma!
+        <#{App.base_url}/profiles/#{from_profile.slug}|#{from_profile.display_name}> gave <#{App.base_url}/profiles/#{to_profile.slug}|#{to_profile.display_name}> #{points_format(quantity, label: true)}!
       TEXT
     end
     let(:web_response) do
       <<~TEXT.chomp
-        #{web_ts} #{from_profile.webref} gave #{to_profile.webref} #{quantity} karma in #{channel.webref}<br>"<i>#{note}</i>"
+        #{web_ts} #{from_profile.webref} gave #{to_profile.webref} #{points_format(quantity, label: true)} in #{channel.webref}<br>"<i>#{note}</i>"
       TEXT
     end
 
@@ -125,12 +125,12 @@ RSpec.describe TipResponseService do
   context 'when response_theme is `fancy`' do
     let(:main_frag) do
       <<~TEXT.chomp
-        #{from_profile.link_with_stat} gave #{to_profile.link_with_stat} #{quantity} karma #{team.karma_emoj * quantity}!
+        #{from_profile.link_with_stat} gave #{to_profile.link_with_stat} #{points_format(quantity, label: true)} #{team.tip_emoj * quantity}!
       TEXT
     end
     let(:web_response) do
       <<~TEXT.chomp
-        #{web_ts} #{from_profile_webref_with_stat} gave #{to_profile_webref_with_stat} #{quantity} karma #{karma_emoji} in #{channel.webref}<br>"<i>#{note}</i>"
+        #{web_ts} #{from_profile_webref_with_stat} gave #{to_profile_webref_with_stat} #{points_format(quantity, label: true)} #{tip_emoji} in #{channel.webref}<br>"<i>#{note}</i>"
       TEXT
     end
 
@@ -142,12 +142,12 @@ RSpec.describe TipResponseService do
   context 'when a streak is rewarded' do
     let(:chat_snippet) do
       <<~TEXT.chomp
-        #{from_profile.link} earned #{team.streak_reward} bonus karma for achieving a Giving Streak of 5 days
+        #{from_profile.link} earned #{points_format(team.streak_reward, label: true)} for achieving a Giving Streak of 5 days
       TEXT
     end
     let(:web_snippet) do
       <<~TEXT.chomp
-        #{from_profile.webref} earned #{team.streak_reward} bonus karma for achieving a Giving Streak of 5 days
+        #{from_profile.webref} earned #{points_format(team.streak_reward, label: true)} for achieving a Giving Streak of 5 days
       TEXT
     end
 
@@ -163,18 +163,20 @@ RSpec.describe TipResponseService do
 
   context 'when recipient levels up' do
     let(:quantity) { 5 }
-    let(:main_frag) { "#{from_profile.link} gave #{to_profile.link} #{quantity} karma!" }
+    let(:main_frag) do
+      "#{from_profile.link} gave #{to_profile.link} #{points_format(quantity, label: true)}!"
+    end
     let(:levelup_frag) { "#{to_profile.link} leveled up!" }
     let(:image_levelup_frag) do
       "#{IMG_DELIM}#{PROF_PREFIX}#{to_profile.display_name} #{IMG_DELIM} leveled up!"
     end
     let(:web_response) do
       <<~TEXT.chomp
-        #{web_ts} #{from_profile.webref} gave #{to_profile.webref} #{quantity} karma in #{channel.webref}<br>"<i>#{note}</i>"<br>#{to_profile.webref} leveled up!
+        #{web_ts} #{from_profile.webref} gave #{to_profile.webref} #{points_format(quantity, label: true)} in #{channel.webref}<br>"<i>#{note}</i>"<br>#{to_profile.webref} leveled up!
       TEXT
     end
 
-    before { to_profile.karma = 10 }
+    before { to_profile.points = 10 }
 
     include_examples 'expected response'
   end
@@ -210,17 +212,17 @@ RSpec.describe TipResponseService do
     end
     let(:main_frag) do
       <<~TEXT.chomp
-        #{from_profile.link} gave #{to_profile3.link} 2 karma and #{to_profile.link} and #{to_profile2.link} 1 karma each!
+        #{from_profile.link} gave #{to_profile3.link} #{points_format(2, label: true)} and #{to_profile.link} and #{to_profile2.link} #{points_format(1, label: true)} each!
       TEXT
     end
     let(:image_main_frag) do
       <<~TEXT.chomp
-        #{IMG_DELIM}#{PROF_PREFIX}#{from_profile.display_name} #{IMG_DELIM} gave #{IMG_DELIM}#{PROF_PREFIX}#{to_profile3.display_name} #{IMG_DELIM} 2 karma and #{IMG_DELIM}#{PROF_PREFIX}#{to_profile.display_name} #{IMG_DELIM} and #{IMG_DELIM}#{PROF_PREFIX}#{to_profile2.display_name} #{IMG_DELIM} 1 karma each!
+        #{IMG_DELIM}#{PROF_PREFIX}#{from_profile.display_name} #{IMG_DELIM} gave #{IMG_DELIM}#{PROF_PREFIX}#{to_profile3.display_name} #{IMG_DELIM} #{points_format(2, label: true)} and #{IMG_DELIM}#{PROF_PREFIX}#{to_profile.display_name} #{IMG_DELIM} and #{IMG_DELIM}#{PROF_PREFIX}#{to_profile2.display_name} #{IMG_DELIM} #{points_format(1, label: true)} each!
       TEXT
     end
     let(:web_response) do
       <<~TEXT.chomp
-        #{web_ts} #{from_profile.webref} gave #{to_profile3.webref} 2 karma and #{to_profile.webref} and #{to_profile2.webref} 1 karma each in #{channel.webref}<br>"<i>#{note}</i>"
+        #{web_ts} #{from_profile.webref} gave #{to_profile3.webref} #{points_format(2, label: true)} and #{to_profile.webref} and #{to_profile2.webref} #{points_format(1, label: true)} each in #{channel.webref}<br>"<i>#{note}</i>"
       TEXT
     end
 
@@ -240,9 +242,15 @@ RSpec.describe TipResponseService do
           to_channel_name: channel.name
         )
       end
-      let(:lead_frag) { "Everyone in #{channel_link(channel.rid)} has received karma!" }
+      let(:lead_frag) do
+        <<~TEXT.chomp
+          Everyone in #{channel_link(channel.rid)} has received #{App.points_term}!
+        TEXT
+      end
       let(:image_lead_frag) do
-        "Everyone in #{IMG_DELIM}#{CHAN_PREFIX}#{channel.name} #{IMG_DELIM} has received karma!"
+        <<~TEXT.chomp
+          Everyone in #{IMG_DELIM}#{CHAN_PREFIX}#{channel.name} #{IMG_DELIM} has received #{App.points_term}!
+        TEXT
       end
 
       it 'includes channel snippet' do
@@ -250,7 +258,7 @@ RSpec.describe TipResponseService do
       end
     end
 
-    xcontext 'when `@everyone` is given karma' do
+    xcontext 'when `@everyone` are given points' do
     end
 
     context 'when at least one tip was gave to a subteam' do
@@ -278,17 +286,17 @@ RSpec.describe TipResponseService do
     context 'when there are > App.max_response_mentions recipients, no individual mentions' do
       let(:main_frag) do
         <<~TEXT.chomp
-          #{from_profile.link} gave #{to_profile3.link} 2 karma and 2 users 1 karma each!
+          #{from_profile.link} gave #{to_profile3.link} #{points_format(2, label: true)} and 2 users #{points_format(1, label: true)} each!
         TEXT
       end
       let(:image_main_frag) do
         <<~TEXT.chomp
-          #{IMG_DELIM}#{PROF_PREFIX}#{from_profile.display_name} #{IMG_DELIM} gave #{IMG_DELIM}#{PROF_PREFIX}#{to_profile3.display_name} #{IMG_DELIM} 2 karma and 2 users 1 karma each!
+          #{IMG_DELIM}#{PROF_PREFIX}#{from_profile.display_name} #{IMG_DELIM} gave #{IMG_DELIM}#{PROF_PREFIX}#{to_profile3.display_name} #{IMG_DELIM} #{points_format(2, label: true)} and 2 users #{points_format(1, label: true)} each!
         TEXT
       end
       let(:web_response) do
         <<~TEXT.chomp
-          #{web_ts} #{from_profile.webref} gave #{to_profile3.webref} 2 karma and 2 users 1 karma each in #{channel.webref}<br>"<i>#{note}</i>"
+          #{web_ts} #{from_profile.webref} gave #{to_profile3.webref} #{points_format(2, label: true)} and 2 users #{points_format(1, label: true)} each in #{channel.webref}<br>"<i>#{note}</i>"
         TEXT
       end
 

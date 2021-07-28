@@ -119,8 +119,8 @@ class Image::LeaderboardService < Base::ImageService
       end
       x += 165
 
-      # Karma
-      value = karma_format(data.karma)
+      # Points
+      value = points_format(data.points)
       draw.annotate(comp, 0, 0, x, y, value) do
         self.fill = color1
       end

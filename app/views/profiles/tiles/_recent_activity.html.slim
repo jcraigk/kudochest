@@ -1,10 +1,10 @@
 .card.recent-activity-tile
   header.card-header
-    p.card-header-title = t('profiles.karma_history_title')
+    p.card-header-title = t('profiles.recent_activity')
   .card-content
 
     - if tips.none?
-      = t('profiles.no_recent_activity')
+      = t('profiles.no_recent_activity', points: App.points_term)
 
     - else
 
@@ -33,7 +33,7 @@
             tr
               td = direction_with_icon(tip, profile)
               td = profile_web_link(tip.from_profile == profile ? tip.to_profile : tip.from_profile)
-              td = karma_format(tip.quantity)
+              td = points_format(tip.quantity)
               - if profile.team.enable_topics?
                 td = tip.topic_name
               td = channel_ref(tip)

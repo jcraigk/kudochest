@@ -12,7 +12,7 @@
           .control
             = f.check_box :enable_streaks, class: 'switch is-rounded'
             = f.label :enable_streaks, '&nbsp;'.html_safe, class: 'label'
-            = tooltip_btn('teams.enable_streaks_tooltip', 'nudge-up')
+            = tooltip_btn('teams.enable_streaks_tooltip', 'nudge-up', points: App.points_term)
 
     .field.is-horizontal
       .field-label.is-normal
@@ -25,7 +25,7 @@
                            type: 'number',
                            step: '1',
                            required: true
-            = tooltip_btn('teams.streak_duration_tooltip')
+            = tooltip_btn('teams.streak_duration_tooltip', nil, points: App.points_term)
 
     .field.is-horizontal
       .field-label.is-normal
@@ -38,4 +38,4 @@
                            type: 'number',
                            step: '1',
                            required: true
-            = tooltip_btn('teams.streak_reward_tooltip')
+            = tooltip_btn('teams.streak_reward_tooltip', nil, points: App.points_term)

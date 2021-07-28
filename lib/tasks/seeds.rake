@@ -2,12 +2,12 @@
 namespace :seeds do
   desc 'Generate seeds for testing'
   task all: :environment do
-    Rake::Task['seeds:karma'].execute
+    Rake::Task['seeds:tips'].execute
     Rake::Task['seeds:loot'].execute
   end
 
-  desc 'Generate Karma for testing'
-  task karma: :environment do
+  desc 'Generate Tips and related data for testing'
+  task tips: :environment do
     include FactoryBot::Syntax::Methods
 
     team = Team.first
@@ -17,7 +17,7 @@ namespace :seeds do
       create(:topic, team: team)
     end
 
-    print 'Generating karma'
+    print 'Generating tips'
     profiles = team.profiles.active
     profiles.each do |profile|
       num = rand(20..50)

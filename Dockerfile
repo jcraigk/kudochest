@@ -1,6 +1,6 @@
 FROM ruby:2.7.3-slim
 
-ARG APP_NAME=karmachest
+ARG APP_NAME=kudochest
 
 ENV APP_NAME=${APP_NAME} \
     INSTALL_PATH=/${APP_NAME} \

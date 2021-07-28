@@ -5,7 +5,7 @@ class Base::Service
   include ActionView::Helpers::NumberHelper
   include ActionView::Helpers::TextHelper
   include ActionView::Helpers::TranslationHelper
-  include KarmaHelper
+  include PointsHelper
 
   def self.call(opts = {})
     new(opts).call

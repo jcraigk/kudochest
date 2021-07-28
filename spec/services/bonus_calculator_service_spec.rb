@@ -12,18 +12,18 @@ RSpec.describe BonusCalculatorService, :freeze_time do
       team: team,
       start_date: (Time.current - 2.days).strftime('%Y-%m-%d'),
       end_date: (Time.current + 2.days).strftime('%Y-%m-%d'),
-      include_streak_karma: include_streak_karma,
-      include_imported_karma: include_imported_karma,
+      include_streak_points: include_streak_points,
+      include_imported_points: include_imported_points,
       style: style,
       pot_size: pot_size,
-      karma_point_value: karma_point_value
+      dollar_per_point: dollar_per_point
     }
   end
 
-  let(:include_streak_karma) { true }
-  let(:include_imported_karma) { true }
+  let(:include_streak_points) { true }
+  let(:include_imported_points) { true }
   let(:pot_size) { 0 }
-  let(:karma_point_value) { 0 }
+  let(:dollar_per_point) { 0 }
 
   shared_examples 'success' do
     before do
@@ -50,9 +50,9 @@ RSpec.describe BonusCalculatorService, :freeze_time do
     include_examples 'success'
   end
 
-  xcontext 'when style is `karma_value`' do
-    let(:style) { 'karma_value' }
-    let(:karma_value) { 0.50 }
+  xcontext 'when style is `points_value`' do
+    let(:style) { 'points_value' }
+    let(:points_value) { 0.50 }
     let(:csv_str) do
       <<~TEXT
         TODO

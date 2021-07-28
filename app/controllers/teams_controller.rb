@@ -51,7 +51,7 @@ class TeamsController < ApplicationController
   end
 
   def handle_import
-    flash[:notice] = KarmaCsvImporter.call(
+    flash[:notice] = CsvImporter.call(
       team: current_team,
       text: params[:team][:import_file].read
     )
@@ -85,12 +85,12 @@ class TeamsController < ApplicationController
 
   def team_params
     params.require(:team).permit(
-      :limit_karma, :token_frequency, :token_quantity, :token_max, :token_hour,
-      :notify_tokens_disbursed, :max_karma_per_tip, :tip_notes, :show_channel,
+      :throttle_tips, :token_frequency, :token_quantity, :token_max, :token_hour,
+      :notify_tokens, :max_points_per_tip, :tip_notes, :show_channel,
       :enable_fast_ack, :week_start_day, :enable_levels, :level_curve,
-      :enable_emoji, :emoji_quantity, :max_level, :max_level_karma, :response_mode,
-      :response_theme, :log_channel_rid, :karma_emoji, :enable_streaks,
-      :streak_duration, :streak_reward, :time_zone, :weekly_report, :karma_increment,
+      :enable_emoji, :emoji_quantity, :max_level, :max_level_points, :response_mode,
+      :response_theme, :log_channel_rid, :tip_emoji, :enable_streaks,
+      :streak_duration, :streak_reward, :time_zone, :weekly_report, :tip_increment,
       :split_tip, :join_channels, :enable_cheers, :enable_loot, :enable_topics,
       :require_topic, work_days: []
     )
@@ -99,7 +99,7 @@ class TeamsController < ApplicationController
   def platform_team_params
     case current_team.platform
     when 'slack' then team_params
-    when 'discord' then team_params.except(:karma_emoji, :join_channels)
+    when 'discord' then team_params.except(:tip_emoji, :join_channels)
     end
   end
 

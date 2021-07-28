@@ -25,14 +25,14 @@ class Profile < ApplicationRecord
   attribute :deleted,             :boolean, default: false
   attribute :weekly_report,       :boolean, default: false
   attribute :infinite_tokens,     :boolean, default: false
-  attribute :karma_claimed,       :integer, default: 0
-  attribute :karma_received,      :decimal, default: 0.0
-  attribute :karma_sent,          :decimal, default: 0.0
+  attribute :points_claimed,      :integer, default: 0
+  attribute :points_received,     :decimal, default: 0.0
+  attribute :points_sent,         :decimal, default: 0.0
   attribute :streak_count,        :integer, default: 0
   attribute :tokens_accrued,      :integer, default: 0
   attribute :tokens_forfeited,    :decimal, default: 0.0
 
-  alias_attribute :karma, :karma_received
+  alias_attribute :points, :points_received
 
   validates :rid, uniqueness: { scope: :team_id }
   validates :avatar_url, presence: true
@@ -67,7 +67,7 @@ class Profile < ApplicationRecord
   end
 
   def token_balance
-    tokens_accrued - karma_sent
+    tokens_accrued - points_sent
   end
 
   private

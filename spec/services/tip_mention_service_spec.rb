@@ -4,7 +4,7 @@ require 'rails_helper'
 RSpec.describe TipMentionService, :freeze_time do
   subject(:service) { described_class.call(opts) }
 
-  let(:team) { create(:team, limit_karma: true, split_tip: false) }
+  let(:team) { create(:team, throttle_tips: true, split_tip: false) }
   let(:channel) { create(:channel, team: team) }
   let(:profile) { create(:profile, team: team) }
   let(:to_profile) { create(:profile, team: team) }
@@ -36,7 +36,7 @@ RSpec.describe TipMentionService, :freeze_time do
   context 'when sender requires more tokens' do
     let(:text) do
       <<~TEXT.squish
-        :#{App.error_emoji}: Giving 1 karma would exceed your token balance of 0. The next dispersal of #{team.token_quantity} tokens will occur in about 10 hours.
+        :#{App.error_emoji}: Giving #{points_format(1, label: true)} would exceed your token balance of 0. The next dispersal of #{team.token_quantity} tokens will occur in about 10 hours.
       TEXT
     end
     let(:result) { OpenStruct.new(mode: :error, text: text) }
@@ -114,7 +114,7 @@ RSpec.describe TipMentionService, :freeze_time do
     let(:other_profile) { create(:profile, team: team) }
 
     before do
-      team.limit_karma = false
+      team.throttle_tips = false
       subteam.profiles << [subteam_profile, to_profile, other_profile]
       allow(TipFactory).to receive(:call).and_call_original
       allow(TipResponseService).to receive(:call).and_return(tip_response)

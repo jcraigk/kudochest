@@ -55,7 +55,7 @@ br
           tr
             td = profile_web_link(tip.from_profile)
             td = profile_web_link(tip.to_profile)
-            td = karma_format(tip.quantity)
+            td = points_format(tip.quantity)
             - if @current_team.enable_topics? && @current_team.topics.active.any?
               td
                 - if tip.topic_id.present?

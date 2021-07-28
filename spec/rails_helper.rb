@@ -26,5 +26,5 @@ RSpec.configure do |config|
   config.filter_rails_from_backtrace!
   config.order = 'random'
 
-  config.include KarmaHelper
+  config.include PointsHelper
 end

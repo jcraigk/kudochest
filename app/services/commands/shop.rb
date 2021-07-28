@@ -26,10 +26,11 @@ class Commands::Shop < Commands::Base
 
   def balance_sentence
     t(
-      'shop.karma_balance_chat',
-      claimed: karma_format(profile.karma_claimed),
-      accrued: karma_format(profile.karma),
-      remaining: karma_format(profile.karma_unclaimed)
+      'shop.balance_chat',
+      points: App.points_term,
+      claimed: points_format(profile.points_claimed),
+      accrued: points_format(profile.points),
+      remaining: points_format(profile.points_unclaimed)
     )
   end
 
@@ -38,7 +39,8 @@ class Commands::Shop < Commands::Base
       t(
         'shop.reward_for_price_chat',
         reward: reward.name,
-        quantity: number_with_delimiter(reward.price)
+        quantity: number_with_delimiter(reward.price),
+        points: App.points_term
       )
     end
   end

@@ -14,9 +14,9 @@ class Commands::Stats < Commands::Base
     ary = [stats_title]
     ary << rank_fragment
     ary << level_fragment if team.enable_levels?
-    ary << karma_received_fragment
-    ary << karma_given_fragment
-    ary << token_fragment if team.limit_karma? && requested_profile.rid == profile_rid
+    ary << points_received_fragment
+    ary << points_given_fragment
+    ary << token_fragment if team.throttle_tips? && requested_profile.rid == profile_rid
     ary << streak_fragment if team.enable_streaks?
     ary << web_profile_fragment
     ary.compact.join("\n")
@@ -25,7 +25,7 @@ class Commands::Stats < Commands::Base
   def token_fragment
     return '*Tokens:* Unlimited' if requested_profile.infinite_tokens?
     <<~TEXT.chomp
-      *Tokens:* #{karma_format(requested_profile.token_balance)} (receiving #{team.token_quantity} tokens in #{next_token_dispersal})
+      *Tokens:* #{points_format(requested_profile.token_balance)} (receiving #{team.token_quantity} tokens in #{next_token_dispersal})
     TEXT
   end
 
@@ -49,15 +49,15 @@ class Commands::Stats < Commands::Base
     TEXT
   end
 
-  def karma_received_fragment
+  def points_received_fragment
     <<~TEXT.chomp
-      *Karma:* #{karma_format(requested_profile.karma)}
+      *#{App.points_term.titleize}:* #{points_format(requested_profile.points)}
     TEXT
   end
 
-  def karma_given_fragment
+  def points_given_fragment
     <<~TEXT.chomp
-      *Given:* #{karma_format(requested_profile.karma_sent)}
+      *Given:* #{points_format(requested_profile.points_sent)}
     TEXT
   end
 

@@ -3,7 +3,7 @@ en:
     none_found: No claims found
     search_placeholder: Search claims
     reward: Loot Item
-    price: Karma Price
+    price: '%{points_title} Cost'
     created_at: Requested At
     user: User
     fulfilled: Fulfilled?

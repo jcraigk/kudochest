@@ -7,9 +7,9 @@
       .media-content
         p.title.is-4 = team.name
         p.subtitle.is-5
-          <strong>#{team.member_count}</strong> #{'member'.pluralize(team.member_count)}
+          | #{team.member_count} #{'member'.pluralize(team.member_count)}
           br
-          <strong>#{karma_format(team.karma_sent)}</strong> total karma given
+          = points_format(team.points_sent, label: true)
     .content
       - if leaderboard.profiles.none?
         p = t('teams.leaderboard_empty', seconds: App.leaderboard_refresh_seconds)
@@ -19,7 +19,7 @@
             tr
               th.rank-col Rank
               th.col User
-              th.col Karma
+              th.col #{App.points_term.titleize}
               th.col Share
               th.col
                 span.has-tooltip data-tooltip=t('teams.leaderboard_last_earned_tooltip')

@@ -10,12 +10,12 @@ RSpec.describe DataExportWorker do
   let(:mock_mailer) { instance_spy(ActionMailer::MessageDelivery) }
   let(:csv_str) do
     CSV.generate do |csv|
-      csv << %w[ID Name Karma]
+      csv << ['ID', 'Name', App.points_term.titleize]
       [profile1, profile2].each do |profile|
         csv << [
           profile.rid,
           profile.display_name,
-          profile.karma
+          profile.points
         ]
       end
     end

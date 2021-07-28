@@ -28,11 +28,11 @@ class Claim < ApplicationRecord
 
   # rubocop:disable Rails/SkipsModelValidations
   def after_create
-    profile.increment!(:karma_claimed, price)
+    profile.increment!(:points_claimed, price)
   end
 
   def after_destroy
-    profile.decrement!(:karma_claimed, price)
+    profile.decrement!(:points_claimed, price)
   end
   # rubocop:enable Rails/SkipsModelValidations
 end

@@ -47,7 +47,7 @@ class Tip < ApplicationRecord
   def after_create
     transaction do
       update_timestamps
-      increment_karma
+      increment_points
     end
   end
 
@@ -59,7 +59,7 @@ class Tip < ApplicationRecord
   def after_destroy
     transaction do
       reset_timestamps
-      decrement_karma
+      decrement_points
       delete_chat_response
     end
   end
@@ -78,16 +78,16 @@ class Tip < ApplicationRecord
   end
 
   # rubocop:disable Rails/SkipsModelValidations
-  def increment_karma
-    from_profile.increment!(:karma_sent, quantity)
-    to_profile.increment!(:karma_received, quantity)
-    to_profile.team.increment!(:karma_sent, quantity)
+  def increment_points
+    from_profile.increment!(:points_sent, quantity)
+    to_profile.increment!(:points_received, quantity)
+    to_profile.team.increment!(:points_sent, quantity)
   end
 
-  def decrement_karma
-    from_profile.decrement!(:karma_sent, quantity)
-    to_profile.decrement!(:karma_received, quantity)
-    to_profile.team.decrement!(:karma_sent, quantity)
+  def decrement_points
+    from_profile.decrement!(:points_sent, quantity)
+    to_profile.decrement!(:points_received, quantity)
+    to_profile.team.decrement!(:points_sent, quantity)
   end
   # rubocop:enable Rails/SkipsModelValidations
 

@@ -23,7 +23,7 @@ RSpec.describe Commands::Leaderboard, :freeze_time do
     end
   end
 
-  context 'when no karma has been given' do
+  context 'when no tips have been given' do
     let(:text) do
       "No activity yet. The leaderboard updates every #{App.leaderboard_refresh_seconds} seconds."
     end
@@ -31,14 +31,14 @@ RSpec.describe Commands::Leaderboard, :freeze_time do
     include_examples 'expected response'
   end
 
-  context 'when some karma has been given' do
+  context 'when some tips have been given' do
     let(:text) do
       <<~TEXT.chomp
-        *Top 4 Karma Earners*
-        1. #{profile1.link} - 500 karma last earned less than a minute ago
-        2. #{profile2.link} - 83 karma last earned about 1 hour ago
-        2. #{profile3.link} - 83 karma last earned 7 days ago
-        3. #{profile4.link} - 3 karma last earned 2 months ago
+        *Top 4 #{App.points_term.titleize} Earners*
+        1. #{profile1.link} - #{points_format(500, label: true)} last earned less than a minute ago
+        2. #{profile2.link} - #{points_format(83, label: true)} last earned about 1 hour ago
+        2. #{profile3.link} - #{points_format(83, label: true)} last earned 7 days ago
+        3. #{profile4.link} - #{points_format(3, label: true)} last earned 2 months ago
       TEXT
     end
     let(:mock_result) do
@@ -54,11 +54,11 @@ RSpec.describe Commands::Leaderboard, :freeze_time do
     end
 
     before do
-      profile1.update(karma: 500, last_tip_received_at: Time.current)
-      profile2.update(karma: 83, last_tip_received_at: Time.current - 1.hour)
-      profile3.update(karma: 83, last_tip_received_at: Time.current - 1.week)
-      profile4.update(karma: 3, last_tip_received_at: Time.current - 2.months)
-      team.update(karma_sent: profiles.sum(&:karma))
+      profile1.update(points: 500, last_tip_received_at: Time.current)
+      profile2.update(points: 83, last_tip_received_at: Time.current - 1.hour)
+      profile3.update(points: 83, last_tip_received_at: Time.current - 1.week)
+      profile4.update(points: 3, last_tip_received_at: Time.current - 2.months)
+      team.update(points_sent: profiles.sum(&:points))
       allow(LeaderboardService).to receive(:call).with(
         team: team,
         givingboard: false
@@ -84,8 +84,8 @@ RSpec.describe Commands::Leaderboard, :freeze_time do
       link: prof.link,
       display_name: prof.display_name,
       real_name: prof.real_name,
-      karma: prof.karma,
-      percent_share: (prof.karma / team.karma_sent.to_f) * 100,
+      points: prof.points,
+      percent_share: (prof.points / team.points_sent.to_f) * 100,
       last_timestamp: prof.last_tip_received_at.to_s
     )
   end

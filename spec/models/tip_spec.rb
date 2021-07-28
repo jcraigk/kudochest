@@ -146,16 +146,16 @@ RSpec.describe Tip do
         create(:tip, from_profile: sender, to_profile: recipient, quantity: 2)
       end
 
-      it 'increments sender karma_sent' do
-        expect(sender.reload.karma_sent).to eq(2)
+      it 'increments sender points_sent' do
+        expect(sender.reload.points_sent).to eq(2)
       end
 
-      it 'increments recipient karma_received' do
-        expect(recipient.reload.karma_received).to eq(2)
+      it 'increments recipient points_received' do
+        expect(recipient.reload.points_received).to eq(2)
       end
 
-      it 'increments the team karma_sent' do
-        expect(team.reload.karma_sent).to eq(2)
+      it 'increments the team points_sent' do
+        expect(team.reload.points_sent).to eq(2)
       end
     end
 
@@ -164,22 +164,22 @@ RSpec.describe Tip do
 
       describe '#delete_slack_response' do
         before do
-          sender.update(karma_sent: 5)
-          recipient.update(karma_received: 5)
-          team.update(karma_sent: 5)
+          sender.update(points_sent: 5)
+          recipient.update(points_received: 5)
+          team.update(points_sent: 5)
           tip.destroy
         end
 
-        it 'decrements sender karma_sent' do
-          expect(sender.reload.karma_sent).to eq(3)
+        it 'decrements sender points_sent' do
+          expect(sender.reload.points_sent).to eq(3)
         end
 
-        it 'decrements recipient karma_received' do
-          expect(recipient.reload.karma_received).to eq(3)
+        it 'decrements recipient points_received' do
+          expect(recipient.reload.points_received).to eq(3)
         end
 
-        it 'decrements the team karma_sent' do
-          expect(team.reload.karma_sent).to eq(3)
+        it 'decrements the team points_sent' do
+          expect(team.reload.points_sent).to eq(3)
         end
       end
     end
