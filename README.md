@@ -1,10 +1,10 @@
-[![Build Status](https://www.travis-ci.com/jcraigk/karmachest.svg?branch=master)](https://www.travis-ci.com/jcraigk/karmachest)
-[![Maintainability](https://api.codeclimate.com/v1/badges/ac612f0aec880d523ab4/maintainability)](https://codeclimate.com/github/jcraigk/karmachest/maintainability)
-[![Test Coverage](https://api.codeclimate.com/v1/badges/ac612f0aec880d523ab4/test_coverage)](https://codeclimate.com/github/jcraigk/karmachest/test_coverage)
+[![Build Status](https://www.travis-ci.com/jcraigk/kudochest.svg?branch=master)](https://www.travis-ci.com/jcraigk/kudochest)
+[![Maintainability](https://api.codeclimate.com/v1/badges/ca54364dc0911c26e35f/maintainability)](https://codeclimate.com/github/jcraigk/kudochest/maintainability)
+[![Test Coverage](https://api.codeclimate.com/v1/badges/ca54364dc0911c26e35f/test_coverage)](https://codeclimate.com/github/jcraigk/kudochest/test_coverage)
 &nbsp;  
 &nbsp;  
 
-![KudoChest Logo](https://github.com/jcraigk/karmachest/blob/master/app/webpacker/images/logos/app-full.png)
+![KudoChest Logo](https://github.com/jcraigk/kudochest/blob/master/app/webpacker/images/logos/app-144.png)
 &nbsp;  
 &nbsp;  
 
@@ -12,7 +12,7 @@
 
 This is a **Ruby on Rails** application backed by **Postgres** and **Redis**. It integrates tightly with chat platforms, keeping teams and users synced server-side. This enables web-based user profiles and other UX enhancements not possible in standard bots.
 
-See the **[Wiki](https://github.com/jcraigk/karmachest/wiki)** for a deeper dive.
+See the **[Wiki](https://github.com/jcraigk/kudochest/wiki)** for a deeper dive.
 &nbsp;  
 &nbsp;  
 
@@ -21,14 +21,14 @@ See the **[Wiki](https://github.com/jcraigk/karmachest/wiki)** for a deeper dive
 
 To install KudoChest into your organization's Slack or Discord workspace, you must host the Rails components on a web server you control and configure the Slack or Discord App at the appropriate platform's site.
 
-See the [Installation Instructions](https://github.com/jcraigk/karmachest/wiki/Installation) for more detail.
+See the [Installation Instructions](https://github.com/jcraigk/kudochest/wiki/Installation) for more detail.
 &nbsp;  
 &nbsp;  
 
 
 # Development
 
-For local development, start by reading the [Installation Instructions](https://github.com/jcraigk/karmachest/wiki/Installation), paying special attention to the [Environment Variables](https://github.com/jcraigk/karmachest/wiki/Installation#environment-variables) section. Note that you will only need certain portions of what is described there, depending on your specific area of development.
+For local development, start by reading the [Installation Instructions](https://github.com/jcraigk/kudochest/wiki/Installation), paying special attention to the [Environment Variables](https://github.com/jcraigk/kudochest/wiki/Installation#environment-variables) section. Note that you will only need certain portions of what is described there, depending on your specific area of development.
 
 ## Setup
 
@@ -111,4 +111,4 @@ All contributions are welcome via Issues and Pull Requests. If you notice someth
 
 # Copyright
 
-This software is released under an [MIT-LICENSE](https://github.com/jcraigk/karmachest/blob/master/MIT-LICENSE).
+This software is released under an [MIT-LICENSE](https://github.com/jcraigk/kudochest/blob/master/MIT-LICENSE).
