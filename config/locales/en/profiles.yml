@@ -20,3 +20,4 @@ en:
     unmuted: ':loudspeaker: Okay, I may sometimes send you unsolicated direct messages'
     no_recent_activity: You have not given or earned any %{points} recently
     app_home_opened: "Hi, we're glad you're here! *%{app}* is a team engagement tool that allows users to give each other %{points} that accrue over time. For more info, see %{url}"
+    shared_admin_no_connect: Shared admin accounts cannot connect to profiles. Login as a separate account to connect your personal profile.

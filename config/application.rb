@@ -40,6 +40,7 @@ module KudoChest
     # Possible values: [slack discord google facebook]
     providers = ENV['OAUTH_PROVIDERS'].presence&.split(',')&.map(&:to_sym)
     config.oauth_providers = providers || []
+    config.shared_admin = ENV.fetch('SHARED_ADMIN', 'false').to_s.casecmp('true').zero?
 
     ## Slack
     config.slack_app_id = ENV['SLACK_APP_ID']

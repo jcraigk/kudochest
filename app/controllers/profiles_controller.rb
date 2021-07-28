@@ -3,6 +3,7 @@ class ProfilesController < ApplicationController
   skip_before_action :require_login, only: %i[connect]
 
   def connect
+    return redirect_to_dashboard alert: shared_admin_msg if shared_admin?
     return redirect_to_dashboard alert: invalid_token_msg if requested_profile.blank?
     return redirect_to_dashboard alert: already_connected_msg if requested_profile.user_id.present?
     return connect_profile if current_user
@@ -79,6 +80,10 @@ class ProfilesController < ApplicationController
       profile: current_profile.long_name,
       email: current_profile.user.email
     )
+  end
+
+  def shared_admin_msg
+    t('profiles.shared_admin_no_connect')
   end
 
   def invalid_token_msg
