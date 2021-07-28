@@ -10,6 +10,10 @@ class ApplicationController < ActionController::Base
 
   protected
 
+  def shared_admin?
+    App.shared_admin && current_user.owned_teams.any?
+  end
+
   def not_authenticated
     redirect_to main_app.login_path, alert: t('auth.login_required')
   end

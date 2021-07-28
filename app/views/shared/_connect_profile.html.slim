@@ -7,13 +7,16 @@
       = t('profiles.connect_chat')
 
   .card-content.has-text-centered
-    p
-      strong = t('profiles.connect_instructions')
-    br
+    - if @shared_admin
+      = t('profiles.shared_admin_no_connect')
+    - else
+      p
+        strong = t('profiles.connect_instructions')
+      br
 
-    - command = "#{PROF_PREFIX}#{App.bot_name} connect"
-    .command-wrapper
-      .command-callout = command
-      button.clipboard-btn data-clipboard-text="#{command}"
-        i.fa.fa-copy#copy-icon
-        i.fa.fa-check#check-icon style='display: none;'
+      - command = "#{PROF_PREFIX}#{App.bot_name} connect"
+      .command-wrapper
+        .command-callout = command
+        button.clipboard-btn data-clipboard-text="#{command}"
+          i.fa.fa-copy#copy-icon
+          i.fa.fa-check#check-icon style='display: none;'
