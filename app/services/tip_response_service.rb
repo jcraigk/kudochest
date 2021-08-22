@@ -20,6 +20,12 @@ class TipResponseService < Base::Service
     )
   end
 
+  def append_channel?
+    team.config.show_channel &&
+      first_tip&.from_channel_name &&
+      first_tip&.from_channel_rid != first_tip&.to_channel_rid
+  end
+
   def web_sentence
     return unless tips.any?
     <<~TEXT.squish
@@ -29,10 +35,7 @@ class TipResponseService < Base::Service
   end
 
   def formatted_web_str
-    fragments = build_fragments(:web)
-    text = fragments[1].delete_suffix('!')
-    fragments[1] = "#{text} in #{channel_webref(tips.first.from_channel_name)}"
-    emojify(fragments.compact.join(tag.br).strip, size: 12)
+    emojify(build_fragments(:web).compact.join(tag.br).strip, size: 12)
   end
 
   def current_time_in_zone
@@ -51,7 +54,7 @@ class TipResponseService < Base::Service
 
   def main_fragment(platform)
     [
-      profile_ref(from_profile, platform),
+      profile_ref(platform, from_profile),
       points_fragment(platform)
     ].compact.join(' ')
   end
@@ -68,16 +71,17 @@ class TipResponseService < Base::Service
   end
 
   def channel_lead(platform)
+    return @channel_lead if @channel_lead.present?
     return unless to_channels.one?
     channel = to_channels.first
-    channel_ref = channel_ref(channel.rid, channel.name, platform)
-    "Everyone in #{channel_ref} has received #{App.points_term}!"
+    channel_ref = channel_ref(platform, channel.rid, channel.name)
+    @channel_lead = "Everyone in #{channel_ref} has received #{App.points_term}!"
   end
 
   def subteam_lead(platform)
     return unless to_subteams.one?
     subteam = to_subteams.first
-    subteam_ref = subteam_ref(subteam.rid, subteam.handle, platform)
+    subteam_ref = subteam_ref(platform, subteam.rid, subteam.handle)
     "Everyone in #{subteam_ref} has received #{App.points_term}!"
   end
 
@@ -87,12 +91,13 @@ class TipResponseService < Base::Service
   end
 
   def to_channels
-    tips.select(&:to_channel_rid).uniq(&:to_channel_rid).map do |tip|
-      OpenStruct.new(
-        rid: tip.to_channel_rid,
-        name: tip.to_channel_name
-      )
-    end
+    @to_channels ||=
+      tips.select(&:to_channel_rid).uniq(&:to_channel_rid).map do |tip|
+        OpenStruct.new(
+          rid: tip.to_channel_rid,
+          name: tip.to_channel_name
+        )
+      end
   end
 
   def to_subteams
@@ -104,23 +109,24 @@ class TipResponseService < Base::Service
     end
   end
 
-  def channel_ref(rid, name, platform)
+  def channel_ref(platform, rid, name)
     case platform
-    when :slack, :discord then channel_link(rid)
+    when :slack then name == SLACK_DM_NAME ? SLACK_DM_PHRASE : channel_link(rid)
+    when :discord then channel_link(rid)
     when :image then "#{IMG_DELIM}#{CHAN_PREFIX}#{name} #{IMG_DELIM}"
     when :web then channel_webref(name)
     end
   end
 
-  def subteam_ref(rid, handle, platform)
-    case team.platform.to_sym
+  def subteam_ref(platform, rid, handle)
+    case platform
     when :slack, :discord then "<#{SUBTEAM_PREFIX[platform]}#{rid}>"
-    when :image then "#{IMG_DELIM}#{CHAN_PREFIX}#{name} #{IMG_DELIM}"
+    when :image then "#{IMG_DELIM}#{CHAN_PREFIX}#{handle} #{IMG_DELIM}"
     when :web then subteam_webref(handle)
     end
   end
 
-  def profile_ref(profile, platform, new_points = nil)
+  def profile_ref(platform, profile, new_points = nil)
     profile.points_received = new_points if new_points
     case platform
     when :slack, :discord then chat_profile_ref(profile)
@@ -138,23 +144,23 @@ class TipResponseService < Base::Service
   end
 
   def unobtrusive_link(profile)
-    case profile.team.platform
-    when 'slack' then "<#{profile.web_url}|#{profile.display_name}>"
-    when 'discord' then "**#{profile.display_name}**"
+    case profile.team.platform.to_sym
+    when :slack then "<#{profile.web_url}|#{profile.display_name}>"
+    when :discord then "**#{profile.display_name}**"
     end
   end
 
   def web_profile_ref(profile)
-    case team.response_theme
-    when 'unobtrusive', 'basic' then profile.webref
-    when 'fancy' then profile.webref_with_stat
+    case team.response_theme.to_sym
+    when :unobtrusive, :basic then profile.webref
+    when :fancy then profile.webref_with_stat
     end
   end
 
   def streak_fragment(platform)
     return unless streak_rewarded?
     <<~TEXT.squish
-      #{profile_ref(from_profile, platform)} earned #{points_format(team.streak_reward, label: true)} for achieving a Giving Streak of #{number_with_delimiter(from_profile.streak_count)} days
+      #{profile_ref(platform, from_profile)} earned #{points_format(team.streak_reward, label: true)} for achieving a Giving Streak of #{number_with_delimiter(from_profile.streak_count)} days
     TEXT
   end
 
@@ -206,7 +212,7 @@ class TipResponseService < Base::Service
 
   def levelup_sentence(platform)
     return "#{levelups.size} users" if levelups.size > 3
-    levelups.map { |levelup| profile_ref(levelup.profile, platform) }.to_sentence
+    levelups.map { |levelup| profile_ref(platform, levelup.profile) }.to_sentence
   end
 
   def points_fragment(platform)
@@ -222,11 +228,21 @@ class TipResponseService < Base::Service
         str
       end
     end.flatten
-    "#{fragments.to_sentence}!"
+    "#{fragments.to_sentence}#{channel_suffix(platform)}!"
+  end
+
+  def channel_suffix(platform)
+    return unless append_channel?
+    case platform
+    when :slack, :discord
+      " in <#{CHAN_PREFIX}#{first_tip.from_channel_rid}>"
+    when :web
+      " in #{channel_webref(first_tip.from_channel_name)}"
+    end
   end
 
   def compose_str(platform, quantity, topic_id, similar_tips)
-    recipient_sentence = profile_sentence(profile_refs_from(similar_tips, platform))
+    recipient_sentence = profile_sentence(profile_refs_from(platform, similar_tips))
     quant_str = points_format(quantity)
     topic = team.topics.find { |t| t.id == topic_id }
     emoji = emoji_sequence(platform, quantity, topic)
@@ -245,10 +261,10 @@ class TipResponseService < Base::Service
     team.custom_emoj * quantity
   end
 
-  def profile_refs_from(quantity_tips, platform)
+  def profile_refs_from(platform, quantity_tips)
     quantity_tips.map do |tip|
       new_points = levelups.find { |levelup| levelup.profile == tip.to_profile }&.new_points
-      profile_ref(tip.to_profile, platform, new_points)
+      profile_ref(platform, tip.to_profile, new_points)
     end
   end
 
@@ -265,7 +281,7 @@ class TipResponseService < Base::Service
 
   def note_fragment(platform)
     return if note.blank?
-    "\"#{formatted_note(platform)}\""
+    "Note: \"#{formatted_note(platform)}\""
   end
 
   def formatted_note(platform)

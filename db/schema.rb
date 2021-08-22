@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_12_10_014052) do
+ActiveRecord::Schema.define(version: 2021_08_22_151229) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -184,7 +184,6 @@ ActiveRecord::Schema.define(version: 2020_12_10_014052) do
   end
 
   create_table "tips", force: :cascade do |t|
-    t.bigint "contest_id"
     t.integer "from_profile_id", null: false
     t.integer "to_profile_id", null: false
     t.string "source", null: false
@@ -203,7 +202,6 @@ ActiveRecord::Schema.define(version: 2020_12_10_014052) do
     t.boolean "to_everyone", default: false
     t.uuid "topic_id"
     t.index "date_trunc('day'::text, created_at)", name: "idx_on_tips_created_at_truncated_to_day"
-    t.index ["contest_id"], name: "index_tips_on_contest_id"
     t.index ["created_at"], name: "index_tips_on_created_at"
     t.index ["event_ts", "to_profile_id"], name: "index_tips_on_event_ts_and_to_profile_id", unique: true
     t.index ["from_profile_id"], name: "index_tips_on_from_profile_id"

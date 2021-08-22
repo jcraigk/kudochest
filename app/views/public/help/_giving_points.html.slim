@@ -3,10 +3,10 @@ h2.subtitle.is-3 Giving #{App.points_term}
 p There are several ways to give #{App.points_term} in Slack:
 
 br
-p 1. In Slack chat, you can provide the name of a user, a group, a channel, or even "@everyone" and follow that by two plus signs. The #{App.app_name} bot must be present in the channel. For example, to give 1 #{App.point_term} to @Lisa, you could enter "@Lisa++". To give 1 #{App.point_term} to all users in the "general" channel, you could enter "#general++". Additionally, you may provide a quantity and a note, for example entering "@Lisa ++2 for your help today" would send 2 #{App.points_term} to @Lisa with the note "for your help today".
+p 1. In Slack chat, you can provide the name of a user, a group, or a channel, and follow that by two plus signs. This also works for "@channel" in a public channel or "@everyone" in #general. Note that the #{App.app_name} bot must be present in the channel for it to hear the command. For example, to give 1 #{App.point_term} to @Lisa, you could enter "@Lisa ++". To give 1 #{App.point_term} to all users in the "general" channel, you could enter "#general ++" or "@channel ++" within the channel. Additionally, you may provide a quantity and a note, for example entering "@Lisa ++2 for your help today" would send 2 #{App.points_term} to @Lisa with the note "for your help today".
 
 br
-p If your organization has Topics enabled, then you may also specify a Topic when giving #{App.points_term}. Topics typically represent an organizational value or process. Each Topic can be invoked with a specific keyword after "++" such as "@Lisa++ leadership". Emoji may also be used to invoke topics. Use the "topics" command to see all the active Topics for your organization.
+p If your organization has Topics enabled, then you may also specify a Topic when giving #{App.points_term}. Topics typically represent an organizational value or process. Each Topic can be invoked with a specific keyword after "++" such as "@Lisa ++ leadership". Emoji may also be used to invoke topics. Use the "topics" command to see all the active Topics for your organization.
 
 br
 p 2. Similar to #1 above, use the emoji configured by your administrator after the name of a user, such as "@Lisa :fire:". If Topics are enabled, use the specific emoji for the Topic you want to invoke.

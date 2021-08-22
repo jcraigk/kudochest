@@ -47,26 +47,35 @@ class TipFactory < Base::Service
   end
 
   def from_channel
-    from_channel_name.presence || Channel.find_by(rid: from_channel_rid)&.name
+    channel_name_abbrev(from_channel_name) || Channel.find_by(rid: from_channel_rid)&.name
   end
 
-  def entity_attrs # rubocop:disable Metrics/MethodLength
-    return { to_everyone: true } if to_entity == 'everyone'
+  def channel_name_abbrev(name)
+    return SLACK_DM_NAME if team.platform == :slack && name.start_with?(SLACK_DM_PREFIX)
+    name.presence
+  end
 
+  def entity_attrs
+    return { to_everyone: true } if to_entity == 'everyone'
     case to_entity.class.name
-    when 'Subteam'
-      {
-        to_subteam_rid: to_entity.rid,
-        to_subteam_handle: to_entity.handle || to_entity.name
-      }
-    when 'Channel'
-      {
-        to_channel_rid: to_entity.rid,
-        to_channel_name: to_entity.name
-      }
-    else
-      {}
+    when 'Subteam' then subteam_attrs
+    when 'Channel' then named_channel_attrs
+    else {}
     end
+  end
+
+  def named_channel_attrs
+    {
+      to_channel_rid: to_entity.rid,
+      to_channel_name: channel_name_abbrev(to_entity.name)
+    }
+  end
+
+  def subteam_attrs
+    {
+      to_subteam_rid: to_entity.rid,
+      to_subteam_handle: to_entity.handle || to_entity.name
+    }
   end
 
   def truncated_note

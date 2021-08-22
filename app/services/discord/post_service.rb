@@ -21,7 +21,7 @@ class Discord::PostService < Base::PostService
       return result
     end
 
-    Discordrb::API::Channel.create_message(App.discord_token, channel, chat_response_text(channel))
+    Discordrb::API::Channel.create_message(App.discord_token, channel, chat_response_text)
   end
 
   def respond_dm(profile_rid)

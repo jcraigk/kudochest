@@ -47,14 +47,13 @@ RSpec.describe Discord::PostService do
     let(:dm_channel_rid) { '12345' }
     let(:dm_channel_response) { { 'id' => dm_channel_rid } }
     let(:tips) { create_list(:tip, 2, from_profile: profile, from_channel_rid: channel.rid) }
-    let(:response_with_channel) { "#{chat_response} in <#{CHAN_PREFIX}#{channel.rid}>" }
 
     before do
       allow(Discordrb::API::User).to(
         receive(:create_pm).with(App.discord_token, profile.rid)
       ).and_return(dm_channel_response.to_json)
       allow(Discordrb::API::Channel).to(
-        receive(:create_message).with(App.discord_token, dm_channel_rid, response_with_channel)
+        receive(:create_message).with(App.discord_token, dm_channel_rid, chat_response)
       ).and_return(post_response.to_json)
       service
     end
