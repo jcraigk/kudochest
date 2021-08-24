@@ -43,12 +43,6 @@ class Slack::PostService < Base::PostService
     respond_dm(profile_rid)
   end
 
-  def attach_and_broadcast
-    respond_in_convo(log_channel_rid) if copy_to_log_channel?
-    attach_response_to_tips
-    broadcast_via_websocket
-  end
-
   def reply_to_message
     return respond_in_convo if action == :modal_submit
     thread = message_ts || event_ts
@@ -137,15 +131,6 @@ class Slack::PostService < Base::PostService
     slack_client.chat_update(message_params(replace_channel_rid).merge(ts: replace_ts))
   end
 
-  def copy_to_log_channel?
-    tips.any? && log_channel_rid.present? && log_channel_rid != channel_rid
-  end
-
-  def broadcast_via_websocket
-    return if tips.none?
-    ResponseChannel.broadcast_to(sender.team, response.web)
-  end
-
   def fast_ack_text
     return unless mode == :fast_ack
     "_Working on <#{PROF_PREFIX}#{profile_rid}>'s request..._"
@@ -181,9 +166,5 @@ class Slack::PostService < Base::PostService
 
   def slack_client
     @slack_client ||= Slack::SlackApi.client(team_rid: team_rid)
-  end
-
-  def sender
-    @sender ||= tips.first.from_profile
   end
 end

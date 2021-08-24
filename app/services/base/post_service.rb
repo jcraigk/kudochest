@@ -13,36 +13,38 @@ class Base::PostService < Base::Service
   option :image,            default: proc {}
   option :tips,             default: proc { [] }
 
+  attr_reader :log_channel_rid, :response_mode
+
   def call
     @action = action&.to_sym
     @team_config = OpenStruct.new(team_config)
+    @log_channel_rid = team_config.log_channel_rid
+    @response_mode = team_config.response_mode&.to_sym
 
-    if response_mode == :silent && tips.any?
-      respond_in_convo(log_channel_rid) if copy_to_log_channel?
-      return
-    end
-
-    attach_and_broadcast if mode != :fast_ack
-    post_response
+    handle_responses
   end
 
   private
 
-  def log_channel_rid
-    @log_channel_rid ||= team_config.log_channel_rid
+  def handle_responses
+    return post_log_message if response_mode == :silent
+    return post_response if mode == :fast_ack
+    post_to_all_channels
   end
 
-  def response_mode
-    @response_mode ||= team_config.response_mode&.to_sym
-  end
-
-  def attach_and_broadcast
-    respond_in_convo(log_channel_rid) if copy_to_log_channel?
-    attach_response_to_tips
+  def post_to_all_channels
+    post_response
+    attach_tips_to_response
     broadcast_via_websocket
+    post_log_message
   end
 
-  def copy_to_log_channel?
+  def post_log_message
+    return unless post_in_log_channel?
+    respond_in_convo(log_channel_rid)
+  end
+
+  def post_in_log_channel?
     tips.any? && log_channel_rid.present? && log_channel_rid != channel_rid
   end
 
@@ -55,7 +57,7 @@ class Base::PostService < Base::Service
     @sender ||= tips.first.from_profile
   end
 
-  def attach_response_to_tips
+  def attach_tips_to_response
     return if tips.none? || (response_mode == :silent && log_channel_rid.blank?)
     Tip.where(id: tips.map(&:id)).update_all( # rubocop:disable Rails/SkipsModelValidations
       response_channel_rid: log_channel_rid.presence || post_response_channel_rid,

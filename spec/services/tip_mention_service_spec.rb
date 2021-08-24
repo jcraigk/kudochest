@@ -59,7 +59,9 @@ RSpec.describe TipMentionService, :freeze_time do
 
   context 'when no mentions are provided' do
     let(:mentions) { [] }
-    let(:result) { nil }
+    let(:result) do
+      OpenStruct.new(mode: :error, text: I18n.t('errors.no_tips', points: App.points_term))
+    end
 
     include_examples 'expected result'
   end
@@ -84,7 +86,8 @@ RSpec.describe TipMentionService, :freeze_time do
       OpenStruct.new(
         mode: :public,
         response: tip_response,
-        tips: Tip.all
+        tips: Tip.all,
+        image: nil
       )
     end
     let(:tip_response) { 'A mock tip response' }
