@@ -2,7 +2,6 @@
 class Slack::ChannelLeaveService < Base::Service
   option :team
   option :channel_rid
-  option :channel_name # TODO: Remove after debugging
 
   def call
     leave_channel

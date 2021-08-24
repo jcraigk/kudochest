@@ -11,12 +11,19 @@ class TipMentionService < Base::Service
   def call
     return respond_need_tokens if need_tokens?
     return respond_note_required if note_missing?
-    return if tips.empty?
+    return respond_no_action if tips.none?
 
     respond_success
   end
 
   private
+
+  def respond_no_action
+    OpenStruct.new(
+      mode: :error,
+      text: I18n.t('errors.no_tips', points: App.points_term)
+    )
+  end
 
   def tips
     @tips ||= Tip.transaction do
@@ -48,16 +55,12 @@ class TipMentionService < Base::Service
   end
 
   def respond_success
-    OpenStruct.new(response_attrs)
-  end
-
-  def response_attrs
-    {
+    OpenStruct.new(
       mode: :public,
       response: response,
       tips: tips,
       image: response_image
-    }.compact
+    )
   end
 
   def response_image

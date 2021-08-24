@@ -98,8 +98,8 @@ class Tip < ApplicationRecord
 
   def delete_slack_response
     from_profile.team.slack_client.chat_delete(channel: response_channel_rid, ts: response_ts)
-  rescue Slack::Web::Api::Errors::SlackError
-    nil # `message_not_found` - many tips may be associated with same ts
+  rescue Slack::Web::Api::Errors::MessageNotFound
+    nil
   end
 
   def delete_discord_response
