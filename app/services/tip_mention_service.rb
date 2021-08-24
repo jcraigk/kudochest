@@ -83,23 +83,21 @@ class TipMentionService < Base::Service
   end
 
   def fetch_entity(rid)
-    if rid == 'everyone'
-      rid
-    elsif rid.start_with?(*SUBTEAM_PREFIX.values)
-      subteam_entity(rid)
-    elsif rid.start_with?(PROF_PREFIX)
-      profile_entity(rid)
-    elsif rid.start_with?(CHAN_PREFIX)
-      channel_entity(rid)
+    if rid == 'everyone' then rid
+    elsif rid == 'channel' then channel_entity(channel_rid.delete(CHAN_PREFIX))
+    elsif rid.start_with?(*SUBTEAM_PREFIX.values) then subteam_entity(rid)
+    elsif rid.start_with?(PROF_PREFIX) then profile_entity(rid)
+    elsif rid.start_with?(CHAN_PREFIX) then channel_entity(rid)
     end
   end
 
   def channel_entity(rid)
-    Channel.find_with_team(team.rid, rid.delete(CHAN_PREFIX))
+    rid = rid.delete(CHAN_PREFIX)
+    Channel.find_with_team(team.rid, rid) || Channel.new(name: channel_name, rid: rid)
   end
 
   def profile_entity(rid)
-    Profile.find_with_team(team.rid, rid.delete(PROFILE_PREFIX[:discord])) # Covers Slack too
+    Profile.find_with_team(team.rid, rid.delete(PROFILE_PREFIX[:discord])) # Handles Slack too
   end
 
   def subteam_entity(rid)
@@ -141,6 +139,10 @@ class TipMentionService < Base::Service
 
   def everyone_mention
     entity_mentions.find { |m| m.entity == 'everyone' }
+  end
+
+  def channel_mention
+    entity_mentions.find { |m| m.entity == 'channel' }
   end
 
   def sanitized_channel_mentions

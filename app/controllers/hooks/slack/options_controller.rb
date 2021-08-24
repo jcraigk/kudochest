@@ -8,15 +8,20 @@ class Hooks::Slack::OptionsController < Hooks::Slack::BaseController
 
   def options
     (
-      everyone_option +
       profile_options +
-      channel_options +
-      subteam_options
+      subteam_options +
+      channel_keyword_option +
+      channel_name_options +
+      everyone_keyword_option
     ).sort_by { |opt| opt[:text][:text] }
   end
 
-  def everyone_option
+  def everyone_keyword_option
     [generic_option("#{PROF_PREFIX}everyone", 'everyone')]
+  end
+
+  def channel_keyword_option
+    [generic_option("#{PROF_PREFIX}channel", 'channel')]
   end
 
   def profile_options
@@ -29,7 +34,7 @@ class Hooks::Slack::OptionsController < Hooks::Slack::BaseController
     end
   end
 
-  def channel_options
+  def channel_name_options
     Channel.joins(:team)
            .where('teams.rid' => team_rid)
            .matching(user_input)

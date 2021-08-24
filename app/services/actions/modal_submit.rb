@@ -37,6 +37,8 @@ class Actions::ModalSubmit < Actions::Base
   end
 
   def prefix(val)
+    return if val == 'channel'
+
     case val.first
     when 'U' then PROF_PREFIX
     when 'C' then CHAN_PREFIX

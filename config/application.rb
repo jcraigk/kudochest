@@ -128,7 +128,7 @@ PRIVATE_KEYWORDS = %w[connect help settings claim].freeze
 
 CHAN_PREFIX = '#'
 PROF_PREFIX = '@'
-LEGACY_SLACK_SUFFIX_PATTERN = '\|[^>]+'
+LEGACY_SLACK_SUFFIX_PATTERN = '\|[^>]*'
 
 RID_CHARS = {
   slack: '[A-Z0-9]',
@@ -156,10 +156,13 @@ SUBTEAM_REGEX = {
   slack: /<!subteam\^([^>]+)>/,
   discord: /<@&(\d+)>/
 }.with_indifferent_access.freeze
-EVERYONE_PATTERN = {
-  slack: '<!(everyone)>',
-  discord: '@(everyone)'
+GROUP_KEYWORD_PATTERN = {
+  slack: '<!(everyone|channel)>',
+  discord: '@(everyone|channel)'
 }.with_indifferent_access.freeze
+SLACK_DM_NAME = 'direct-message'
+SLACK_DM_PREFIX = 'mpdm-'
+SLACK_DM_PHRASE = 'a group chat'
 
 IMG_DELIM = '<COLOR>'
 

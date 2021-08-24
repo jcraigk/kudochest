@@ -25,7 +25,7 @@ class Slack::ModalView < Base::Service
         type: :plain_text,
         text: 'Cancel'
       },
-      blocks: [rid_multiselect, quantity_select, topic_select, note_input].compact
+      blocks: [quantity_select, rid_multiselect, topic_select, note_input].compact
     }
   end
 
@@ -36,6 +36,7 @@ class Slack::ModalView < Base::Service
         type: :plain_text,
         text: 'Recipients'
       },
+      optional: false,
       element: {
         type: :multi_external_select,
         action_id: :rids,
@@ -54,6 +55,7 @@ class Slack::ModalView < Base::Service
         type: :plain_text,
         text: 'Quantity'
       },
+      optional: false,
       element: {
         type: :static_select,
         action_id: :quantity,

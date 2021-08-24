@@ -3,12 +3,11 @@ class Actions::Message < Actions::Base
   include EntityReferenceHelper
 
   attr_reader :app_profile_rid, :app_subteam_rid, :team_rid, :profile_rid,
-              :channel_rid, :channel_name, :text, :origin, :event_ts, :platform
+              :channel_rid, :text, :origin, :event_ts, :platform
 
-  def call # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
+  def call # rubocop:disable Metrics/AbcSize
     @app_profile_rid = params[:team_config][:app_profile_rid]
     @app_subteam_rid = params[:team_config][:app_subteam_rid]
-    @channel_name = params[:channel_name]
     @channel_rid = params[:channel_rid]
     @event_ts = params[:event_ts]
     @origin = params[:origin]
@@ -21,6 +20,19 @@ class Actions::Message < Actions::Base
   end
 
   private
+
+  def channel_name
+    @channel_name ||= given_channel_name || fetch_channel_name
+  end
+
+  def given_channel_name
+    params[:channel_name].presence
+  end
+
+  def fetch_channel_name
+    return unless platform == :slack
+    Slack::ChannelNameService.call(team: team, channel_rid: channel_rid).presence
+  end
 
   def process_message
     return open_modal if modal_command?

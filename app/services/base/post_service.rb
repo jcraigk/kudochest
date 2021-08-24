@@ -16,7 +16,6 @@ class Base::PostService < Base::Service
   def call
     @action = action&.to_sym
     @team_config = OpenStruct.new(team_config)
-    @response_text = {}
 
     if response_mode == :silent && tips.any?
       respond_in_convo(log_channel_rid) if copy_to_log_channel?
@@ -38,9 +37,8 @@ class Base::PostService < Base::Service
   end
 
   def attach_and_broadcast
-    # TODO: should response tips be attached to log channel if :silent?
-    attach_response_tips unless response_mode == :silent
     respond_in_convo(log_channel_rid) if copy_to_log_channel?
+    attach_response_to_tips
     broadcast_via_websocket
   end
 
@@ -57,36 +55,26 @@ class Base::PostService < Base::Service
     @sender ||= tips.first.from_profile
   end
 
-  def attach_response_tips
-    return unless tips.any?
+  def attach_response_to_tips
+    return if tips.none? || (response_mode == :silent && log_channel_rid.blank?)
     Tip.where(id: tips.map(&:id)).update_all( # rubocop:disable Rails/SkipsModelValidations
-      response_channel_rid: post_response_channel_rid,
+      response_channel_rid: log_channel_rid.presence || post_response_channel_rid,
       response_ts: post_response_ts
     )
   end
 
-  def chat_response_text(to_channel_rid = nil)
-    fast_ack_text || response_text(to_channel_rid)
+  def chat_response_text
+    fast_ack_text || compose_response
   end
 
   def first_tip
     @first_tip ||= tips.first
   end
 
-  def response_text(to_channel_rid)
-    @response_text[to_channel_rid] ||= compose_response(to_channel_rid)
-  end
-
-  def compose_response(to_channel_rid)
+  def compose_response
     return image if image.present?
     return text unless any_chat_fragments?
-    append_channel if append_channel?(to_channel_rid)
     fragment_composition
-  end
-
-  def append_channel
-    text = response.chat_fragments[1].delete_suffix('!')
-    response.chat_fragments[1] = "#{text} in <#{CHAN_PREFIX}#{first_tip.from_channel_rid}>"
   end
 
   def fragment_composition
@@ -113,11 +101,5 @@ class Base::PostService < Base::Service
 
   def any_chat_fragments?
     chat_fragments&.any?(&:present?)
-  end
-
-  def append_channel?(to_channel_rid)
-    team_config.show_channel &&
-      first_tip&.from_channel_name &&
-      to_channel_rid != first_tip&.from_channel_rid
   end
 end

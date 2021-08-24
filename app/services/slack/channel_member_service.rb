@@ -3,6 +3,8 @@ class Slack::ChannelMemberService < Base::ChannelMemberService
   private
 
   def channel_members
-    team.slack_client.conversations_info(channel: channel_rid)[:channel][:members]
+    team.slack_client.conversations_members(channel: channel_rid)[:members]
+    # rescue Slack::Web::Api::Errors::ChannelNotFound # App has insufficient privileges
+    # TODO: Return [] and handle Ack message replacement when no tips given
   end
 end

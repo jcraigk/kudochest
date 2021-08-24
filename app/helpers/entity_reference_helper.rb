@@ -33,7 +33,7 @@ module EntityReferenceHelper
           (?:#{LEGACY_SLACK_SUFFIX_PATTERN})?
         >
         |
-        #{EVERYONE_PATTERN[platform]}
+        #{GROUP_KEYWORD_PATTERN[platform]}
       )
     TEXT
   end

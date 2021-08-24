@@ -25,7 +25,7 @@ class Commands::Help < Commands::Base
         * `me`  See your current stats
         * `mute`  Disable unsolicited direct messages
         * `settings`  See app configuration (set by admin)
-        * `stats #{PROF_PREFIX}user`  See another user's stats (minus private stuff)
+        * `stats #{PROF_PREFIX}user`  See another user's stats
         * `top`  See the leaderboard
         * `topics`  See all topics
         * `undo`  Revoke #{App.points_term} you just gave
@@ -79,11 +79,11 @@ class Commands::Help < Commands::Base
 
   # rubocop:disable Layout/LineLength
   def slack_giving_points
-    str = "* `/#{App.base_command}` by itself for assistance _(tip: use Tab key)_"
-    str += "\n  * Type `#{PROF_PREFIX}user++`, `#{PROF_PREFIX}group++`, `#{CHAN_PREFIX}channel++`, or `#{CHAN_PREFIX}everyone++` where bot can hear"
+    str = "* `/#{App.base_command}` by itself for assistance _(tip: use Tab key to navigate input fields)_"
+    str += "\n  * Type `#{PROF_PREFIX}[user]++`, `#{PROF_PREFIX}[group]++`, `#{CHAN_PREFIX}[channel]++`, `#{PROF_PREFIX}channel++`, or `#{PROF_PREFIX}everyone++` where bot can hear"
     if team.enable_emoji?
-      str += "\n  * Type `#{PROF_PREFIX}user`#{team.custom_emoj}, `#{PROF_PREFIX}group`#{team.custom_emoj}, `#{CHAN_PREFIX}channel`#{team.custom_emoj}, or `#{CHAN_PREFIX}everyone`#{team.custom_emoj} where bot can hear"
-      str += "\n  * React with #{team.custom_emoj} where bot can hear"
+      str += "\n  * Type `#{PROF_PREFIX}[user]`#{team.custom_emoj}, `#{PROF_PREFIX}[group]`#{team.custom_emoj}, `#{CHAN_PREFIX}[channel]`#{team.custom_emoj}, `#{PROF_PREFIX}channel`#{team.custom_emoj}, or `#{PROF_PREFIX}everyone`#{team.custom_emoj} where bot can hear"
+      str += "\n  * React to a message with #{team.custom_emoj} where bot can hear"
     end
     "#{str}\n  * _User ++_ Action (\"...\" menu on a user message)"
   end

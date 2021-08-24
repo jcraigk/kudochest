@@ -44,8 +44,8 @@ class Slack::PostService < Base::PostService
   end
 
   def attach_and_broadcast
-    attach_response_tips
     respond_in_convo(log_channel_rid) if copy_to_log_channel?
+    attach_response_to_tips
     broadcast_via_websocket
   end
 
@@ -70,27 +70,27 @@ class Slack::PostService < Base::PostService
       thread_ts: thread,
       unfurl_links: false,
       unfurl_media: false,
-      text: unformatted_text(channel) # Desktop notification (blocks take precedent in client)
-    }.merge(response_params(use_channel_rid)).compact
+      text: unformatted_text # Desktop notification (blocks take precedent in client)
+    }.merge(response_params).compact
   end
 
-  def unformatted_text(channel)
+  def unformatted_text
     return alt_text if image.present?
-    chat_response_text(channel).gsub(/(_\s+)|(\s+_)|(\A_)|(_\z)/, ' ').strip
+    chat_response_text.gsub(/(_\s+)|(\s+_)|(\A_)|(_\z)/, ' ').strip
   end
 
-  def response_params(channel)
-    image_param || text_param(channel)
+  def response_params
+    image_param || text_param
   end
 
-  def text_param(channel) # rubocop:disable Metrics/MethodLength
+  def text_param # rubocop:disable Metrics/MethodLength
     {
       blocks: [
         {
           type: :section,
           text: {
             type: :mrkdwn,
-            text: chat_response_text(channel)
+            text: chat_response_text
           }
         }
       ]
