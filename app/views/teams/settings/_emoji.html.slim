@@ -24,18 +24,35 @@
 
     .field.is-horizontal
       .field-label.is-normal
-        = f.label :tip_emoji, t('teams.emoji'), class: 'label'
+        = f.label :tip_emoji,
+                  t('teams.tip_emoji', points_title: App.points_term.titleize),
+                  class: 'label'
       .field-body
         - if @current_team.platform.slack?
           .field
             .control
               = f.text_field :tip_emoji, class: 'input narrow2', required: true
-              = tooltip_btn('teams.emoji_tooltip', nil, points: App.points_term)
+              = tooltip_btn('teams.tip_emoji_tooltip', nil, points: App.points_term)
 
         - elsif @current_team.platform.discord?
-          = discord_emoji('32x32')
+          = discord_tip_emoji('32x32')
           | &nbsp;&nbsp;
-          strong = "(:#{App.discord_emoji}:)"
+          strong = "(:#{App.discord_tip_emoji}:)"
+
+    .field.is-horizontal
+      .field-label.is-normal
+        = f.label :ditto_emoji, t('teams.ditto_emoji'), class: 'label'
+      .field-body
+        - if @current_team.platform.slack?
+          .field
+            .control
+              = f.text_field :ditto_emoji, class: 'input narrow2', required: true
+              = tooltip_btn('teams.ditto_emoji_tooltip', nil, points: App.points_term)
+
+        - elsif @current_team.platform.discord?
+          = discord_ditto_emoji('32x32')
+          | &nbsp;&nbsp;
+          strong = "(:#{App.discord_ditto_emoji}:)"
 
     hr
 

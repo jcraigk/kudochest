@@ -11,29 +11,60 @@ class Actions::ReactionAdded < Actions::Base
     TipMentionService.call(
       profile: profile,
       mentions: mentions,
-      source: 'reaction',
-      event_ts: params[:message_ts],
+      source: source,
+      event_ts: params[:event][:event_ts],
       channel_rid: params[:channel_rid],
       channel_name: channel_name
     )
   end
 
+  def message_ts
+    @message_ts ||= params[:message_ts]
+  end
+
+  def source
+    @source ||= ditto_emoji? ? 'ditto' : 'reaction'
+  end
+
   def topic_id
-    return if emoji == team.tip_emoji
     team.config.topics.find { |topic| topic.emoji == emoji }&.id
   end
 
   def mentions
+    case source
+    when 'ditto' then ditto_mentions
+    when 'reaction' then author_mention
+    end
+  end
+
+  def ditto_mentions
+    ditto_tips.map do |tip|
+      OpenStruct.new(
+        rid: "#{PROF_PREFIX}#{tip.to_profile.rid}",
+        topic_id: tip.topic_id,
+        quantity: tip.quantity
+      )
+    end
+  end
+
+  def ditto_tips
+    @ditto_tips ||=
+      Tip.includes(:to_profile)
+         .where(event_ts: message_ts)
+         .or(Tip.where(response_ts: message_ts))
+  end
+
+  def author_mention
     [
       OpenStruct.new(
-        rid: "#{PROF_PREFIX}#{to_profile_rid}",
+        rid: "#{PROF_PREFIX}#{author_profile_rid}",
         topic_id: topic_id,
         quantity: team.emoji_quantity
       )
     ]
   end
 
-  def to_profile_rid
+  def author_profile_rid
     params.dig(:event, :item_user) || params[:to_profile_rid]
   end
 
@@ -42,19 +73,31 @@ class Actions::ReactionAdded < Actions::Base
   end
 
   def relevant_emoji?
-    standard_emoji? || topic_id.present?
+    standard_emoji? || ditto_emoji? || topic_id.present?
   end
 
   def standard_emoji?
     slack_standard_emoji? || discord_standard_emoji?
   end
 
+  def ditto_emoji?
+    slack_ditto_emoji? || discord_ditto_emoji?
+  end
+
   def slack_standard_emoji?
     team.platform.slack? && emoji == team.tip_emoji
   end
 
+  def slack_ditto_emoji?
+    team.platform.slack? && emoji == team.ditto_emoji
+  end
+
   def discord_standard_emoji?
     team.platform.discord? && emoji == App.discord_emoji
+  end
+
+  def discord_ditto_emoji?
+    team.platform.discord? && emoji == App.ditto_emoji
   end
 
   def topics

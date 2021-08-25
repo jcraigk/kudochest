@@ -3,7 +3,7 @@ class Tip < ApplicationRecord
   extend Enumerize
   include TipDecorator
 
-  enumerize :source, in: %w[auto modal plusplus reaction reply streak import]
+  enumerize :source, in: %w[auto modal plusplus reaction ditto reply streak import]
 
   belongs_to :from_profile,
              class_name: 'Profile',

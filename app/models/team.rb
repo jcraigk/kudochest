@@ -6,7 +6,7 @@ class Team < ApplicationRecord
 
   CACHED_ATTRS = %w[
     active api_key app_profile_rid app_subteam_rid avatar_url enable_cheers enable_fast_ack
-    tip_emoji enable_emoji emoji_quantity tip_increment log_channel_rid
+    tip_emoji ditto_emoji enable_emoji emoji_quantity tip_increment log_channel_rid
     max_points_per_tip platform response_mode response_theme show_channel time_zone
     tip_notes enable_topics require_topic
   ].freeze
@@ -59,6 +59,7 @@ class Team < ApplicationRecord
   attribute :split_tip,          :boolean, default: false
   attribute :weekly_report,      :boolean, default: true
   attribute :tip_emoji,          :string,  default: App.default_tip_emoji
+  attribute :ditto_emoji,        :string,  default: App.default_ditto_emoji
   attribute :time_zone,          :string,  default: App.default_time_zone
   attribute :streak_duration,    :integer, default: App.default_streak_duration
   attribute :streak_reward,      :integer, default: App.default_streak_reward

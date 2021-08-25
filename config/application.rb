@@ -50,7 +50,8 @@ module KudoChest
     config.discord_cdn_base = 'https://cdn.discordapp.com'
     config.discord_token = "Bot #{ENV['DISCORD_BOT_TOKEN']}"
     config.discord_command = "!#{config.base_command}"
-    config.discord_emoji = 'plus_one'
+    config.discord_tip_emoji = 'star'
+    config.discord_ditto_emoji = 'heavy_plus_sign' # TODO
     config.discord_permission = '1073743872' # Manage Emojis, Send Messages
 
     ## Email
@@ -72,7 +73,8 @@ module KudoChest
     config.default_max_level = 20
     config.default_max_level_points = 1_000
     config.error_emoji = 'grimacing'
-    config.default_tip_emoji = 'high_brightness'
+    config.default_tip_emoji = 'star'
+    config.default_ditto_emoji = 'heavy_plus_sign'
     config.default_token_quantity = 50
     config.max_token_quantity = 1_000
     config.default_token_max = 50

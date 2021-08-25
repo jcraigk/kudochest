@@ -19,8 +19,11 @@ en:
     streak_reward: Bonus Quantity
     streak_reward_tooltip: The %{points} quantity a user will receive per day for continuing a streak after triggering it. For example, if Duration is set to 3 and Bonus Quantity to 2, after 3 consecutive days of giving %{points}, the user will receive 2 bonus %{points} when they give any %{points} for the first time on the 4th day. They will continue to receive 2 bonus %{points} for each consecutive day they continue to give.
     giving_points: Giving %{points_title}
-    emoji: Icon
-    emoji_tooltip: Enter the name of the emoji icon (without the surrounding colons) you want to use to signify %{points}.
+    emoji: Emoji
+    tip_emoji: "%{points_title} Emoji"
+    tip_emoji_tooltip: Enter the name of the emoji icon (without the surrounding colons) you want to use for giving %{points} to the author of a message. For example, if Bob posted "I brought donuts," another user could react to Bob's message with this emoji to give him %{points}.
+    ditto_emoji: Ditto Emoji
+    ditto_emoji_tooltip: Enter the name of the emoji icon (without the surrounding colons) you want to use for giving %{points} to recipients listed in a previous message. For example, if Bob posted "@Alice++", another user could react to Bob's message with the Ditto Emoji to give Alice more %{points}.
     max_points_per_tip: Maximum Quantity
     max_points_per_tip_tooltip: Maximum amount of %{points} a user can gift at a time. Must be between 1 and %{max}.
     limit_points: Enable
@@ -106,7 +109,6 @@ en:
     topics: Topics
     enable_topics: Enable Topics
     enable_topics_tooltip: When enabled, users can specify a topic when giving %{points}. Topics can be company values or processes you want your team to adopt.
-    emoji: Emoji
     enable_emoji: Enable
     enable_emoji_tooltip: When enabled, users can give %{points} by reacting with emoji (see below) or using emoji in place of "++" in a message.
     require_topic: Require Topic

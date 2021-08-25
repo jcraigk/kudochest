@@ -4,6 +4,8 @@ class TipResponseService < Base::Service
   include EntityReferenceHelper
   include PointsHelper
 
+  RELEVANT_SOURCES = %w[modal plusplus reaction ditto reply].freeze
+
   option :tips
 
   def call
@@ -269,7 +271,7 @@ class TipResponseService < Base::Service
   end
 
   def tips_by_quantity
-    tips.select { |tip| tip.source.in?(%w[modal plusplus reaction reply]) }
+    tips.select { |tip| tip.source.in?(RELEVANT_SOURCES) }
         .group_by(&:quantity)
         .sort
         .reverse

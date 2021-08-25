@@ -49,7 +49,7 @@ class Hooks::Slack::BaseController < Hooks::BaseController
     team_config.topics&.map(&:emoji) || []
   end
 
-  # OPTO: Any way to speed this up?
+  # TODO: Any way to speed this up?
   def relevant_text?
     @relevant_text ||=
       text&.start_with?("<#{PROF_PREFIX}#{team_config.app_profile_rid}>") || mentions_found?
