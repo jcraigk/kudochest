@@ -31,12 +31,6 @@ RSpec.describe TeamDecorator do
     end
   end
 
-  describe 'tip_emoj' do
-    it 'wraps tip_emoji in colons' do
-      expect(team.tip_emoj).to eq(":#{team.tip_emoji}:")
-    end
-  end
-
   describe 'infinite_profiles_sentence' do
     context 'when no infinite profiles' do
       let(:sentence) { 'None' }
@@ -83,21 +77,15 @@ RSpec.describe TeamDecorator do
     end
   end
 
-  describe 'custom_emoj' do
-    context 'when slack' do
-      before { team.platform = :slack }
-
-      it 'is `workspace`' do
-        expect(team.custom_emoj).to eq(team.tip_emoj)
-      end
+  describe 'tip_emoj' do
+    it 'is the default tip emoji' do
+      expect(team.tip_emoj).to eq(":#{App.default_tip_emoji}:")
     end
+  end
 
-    context 'when discord' do
-      before { team.platform = :discord }
-
-      it 'is `guild`' do
-        expect(team.custom_emoj).to eq("<:#{App.discord_emoji}:#{team.tip_emoji}>")
-      end
+  describe 'ditto_emoj' do
+    it 'is the default ditto emoji' do
+      expect(team.ditto_emoj).to eq(":#{App.default_ditto_emoji}:")
     end
   end
 end

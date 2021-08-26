@@ -82,8 +82,8 @@ RSpec.describe Actions::ReactionAdded do
   end
 
   context 'when discord' do
-    let(:reaction) { App.discord_emoji }
-    let(:params) { curated_params.merge(emoji: App.discord_emoji) }
+    let(:reaction) { App.default_tip_emoji }
+    let(:params) { curated_params.merge(emoji: App.default_tip_emoji) }
 
     before { team.platform = :discord }
 

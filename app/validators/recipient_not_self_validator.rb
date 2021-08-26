@@ -2,6 +2,12 @@
 class RecipientNotSelfValidator < ActiveModel::Validator
   def validate(record)
     return if record.to_profile_id != record.from_profile_id
-    record.errors.add(:base, :cannot_tip_self)
+    record.errors.add(
+      :base,
+      I18n.t(
+        'activerecord.errors.models.tip.attributes.base.cannot_tip_self',
+        points: App.points_term
+      )
+    )
   end
 end

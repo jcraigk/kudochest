@@ -54,8 +54,9 @@ class Commands::Help < Commands::Base
   def discord_giving_points
     str = "* Type `#{PROF_PREFIX}user++`, `#{PROF_PREFIX}role++`, `#{CHAN_PREFIX}channel++`, or `#{CHAN_PREFIX}everyone++` in a guild channel"
     return str unless team.enable_emoji?
-    str += "\n  * Type `#{PROF_PREFIX}user`#{team.custom_emoj}, `#{PROF_PREFIX}role`#{team.custom_emoj}, `#{CHAN_PREFIX}channel`#{team.custom_emoj}, or `#{CHAN_PREFIX}everyone`#{team.custom_emoj} in a guild channel"
-    str + "\n  * React with #{team.custom_emoj} (:#{App.discord_emoji}:)"
+    str += "\n  * Type `#{PROF_PREFIX}user`#{team.tip_emoj}, `#{PROF_PREFIX}role`#{team.tip_emoj}, `#{CHAN_PREFIX}channel`#{team.tip_emoj}, or `#{CHAN_PREFIX}everyone`#{team.tip_emoj} in a guild channel"
+    str + "\n  * React with #{team.tip_emoj} (#{team.tip_emoji})"
+    str + "\n  * React with #{team.ditto_emoj} (#{team.ditto_emoji})"
   end
   # rubocop:enable Layout/LineLength
 
@@ -82,8 +83,8 @@ class Commands::Help < Commands::Base
     str = "* `/#{App.base_command}` by itself for assistance _(tip: use Tab key to navigate input fields)_"
     str += "\n  * Type `#{PROF_PREFIX}[user]++`, `#{PROF_PREFIX}[group]++`, `#{CHAN_PREFIX}[channel]++`, `#{PROF_PREFIX}channel++`, or `#{PROF_PREFIX}everyone++` where bot can hear"
     if team.enable_emoji?
-      str += "\n  * Type `#{PROF_PREFIX}[user]`#{team.custom_emoj}, `#{PROF_PREFIX}[group]`#{team.custom_emoj}, `#{CHAN_PREFIX}[channel]`#{team.custom_emoj}, `#{PROF_PREFIX}channel`#{team.custom_emoj}, or `#{PROF_PREFIX}everyone`#{team.custom_emoj} where bot can hear"
-      str += "\n  * React to a message with #{team.custom_emoj} where bot can hear"
+      str += "\n  * Type `#{PROF_PREFIX}[user]`#{team.tip_emoj}, `#{PROF_PREFIX}[group]`#{team.tip_emoj}, `#{CHAN_PREFIX}[channel]`#{team.tip_emoj}, `#{PROF_PREFIX}channel`#{team.tip_emoj}, or `#{PROF_PREFIX}everyone`#{team.tip_emoj} where bot can hear"
+      str += "\n  * React to a message with #{team.tip_emoj} where bot can hear"
     end
     "#{str}\n  * _User ++_ Action (\"...\" menu on a user message)"
   end

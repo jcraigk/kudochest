@@ -189,6 +189,6 @@ class Discord::BotEventService < Base::Service
   end
 
   def relevant_emoji?(event)
-    event.emoji.name == App.discord_emoji
+    event.emoji.name.in?([App.discord_tip_emoji, App.discord_ditto_emoji])
   end
 end

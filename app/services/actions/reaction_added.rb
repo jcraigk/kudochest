@@ -12,10 +12,14 @@ class Actions::ReactionAdded < Actions::Base
       profile: profile,
       mentions: mentions,
       source: source,
-      event_ts: params[:event][:event_ts],
+      event_ts: event_ts,
       channel_rid: params[:channel_rid],
       channel_name: channel_name
     )
+  end
+
+  def event_ts
+    @event_ts ||= "#{message_ts}-#{emoji}-#{profile.id}"
   end
 
   def message_ts
@@ -23,7 +27,7 @@ class Actions::ReactionAdded < Actions::Base
   end
 
   def source
-    @source ||= ditto_emoji? ? 'ditto' : 'reaction'
+    @source ||= (emoji == team.ditto_emoji ? 'ditto' : 'reaction')
   end
 
   def topic_id
@@ -69,35 +73,11 @@ class Actions::ReactionAdded < Actions::Base
   end
 
   def emoji
-    params.dig(:event, :reaction) || params[:emoji]
+    @emoji ||= params.dig(:event, :reaction) || params[:emoji]
   end
 
   def relevant_emoji?
-    standard_emoji? || ditto_emoji? || topic_id.present?
-  end
-
-  def standard_emoji?
-    slack_standard_emoji? || discord_standard_emoji?
-  end
-
-  def ditto_emoji?
-    slack_ditto_emoji? || discord_ditto_emoji?
-  end
-
-  def slack_standard_emoji?
-    team.platform.slack? && emoji == team.tip_emoji
-  end
-
-  def slack_ditto_emoji?
-    team.platform.slack? && emoji == team.ditto_emoji
-  end
-
-  def discord_standard_emoji?
-    team.platform.discord? && emoji == App.discord_emoji
-  end
-
-  def discord_ditto_emoji?
-    team.platform.discord? && emoji == App.ditto_emoji
+    emoji.in?([team.tip_emoji, team.ditto_emoji]) || topic_id.present?
   end
 
   def topics

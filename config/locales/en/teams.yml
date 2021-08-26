@@ -74,7 +74,7 @@ en:
     week_start_day_tooltip: Specify which day of the week you want weekly token dispersals to occur. If you've chosen a non-weekly dispersal or reset frequency, this does not apply.
     work_days: Work Days
     work_days_tooltip: Specify the standard work days for your team. This determines how token dispersals and giving streaks are awarded.
-    custom_emoji_html: 'Here are a few custom emoji icons you can <a href="%{url}">use in Slack</a>:'
+    tip_emoji_html: 'Here are a few custom emoji icons you can <a href="%{url}">use in Slack</a>:'
     fast_ack: Fast Acknowledgement
     fast_ack_tooltip: 'Some commands may take a few seconds for the system to execute, such as when an entire channel is given %{points}. Instead of waiting for the result of this operation, the bot can display a "Working..." message to acknowledge receipt of the command. It will then edit this message with the result when the operation is done. The tradeoff is that the message will appear as "(edited)" and any user mentions will not actually notify the users.'
     notify_tokens: Token Notifications

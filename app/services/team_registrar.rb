@@ -28,7 +28,15 @@ class TeamRegistrar < Base::Service
       platform: platform,
       rid: rid,
       response_mode: response_mode
-    }.merge(update_attrs)
+    }.merge(update_attrs).merge(discord_attrs)
+  end
+
+  def discord_attrs
+    return {} unless platform == :discord
+    {
+      tip_emoji: App.discord_tip_emoji,
+      ditto_emoji: App.discord_ditto_emoji
+    }
   end
 
   def update_attrs

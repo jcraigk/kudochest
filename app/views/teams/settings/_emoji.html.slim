@@ -33,11 +33,10 @@
             .control
               = f.text_field :tip_emoji, class: 'input narrow2', required: true
               = tooltip_btn('teams.tip_emoji_tooltip', nil, points: App.points_term)
-
         - elsif @current_team.platform.discord?
           = discord_tip_emoji('32x32')
           | &nbsp;&nbsp;
-          strong = "(:#{App.discord_tip_emoji}:)"
+          strong = "(#{App.discord_tip_emoji})"
 
     .field.is-horizontal
       .field-label.is-normal
@@ -48,17 +47,16 @@
             .control
               = f.text_field :ditto_emoji, class: 'input narrow2', required: true
               = tooltip_btn('teams.ditto_emoji_tooltip', nil, points: App.points_term)
-
         - elsif @current_team.platform.discord?
           = discord_ditto_emoji('32x32')
           | &nbsp;&nbsp;
-          strong = "(:#{App.discord_ditto_emoji}:)"
+          strong = "(#{App.discord_ditto_emoji})"
 
     hr
 
     - if @current_team.platform.slack?
       p.has-text-centered
-        = t('teams.custom_emoji_html', url: 'https://slack.com/help/articles/206870177-Add-custom-emoji')
+        = t('teams.tip_emoji_html', url: 'https://slack.com/help/articles/206870177-Add-custom-emoji')
         br
         br
         = image_pack_tag 'media/images/emoji/app_logo.png', size: '48x48', alt: 'Custom emoji icon'

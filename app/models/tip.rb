@@ -3,6 +3,8 @@ class Tip < ApplicationRecord
   extend Enumerize
   include TipDecorator
 
+  UNDOABLE_SOURCES = %w[modal plusplus reaction ditto reply streak].freeze
+
   enumerize :source, in: %w[auto modal plusplus reaction ditto reply streak import]
 
   belongs_to :from_profile,
@@ -30,7 +32,7 @@ class Tip < ApplicationRecord
   after_destroy_commit :after_destroy
 
   scope :undoable, lambda {
-    where(source: %w[modal plusplus reaction reply streak])
+    where(source: UNDOABLE_SOURCES)
       .where('created_at > ?', Time.current - App.undo_cutoff)
       .order(created_at: :desc)
   }

@@ -44,7 +44,7 @@ RSpec.describe Actions::ReactionRemoved do
   end
 
   context 'when discord' do
-    let(:params) { curated_params.merge(emoji: App.discord_emoji) }
+    let(:params) { curated_params.merge(emoji: App.default_tip_emoji) }
     let(:platform) { :discord }
 
     it 'destroys the tip' do
