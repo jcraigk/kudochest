@@ -23,7 +23,7 @@ RSpec.describe Discord::EmojiInstallService do
   end
   let(:add_emoji_data) { { id: new_emoji_rid } }
 
-  described_class.EMOJIS.each_key do |type|
+  described_class.EMOJI_TYPES do |type|
     before do
       image = File.open(described_class::IMAGE_FILE).read
       emoji_data = "data:image/png;base64,#{Base64.encode64(image)}"

@@ -30,6 +30,7 @@ module KudoChest
     config.points_term = ENV.fetch('POINTS_TERM', 'kudos')
     config.singular_prefix = ENV.fetch('SINGULAR_PREFIX', 'a')
     config.help_url = "#{config.base_url}/help"
+    config.bug_url = 'https://github.com/jcraigk/kudochest/issues'
 
     ## Access Control
     # Default to single team install

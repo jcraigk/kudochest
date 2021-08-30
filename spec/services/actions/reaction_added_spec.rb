@@ -41,7 +41,7 @@ RSpec.describe Actions::ReactionAdded do
     end
   end
 
-  context 'when reaction is standard emoji' do
+  context 'when reaction is tip emoji' do
     let(:reaction) { team.tip_emoji }
     let(:expected_args) do
       {
@@ -69,6 +69,31 @@ RSpec.describe Actions::ReactionAdded do
       before { team.enable_emoji = false }
 
       include_examples 'exits'
+    end
+  end
+
+  context 'when reaction is ditto emoji' do
+    let(:reaction) { team.ditto_emoji }
+    let(:expected_args) do
+      {
+        profile: sender,
+        mentions: [
+          OpenStruct.new(
+            rid: "#{PROF_PREFIX}#{recipient.rid}",
+            quantity: 1,
+            topic_id: nil
+          )
+        ],
+        source: 'reaction',
+        event_ts: ts,
+        channel_rid: channel.rid,
+        channel_name: channel.name
+      }
+    end
+
+    xit 'calls TipMentionService' do
+      action
+      expect(TipMentionService).to have_received(:call).with(expected_args)
     end
   end
 
