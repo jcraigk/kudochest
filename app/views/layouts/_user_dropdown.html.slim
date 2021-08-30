@@ -27,7 +27,7 @@
     - if current_user.owned_teams.any?
       .navbar-divider
       = link_to icon_and_text('cog', t('nav.app_settings')),
-                app_settings_path(section: :bot_presence),
+                app_settings_path(section: :responses),
                 class: 'navbar-item'
       = link_to icon_and_text('eye', t('nav.points_admin', points_title: App.points_term.titleize)),
                 tips_path,
