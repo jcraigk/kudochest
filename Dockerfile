@@ -15,16 +15,19 @@ RUN apt-get update -qq && \
       libsodium-dev \
       memcached \
       postgresql-client \
+      nodejs \
+      npm \
     && apt-get clean
 
 COPY lib/image_magick/policy.xml /etc/ImageMagick-6/policy.xml
 
 WORKDIR $INSTALL_PATH
 
-COPY Gemfile Gemfile.lock ./
-RUN gem install bundler && bundle install
-
 COPY . .
+
+RUN gem install bundler && bundle install
+RUN npm install yarn -g
+RUN bundle exec rake assets:precompile
 
 EXPOSE 3000
 CMD bundle exec puma -b tcp://0.0.0.0:3000
