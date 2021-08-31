@@ -1,7 +1,7 @@
 # frozen_string_literal: true
-class Actions::ReactionAdded < Actions::Base
+class Actions::ReactionAdded < Actions::ReactionBase
   def call
-    return unless team.enable_emoji? && relevant_emoji?
+    return unless process_emoji?
     process_reaction_and_respond
   end
 
@@ -16,22 +16,6 @@ class Actions::ReactionAdded < Actions::Base
       channel_rid: params[:channel_rid],
       channel_name: channel_name
     )
-  end
-
-  def event_ts
-    @event_ts ||= "#{message_ts}-#{emoji}-#{profile.id}"
-  end
-
-  def message_ts
-    @message_ts ||= params[:message_ts]
-  end
-
-  def source
-    @source ||= (emoji == team.ditto_emoji ? 'ditto' : 'reaction')
-  end
-
-  def topic_id
-    team.config.topics.find { |topic| topic.emoji == emoji }&.id
   end
 
   def mentions
@@ -72,23 +56,11 @@ class Actions::ReactionAdded < Actions::Base
     params.dig(:event, :item_user) || params[:to_profile_rid]
   end
 
-  def emoji
-    @emoji ||= params.dig(:event, :reaction) || params[:emoji]
-  end
-
-  def relevant_emoji?
-    emoji.in?([team.tip_emoji, team.ditto_emoji]) || topic_id.present?
-  end
-
-  def topics
-    @topics ||= team.topics.active
-  end
-
   def channel_name
     params[:channel_name].presence || channel&.name
   end
 
-  # Must lookup since channel_name not provided by Slack Event callback payload
+  # Must fetch since channel_name is not provided by Slack Event callback
   def channel
     @channel ||= Channel.find_with_team(params[:team_rid], params[:channel_rid])
   end

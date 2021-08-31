@@ -2,25 +2,25 @@
 class Discord::EmojiInstallService < Base::Service
   option :team
 
-  EMOJI_TYPES = %i[tip ditto].freeze
+  EMOJI_TYPES = %i[tip].freeze
   EMOJI_DIR = 'lib/emoji/discord'
 
   def call
-    delete_existing_emojis
-    install_new_emojis
+    update_emojis
   end
 
   private
 
-  def delete_existing_emojis
+  def update_emojis
     EMOJI_TYPES.each do |type|
-      next unless (emoji_id = existing_emoji_id(type))
-      Discordrb::API::Server.delete_emoji(App.discord_token, team.rid, emoji_id)
+      delete_existing_emoji(type)
+      create_new_emoji(type)
     end
   end
 
-  def install_new_emojis
-    EMOJI_TYPES.each { |type| create_emoji(type) }
+  def delete_existing_emoji(type)
+    return unless (emoji_id = existing_emoji_id(type))
+    Discordrb::API::Server.delete_emoji(App.discord_token, team.rid, emoji_id)
   end
 
   def existing_emoji_id(type)
@@ -29,7 +29,7 @@ class Discord::EmojiInstallService < Base::Service
     ).emojis.find { |emoji| emoji.name == App.send("discord_#{type}_emoji") }&.id
   end
 
-  def create_emoji(type)
+  def create_new_emoji(type)
     fetch(
       Discordrb::API::Server.add_emoji(
         App.discord_token,
@@ -46,6 +46,7 @@ class Discord::EmojiInstallService < Base::Service
   end
 
   def fetch(request)
+    return {} if request.blank?
     JSON.parse(request, object_class: OpenStruct)
   end
 end

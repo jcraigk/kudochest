@@ -15,35 +15,37 @@ RSpec.describe Discord::EmojiInstallService do
           name: 'some-emoji'
         },
         {
-          id: existing_emoji_rid,
-          name: App.default_tip_emoji
+          id: existing_emoji_rid
         }
       ]
     }
   end
   let(:add_emoji_data) { { id: new_emoji_rid } }
 
-  described_class.EMOJI_TYPES do |type|
+  described_class::EMOJI_TYPES.each do |type|
     before do
-      image = File.open(described_class::IMAGE_FILE).read
-      emoji_data = "data:image/png;base64,#{Base64.encode64(image)}"
+      data = resolve_data
+      data[:emojis].second[:name] = App.send("discord_#{type}_emoji")
       allow(Discordrb::API::Server).to(
         receive(:resolve).with(App.discord_token, team.rid)
-      ).and_return(resolve_data.to_json)
+      ).and_return(data.to_json)
       allow(Discordrb::API::Server).to receive(:delete_emoji)
-      allow(Discordrb::API::Server).to(
-        receive(:add_emoji).and_return(add_emoji_data.to_json)
-      ).with(App.discord_token, team.rid, emoji_data, App.send("default_#{type}_emoji"))
+      allow(Discordrb::API::Server).to receive(:add_emoji)
       service
     end
 
     it 'deletes existing emoji (from previous install)' do
-      expect(Discordrb::API::Server)
-        .to have_received(:delete_emoji).with(App.discord_token, team.rid, existing_emoji_rid)
+      expect(Discordrb::API::Server).to \
+        have_received(:delete_emoji)
+        .with(App.discord_token, team.rid, existing_emoji_rid)
     end
 
-    it 'adds emoji and updates team' do
-      expect(team.reload.send("#{type}_emoji")).to eq(new_emoji_rid)
+    it 'creates new emoji' do
+      image = File.open("#{described_class::EMOJI_DIR}/#{type}.png").read
+      emoji_data = "data:image/png;base64,#{Base64.encode64(image)}"
+      expect(Discordrb::API::Server).to \
+        have_received(:add_emoji)
+        .with(App.discord_token, team.rid, emoji_data, App.send("discord_#{type}_emoji"))
     end
   end
 end

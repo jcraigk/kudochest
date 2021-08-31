@@ -50,15 +50,20 @@ class Commands::Help < Commands::Base
     TEXT
   end
 
-  # rubocop:disable Layout/LineLength
-  def discord_giving_points
-    str = "* Type `#{PROF_PREFIX}user++`, `#{PROF_PREFIX}role++`, `#{CHAN_PREFIX}channel++`, or `#{CHAN_PREFIX}everyone++` in a guild channel"
+  def discord_giving_points # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
+    str =
+      "* Type `#{PROF_PREFIX}user++`, `#{PROF_PREFIX}role++`, " \
+      "`#{CHAN_PREFIX}channel++`, or `#{CHAN_PREFIX}everyone++` " \
+      'in a guild channel'
     return str unless team.enable_emoji?
-    str += "\n  * Type `#{PROF_PREFIX}user`#{team.tip_emoj}, `#{PROF_PREFIX}role`#{team.tip_emoj}, `#{CHAN_PREFIX}channel`#{team.tip_emoj}, or `#{CHAN_PREFIX}everyone`#{team.tip_emoj} in a guild channel"
-    str + "\n  * React with #{team.tip_emoj} (#{team.tip_emoji})"
-    str + "\n  * React with #{team.ditto_emoj} (#{team.ditto_emoji})"
+    str +
+      "\n  * Type `#{PROF_PREFIX}user`#{team.tip_emoj}, " \
+      "`#{PROF_PREFIX}role`#{team.tip_emoj}, " \
+      "`#{CHAN_PREFIX}channel`#{team.tip_emoj}, " \
+      "or `#{CHAN_PREFIX}everyone`#{team.tip_emoj} in a guild channel " \
+      "\n  * React with #{team.tip_emoj} (#{team.tip_emoji})" \
+      "\n  * React with #{team.ditto_emoj} (#{team.ditto_emoji})"
   end
-  # rubocop:enable Layout/LineLength
 
   def slack_text
     <<~TEXT.chomp
@@ -82,7 +87,7 @@ class Commands::Help < Commands::Base
     str =
       "* Type `/#{App.base_command}` by itself for assistance " \
       '_(tip: use Tab key to navigate input fields)_' \
-      "* Type `#{PROF_PREFIX}[user]++`, `#{PROF_PREFIX}[group]++`, " \
+      "\n  * Type `#{PROF_PREFIX}[user]++`, `#{PROF_PREFIX}[group]++`, " \
       "`#{CHAN_PREFIX}[channel]++`, `#{PROF_PREFIX}channel++`, " \
       "or `#{PROF_PREFIX}everyone++` where bot can hear"
     str += slack_emoji_options if team.enable_emoji?

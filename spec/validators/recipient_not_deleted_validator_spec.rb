@@ -14,12 +14,16 @@ RSpec.describe RecipientNotDeletedValidator do
 
   context 'when to_profile is deleted' do
     let(:profile) { build(:profile, deleted: true) }
+    let(:expected) do
+      I18n.t(
+        'activerecord.errors.models.tip.attributes.base.cannot_tip_deleted',
+        points: App.points_term
+      )
+    end
 
     it 'is invalid' do
       validate
-      expect(tip.errors[:base]).to eq(
-        [I18n.t('activerecord.errors.models.tip.attributes.base.cannot_tip_deleted')]
-      )
+      expect(tip.errors[:base]).to eq([expected])
     end
   end
 end

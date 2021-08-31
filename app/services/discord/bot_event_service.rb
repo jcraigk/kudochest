@@ -141,7 +141,7 @@ class Discord::BotEventService < Base::Service
   end
 
   def handle_emoji_event(event, verb)
-    return unless relevant_emoji?(event)
+    return unless relevant_emoji?(event.emoji.name)
 
     team_rid = event.server&.id.to_s
     team_config = Cache::TeamConfig.call(team_rid)
@@ -188,7 +188,15 @@ class Discord::BotEventService < Base::Service
       "#{I18n.t('errors.no_dm_support', url: "<#{App.help_url}/discord>", cmd: App.base_command)}"
   end
 
-  def relevant_emoji?(event)
-    event.emoji.name.in?([App.discord_tip_emoji, App.discord_ditto_emoji])
+  def relevant_emoji?(emoji)
+    emoji.in?([App.discord_tip_emoji, App.discord_ditto_emoji]) || topic_emoji?(emoji)
+  end
+
+  def topic_emoji?(emoji)
+    team_config.enable_topics && topic_id(emoji).present?
+  end
+
+  def topic_id(emoji)
+    team_config.topics.find { |topic| topic.emoji == emoji }&.id
   end
 end

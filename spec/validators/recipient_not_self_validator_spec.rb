@@ -15,12 +15,16 @@ RSpec.describe RecipientNotSelfValidator do
 
   context 'when to_profile is from_profile' do
     let(:to_profile) { from_profile }
+    let(:expected) do
+      I18n.t(
+        'activerecord.errors.models.tip.attributes.base.cannot_tip_self',
+        points: App.points_term
+      )
+    end
 
     it 'is invalid' do
       validate
-      expect(tip.errors[:base]).to eq(
-        [I18n.t('activerecord.errors.models.tip.attributes.base.cannot_tip_self')]
-      )
+      expect(tip.errors[:base]).to eq([expected])
     end
   end
 end

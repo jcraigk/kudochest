@@ -25,7 +25,8 @@ RSpec.describe Actions::ReactionRemoved do
       }
     }
   end
-  let(:discord_params) { { emoji: App.default_tip_emoji } }
+  let(:discord_params) { { emoji: emoji, message_ts: ts } }
+  let(:event_ts) { "#{ts}-#{source}-#{sender.id}" }
 
   shared_examples 'success' do
     it 'destroys the tip' do
@@ -35,9 +36,10 @@ RSpec.describe Actions::ReactionRemoved do
 
   context 'when tip emoji' do
     let(:emoji) { team.tip_emoji }
+    let(:source) { 'reaction' }
 
     before do
-      create(:tip, source: 'reaction', event_ts: ts, from_profile: sender)
+      create(:tip, event_ts: event_ts, from_profile: sender)
     end
 
     context 'when slack' do
@@ -57,9 +59,10 @@ RSpec.describe Actions::ReactionRemoved do
 
   context 'when ditto emoji' do
     let(:emoji) { team.ditto_emoji }
+    let(:source) { 'ditto' }
 
     before do
-      create(:tip, source: 'ditto', event_ts: ts, from_profile: sender)
+      create(:tip, event_ts: event_ts, from_profile: sender)
     end
 
     context 'when slack' do
