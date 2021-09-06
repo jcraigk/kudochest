@@ -1,7 +1,7 @@
 :concurrency: 1
 :max_retries: 5
 :queues:
-  - ['bot_presence', 1]
+  - ['presence', 1]
   - ['channel_sync', 1]
   - ['chat_events', 2]
   - ['data_export', 1]

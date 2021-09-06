@@ -158,7 +158,6 @@ class Image::TipService < Base::ImageService
   end
   # rubocop:enable Metrics/MethodLength, Metrics/AbcSize, Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
 
-  # OPTO: Improve how we delimit/color so this isn't necessary
   def raw_body_text
     @raw_body_text ||=
       main_fragments.compact

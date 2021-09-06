@@ -5,12 +5,12 @@
     .team-selector-wide
       = render partial: 'shared/owned_team_selector'
 
-    - if @current_team.platform.slack?
-      .team-setting-link data-link='bot_presence'
-        = icon_and_text('robot', t('teams.bot_presence'))
-
     .team-setting-link data-link='responses'
       = icon_and_text('comment', t('teams.chat_responses'))
+
+    - if @current_team.platform.slack?
+      .team-setting-link data-link='presence'
+        = icon_and_text('door-open', t('teams.presence'))
 
     .team-setting-link data-link='giving_points'
       = icon_and_text('hand-holding-seedling', t('teams.giving_points', points_title: App.points_term.titleize))
@@ -24,8 +24,8 @@
     .team-setting-link data-link='streaks'
       = icon_and_text('rabbit-fast', t('teams.giving_streaks'))
 
-    .team-setting-link data-link='bot_schedule'
-      = icon_and_text('clock', t('teams.bot_schedule'))
+    .team-setting-link data-link='schedule'
+      = icon_and_text('clock', t('teams.schedule'))
 
     .team-setting-link data-link='reports'
       = icon_and_text('chart-pie-alt', t('teams.reports'))
@@ -46,14 +46,14 @@
     = form_for @current_team, local: true do |f|
       = hidden_field_tag :section, session[:section]
 
-      - if @current_team.platform.slack?
-        = render partial: 'teams/settings/bot_presence', locals: { f: f }
       = render partial: 'teams/settings/responses', locals: { f: f }
+      - if @current_team.platform.slack?
+        = render partial: 'teams/settings/presence', locals: { f: f }
       = render partial: 'teams/settings/giving_points', locals: { f: f }
       = render partial: 'teams/settings/emoji', locals: { f: f }
       = render partial: 'teams/settings/throttling', locals: { f: f }
       = render partial: 'teams/settings/streaks', locals: { f: f }
-      = render partial: 'teams/settings/bot_schedule', locals: { f: f }
+      = render partial: 'teams/settings/schedule', locals: { f: f }
       = render partial: 'teams/settings/reports', locals: { f: f }
       = render partial: 'teams/settings/leveling', locals: { f: f }
       = render partial: 'teams/settings/loot', locals: { f: f }

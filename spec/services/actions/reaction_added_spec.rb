@@ -4,7 +4,7 @@ require 'rails_helper'
 RSpec.describe Actions::ReactionAdded do
   subject(:action) { described_class.call(params) }
 
-  let(:team) { build(:team) }
+  let(:team) { create(:team) }
   let(:sender) { create(:profile, team: team) }
   let(:recipient) { create(:profile, team: team) }
   let(:channel) { create(:channel, team: team) }
@@ -41,7 +41,7 @@ RSpec.describe Actions::ReactionAdded do
     end
   end
 
-  context 'when reaction is standard emoji' do
+  context 'when reaction is tip emoji' do
     let(:reaction) { team.tip_emoji }
     let(:expected_args) do
       {
@@ -49,12 +49,12 @@ RSpec.describe Actions::ReactionAdded do
         mentions: [
           OpenStruct.new(
             rid: "#{PROF_PREFIX}#{recipient.rid}",
-            quantity: 1,
+            quantity: team.emoji_quantity,
             topic_id: nil
           )
         ],
         source: 'reaction',
-        event_ts: ts,
+        event_ts: "#{ts}-reaction-#{sender.id}",
         channel_rid: channel.rid,
         channel_name: channel.name
       }
@@ -66,9 +66,61 @@ RSpec.describe Actions::ReactionAdded do
     end
 
     context 'when team.enable_emoji is false' do
-      before { team.enable_emoji = false }
+      before { team.update(enable_emoji: false) }
 
       include_examples 'exits'
+    end
+  end
+
+  context 'when reaction is ditto against existing Tips (same sender)' do
+    let(:reaction) { team.ditto_emoji }
+    let(:recipient2) { create(:profile, team: team) }
+    let(:expected_args) do
+      {
+        profile: sender,
+        mentions: [
+          OpenStruct.new(
+            rid: "#{PROF_PREFIX}#{recipient.rid}",
+            quantity: quantity,
+            topic_id: nil
+          ),
+          OpenStruct.new(
+            rid: "#{PROF_PREFIX}#{recipient2.rid}",
+            quantity: quantity,
+            topic_id: nil
+          )
+        ],
+        source: 'ditto',
+        event_ts: "#{ts}-ditto-#{sender.id}",
+        channel_rid: channel.rid,
+        channel_name: channel.name
+      }
+    end
+    let(:quantity) { 2 }
+
+    # Testing both variations here - the original gift message
+    # and the response. Normally these would not be associated
+    # with the same event_ts, but it's irrelevant for the test
+    before do
+      create(
+        :tip,
+        from_profile: sender,
+        to_profile: recipient,
+        quantity: quantity,
+        event_ts: ts
+      )
+      create(
+        :tip,
+        from_profile: sender,
+        to_profile: recipient2,
+        quantity: quantity,
+        response_ts: ts
+      )
+      action
+    end
+
+    it 'calls TipMentionService' do
+      expect(TipMentionService).to have_received(:call).with(expected_args)
     end
   end
 
@@ -82,13 +134,15 @@ RSpec.describe Actions::ReactionAdded do
   end
 
   context 'when discord' do
-    let(:reaction) { App.discord_emoji }
-    let(:params) { curated_params.merge(emoji: App.discord_emoji) }
+    let(:reaction) { App.default_tip_emoji }
+    let(:params) { curated_params.merge(emoji: App.default_tip_emoji) }
 
-    before { team.platform = :discord }
+    before do
+      team.update(platform: :discord)
+      action
+    end
 
     it 'calls TipMentionService' do
-      action
       expect(TipMentionService).to have_received(:call)
     end
   end

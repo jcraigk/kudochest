@@ -2,12 +2,22 @@
 class RecipientNotABotValidator < ActiveModel::Validator
   def validate(record)
     return unless record.to_profile&.bot_user?
-    i18nkey =
-      if record.to_profile.team.app_profile_rid == record.to_profile.rid
-        :cannot_accept_tips
-      else
-        :cannot_tip_bots
-      end
-    record.errors.add(:base, i18nkey, message: I18n.t(i18nkey, points: App.points_term))
+    record.errors.add(
+      :base,
+      I18n.t(
+        "activerecord.errors.models.tip.attributes.base.#{type(record)}",
+        points: App.points_term
+      )
+    )
+  end
+
+  private
+
+  def type(record)
+    if record.to_profile.team.app_profile_rid == record.to_profile.rid
+      :cannot_accept_tips
+    else
+      :cannot_tip_bots
+    end
   end
 end

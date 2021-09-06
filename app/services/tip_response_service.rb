@@ -4,6 +4,8 @@ class TipResponseService < Base::Service
   include EntityReferenceHelper
   include PointsHelper
 
+  RELEVANT_SOURCES = %w[modal plusplus reaction ditto reply].freeze
+
   option :tips
 
   def call
@@ -258,7 +260,7 @@ class TipResponseService < Base::Service
   def emoji_sequence(platform, quantity, topic)
     return if platform == :image || !team.response_theme.fancy?
     return ":#{topic.emoji}:" * quantity if topic&.emoji
-    team.custom_emoj * quantity
+    team.tip_emoj * quantity
   end
 
   def profile_refs_from(platform, quantity_tips)
@@ -269,7 +271,7 @@ class TipResponseService < Base::Service
   end
 
   def tips_by_quantity
-    tips.select { |tip| tip.source.in?(%w[modal plusplus reaction reply]) }
+    tips.select { |tip| tip.source.in?(RELEVANT_SOURCES) }
         .group_by(&:quantity)
         .sort
         .reverse

@@ -2,41 +2,51 @@
 class Discord::EmojiInstallService < Base::Service
   option :team
 
-  IMAGE_FILE = 'lib/emoji/discord_plus_one.png'
+  EMOJI_TYPES = %i[tip].freeze
+  EMOJI_DIR = 'lib/emoji/discord'
 
   def call
-    delete_existing_emoji
-    install_emoji
+    update_emojis
   end
 
   private
 
-  def delete_existing_emoji
-    return unless existing_emoji_id
-    Discordrb::API::Server.delete_emoji(App.discord_token, team.rid, existing_emoji_id)
+  def update_emojis
+    EMOJI_TYPES.each do |type|
+      delete_existing_emoji(type)
+      create_new_emoji(type)
+    end
   end
 
-  def existing_emoji_id
-    @existing_emoji_id ||=
-      JSON.parse(
-        Discordrb::API::Server.resolve(App.discord_token, team.rid),
-        object_class: OpenStruct
-      ).emojis.find { |emoji| emoji.name == App.discord_emoji }&.id
+  def delete_existing_emoji(type)
+    return unless (emoji_id = existing_emoji_id(type))
+    Discordrb::API::Server.delete_emoji(App.discord_token, team.rid, emoji_id)
   end
 
-  def install_emoji
-    team.update!(tip_emoji: new_remote_emoji.id)
+  def existing_emoji_id(type)
+    fetch(
+      Discordrb::API::Server.resolve(App.discord_token, team.rid)
+    ).emojis.find { |emoji| emoji.name == App.send("discord_#{type}_emoji") }&.id
   end
 
-  def new_remote_emoji
-    JSON.parse(
-      Discordrb::API::Server.add_emoji(App.discord_token, team.rid, emoji_data, App.discord_emoji),
-      object_class: OpenStruct
+  def create_new_emoji(type)
+    fetch(
+      Discordrb::API::Server.add_emoji(
+        App.discord_token,
+        team.rid,
+        emoji_data(type),
+        App.send("discord_#{type}_emoji")
+      )
     )
   end
 
-  def emoji_data
-    image = File.open(IMAGE_FILE).read
-    "data:image/png;base64,#{Base64.encode64(image)}"
+  def emoji_data(type)
+    data = File.open("#{EMOJI_DIR}/#{type}.png").read
+    "data:image/png;base64,#{Base64.encode64(data)}"
+  end
+
+  def fetch(request)
+    return {} if request.blank?
+    JSON.parse(request, object_class: OpenStruct)
   end
 end

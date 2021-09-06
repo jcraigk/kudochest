@@ -19,8 +19,11 @@ en:
     streak_reward: Bonus Quantity
     streak_reward_tooltip: The %{points} quantity a user will receive per day for continuing a streak after triggering it. For example, if Duration is set to 3 and Bonus Quantity to 2, after 3 consecutive days of giving %{points}, the user will receive 2 bonus %{points} when they give any %{points} for the first time on the 4th day. They will continue to receive 2 bonus %{points} for each consecutive day they continue to give.
     giving_points: Giving %{points_title}
-    emoji: Icon
-    emoji_tooltip: Enter the name of the emoji icon (without the surrounding colons) you want to use to signify %{points}.
+    emoji: Emoji
+    tip_emoji: "%{points_title} Emoji"
+    tip_emoji_tooltip: Enter the name of the emoji icon (without the surrounding colons) you want to use for giving %{points} to the author of a message. For example, if Bob posted "I brought donuts," another user could react to Bob's message with this emoji to give him %{points}.
+    ditto_emoji: Ditto Emoji
+    ditto_emoji_tooltip: Enter the name of the emoji icon (without the surrounding colons) you want to use for giving %{points} to recipients listed in a previous message. For example, if Bob posted "@Alice++", another user could react to Bob's message with the Ditto Emoji to give Alice more %{points}.
     max_points_per_tip: Maximum Quantity
     max_points_per_tip_tooltip: Maximum amount of %{points} a user can gift at a time. Must be between 1 and %{max}.
     limit_points: Enable
@@ -54,7 +57,7 @@ en:
     enable_cheers_tooltip: Cheers are extra bits of text that celebrate user progression events like levelups and streak rewards.
     tip_notes_tooltip: When someone sends %{points} they can include a reason or a brief note about it, which is recorded and displayed to other users. This can be required or disabled entirely. Long notes are truncated to a maximum of %{chars} characters.
     tip_notes: Note
-    chat_responses: Bot Responses
+    chat_responses: Responses
     stat_resets: Reset %{points_title}
     throttling: Throttling
     token_frequency_tooltip: The frequency at which users receive tokens, which are required to give %{points} to other users. See the Time section to configure when tokens are distributed.
@@ -71,12 +74,12 @@ en:
     week_start_day_tooltip: Specify which day of the week you want weekly token dispersals to occur. If you've chosen a non-weekly dispersal or reset frequency, this does not apply.
     work_days: Work Days
     work_days_tooltip: Specify the standard work days for your team. This determines how token dispersals and giving streaks are awarded.
-    custom_emoji_html: 'Here are a few custom emoji icons you can <a href="%{url}">use in Slack</a>:'
+    tip_emoji_html: 'Here are a few custom emoji icons you can <a href="%{url}">use in Slack</a>:'
     fast_ack: Fast Acknowledgement
     fast_ack_tooltip: 'Some commands may take a few seconds for the system to execute, such as when an entire channel is given %{points}. Instead of waiting for the result of this operation, the bot can display a "Working..." message to acknowledge receipt of the command. It will then edit this message with the result when the operation is done. The tradeoff is that the message will appear as "(edited)" and any user mentions will not actually notify the users.'
     notify_tokens: Token Notifications
     notify_tokens_tooltip: Each time tokens are distributed to users, a direct message can be sent to each user letting them know. If you leave this on, be mindful of choosing an appropriate Bot Action Hour in the Time tab so users are notified during working hours.
-    bot_presence: Bot Presence
+    presence: Presence
     auto_join_channels: Join New Public Channels
     auto_join_channels_tooltip: When enabled, the bot will automatically be added to new public channels when they are created in Slack.
     join_channel_buttons: You can immediately add the bot to all public channels using the button below.
@@ -86,7 +89,7 @@ en:
     export_data_requested: You will receive an email at %{email} with attached CSV file
     loot_shop: Loot Shop
     enable_loot_tooltip: The loot shop allows you to setup real reward items for users to claim based on the amount of %{points} they have.
-    bot_schedule: Schedule
+    schedule: Schedule
     stats_reset: Your stats have been reset by your administrator
     increment: Increment
     increment_tooltip: This represents the smallest amount of %{points} that can be given or displayed.
@@ -106,7 +109,6 @@ en:
     topics: Topics
     enable_topics: Enable Topics
     enable_topics_tooltip: When enabled, users can specify a topic when giving %{points}. Topics can be company values or processes you want your team to adopt.
-    emoji: Emoji
     enable_emoji: Enable
     enable_emoji_tooltip: When enabled, users can give %{points} by reacting with emoji (see below) or using emoji in place of "++" in a message.
     require_topic: Require Topic

@@ -12,6 +12,12 @@ p If your guild has Topics enabled, then you may also specify a Topic when givin
 
 br
 p
-  | 2. You can give 1 #{App.point_term} to the author of a message by reacting to the message using the <span class="command">:#{App.discord_emoji}:</span> emoji (
-  = discord_emoji('24x24')
+  | 2. You can give 1 #{App.point_term} to the author of a message by reacting to the message using the <span class="command">:#{App.discord_tip_emoji}:</span> emoji (
+  = discord_tip_emoji('24x24')
+  | )
+
+br
+p
+  | 3. You can give 1 #{App.point_term} to the recipient of a previous gift by reacting to the gift message using the <span class="command">:#{App.discord_ditto_emoji}:</span> emoji (
+  = discord_ditto_emoji('24x24')
   | )

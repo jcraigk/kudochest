@@ -176,8 +176,12 @@ module TeamHelper
     Team.response_mode.options(except: %w[adaptive reply])
   end
 
-  def discord_emoji(size = nil)
+  def discord_tip_emoji(size = nil)
     image_pack_tag('media/images/emoji/plus_one_v1.png', size: size, alt: 'Plus One emoji')
+  end
+
+  def discord_ditto_emoji(size = nil)
+    image_pack_tag('media/images/emoji/plus_plus.png', size: size, alt: 'Plus Plus emoji')
   end
 
   def max_allowed_teams?

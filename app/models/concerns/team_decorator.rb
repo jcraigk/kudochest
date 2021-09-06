@@ -20,6 +20,10 @@ module TeamDecorator
     ":#{tip_emoji}:"
   end
 
+  def ditto_emoj
+    ":#{ditto_emoji}:"
+  end
+
   def infinite_profiles_sentence
     profile_links =
       profiles.active
@@ -39,13 +43,6 @@ module TeamDecorator
     case platform
     when 'slack' then 'workspace'
     when 'discord' then 'guild'
-    end
-  end
-
-  def custom_emoj
-    case platform
-    when 'slack' then tip_emoj
-    when 'discord' then "<:#{App.discord_emoji}:#{tip_emoji}>"
     end
   end
 

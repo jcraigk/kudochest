@@ -1,8 +1,9 @@
 # frozen_string_literal: true
-class Actions::ReactionRemoved < Actions::Base
+class Actions::ReactionRemoved < Actions::ReactionBase
   def call
-    return unless tip_emoji? && tip.present?
-    tip.destroy
+    return unless process_emoji?
+
+    destroy_tips
     respond
   end
 
@@ -12,19 +13,7 @@ class Actions::ReactionRemoved < Actions::Base
     OpenStruct.new(mode: :silent)
   end
 
-  def tip
-    @tip ||= Tip.undoable.where(event_ts: params[:message_ts]).find_by(from_profile: profile)
-  end
-
-  def tip_emoji?
-    team.enable_emoji? && (slack_emoji? || discord_emoji?)
-  end
-
-  def slack_emoji?
-    team.platform.slack? && params[:event][:reaction] == team.tip_emoji
-  end
-
-  def discord_emoji?
-    team.platform.discord? && params[:emoji] == App.discord_emoji
+  def destroy_tips
+    Tip.undoable.where(event_ts: event_ts).destroy_all
   end
 end

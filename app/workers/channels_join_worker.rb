@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 class ChannelsJoinWorker
   include Sidekiq::Worker
-  sidekiq_options queue: :bot_presence,
+  sidekiq_options queue: :presence,
                   lock: :until_and_while_executing,
                   unique_args: ->(args) { [args.first] }
 

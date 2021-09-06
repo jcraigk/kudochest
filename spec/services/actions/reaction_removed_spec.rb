@@ -15,6 +15,18 @@ RSpec.describe Actions::ReactionRemoved do
       team_rid: team.rid
     }
   end
+  let(:slack_params) do
+    {
+      event: {
+        item: {
+          ts: ts
+        },
+        reaction: emoji
+      }
+    }
+  end
+  let(:discord_params) { { emoji: emoji, message_ts: ts } }
+  let(:event_ts) { "#{ts}-#{source}-#{sender.id}" }
 
   shared_examples 'success' do
     it 'destroys the tip' do
@@ -22,33 +34,51 @@ RSpec.describe Actions::ReactionRemoved do
     end
   end
 
-  before do
-    create(:tip, source: 'reaction', event_ts: ts, from_profile: sender)
-  end
+  context 'when tip emoji' do
+    let(:emoji) { team.tip_emoji }
+    let(:source) { 'reaction' }
 
-  context 'when slack' do
-    let(:platform) { :slack }
-    let(:slack_params) do
-      {
-        event: {
-          item: {
-            ts: ts
-          },
-          reaction: team.tip_emoji
-        }
-      }
+    before do
+      create(:tip, event_ts: event_ts, from_profile: sender)
     end
-    let(:params) { curated_params.merge(slack_params) }
 
-    include_examples 'success'
+    context 'when slack' do
+      let(:platform) { :slack }
+      let(:params) { curated_params.merge(slack_params) }
+
+      include_examples 'success'
+    end
+
+    context 'when discord' do
+      let(:platform) { :discord }
+      let(:params) { curated_params.merge(discord_params) }
+
+      include_examples 'success'
+    end
   end
 
-  context 'when discord' do
-    let(:params) { curated_params.merge(emoji: App.discord_emoji) }
-    let(:platform) { :discord }
+  context 'when ditto emoji' do
+    let(:emoji) { team.ditto_emoji }
+    let(:source) { 'ditto' }
 
-    it 'destroys the tip' do
-      expect { action }.to change(Tip, :count).by(-1)
+    before do
+      create(:tip, event_ts: event_ts, from_profile: sender)
+    end
+
+    context 'when slack' do
+      let(:platform) { :slack }
+      let(:params) { curated_params.merge(slack_params) }
+
+      include_examples 'success'
+    end
+
+    context 'when discord' do
+      let(:platform) { :discord }
+      let(:params) { curated_params.merge(discord_params) }
+
+      it 'destroys the tip' do
+        expect { action }.to change(Tip, :count).by(-1)
+      end
     end
   end
 end

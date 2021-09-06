@@ -56,8 +56,10 @@ class Commands::Settings < Commands::Base
   def emoji_text
     txt = "*Emoji Enabled:* #{boolean_str(team.enable_emoji?)}"
     return txt unless team.enable_emoji?
-    txt += "\n*Emoji Icon:* #{team.custom_emoj}"
-    txt + "\n*Emoji Value:* #{points_format(team.emoji_quantity, label: true)}"
+
+    "#{txt}\n*Emoji Value:* #{points_format(team.emoji_quantity, label: true)}" \
+      "\n*#{App.points_term} Emoji:* #{team.tip_emoj}" \
+      "\n*Ditto Emoji:* #{team.ditto_emoj}"
   end
 
   def level_text

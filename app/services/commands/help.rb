@@ -46,18 +46,24 @@ class Commands::Help < Commands::Base
         #{keyword_list}
         #{shop_keywords}
 
-      See <#{team.help_url}> for more info
+      :question: <#{team.help_url}> :bug: <#{App.bug_url}>
     TEXT
   end
 
-  # rubocop:disable Layout/LineLength
-  def discord_giving_points
-    str = "* Type `#{PROF_PREFIX}user++`, `#{PROF_PREFIX}role++`, `#{CHAN_PREFIX}channel++`, or `#{CHAN_PREFIX}everyone++` in a guild channel"
+  def discord_giving_points # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
+    str =
+      "* Type `#{PROF_PREFIX}user++`, `#{PROF_PREFIX}role++`, " \
+      "`#{CHAN_PREFIX}channel++`, or `#{CHAN_PREFIX}everyone++` " \
+      'in a guild channel'
     return str unless team.enable_emoji?
-    str += "\n  * Type `#{PROF_PREFIX}user`#{team.custom_emoj}, `#{PROF_PREFIX}role`#{team.custom_emoj}, `#{CHAN_PREFIX}channel`#{team.custom_emoj}, or `#{CHAN_PREFIX}everyone`#{team.custom_emoj} in a guild channel"
-    str + "\n  * React with #{team.custom_emoj} (:#{App.discord_emoji}:)"
+    str +
+      "\n  * Type `#{PROF_PREFIX}user`#{team.tip_emoj}, " \
+      "`#{PROF_PREFIX}role`#{team.tip_emoj}, " \
+      "`#{CHAN_PREFIX}channel`#{team.tip_emoj}, " \
+      "or `#{CHAN_PREFIX}everyone`#{team.tip_emoj} in a guild channel " \
+      "\n  * React with #{team.tip_emoj} (#{team.tip_emoji})" \
+      "\n  * React with #{team.ditto_emoj} (#{team.ditto_emoji})"
   end
-  # rubocop:enable Layout/LineLength
 
   def slack_text
     <<~TEXT.chomp
@@ -65,27 +71,37 @@ class Commands::Help < Commands::Base
         #{slack_giving_points}
 
       *Issuing commands:*
-        * `/#{App.base_command} [keyword]`
-        * `#{team.app_profile.link} [keyword]` where bot can hear
-        * Direct message to #{team.app_profile.link}
+        * Type `/#{App.base_command} [keyword]` anywhere
+        * Type `#{team.app_profile.link} [keyword]` where bot is present
+        * Send direct message to #{team.app_profile.link}
 
       *Command keywords:*
         #{keyword_list}
         #{shop_keywords}
 
-      See <#{team.help_url}|help on the web> for more info
+      :question: <#{team.help_url}|Get more help> :bug: <#{App.bug_url}|Submit a bug>
     TEXT
   end
 
-  # rubocop:disable Layout/LineLength
   def slack_giving_points
-    str = "* `/#{App.base_command}` by itself for assistance _(tip: use Tab key to navigate input fields)_"
-    str += "\n  * Type `#{PROF_PREFIX}[user]++`, `#{PROF_PREFIX}[group]++`, `#{CHAN_PREFIX}[channel]++`, `#{PROF_PREFIX}channel++`, or `#{PROF_PREFIX}everyone++` where bot can hear"
-    if team.enable_emoji?
-      str += "\n  * Type `#{PROF_PREFIX}[user]`#{team.custom_emoj}, `#{PROF_PREFIX}[group]`#{team.custom_emoj}, `#{CHAN_PREFIX}[channel]`#{team.custom_emoj}, `#{PROF_PREFIX}channel`#{team.custom_emoj}, or `#{PROF_PREFIX}everyone`#{team.custom_emoj} where bot can hear"
-      str += "\n  * React to a message with #{team.custom_emoj} where bot can hear"
-    end
+    str =
+      "* Type `/#{App.base_command}` by itself for assistance " \
+      '_(tip: use Tab key to navigate input fields)_' \
+      "\n  * Type `#{PROF_PREFIX}[user]++`, `#{PROF_PREFIX}[group]++`, " \
+      "`#{CHAN_PREFIX}[channel]++`, `#{PROF_PREFIX}channel++`, " \
+      "or `#{PROF_PREFIX}everyone++` where bot can hear"
+    str += slack_emoji_options if team.enable_emoji?
     "#{str}\n  * _User ++_ Action (\"...\" menu on a user message)"
   end
-  # rubocop:enable Layout/LineLength
+
+  def slack_emoji_options
+    str =
+      "\n  * Type `#{PROF_PREFIX}[user]`#{team.tip_emoj}, " \
+      "`#{PROF_PREFIX}[group]`#{team.tip_emoj}, " \
+      "`#{CHAN_PREFIX}[channel]`#{team.tip_emoj}, " \
+      "`#{PROF_PREFIX}channel`#{team.tip_emoj}, or " \
+      "`#{PROF_PREFIX}everyone`#{team.tip_emoj} where bot can hear"
+    str += "\n  * React with #{team.tip_emoj} to give to author of message"
+    str + "\n  * React with #{team.ditto_emoj} to give more to recipient(s)"
+  end
 end
