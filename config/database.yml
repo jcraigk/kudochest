@@ -17,3 +17,18 @@ test:
   min_messages: error
   variables:
     statement_timeout: 90s
+
+production_default: &production_default
+  <<: *default
+  username: <%= ENV['DB_USER'] %>
+  password: <%= ENV['DB_PASSWORD'] %>
+  database: <%= ENV['DB_NAME'] %>
+
+production:
+  primary:
+    <<: *production_default
+    host: <%= ENV['DB_HOST_WRITER'] %>
+  primary_replica:
+    <<: *production_default
+    host: <%= ENV['DB_HOST_READER'] %>
+    replica: true
