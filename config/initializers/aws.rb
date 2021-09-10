@@ -2,9 +2,14 @@
 require 'aws-sdk-s3'
 
 Aws.config.update(
-  region: ENV['RESPONSE_IMAGE_AWS_REGION'],
-  credentials: Aws::Credentials.new(
-    ENV['RESPONSE_IMAGE_AWS_ACCESS_KEY_ID'],
-    ENV['RESPONSE_IMAGE_AWS_SECRET_ACCESS_KEY']
+  credentials: Aws::AssumeRoleCredentials.new(
+    client: Aws::STS::Client.new(
+      region: ENV['AWS_REGION'],
+      credentials: {
+        session_token: File.read(ENV.fetch('AWS_WEB_IDENTITY_TOKEN_FILE', 'tmp'))
+      }
+    ),
+    role_arn: ENV['AWS_ROLE_ARN'],
+    role_session_name: 'kudochest-session'
   )
 )
