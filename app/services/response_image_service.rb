@@ -22,7 +22,7 @@ class ResponseImageService < Base::Service
 
   def store_image
     Aws::S3::Client.new.put_object(
-      bucket: ENV['RESPONSE_IMAGE_AWS_BUCKET'],
+      bucket: ENV['RESPONSE_IMAGE_AWS_BUCKET'].presence || ENV['AWS_S3_BUCKET'],
       key: key,
       body: File.read(image_file)
     )

@@ -18,17 +18,9 @@ test:
   variables:
     statement_timeout: 90s
 
-production_default: &production_default
+production:
   <<: *default
   username: <%= ENV['DB_USER'] %>
   password: <%= ENV['DB_PASSWORD'] %>
   database: <%= ENV['DB_NAME'] %>
-
-production:
-  primary:
-    <<: *production_default
-    host: <%= ENV['DB_HOST_WRITER'] %>
-  primary_replica:
-    <<: *production_default
-    host: <%= ENV['DB_HOST_READER'] %>
-    replica: true
+  host: <%= ENV['DB_HOST_WRITER'].presence || ENV['DB_HOST'] %>
