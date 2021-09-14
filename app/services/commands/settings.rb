@@ -29,10 +29,10 @@ class Commands::Settings < Commands::Base
   end
 
   def topic_text
-    str = "*Topics Enabled:* #{boolean_str(team.enable_topics?)}\n"
+    str = "*Topics Enabled:* #{boolean_str(team.enable_topics?)}"
     return str unless team.enable_topics?
-    str += "*Topic Required:* #{boolean_str(team.require_topic?)}\n"
-    str + "*Active Topics:* #{team.topics.active.count}"
+    str += "\n*Topic Required:* #{boolean_str(team.require_topic?)}"
+    str + "\n*Active Topics:* #{team.topics.active.count}"
   end
 
   def notes_text
@@ -58,7 +58,7 @@ class Commands::Settings < Commands::Base
     return txt unless team.enable_emoji?
 
     "#{txt}\n*Emoji Value:* #{points_format(team.emoji_quantity, label: true)}" \
-      "\n*#{App.points_term} Emoji:* #{team.tip_emoj}" \
+      "\n*#{App.points_term.titleize} Emoji:* #{team.tip_emoj}" \
       "\n*Ditto Emoji:* #{team.ditto_emoj}"
   end
 
