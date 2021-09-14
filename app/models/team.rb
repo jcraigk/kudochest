@@ -141,7 +141,7 @@ class Team < ApplicationRecord
 
   def work_days
     WEEKDAYS.reject do |d|
-      ((work_days_mask.to_i || 0) & 2**WEEKDAYS.index(d)).zero?
+      ((work_days_mask.to_i || 0) & (2**WEEKDAYS.index(d))).zero?
     end
   end
 

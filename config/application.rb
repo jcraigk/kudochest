@@ -22,15 +22,15 @@ module KudoChest
     config.active_job.queue_adapter = :sidekiq
 
     ## Basic Info
-    config.app_name = ENV.fetch('APP_NAME', 'KudoChest')
+    config.app_name = ENV['APP_DISPLAY_NAME'] || ENV['APP_NAME'] || 'KudoChest'
     config.bot_name = ENV.fetch('BOT_NAME', 'KudoChest')
     config.base_url = ENV.fetch('BASE_URL', "https://#{ENV['WEB_DOMAIN']}")
-    config.from_email = ENV.fetch('FROM_EMAIL', "KudoChest <noreply@#{ENV['WEB_DOMAIN']}>")
+    config.from_email = ENV.fetch('FROM_EMAIL', "#{config.app_name} <noreply@#{ENV['WEB_DOMAIN']}>")
     config.point_term = ENV.fetch('POINT_TERM', 'kudo')
     config.points_term = ENV.fetch('POINTS_TERM', 'kudos')
     config.singular_prefix = ENV.fetch('SINGULAR_PREFIX', 'a')
     config.help_url = "#{config.base_url}/help"
-    config.bug_url = 'https://github.com/jcraigk/kudochest/issues'
+    config.issues_url = 'https://github.com/jcraigk/kudochest/issues'
 
     ## Access Control
     # Default to single team install

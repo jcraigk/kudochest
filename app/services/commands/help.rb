@@ -46,7 +46,7 @@ class Commands::Help < Commands::Base
         #{keyword_list}
         #{shop_keywords}
 
-      :question: <#{team.help_url}> :bug: <#{App.bug_url}>
+      :question: <#{team.help_url}> :bug: <#{App.issues_url}>
     TEXT
   end
 
@@ -79,7 +79,7 @@ class Commands::Help < Commands::Base
         #{keyword_list}
         #{shop_keywords}
 
-      :question: <#{team.help_url}|Get more help> :bug: <#{App.bug_url}|Submit a bug>
+      :question: <#{team.help_url}|More help> :bug: <#{App.issues_url}|Submit bugs> :bulb: <#{App.issues_url}|Feature ideas>
     TEXT
   end
 

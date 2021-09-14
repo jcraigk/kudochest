@@ -25,7 +25,7 @@ RSpec.describe Commands::Settings do
       *Notes:* Optional
       *Emoji Enabled:* Yes
       *Emoji Value:* #{points_format(team.emoji_quantity, label: true)}
-      *#{App.points_term} Emoji:* #{team.tip_emoj}
+      *#{App.points_term.titleize} Emoji:* #{team.tip_emoj}
       *Ditto Emoji:* #{team.ditto_emoj}
       *Leveling Enabled:* Yes
       *Maximum Level:* #{team.max_level}
