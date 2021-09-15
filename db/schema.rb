@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_08_25_043316) do
+ActiveRecord::Schema.define(version: 2021_09_15_203423) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -242,7 +242,6 @@ ActiveRecord::Schema.define(version: 2021_08_25_043316) do
     t.string "activation_token"
     t.datetime "activation_token_expires_at"
     t.string "reg_token", null: false
-    t.boolean "subscribe_newsletter", null: false
     t.boolean "admin", null: false
     t.string "theme"
     t.index ["activation_token"], name: "index_users_on_activation_token"

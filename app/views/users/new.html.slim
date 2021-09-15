@@ -24,10 +24,6 @@
         span.icon.is-small.is-left
           i.fa.fa-lock
 
-    .field
-      = f.check_box :subscribe_newsletter, class: 'switch is-rounded'
-      = f.label :subscribe_newsletter, t('users.subscribe_newsletter')
-
     .actions
       = submit_button(t('auth.signup'), 'clipboard-user', class: 'button is-primary')
 
