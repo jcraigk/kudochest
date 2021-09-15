@@ -12,7 +12,6 @@ class EmailsController < ApplicationController
   private
 
   def unsubscribe_from_all(user)
-    user.update!(subscribe_newsletter: false)
     user.owned_teams.each { |team| team.update!(weekly_report: false) }
     user.profiles.each { |profile| profile.update!(weekly_report: false) }
   end

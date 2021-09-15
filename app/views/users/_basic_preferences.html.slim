@@ -9,16 +9,6 @@
     .card-content
 
       .field.is-horizontal
-        .field-label.is-switch-label
-          = f.label :subscribe_newsletter, t('users.subscribe_newsletter'), class: 'label'
-        .field-body
-          .field
-            .control
-              = f.check_box :subscribe_newsletter, class: 'switch is-rounded'
-              = f.label :subscribe_newsletter, '&nbsp;'.html_safe, class: 'label'
-              = tooltip_btn('users.subscribe_newsletter_tooltip', 'nudge-up')
-
-      .field.is-horizontal
         .field-label.is-normal
           = f.label :theme, t('users.theme'), class: 'label'
         .field-body

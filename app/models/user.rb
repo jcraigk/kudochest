@@ -15,8 +15,7 @@ class User < ApplicationRecord
            dependent: :nullify
   has_many :authentications, dependent: :destroy
 
-  attribute :subscribe_newsletter,  :boolean, default: true
-  attribute :admin,                 :boolean, default: false
+  attribute :admin, :boolean, default: false
 
   validates :password, length: { minimum: App.password_length }, if: :password
   validates :password, confirmation: true, if: :password

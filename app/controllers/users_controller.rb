@@ -5,7 +5,7 @@ class UsersController < ApplicationController
   layout 'public', only: %i[new]
 
   def new
-    @user = User.new(subscribe_newsletter: true)
+    @user = User.new
   end
 
   def create
@@ -65,11 +65,11 @@ class UsersController < ApplicationController
   private
 
   def user_params
-    params.require(:user).permit(:email, :password, :password_confirmation, :subscribe_newsletter)
+    params.require(:user).permit(:email, :password, :password_confirmation)
   end
 
   def user_pref_params
-    params.require(:user).permit(:subscribe_newsletter, :theme)
+    params.require(:user).permit(:theme)
   end
 
   def user_email_attrs
