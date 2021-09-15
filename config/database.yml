@@ -17,3 +17,10 @@ test:
   min_messages: error
   variables:
     statement_timeout: 90s
+
+production:
+  <<: *default
+  host: <%= ENV['DB_HOST'] %>
+  username: <%= ENV['DB_USER'] %>
+  password: <%= ENV['DB_PASSWORD'] %>
+  database: <%= ENV['DB_NAME'] %>
