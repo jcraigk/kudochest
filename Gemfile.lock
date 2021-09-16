@@ -183,6 +183,7 @@ GEM
       activesupport (>= 5)
     hashdiff (1.0.1)
     hashie (4.1.0)
+    honeybadger (4.9.0)
     http (5.0.2)
       addressable (~> 2.8)
       http-cookie (~> 1.0)
@@ -369,6 +370,19 @@ GEM
       childprocess (>= 0.5, < 4.0)
       rubyzip (>= 1.2.2)
     semantic_range (3.0.0)
+    sentry-rails (4.7.2)
+      railties (>= 5.0)
+      sentry-ruby-core (~> 4.7.0)
+    sentry-ruby (4.7.2)
+      concurrent-ruby (~> 1.0, >= 1.0.2)
+      faraday (>= 1.0)
+      sentry-ruby-core (= 4.7.2)
+    sentry-ruby-core (4.7.2)
+      concurrent-ruby
+      faraday
+    sentry-sidekiq (4.7.2)
+      sentry-ruby-core (~> 4.7.0)
+      sidekiq (>= 3.0)
     shoulda-matchers (5.0.0)
       activesupport (>= 5.2.0)
     sidekiq (6.2.2)
@@ -478,6 +492,7 @@ DEPENDENCIES
   faker
   gemoji
   groupdate
+  honeybadger
   http
   jquery-rails
   json (>= 2.0.0)
@@ -498,6 +513,9 @@ DEPENDENCIES
   rubocop-rspec
   sass-rails
   selenium-webdriver
+  sentry-rails
+  sentry-ruby
+  sentry-sidekiq
   shoulda-matchers
   sidekiq
   sidekiq-scheduler

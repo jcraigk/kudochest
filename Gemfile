@@ -36,6 +36,13 @@ gem 'sluggi'
 gem 'sorcery'
 gem 'webpacker'
 
+group :production do
+  gem 'honeybadger'
+  gem 'sentry-rails'
+  gem 'sentry-ruby'
+  gem 'sentry-sidekiq'
+end
+
 group :development do
   gem 'colorize'
   gem 'rubocop'
