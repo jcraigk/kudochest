@@ -41,7 +41,6 @@ class EventService < Base::Service
   end
 
   def post_error_message(exception)
-    Raven.capture_exception(exception) if reportable_exception?(exception)
     log_exception(exception) if Rails.env.development?
     post_chat_error(exception)
   end

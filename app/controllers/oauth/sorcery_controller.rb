@@ -10,7 +10,6 @@ class Oauth::SorceryController < ApplicationController
     return redirect_back_or_to(dashboard_path) if login_from(params[:provider])
     create_user_and_login
   rescue StandardError => e
-    Raven.capture_exception(e) unless e.is_a?(OAuth2::Error) # Facebook failed/canceled login
     redirect_to login_path, alert: t('auth.external_fail', provider: provider_title)
   end
 
