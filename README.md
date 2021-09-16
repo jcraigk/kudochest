@@ -12,7 +12,7 @@
 
 This is a **Ruby on Rails** application backed by **Postgres** and **Redis**. It integrates tightly with chat platforms, keeping teams and users synced server-side. This enables web-based user profiles and other UX enhancements not possible in standard bots.
 
-See the **[Wiki](https://github.com/jcraigk/kudochest/wiki)** for a deeper dive.
+See the **[Wiki](https://github.com/jcraigk/kudochest/wiki)** or join the **[Discord](https://discord.gg/kbPnmz5q)**.
 &nbsp;  
 &nbsp;  
 
