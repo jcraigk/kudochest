@@ -40,16 +40,25 @@ class Oauth::SorceryController < ApplicationController
   end
 end
 
-# TODO: PR this upstream at https://github.com/Sorcery/sorcery
-# The problem is that we already have the email/uid in the initial response,
-# no need to request https://api.slack.com/methods/users.identity in that case,
-# which was failing
-# We should add a check for success on users.identity and handle errors more gracefully
+# TODO: https://github.com/Sorcery/sorcery/pull/288
 class Sorcery::Providers::Slack
   def get_user_hash(access_token)
     auth_hash(access_token).tap do |h|
-      h[:user_info] = access_token['user']
-      h[:uid] = access_token['user']['id']
+      h[:user_info] = fetch_user_info(access_token)['user']
+      h[:uid] = h[:user_info]['id']
     end
+  end
+
+  private
+
+  def fetch_user_info(access_token)
+    return access_token if user_info_present?(access_token)
+    JSON.parse(access_token.get(user_info_path).body)
+  end
+
+  def user_info_present?(access_token)
+    access_token['user'].present? &&
+      access_token['user']['id'].present? &&
+      access_token['user']['email'].present?
   end
 end
