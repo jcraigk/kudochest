@@ -6,6 +6,7 @@ class EventService < Base::Service
     return post_success_message if respond_in_chat?
     delete_slack_ack_message if slack_fast_acked?
   rescue StandardError => e
+    Honeybadger.notify(e) if defined?(Honeybadger)
     post_error_message(e)
   end
 
