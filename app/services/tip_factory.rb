@@ -51,7 +51,7 @@ class TipFactory < Base::Service
   end
 
   def channel_name_abbrev(name)
-    return SLACK_DM_NAME if team.platform == :slack && name.start_with?(SLACK_DM_PREFIX)
+    return SLACK_DM_NAME if team.platform == :slack && name&.start_with?(SLACK_DM_PREFIX)
     name.presence
   end
 
