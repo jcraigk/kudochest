@@ -11,7 +11,7 @@ class ApplicationController < ActionController::Base
   protected
 
   def shared_admin?
-    App.shared_admin && current_user.owned_teams.any?
+    App.shared_admin && current_user&.owned_teams&.any?
   end
 
   def not_authenticated
