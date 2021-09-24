@@ -8,7 +8,7 @@ class ProfilePolicy
   end
 
   def show?
-    active_profile_on_same_team?
+    active_profile_on_same_team? || user_owns_team?
   end
 
   def edit?
@@ -20,6 +20,10 @@ class ProfilePolicy
   end
 
   private
+
+  def user_owns_team?
+    profile.team.owning_user == user
+  end
 
   def user_owns_profile?
     profile.user == user
