@@ -14,10 +14,11 @@ class Actions::UserChange < Actions::Base
 
   def report_error
     return unless defined?(Honeybadger)
-    Honeybadger.notify \
+    Honeybadger.notify(
       'Unknown Profile',
-      class_name: 'Actions::UserChange',
+      error_class: 'Actions::UserChange',
       parameters: params
+    )
   end
 
   def profile

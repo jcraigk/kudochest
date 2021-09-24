@@ -16,16 +16,27 @@ class CsvImporter < Base::Service
   attr_reader :num_imported, :invalid_names
 
   def result_sentence
+    [update_fragment, invalid_fragment].compact.join(', ')
+  end
+
+  def update_fragment
+    "CSV import results: #{pluralize(num_imported, 'user')} updated"
+  end
+
+  def invalid_fragment
+    return if invalid_names.none?
     <<~TEXT.chomp
-      CSV import results: #{pluralize(num_imported, 'user')} updated, #{pluralize(invalid_names.size, 'invalid display name')} found: #{invalid_names.to_sentence}
+      #{pluralize(invalid_names.size, 'invalid display name')} found: #{invalid_names.to_sentence}
     TEXT
   end
 
   def import_tips
     text.split("\n").each do |line|
-      display_name, quantity = line.split(',')
+      display_name, quantity_str = line.split(',')
+      quantity = quantity_str.to_f.round(2)
+      next unless quantity.positive?
       profile = team.profiles.find_by(display_name: display_name.tr('@', ''))
-      next create_import_tip(profile, quantity.to_f.round(2)) if profile.present?
+      next create_import_tip(profile, quantity) if profile.present?
       @invalid_names << display_name
     end
   end
@@ -39,12 +50,12 @@ class CsvImporter < Base::Service
   end
 
   def create_tip(profile, quantity)
-    Tip.create!(
+    Tip.new(
       from_profile: team.app_profile,
       to_profile: profile,
       quantity: quantity,
       source: 'import',
       event_ts: Time.current.to_f.to_s
-    )
+    ).save(validate: false)
   end
 end
