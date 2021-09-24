@@ -20,6 +20,8 @@ RUN apt-get update -qq && \
     && apt-get clean
 
 COPY lib/image_magick/policy.xml /etc/ImageMagick-6/policy.xml
+RUN mkdir -p /storage/response_images/cache
+RUN mkdir -p /storage/response_images/tmp
 
 WORKDIR $INSTALL_PATH
 
