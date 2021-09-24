@@ -6,8 +6,9 @@ class RecipientNotDeletedValidator < ActiveModel::Validator
       :base,
       I18n.t(
         'activerecord.errors.models.tip.attributes.base.cannot_tip_deleted',
+        user: record.from_profile&.link,
         points: App.points_term
-      )
+      ).squish
     )
   end
 end
