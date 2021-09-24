@@ -8,38 +8,51 @@ class Actions::UserChange < Actions::Base
   private
 
   def update_profile
-    Profile.find_with_team(params[:team_rid], user[:id]).update!(profile_attrs)
+    return report_error if profile.blank?
+    profile.update!(profile_attrs)
+  end
+
+  def report_error
+    return unless defined?(Honeybadger)
+    Honeybadger.notify \
+      'Unknown Profile',
+      class_name: 'Actions::UserChange',
+      parameters: params
+  end
+
+  def profile
+    @profile ||= Profile.find_with_team(params[:team_rid], user_params[:id])
   end
 
   def profile_attrs
     {
       display_name: display_name,
       real_name: real_name,
-      title: profile[:title],
-      deleted: user[:deleted],
-      avatar_url: profile[:image_512]
+      title: profile_params[:title],
+      deleted: user_params[:deleted],
+      avatar_url: profile_params[:image_512]
     }
   end
 
   def display_name
-    profile[:display_name_normalized].presence || real_name
+    profile_params[:display_name_normalized].presence || real_name
   end
 
   def real_name
-    profile[:real_name_normalized]
+    profile_params[:real_name_normalized]
   end
 
   def irrelevant?
-    user[:is_restricted] == true ||
-      user[:is_ultra_restricted] == true ||
-      user[:is_bot] == true
+    user_params[:is_restricted] == true ||
+      user_params[:is_ultra_restricted] == true ||
+      user_params[:is_bot] == true
   end
 
-  def profile
-    @profile ||= user[:profile]
+  def profile_params
+    @profile_params ||= user_params[:profile]
   end
 
-  def user
-    @user ||= params[:event][:user]
+  def user_params
+    @user_params ||= params[:event][:user]
   end
 end
