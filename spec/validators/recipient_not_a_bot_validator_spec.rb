@@ -4,11 +4,13 @@ require 'rails_helper'
 RSpec.describe RecipientNotABotValidator do
   subject(:validate) { described_class.new.validate(tip) }
 
-  let(:tip) { build(:tip, to_profile: profile) }
-  let(:profile) { build(:profile) }
+  let(:tip) { build(:tip, from_profile: from_profile, to_profile: to_profile) }
+  let(:from_profile) { build(:profile) }
+  let(:to_profile) { build(:profile) }
   let(:expected) do
     I18n.t(
       "activerecord.errors.models.tip.attributes.base.#{type}",
+      user: from_profile.link,
       points: App.points_term
     )
   end
@@ -19,7 +21,7 @@ RSpec.describe RecipientNotABotValidator do
   end
 
   context 'when to_profile is a bot' do
-    let(:profile) { build(:profile, bot_user: true) }
+    let(:to_profile) { build(:profile, bot_user: true) }
     let(:type) { :cannot_tip_bots }
 
     it 'is invalid with generic message' do
@@ -30,7 +32,7 @@ RSpec.describe RecipientNotABotValidator do
     context 'when to_profile is the app bot' do
       let(:type) { :cannot_accept_tips }
 
-      before { profile.team.update(app_profile_rid: profile.rid) }
+      before { to_profile.team.update(app_profile_rid: to_profile.rid) }
 
       it 'is invalid with self referential message' do
         validate
