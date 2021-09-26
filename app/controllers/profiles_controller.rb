@@ -67,19 +67,14 @@ class ProfilesController < ApplicationController
   end
 
   def success_msg
-    t(
+    t \
       'profiles.connect_success',
       profile: current_profile.long_name,
       team: current_profile.team.name
-    )
   end
 
   def already_connected_msg
-    t(
-      'profiles.already_connected',
-      profile: current_profile.long_name,
-      email: current_profile.user.email
-    )
+    t('profiles.already_connected', email: current_profile.user.email)
   end
 
   def shared_admin_msg
@@ -91,7 +86,8 @@ class ProfilesController < ApplicationController
   end
 
   def profile_params
-    params.require(:profile).permit(:allow_dm, :weekly_report)
+    params.require(:profile).permit \
+      :allow_dm, :weekly_report, :announce_tip_sent, :announce_tip_received, :share_history
   end
 
   def update_success
@@ -100,10 +96,9 @@ class ProfilesController < ApplicationController
   end
 
   def update_failure
-    flash.now[:alert] = t(
+    flash.now[:alert] = t \
       'profiles.update_fail',
       msg: current_profile.errors.full_messages.to_sentence
-    )
     render :edit
   end
 end

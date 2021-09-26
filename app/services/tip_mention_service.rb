@@ -18,6 +18,16 @@ class TipMentionService < Base::Service
 
   private
 
+  def respond_success
+    return OpenStruct.new(mode: :silent) unless profile.announce_tip_sent?
+    OpenStruct.new(
+      mode: :public,
+      response: response,
+      tips: tips,
+      image: response_image
+    )
+  end
+
   def respond_no_action
     OpenStruct.new(
       mode: :error,
@@ -52,15 +62,6 @@ class TipMentionService < Base::Service
 
   def timestamp
     @timestamp ||= Time.current
-  end
-
-  def respond_success
-    OpenStruct.new(
-      mode: :public,
-      response: response,
-      tips: tips,
-      image: response_image
-    )
   end
 
   def response_image

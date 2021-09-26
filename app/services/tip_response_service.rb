@@ -5,6 +5,7 @@ class TipResponseService < Base::Service
   include PointsHelper
 
   RELEVANT_SOURCES = %w[modal plusplus reaction ditto reply].freeze
+  ANON_WORD = 'someone'
 
   option :tips
 
@@ -129,15 +130,17 @@ class TipResponseService < Base::Service
   end
 
   def profile_ref(platform, profile, new_points = nil)
+    return ANON_WORD unless profile.announce_tip_received?
+
     profile.points_received = new_points if new_points
     case platform
-    when :slack, :discord then chat_profile_ref(profile)
+    when :slack, :discord then chat_profile_link(profile)
     when :image then "#{IMG_DELIM}#{PROF_PREFIX}#{profile.display_name} #{IMG_DELIM}"
-    when :web then web_profile_ref(profile)
+    when :web then web_profile_link(profile)
     end
   end
 
-  def chat_profile_ref(profile)
+  def chat_profile_link(profile)
     case team.response_theme
     when 'unobtrusive' then unobtrusive_link(profile)
     when 'fancy' then profile.link_with_stat
@@ -152,7 +155,7 @@ class TipResponseService < Base::Service
     end
   end
 
-  def web_profile_ref(profile)
+  def web_profile_link(profile)
     case team.response_theme.to_sym
     when :unobtrusive, :basic then profile.webref
     when :fancy then profile.webref_with_stat

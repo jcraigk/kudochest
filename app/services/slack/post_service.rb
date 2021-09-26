@@ -13,7 +13,7 @@ class Slack::PostService < Base::PostService
   end
 
   def respond_in_slack
-    return replace_message if replace_ts
+    return handle_replacement if replace_ts
     case mode
     when :prefs_modal then render_prefs_modal
     when :tip_modal then render_tip_modal
@@ -21,6 +21,10 @@ class Slack::PostService < Base::PostService
     when :direct then respond_dm(profile_rid)
     when :public, :fast_ack then respond_by_mode
     end
+  end
+
+  def handle_replacement
+    mode == :silent ? delete_message : replace_message
   end
 
   def respond_by_mode
@@ -59,9 +63,8 @@ class Slack::PostService < Base::PostService
   end
 
   def message_params(channel, thread = nil)
-    use_channel_rid = channel || channel_rid
     {
-      channel: use_channel_rid,
+      channel: channel || channel_rid,
       thread_ts: thread,
       unfurl_links: false,
       unfurl_media: false,
@@ -132,9 +135,14 @@ class Slack::PostService < Base::PostService
     slack_client.chat_update(message_params(replace_channel_rid).merge(ts: replace_ts))
   end
 
+  def delete_message
+    slack_client.chat_delete(channel: channel_rid, ts: replace_ts)
+  end
+
   def fast_ack_text
     return unless mode == :fast_ack
-    "_Working on <#{PROF_PREFIX}#{profile_rid}>'s request..._"
+    word = sender.announce_tip_sent? ? "<#{PROF_PREFIX}#{profile_rid}>'s" : 'a'
+    "_Working on #{word} request..._"
   end
 
   def render_tip_modal

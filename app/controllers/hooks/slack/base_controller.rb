@@ -27,7 +27,7 @@ class Hooks::Slack::BaseController < Hooks::BaseController
   end
 
   def prefs_submission?
-    JSON[params[:payload]].dig('view', 'callback_id') == 'submit_prefs_modal'
+    json_payload.dig('view', 'callback_id') == 'submit_prefs_modal'
   end
 
   def private_command?

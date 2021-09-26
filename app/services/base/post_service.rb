@@ -54,7 +54,9 @@ class Base::PostService < Base::Service
   end
 
   def sender
-    @sender ||= tips.first.from_profile
+    @sender ||=
+      tips&.first&.from_profile ||
+      Profile.find_with_team(team_rid, profile_rid)
   end
 
   def attach_tips_to_response

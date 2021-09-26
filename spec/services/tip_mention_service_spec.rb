@@ -33,6 +33,16 @@ RSpec.describe TipMentionService, :freeze_time do
 
   before { travel_to(Time.zone.local(2019, 11, 10, 21, 1, 1)) }
 
+  context 'when `profile.announce_tip_sent `is false`' do
+    let(:result) { OpenStruct.new(mode: :silent) }
+
+    before do
+      profile.update(announce_tip_sent: false, tokens_accrued: 10)
+    end
+
+    include_examples 'expected result'
+  end
+
   context 'when sender requires more tokens' do
     let(:text) do
       <<~TEXT.squish

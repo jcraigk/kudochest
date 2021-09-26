@@ -4,6 +4,8 @@
   .column
     = render partial: 'profiles/tiles/leaderboard',
              locals: { profile: profile, leaderboard: leaderboard, hide_paging: false }
-.columns
-  .column
-    = render partial: 'profiles/tiles/recent_activity', locals: { profile: profile, tips: tips }
+
+- if current_user == profile.user || profile.share_history?
+  .columns
+    .column
+      = render partial: 'profiles/tiles/recent_activity', locals: { profile: profile, tips: tips }

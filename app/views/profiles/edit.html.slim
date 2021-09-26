@@ -19,6 +19,42 @@
 
         .field.is-horizontal
           .field-label.is-switch-label
+            = f.label \
+              :announce_tip_sent,
+              t('profiles.announce_tip_sent', points: App.points_term.titleize),
+              class: 'label'
+          .field-body
+            .field
+              .control
+                = f.check_box :announce_tip_sent, class: 'switch is-rounded'
+                = f.label :announce_tip_sent, '&nbsp;'.html_safe, class: 'label'
+                = tooltip_btn('profiles.announce_tip_sent_tooltip', 'nudge-up', points: App.points_term)
+
+        .field.is-horizontal
+          .field-label.is-switch-label
+            = f.label \
+              :announce_tip_received,
+              t('profiles.announce_tip_received', points: App.points_term.titleize),
+              class: 'label'
+          .field-body
+            .field
+              .control
+                = f.check_box :announce_tip_received, class: 'switch is-rounded'
+                = f.label :announce_tip_received, '&nbsp;'.html_safe, class: 'label'
+                = tooltip_btn('profiles.announce_tip_received_tooltip', 'nudge-up', points: App.points_term)
+
+        .field.is-horizontal
+          .field-label.is-switch-label
+            = f.label :share_history, t('profiles.share_history'), class: 'label'
+          .field-body
+            .field
+              .control
+                = f.check_box :share_history, class: 'switch is-rounded'
+                = f.label :share_history, '&nbsp;'.html_safe, class: 'label'
+                = tooltip_btn('profiles.share_history_tooltip', 'nudge-up', points: App.points_term)
+
+        .field.is-horizontal
+          .field-label.is-switch-label
             = f.label :weekly_report, t('profiles.weekly_report'), class: 'label'
           .field-body
             .field
