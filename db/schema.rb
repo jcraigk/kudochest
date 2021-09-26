@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_09_15_203423) do
+ActiveRecord::Schema.define(version: 2021_09_26_043926) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -61,7 +61,7 @@ ActiveRecord::Schema.define(version: 2021_09_15_203423) do
     t.string "reg_token", null: false
     t.boolean "bot_user", null: false
     t.boolean "deleted", null: false
-    t.boolean "allow_unprompted_dm", null: false
+    t.boolean "allow_dm", null: false
     t.boolean "infinite_tokens", null: false
     t.integer "tokens_accrued", null: false
     t.decimal "tokens_forfeited", precision: 9, scale: 2, null: false

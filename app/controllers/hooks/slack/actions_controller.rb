@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 class Hooks::Slack::ActionsController < Hooks::Slack::BaseController
-  CALLBACK_IDS = %w[reply_tip modal_submit].freeze
+  CALLBACK_IDS = %w[reply_tip submit_tip_modal submit_prefs_modal].freeze
 
   def receiver
     return unless relevant_action?
@@ -36,7 +36,7 @@ class Hooks::Slack::ActionsController < Hooks::Slack::BaseController
   end
 
   def modal_cache
-    @modal_cache ||= Cache::Modal.get("#{team_rid}/#{profile_rid}")
+    @modal_cache ||= Cache::TipModal.get("#{team_rid}/#{profile_rid}")
   end
 
   def callback_id

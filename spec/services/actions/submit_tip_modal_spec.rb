@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 require 'rails_helper'
 
-RSpec.describe Actions::ModalSubmit do
+RSpec.describe Actions::SubmitTipModal do
   subject(:action) { described_class.call(params) }
 
   let(:team) { build(:team) }

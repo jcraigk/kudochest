@@ -15,7 +15,8 @@ class Slack::PostService < Base::PostService
   def respond_in_slack
     return replace_message if replace_ts
     case mode
-    when :modal then render_modal
+    when :prefs_modal then render_prefs_modal
+    when :tip_modal then render_tip_modal
     when :error, :private then respond_ephemeral(profile_rid)
     when :direct then respond_dm(profile_rid)
     when :public, :fast_ack then respond_by_mode
@@ -32,7 +33,7 @@ class Slack::PostService < Base::PostService
   end
 
   def dm_tipped_profiles
-    recipients.select(&:allow_unprompted_dm?).each do |profile|
+    recipients.select(&:allow_dm?).each do |profile|
       respond_dm(profile.rid)
     end
     respond_dm(sender.rid)
@@ -44,7 +45,7 @@ class Slack::PostService < Base::PostService
   end
 
   def reply_to_message
-    return respond_in_convo if action == :modal_submit
+    return respond_in_convo if action == :submit_tip_modal
     thread = message_ts || event_ts
     slack_client.chat_postMessage(message_params(channel_rid, thread))
   rescue Slack::Web::Api::Errors::SlackError
@@ -136,10 +137,17 @@ class Slack::PostService < Base::PostService
     "_Working on <#{PROF_PREFIX}#{profile_rid}>'s request..._"
   end
 
-  def render_modal
+  def render_tip_modal
     slack_client.views_open(
       trigger_id: trigger_id,
-      view: Slack::ModalView.call(team_rid: team_rid)
+      view: Slack::Modals::Tip.call(team_rid: team_rid)
+    )
+  end
+
+  def render_prefs_modal
+    slack_client.views_open(
+      trigger_id: trigger_id,
+      view: Slack::Modals::Preferences.call(team_rid: team_rid, profile_rid: profile_rid)
     )
   end
 
@@ -158,7 +166,7 @@ class Slack::PostService < Base::PostService
   def response_action
     return response_mode unless response_mode == :adaptive
     case action
-    when :message, :modal_submit then :convo
+    when :message, :submit_tip_modal then :convo
     when :reaction_added, :reply_tip then :reply
     else :convo # rubocop:disable Lint/DuplicateBranch
     end

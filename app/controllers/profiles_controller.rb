@@ -91,7 +91,7 @@ class ProfilesController < ApplicationController
   end
 
   def profile_params
-    params.require(:profile).permit(:allow_unprompted_dm, :weekly_report)
+    params.require(:profile).permit(:allow_dm, :weekly_report)
   end
 
   def update_success

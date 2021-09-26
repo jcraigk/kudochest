@@ -223,7 +223,7 @@ RSpec.describe Actions::Message do
       let(:text) { '' }
 
       it 'opens a modal' do
-        expect(action).to eq(OpenStruct.new(mode: :modal))
+        expect(action).to eq(OpenStruct.new(mode: :tip_modal))
       end
     end
   end

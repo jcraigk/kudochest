@@ -22,7 +22,12 @@ class Hooks::Slack::BaseController < Hooks::BaseController
   def fast_ackable?
     team_config.enable_fast_ack &&
       !team_config.response_mode.in?(%w[silent direct]) &&
-      !private_command?
+      !private_command? &&
+      !prefs_submission?
+  end
+
+  def prefs_submission?
+    JSON[params[:payload]].dig('view', 'callback_id') == 'submit_prefs_modal'
   end
 
   def private_command?

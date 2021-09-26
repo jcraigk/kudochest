@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 require 'rails_helper'
 
-RSpec.describe Commands::Settings do
+RSpec.describe Commands::Admin do
   include ActionView::Helpers::NumberHelper
 
   subject(:command) { described_class.call(team_rid: team.rid, profile_rid: profile.rid) }

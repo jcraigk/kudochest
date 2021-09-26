@@ -19,7 +19,7 @@ class TokenDispersalService < Base::Service
   end
 
   def notify_user(profile)
-    return unless notify && team.notify_tokens && profile.allow_unprompted_dm?
+    return unless notify && team.notify_tokens && profile.allow_dm?
     send_direct_message(profile)
   end
 

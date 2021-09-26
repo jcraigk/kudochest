@@ -68,14 +68,26 @@ RSpec.describe Slack::PostService do
     allow(Slack::Web::Client).to receive(:new).and_return(slack_client)
   end
 
-  context 'with `modal` mode' do
-    let(:mode) { :modal }
+  context 'with `tip_modal` mode' do
+    let(:mode) { :tip_modal }
 
-    before { allow(Slack::ModalView).to receive(:call) }
+    before { allow(Slack::Modals::Tip).to receive(:call) }
 
-    it 'calls Slack::ModalView' do
+    it 'calls Slack::Modals::Tip' do
       service
-      expect(Slack::ModalView).to have_received(:call).with(team_rid: team.rid)
+      expect(Slack::Modals::Tip).to have_received(:call).with(team_rid: team.rid)
+    end
+  end
+
+  context 'with `prefs_modal` mode' do
+    let(:mode) { :prefs_modal }
+
+    before { allow(Slack::Modals::Preferences).to receive(:call) }
+
+    it 'calls Slack::Modals::Preferences' do
+      service
+      expect(Slack::Modals::Preferences).to \
+        have_received(:call).with(team_rid: team.rid, profile_rid: profile.rid)
     end
   end
 

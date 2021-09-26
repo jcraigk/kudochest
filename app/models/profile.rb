@@ -20,7 +20,7 @@ class Profile < ApplicationRecord
   has_many :subteams, through: :subteam_memberships, dependent: :destroy
   has_many :claims, dependent: :destroy
 
-  attribute :allow_unprompted_dm, :boolean, default: true
+  attribute :allow_dm, :boolean, default: true
   attribute :bot_user,            :boolean, default: false
   attribute :deleted,             :boolean, default: false
   attribute :weekly_report,       :boolean, default: false

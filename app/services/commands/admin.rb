@@ -1,5 +1,5 @@
 # frozen_string_literal: true
-class Commands::Settings < Commands::Base
+class Commands::Admin < Commands::Base
   include ActionView::Helpers::TextHelper
   include ApplicationHelper
   include PointsHelper

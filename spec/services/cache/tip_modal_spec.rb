@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 require 'rails_helper'
 
-RSpec.describe Cache::Modal do
+RSpec.describe Cache::TipModal do
   let(:channel) { build(:channel) }
   let(:str) { "#{channel.rid}:#{channel.name}" }
   let(:arg_key) { 'my-unique-key' }
