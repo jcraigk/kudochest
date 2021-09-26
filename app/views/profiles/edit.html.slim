@@ -9,23 +9,23 @@
       .card-content
         .field.is-horizontal
           .field-label.is-switch-label
-            = f.label :allow_unprompted_dm, t('profiles.allow_unprompted_dm'), class: 'label'
+            = f.label :allow_dm, t('profiles.allow_dm'), class: 'label'
           .field-body
             .field
               .control
-                = f.check_box :allow_unprompted_dm, class: 'switch is-rounded'
-                = f.label :allow_unprompted_dm, '&nbsp;'.html_safe, class: 'label'
-                = tooltip_btn('profiles.allow_unprompted_dm_tooltip', 'nudge-up')
+                = f.check_box :allow_dm, class: 'switch is-rounded'
+                = f.label :allow_dm, '&nbsp;'.html_safe, class: 'label'
+                = tooltip_btn('profiles.allow_dm_tooltip', 'nudge-up')
 
         .field.is-horizontal
           .field-label.is-switch-label
-            = f.label :weekly_report, t('profiles.email_weekly_report'), class: 'label'
+            = f.label :weekly_report, t('profiles.weekly_report'), class: 'label'
           .field-body
             .field
               .control
                 = f.check_box :weekly_report, class: 'switch is-rounded'
                 = f.label :weekly_report, '&nbsp;'.html_safe, class: 'label'
-                = tooltip_btn('profiles.email_weekly_report_tooltip', 'nudge-up')
+                = tooltip_btn('profiles.weekly_report_tooltip', 'nudge-up')
 
     br
     = submit_button

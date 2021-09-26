@@ -35,7 +35,7 @@ class Actions::Message < Actions::Base
   end
 
   def process_message
-    return open_modal if modal_command?
+    return open_tip_modal if slash_command_without_keyword?
     return call_command if keyword_detected?
     return handle_mentions if mention_matches.any?
     respond_bad_input if text_directed_at_app?
@@ -45,17 +45,17 @@ class Actions::Message < Actions::Base
     directed_at_app? && keyword.present?
   end
 
-  def modal_command?
+  def slash_command_without_keyword?
     origin == 'command' && keyword.blank?
   end
 
-  def open_modal
-    Cache::Modal.set("#{team_rid}/#{profile_rid}", channel_rid, channel_name)
-    OpenStruct.new(mode: :modal)
+  def open_tip_modal
+    Cache::TipModal.set("#{team_rid}/#{profile_rid}", channel_rid, channel_name)
+    OpenStruct.new(mode: :tip_modal)
   end
 
   def keyword_detected?
-    directed_at_app? && command_key
+    directed_at_app? && command_key.present?
   end
 
   def directed_at_app?

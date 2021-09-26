@@ -21,20 +21,17 @@ p.description Displays the top #{App.point_term} earners. Specify a number to se
 p.command &#47;#{App.base_command} levels
 p.description If Level Progression is enabled for your team, displays a level progression chart
 
-p.command &#47;#{App.base_command} mute
-p.description While rare, the app may occasionally send users unsolicited direct messages such as reminders and notifications about system events. They can be muted using this command (or on the website).
-
-p.command &#47;#{App.base_command} settings
+p.command &#47;#{App.base_command} admin
 p.description Displays the current team settings and indicates who the administrator is
+
+p.command &#47;#{App.base_command} preferences
+p.description Open a dialog to view and update your preferences
 
 p.command &#47;#{App.base_command} stats
 p.description Displays stats for the specified user. Specifying "me" or "stats" displays your own stats. Entering another username will display their stats.
 
 p.command &#47;#{App.base_command} undo
 p.description Immediately revokes #{App.points_term} that you gave recently. Note that for emoji reactions, you must remove the emoji to undo that action. After a few minutes, #{App.points_term} is no longer revokable.
-
-p.command &#47;#{App.base_command} unmute
-p.description While rare, the app may occasionally send users unsolicited direct messages such as reminders and notifications about system events. If muted by the user, they can be unmuted using this command (or on the website).
 
 p.command &#47;#{App.base_command} shop
 p.description See a list of loot items you can claim by earning enough #{App.points_term}

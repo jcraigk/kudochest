@@ -14,8 +14,7 @@ RSpec.describe TeamUpdateWorker do
   end
 
   it 'calls service with expected args' do
-    expect(TeamUpdateService).to(
+    expect(TeamUpdateService).to \
       have_received(:call).with(team: team, name: name, avatar_url: avatar_url)
-    )
   end
 end

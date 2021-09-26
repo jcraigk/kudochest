@@ -104,10 +104,10 @@ RSpec.describe TokenDispersalService do
     end
   end
 
-  context 'when `profile.allow_unprompted_dm` is false' do
+  context 'when `profile.allow_dm` is false' do
     before do
-      profile1.update(allow_unprompted_dm: false)
-      profile2.update(allow_unprompted_dm: false)
+      profile1.update(allow_dm: false)
+      profile2.update(allow_dm: false)
     end
 
     it 'does not send notifications' do

@@ -9,7 +9,7 @@ RSpec.describe TokenQuantityWithinTokenMaxValidator do
   context 'when token_quantity is less than token_max' do
     let(:token_quantity) { 5 }
 
-    it 'is valid ' do
+    it 'is valid' do
       validate
       expect(team.errors).to be_empty
     end

@@ -1,5 +1,5 @@
 # frozen_string_literal: true
-class Slack::ModalView < Base::Service
+class Slack::Modals::Tip < Base::Service
   option :team_rid
 
   def call
@@ -8,27 +8,39 @@ class Slack::ModalView < Base::Service
 
   private
 
-  # rubocop:disable Metrics/MethodLength
   def modal_block
     {
       type: :modal,
-      callback_id: :modal_submit,
-      title: {
-        type: :plain_text,
-        text: "Give #{App.points_term.titleize}"
-      },
-      submit: {
-        type: :plain_text,
-        text: 'Submit'
-      },
-      close: {
-        type: :plain_text,
-        text: 'Cancel'
-      },
+      callback_id: :submit_tip_modal,
+      title: title,
+      submit: submit,
+      close: close,
       blocks: [quantity_select, rid_multiselect, topic_select, note_input].compact
     }
   end
 
+  def title
+    {
+      type: :plain_text,
+      text: "Give #{App.points_term.titleize}"
+    }
+  end
+
+  def close
+    {
+      type: :plain_text,
+      text: 'Cancel'
+    }
+  end
+
+  def submit
+    {
+      type: :plain_text,
+      text: 'Submit'
+    }
+  end
+
+  # rubocop:disable Metrics/MethodLength
   def rid_multiselect
     {
       type: :input,

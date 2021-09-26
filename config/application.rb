@@ -114,20 +114,19 @@ STORAGE_PATH =
   end
 
 COMMAND_KEYWORDS = {
+  admin: %w[],
   connect: %w[],
   claim: %w[buy get],
   help: %w[h support],
   leaderboard: %w[top leaders best],
   levels: %w[level leveling],
-  mute: %w[stfu],
-  settings: %w[config setup options],
+  preferences: %w[config setup options settings prefs],
   shop: %w[items loot rewards],
   stats: %w[me],
   topics: %w[],
-  undo: %w[revoke],
-  unmute: %w[]
+  undo: %w[revoke]
 }.freeze
-PRIVATE_KEYWORDS = %w[connect help settings claim].freeze
+PRIVATE_KEYWORDS = %w[admin connect help claim].freeze
 
 CHAN_PREFIX = '#'
 PROF_PREFIX = '@'

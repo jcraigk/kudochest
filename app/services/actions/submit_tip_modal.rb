@@ -1,5 +1,5 @@
 # frozen_string_literal: true
-class Actions::ModalSubmit < Actions::Base
+class Actions::SubmitTipModal < Actions::Base
   def call
     return if mentions.blank?
     create_tips_and_respond

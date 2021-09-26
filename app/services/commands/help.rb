@@ -19,17 +19,16 @@ class Commands::Help < Commands::Base
 
   def keyword_list
     <<~TEXT.chomp
-      * `connect`  Connect your chat profile to your web account
+      * `admin`  See app configuration (set by admin)
+        * `connect`  Connect your chat profile to your web account
         * `help`  You're looking at it!
         * `levels`  See a chart mapping #{App.points_term} to levels
         * `me`  See your current stats
-        * `mute`  Disable unsolicited direct messages
-        * `settings`  See app configuration (set by admin)
+        * `preferences`  Update your preferences
         * `stats #{PROF_PREFIX}user`  See another user's stats
         * `top`  See the leaderboard
         * `topics`  See all topics
         * `undo`  Revoke #{App.points_term} you just gave
-        * `unmute`  Enable unsolicited direct messages
     TEXT
   end
 

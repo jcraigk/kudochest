@@ -39,7 +39,7 @@ class TeamResetService < Base::Service
   end
 
   def notify_user(profile, text)
-    return unless profile.allow_unprompted_dm?
+    return unless profile.allow_dm?
     "#{team.plat}::PostService".constantize.call(
       team_rid: team.rid,
       profile_rid: profile.rid,
