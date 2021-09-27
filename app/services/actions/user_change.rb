@@ -8,17 +8,7 @@ class Actions::UserChange < Actions::Base
   private
 
   def update_profile
-    return report_error if profile.blank?
-    profile.update!(profile_attrs)
-  end
-
-  def report_error
-    return unless defined?(Honeybadger)
-    Honeybadger.notify(
-      'Unknown Profile',
-      error_class: 'Actions::UserChange',
-      parameters: params
-    )
+    profile&.update!(profile_attrs)
   end
 
   def profile
@@ -43,10 +33,13 @@ class Actions::UserChange < Actions::Base
     profile_params[:real_name_normalized]
   end
 
+  # Slack sends `user_change` events for bots and
+  # outdated/external users, so we ignore those
   def irrelevant?
     user_params[:is_restricted] == true ||
       user_params[:is_ultra_restricted] == true ||
-      user_params[:is_bot] == true
+      user_params[:is_bot] == true ||
+      user_params.dig(:profile, :team) != team.rid
   end
 
   def profile_params

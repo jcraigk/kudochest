@@ -5,6 +5,7 @@ RSpec.describe Actions::UserChange do
   subject(:action) { described_class.call(params) }
 
   let(:team) { create(:team) }
+  let(:team_rid) { team.rid }
   let(:profile) { create(:profile, team: team, display_name: original_display_name) }
   let(:new_display_name) { 'New Display Name' }
   let(:new_real_name) { 'New Real Name' }
@@ -26,7 +27,8 @@ RSpec.describe Actions::UserChange do
             display_name_normalized: new_display_name,
             real_name_normalized: new_real_name,
             title: title,
-            image_512: image_url
+            image_512: image_url,
+            team: team_rid
           },
           deleted: false,
           is_restricted: restricted,
@@ -53,6 +55,14 @@ RSpec.describe Actions::UserChange do
   it 'updates the profile' do
     action
     expect(profile.reload.attributes.deep_symbolize_keys).to include(expected_attrs)
+  end
+
+  context 'when team is unknown' do
+    let(:team_rid) { 'unknown' }
+
+    it 'does not update the user' do
+      expect(profile.reload.display_name).not_to eq(new_display_name)
+    end
   end
 
   context 'when display name is not provided' do
