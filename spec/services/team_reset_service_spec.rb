@@ -46,22 +46,4 @@ RSpec.describe TeamResetService do
     call
     expect(TokenDispersalService).to have_received(:call).with(team: team, notify: false)
   end
-
-  context 'when profile.allow_dm is true' do
-    before { profile.update(allow_dm: true) }
-
-    it 'notifies users' do
-      call
-      expect(Slack::PostService).to have_received(:call).with(response_attrs)
-    end
-  end
-
-  context 'when profile.allow_dm is false' do
-    before { profile.update(allow_dm: false) }
-
-    it 'does not notify users' do
-      call
-      expect(Slack::PostService).not_to have_received(:call)
-    end
-  end
 end
