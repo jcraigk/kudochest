@@ -19,7 +19,10 @@ class Base::ChannelMemberService < Base::Service
 
   def remote_rids
     @remote_rids ||=
-      Rails.cache.fetch("channel_members/#{channel_rid}", ttl: App.channel_cache_ttl) do
+      Rails.cache.fetch(
+        "channel_members/#{channel_rid}",
+        expires_in: Time.current + App.channel_cache_ttl
+      ) do
         channel_members
       end
   end
