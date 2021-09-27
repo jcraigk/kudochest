@@ -46,7 +46,10 @@ class LeaderboardService < Base::Service
 
   def leaderboard_cache
     @leaderboard_cache ||=
-      Rails.cache.fetch(cache_key, ttl: App.leaderboard_refresh_seconds.seconds) do
+      Rails.cache.fetch(
+        cache_key,
+        expires_in: Time.current + App.leaderboard_refresh_seconds.seconds
+      ) do
         leaderboard_data
       end
   end

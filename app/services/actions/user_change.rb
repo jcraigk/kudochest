@@ -39,7 +39,7 @@ class Actions::UserChange < Actions::Base
     user_params[:is_restricted] == true ||
       user_params[:is_ultra_restricted] == true ||
       user_params[:is_bot] == true ||
-      user_params.dig(:profile, :team) != team.rid
+      user_params.dig(:profile, :team) != team&.rid
   end
 
   def profile_params
