@@ -138,6 +138,37 @@ RSpec.describe Slack::PostService do
   xcontext 'with `graphical` mode' do
   end
 
+  context 'when replacing a message (fast ack)' do
+    let(:opts) { super().merge(replace_ts: message_ts) }
+
+    context 'when response_mode is `silent`' do
+      let(:mode) { :silent }
+
+      before do
+        allow(slack_client).to receive(:chat_delete)
+        service
+      end
+
+      it 'deletes the original message' do
+        expect(slack_client).to \
+          have_received(:chat_delete).with(channel: channel.rid, ts: message_ts)
+      end
+    end
+
+    context 'when response_mode is `public`' do
+      let(:mode) { :public }
+
+      before do
+        allow(slack_client).to receive(:chat_update)
+        service
+      end
+
+      it 'deletes the original message' do
+        expect(slack_client).to have_received(:chat_update)
+      end
+    end
+  end
+
   context 'with `public` mode' do
     let(:mode) { :public }
 

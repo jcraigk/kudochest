@@ -29,11 +29,7 @@ class Commands::Connect < Commands::Base
   end
 
   def already_connected
-    I18n.t(
-      'profiles.already_connected',
-      profile: requested_profile.link,
-      email: requested_profile.user.email
-    )
+    I18n.t('profiles.already_connected', email: requested_profile.user.email)
   end
 
   def user

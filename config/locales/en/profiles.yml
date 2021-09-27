@@ -14,7 +14,7 @@ en:
     weekly_report_tooltip: Send a weekly activity report to the email listed in User Settings
     connect_success: '%{profile} from %{team} successfully connected to your account'
     connect_success_email: '%{profile} successfully connected to account %{email}'
-    already_connected: '%{profile} is already connected to account %{email}'
+    already_connected: 'Your profile is already connected to %{email}'
     to_connect: 'To connect your %{team} profile with your web account, visit: %{url}'
     no_recent_activity: You have not given or earned any %{points} recently
     app_home_opened: "Hi, we're glad you're here! *%{app}* is a team engagement tool that allows users to give each other %{points} that accrue over time. For more info, see %{url}"
@@ -22,5 +22,13 @@ en:
     prefs_modal_title: Preferences
     prefs_modal_info: 'Update your preferences:'
     prefs_modal_allow_dm: Allow direct messages from %{bot}
-    prefs_modal_weekly_report: Receive weekly email report
-    prefs_modal_weekly_report_must_connect: Receive weekly email report (requires connected profile)
+    prefs_modal_weekly_report: Receive weekly email report (requires connected profile)
+    prefs_modal_announce_tip_sent: Announce when I send %{points}
+    prefs_modal_announce_tip_received: Announce when I receive %{points}
+    announce_tip_sent: Announce %{points} Sent
+    announce_tip_sent_tooltip: Post a public chat message when you send %{points} to other users
+    announce_tip_received: Announce %{points} Received
+    announce_tip_received_tooltip: Post a public chat message when you receive %{points} from other users
+    share_history: Share Activity History
+    share_history_tooltip: Whether to share details of your %{points} history with your teammates
+    prefs_modal_share_history: Share my activity history with teammates

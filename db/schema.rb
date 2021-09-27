@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_09_26_043926) do
+ActiveRecord::Schema.define(version: 2021_09_26_122243) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -76,6 +76,9 @@ ActiveRecord::Schema.define(version: 2021_09_26_043926) do
     t.datetime "last_tip_sent_at"
     t.integer "points_claimed", default: 0, null: false
     t.boolean "weekly_report", default: false, null: false
+    t.boolean "announce_tip_sent", default: true, null: false
+    t.boolean "announce_tip_received", default: true, null: false
+    t.boolean "share_history", default: true, null: false
     t.index ["created_at"], name: "index_profiles_on_created_at"
     t.index ["display_name"], name: "index_profiles_on_display_name"
     t.index ["last_tip_received_at"], name: "index_profiles_on_last_tip_received_at"

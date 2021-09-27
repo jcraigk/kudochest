@@ -23,9 +23,7 @@ RSpec.describe Commands::Connect do
     let(:user) { create(:user) }
     let(:code) { user.reg_token }
     let(:mode) { :error }
-    let(:text) do
-      ":#{App.error_emoji}: #{profile.link} is already connected to account #{profile.user.email}"
-    end
+    let(:text) { ":#{App.error_emoji}: Your profile is already connected to #{profile.user.email}" }
 
     include_examples 'expected response'
   end

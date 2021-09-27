@@ -1,5 +1,13 @@
 # frozen_string_literal: true
 class Slack::Modals::Preferences < Base::Service
+  OPTIONS = %i[
+    allow_dm
+    announce_tip_sent
+    announce_tip_received
+    share_history
+    weekly_report
+  ].freeze
+
   option :team_rid
   option :profile_rid
 
@@ -16,7 +24,7 @@ class Slack::Modals::Preferences < Base::Service
       title: title,
       submit: submit,
       close: close,
-      blocks: [prefs_checkboxes]
+      blocks: [checkboxes]
     }
   end
 
@@ -41,7 +49,7 @@ class Slack::Modals::Preferences < Base::Service
     }
   end
 
-  def prefs_checkboxes
+  def checkboxes
     {
       type: 'section',
       text: prefs_text,
@@ -55,10 +63,7 @@ class Slack::Modals::Preferences < Base::Service
   end
 
   def prefs_options
-    [
-      allow_dm_checkbox,
-      weekly_report_checkbox
-    ].compact
+    OPTIONS.map { |opt| checkbox_for(opt) }
   end
 
   def prefs_text
@@ -69,29 +74,18 @@ class Slack::Modals::Preferences < Base::Service
   end
 
   def initial_options
-    [].tap do |opts|
-      opts << allow_dm_checkbox if profile.allow_dm?
-      opts << weekly_report_checkbox if profile.weekly_report?
-    end
+    OPTIONS.each_with_object([]) do |opt, opts|
+      next unless profile.send("#{opt}?")
+      opts << checkbox_for(opt)
+    end.compact
   end
 
-  def allow_dm_checkbox
+  def checkbox_for(opt)
     {
-      value: :allow_dm,
+      value: opt,
       text: {
         type: :plain_text,
-        text: t('profiles.prefs_modal_allow_dm', bot: App.bot_name)
-      }
-    }
-  end
-
-  def weekly_report_checkbox
-    i18n_suffix = profile.user.blank? ? '_must_connect' : nil
-    {
-      value: :weekly_report,
-      text: {
-        type: :plain_text,
-        text: t("profiles.prefs_modal_weekly_report#{i18n_suffix}")
+        text: t("profiles.prefs_modal_#{opt}", bot: App.bot_name, points: App.points_term)
       }
     }
   end
