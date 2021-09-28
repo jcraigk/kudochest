@@ -104,19 +104,11 @@ module ProfileDecorator
     "#{App.base_url}/profiles/#{slug}"
   end
 
-  def web_link
-    team.platform.slack? ? slack_web_link : web_url
-  end
-
-  def unobtrusive_link
+  def profile_link
     case team.platform.to_sym
     when :slack then "<#{web_url}|#{display_name}>"
     when :discord then "**#{display_name}**"
     end
-  end
-
-  def slack_web_link
-    "#{web_url}|View web profile"
   end
 
   def points_unclaimed

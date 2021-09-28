@@ -18,7 +18,6 @@ class Commands::Stats < Commands::Base
     ary << points_given_fragment
     ary << token_fragment if team.throttle_tips? && requested_profile.rid == profile_rid
     ary << streak_fragment if team.enable_streaks?
-    ary << web_profile_fragment
     ary.compact.join("\n")
   end
 
@@ -27,10 +26,6 @@ class Commands::Stats < Commands::Base
     <<~TEXT.chomp
       *Tokens:* #{points_format(requested_profile.token_balance)} (receiving #{team.token_quantity} tokens in #{next_token_dispersal})
     TEXT
-  end
-
-  def web_profile_fragment
-    "*Profile:* <#{requested_profile.web_link}>"
   end
 
   def streak_fragment
@@ -45,7 +40,7 @@ class Commands::Stats < Commands::Base
 
   def stats_title
     <<~TEXT.chomp
-      *Stats for #{requested_profile.unobtrusive_link}*
+      *Stats for #{requested_profile.profile_link}*
     TEXT
   end
 

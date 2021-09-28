@@ -75,9 +75,10 @@ RSpec.describe ProfileDecorator do
     end
   end
 
-  describe '#web_link' do
+  describe '#profile_link' do
     it 'returns expected text' do
-      expect(profile.web_link).to eq("#{App.base_url}/profiles/#{profile.slug}|View web profile")
+      expect(profile.profile_link).to \
+        eq("<#{App.base_url}/profiles/#{profile.slug}|#{profile.display_name}>")
     end
   end
 

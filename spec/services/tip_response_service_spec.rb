@@ -37,8 +37,8 @@ RSpec.describe TipResponseService do
       #{IMG_DELIM}#{PROF_PREFIX}#{from_profile.display_name} #{IMG_DELIM} gave #{IMG_DELIM}#{PROF_PREFIX}#{to_profile.display_name} #{IMG_DELIM} #{points_format(quantity, label: true)}!
     TEXT
   end
-  let(:note_frag) { "Note: \"_#{tip.note}_\"" }
-  let(:image_note_frag) { "Note: \"#{tip.note}\"" }
+  let(:note_frag) { "Note: _#{tip.note}_" }
+  let(:image_note_frag) { "Note: #{tip.note}" }
   let(:chat_fragments) { [lead_frag, main_frag, note_frag, levelup_frag, streak_frag] }
   let(:image_fragments) do
     [image_lead_frag, image_main_frag, image_note_frag, image_levelup_frag, image_streak_frag]
@@ -74,10 +74,10 @@ RSpec.describe TipResponseService do
         **#{from_profile.display_name}** gave **#{to_profile.display_name}** #{points_format(quantity, label: true)} in #{channel.link}!
       TEXT
     end
-    let(:note_frag) { "Note: \"*#{tip.note}*\"" }
+    let(:note_frag) { "Note: *#{tip.note}*" }
     let(:web_response) do
       <<~TEXT.chomp
-        #{web_ts} #{from_profile.webref} gave #{to_profile.webref} #{points_format(quantity, label: true)} in #{channel.webref}!<br>Note: "<i>#{note}</i>"
+        #{web_ts} #{from_profile.webref} gave #{to_profile.webref} #{points_format(quantity, label: true)} in #{channel.webref}!<br>Note: <i>#{note}</i>
       TEXT
     end
 
@@ -95,7 +95,7 @@ RSpec.describe TipResponseService do
       end
       let(:web_response) do
         <<~TEXT.chomp
-          #{web_ts} #{from_profile.webref} gave #{to_profile.webref} #{points_format(quantity, label: true)} in #{channel.webref}!<br>Note: "<i>#{note}</i>"
+          #{web_ts} #{from_profile.webref} gave #{to_profile.webref} #{points_format(quantity, label: true)} in #{channel.webref}!<br>Note: <i>#{note}</i>
         TEXT
       end
 
@@ -113,7 +113,7 @@ RSpec.describe TipResponseService do
     end
     let(:web_response) do
       <<~TEXT.chomp
-        #{web_ts} #{from_profile.webref} gave #{to_profile.webref} #{points_format(quantity, label: true)} in #{channel.webref}!<br>Note: "<i>#{note}</i>"
+        #{web_ts} #{from_profile.webref} gave #{to_profile.webref} #{points_format(quantity, label: true)} in #{channel.webref}!<br>Note: <i>#{note}</i>
       TEXT
     end
 
@@ -130,7 +130,7 @@ RSpec.describe TipResponseService do
     end
     let(:web_response) do
       <<~TEXT.chomp
-        #{web_ts} #{from_profile_webref_with_stat} gave #{to_profile_webref_with_stat} #{points_format(quantity, label: true)} #{tip_emoji} in #{channel.webref}!<br>Note: "<i>#{note}</i>"
+        #{web_ts} #{from_profile_webref_with_stat} gave #{to_profile_webref_with_stat} #{points_format(quantity, label: true)} #{tip_emoji} in #{channel.webref}!<br>Note: <i>#{note}</i>
       TEXT
     end
 
@@ -174,7 +174,7 @@ RSpec.describe TipResponseService do
     end
     let(:web_response) do
       <<~TEXT.chomp
-        #{web_ts} #{from_profile.webref} gave #{to_profile.webref} #{points_format(quantity, label: true)} in #{channel.webref}!<br>Note: "<i>#{note}</i>"<br>#{to_profile.webref} leveled up!
+        #{web_ts} #{from_profile.webref} gave #{to_profile.webref} #{points_format(quantity, label: true)} in #{channel.webref}!<br>Note: <i>#{note}</i><br>#{to_profile.webref} leveled up!
       TEXT
     end
 
@@ -224,7 +224,7 @@ RSpec.describe TipResponseService do
     end
     let(:web_response) do
       <<~TEXT.chomp
-        #{web_ts} #{from_profile.webref} gave #{to_profile3.webref} #{points_format(2, label: true)} and #{to_profile.webref} and #{to_profile2.webref} #{points_format(1, label: true)} each in #{channel.webref}!<br>Note: "<i>#{note}</i>"
+        #{web_ts} #{from_profile.webref} gave #{to_profile3.webref} #{points_format(2, label: true)} and #{to_profile.webref} and #{to_profile2.webref} #{points_format(1, label: true)} each in #{channel.webref}!<br>Note: <i>#{note}</i>
       TEXT
     end
 
@@ -298,7 +298,7 @@ RSpec.describe TipResponseService do
       end
       let(:web_response) do
         <<~TEXT.chomp
-          #{web_ts} #{from_profile.webref} gave #{to_profile3.webref} #{points_format(2, label: true)} and 2 users #{points_format(1, label: true)} each in #{channel.webref}!<br>Note: "<i>#{note}</i>"
+          #{web_ts} #{from_profile.webref} gave #{to_profile3.webref} #{points_format(2, label: true)} and 2 users #{points_format(1, label: true)} each in #{channel.webref}!<br>Note: <i>#{note}</i>
         TEXT
       end
 

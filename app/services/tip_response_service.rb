@@ -142,7 +142,7 @@ class TipResponseService < Base::Service
 
   def chat_profile_link(profile)
     case team.response_theme
-    when 'unobtrusive' then profile.unobtrusive_link
+    when 'unobtrusive' then profile.profile_link
     when 'fancy' then profile.link_with_stat
     when 'basic' then profile.link
     end
@@ -279,7 +279,7 @@ class TipResponseService < Base::Service
 
   def note_fragment(platform)
     return if note.blank?
-    "Note: \"#{formatted_note(platform)}\""
+    "Note: #{formatted_note(platform)}"
   end
 
   def formatted_note(platform)
