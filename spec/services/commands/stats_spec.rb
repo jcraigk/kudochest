@@ -37,7 +37,7 @@ RSpec.describe Commands::Stats do
     let(:request_text) { '' }
     let(:response_text) do
       <<~TEXT.chomp
-        *Stats for #{profile.link}*
+        *Stats for #{profile.unobtrusive_link}*
         *Leaderboard Rank:* #{rank}
         *Level:* 1
         *#{App.points_term.titleize}:* 0
@@ -53,7 +53,7 @@ RSpec.describe Commands::Stats do
     context 'with infinite_token profiles' do
       let(:response_text) do
         <<~TEXT.chomp
-          *Stats for #{profile.link}*
+          *Stats for #{profile.unobtrusive_link}*
           *Leaderboard Rank:* #{rank}
           *Level:* 1
           *#{App.points_term.titleize}:* 0
@@ -75,7 +75,7 @@ RSpec.describe Commands::Stats do
     let(:request_text) { profile2.link }
     let(:response_text) do
       <<~TEXT.chomp
-        *Stats for #{profile2.link}*
+        *Stats for #{profile2.unobtrusive_link}*
         *Leaderboard Rank:* #{rank}
         *Level:* 1
         *#{App.points_term.titleize}:* 0
@@ -93,7 +93,7 @@ RSpec.describe Commands::Stats do
     let(:request_text) { profile2.link }
     let(:response_text) do
       <<~TEXT.chomp
-        *Stats for #{profile2.link}*
+        *Stats for #{profile2.unobtrusive_link}*
         *Leaderboard Rank:* #{rank}
         *#{App.points_term.titleize}:* 0
         *Given:* 0
@@ -112,7 +112,7 @@ RSpec.describe Commands::Stats do
     let(:request_text) { profile2.link }
     let(:response_text) do
       <<~TEXT.chomp
-        *Stats for #{profile2.link}*
+        *Stats for #{profile2.unobtrusive_link}*
         *Leaderboard Rank:* #{rank}
         *Level:* 1
         *#{App.points_term.titleize}:* 0
@@ -132,7 +132,7 @@ RSpec.describe Commands::Stats do
     let(:request_text) { profile2.link }
     let(:response_text) do
       <<~TEXT.chomp
-        *Stats for #{profile2.link}*
+        *Stats for #{profile2.unobtrusive_link}*
         *Leaderboard Rank:* #{rank}
         *Level:* 1
         *#{App.points_term.titleize}:* 0

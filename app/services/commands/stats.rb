@@ -45,7 +45,7 @@ class Commands::Stats < Commands::Base
 
   def stats_title
     <<~TEXT.chomp
-      *Stats for #{requested_profile.link}*
+      *Stats for #{requested_profile.unobtrusive_link}*
     TEXT
   end
 

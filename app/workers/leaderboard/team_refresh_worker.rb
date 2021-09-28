@@ -51,7 +51,7 @@ class Leaderboard::TeamRefreshWorker
       # previous_rank: previous_rank_for(prof), # TODO: Re-enable later
       previous_rank: rank,
       slug: prof.slug,
-      link: prof.link,
+      link: prof.unobtrusive_link,
       display_name: prof.display_name,
       real_name: prof.real_name,
       points: points,

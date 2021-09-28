@@ -142,16 +142,9 @@ class TipResponseService < Base::Service
 
   def chat_profile_link(profile)
     case team.response_theme
-    when 'unobtrusive' then unobtrusive_link(profile)
+    when 'unobtrusive' then profile.unobtrusive_link
     when 'fancy' then profile.link_with_stat
     when 'basic' then profile.link
-    end
-  end
-
-  def unobtrusive_link(profile)
-    case profile.team.platform.to_sym
-    when :slack then "<#{profile.web_url}|#{profile.display_name}>"
-    when :discord then "**#{profile.display_name}**"
     end
   end
 

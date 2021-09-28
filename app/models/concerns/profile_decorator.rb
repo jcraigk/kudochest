@@ -108,6 +108,13 @@ module ProfileDecorator
     team.platform.slack? ? slack_web_link : web_url
   end
 
+  def unobtrusive_link
+    case team.platform.to_sym
+    when :slack then "<#{web_url}|#{display_name}>"
+    when :discord then "**#{display_name}**"
+    end
+  end
+
   def slack_web_link
     "#{web_url}|View web profile"
   end
