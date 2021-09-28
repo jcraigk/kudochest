@@ -11,7 +11,8 @@ class WeeklyReport::RecurrentWorker
   private
 
   def run_team_report_workers
-    Team.where(weekly_report: true)
+    Team.active
+        .where(weekly_report: true)
         .where('created_at < ?', 1.week.ago)
         .find_each do |team|
       WeeklyReport::TeamWorker.perform_async(team.id)
@@ -20,6 +21,7 @@ class WeeklyReport::RecurrentWorker
 
   def run_profile_report_workers
     Profile.where(weekly_report: true).find_each do |profile|
+      next unless profile.active? && profile.team.active?
       WeeklyReport::ProfileWorker.perform_async(profile.id)
     end
   end

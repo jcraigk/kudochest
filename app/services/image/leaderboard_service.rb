@@ -135,7 +135,8 @@ class Image::LeaderboardService < Base::ImageService
 
       # Timestamp
       draw.pointsize = 13
-      value = time_ago_in_words(Time.use_zone(team_config.time_zone) { data.last_timestamp })
+      value = time_ago_in_words \
+        Time.use_zone(team_config.time_zone) { Time.at(data.last_timestamp).utc }
       value = (value == 'less than a minute' ? 'just now' : "#{value} ago")
       draw.annotate(comp, 0, 0, x + 15, y + 4, value) do
         self.fill = color1

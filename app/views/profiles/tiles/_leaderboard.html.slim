@@ -11,8 +11,8 @@
           br
           = points_format(team.points_sent, label: true)
     .content
-      - if leaderboard.profiles.none?
-        p = t('teams.leaderboard_empty', seconds: App.leaderboard_refresh_seconds)
+      - if leaderboard.blank? || leaderboard.profiles.none?
+        p = t('teams.leaderboard_empty')
       - else
         table.table.is-fullwidth.leaderboard
           thead

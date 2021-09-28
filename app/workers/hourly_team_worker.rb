@@ -12,7 +12,7 @@ class HourlyTeamWorker
   private
 
   def handle_dispersals
-    Team.where(throttle_tips: true).find_each do |team|
+    Team.active.where(throttle_tips: true).find_each do |team|
       current_interval = current_interval_for(team)
       next if team.token_hour != current_interval.hour
       next if next_dispersal_at(team) > current_interval

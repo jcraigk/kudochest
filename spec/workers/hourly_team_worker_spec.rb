@@ -20,21 +20,21 @@ RSpec.describe HourlyTeamWorker do
   end
 
   context 'with mixture of active and inactive teams' do
-    let!(:team4) do
+    let!(:team3) do
       create(
         :team,
         token_frequency: 'weekly',
         token_hour: current_hour
       )
     end
-    let!(:team5) do
+    let!(:team4) do
       create(
         :team,
         token_frequency: 'monthly',
         token_hour: current_hour
       )
     end
-    let!(:team6) do
+    let!(:team5) do
       create(
         :team,
         token_frequency: 'monthly',
@@ -44,19 +44,20 @@ RSpec.describe HourlyTeamWorker do
     end
 
     before do
+      allow(Team).to receive(:active).and_return(Team)
       allow(Team).to receive(:where).with(throttle_tips: true).and_return(mock_relation)
       allow(mock_relation).to \
-        receive(:find_each).and_yield(team1).and_yield(team2).and_yield(team4).and_yield(team5)
+        receive(:find_each).and_yield(team1).and_yield(team2).and_yield(team3).and_yield(team4)
       travel_to((Time.current + 1.month).change(hour: current_hour))
       perform
     end
 
     it 'calls TokenDispersalWorker on monthly team once' do
-      expect(TokenDispersalWorker).to have_received(:perform_async).with(team5.id)
+      expect(TokenDispersalWorker).to have_received(:perform_async).with(team4.id)
     end
 
     it 'does not call TokenDispersalWorker on inactive monthly team' do
-      expect(TokenDispersalWorker).not_to have_received(:perform_async).with(team6.id)
+      expect(TokenDispersalWorker).not_to have_received(:perform_async).with(team5.id)
     end
   end
 end

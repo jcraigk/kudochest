@@ -33,7 +33,7 @@ en:
     confirm_reset_stats: Are you sure you want to reset all user %{points} immediately? This action cannot be undone.
     enable_levels_tooltip: Leveling provides incremental acheivements for users to attain by breaking up the accrual of longterm %{points}. If levelinng is disabled, total %{points} will be shown in its place.
     enable: Enable
-    leaderboard_empty: No activity yet. The leaderboard updates every %{seconds} seconds.
+    leaderboard_empty: No activity yet. The leaderboard updates periodically.
     leaderboard_last_earned_tooltip: When the most recent %{points} was earned
     level_curve_tooltip: A user's level is determined by how much %{points} they have compared to the maximum level %{points} configuration. Having 0% = level 1 and having 100%+ = max level. The levels in between can be computed in different ways. Typical RPG games use an exponential scale to make later levels harder to progress through. You can choose a gentle or steep exponential curve in addition to a linear one.
     level_curve: Progression Curve

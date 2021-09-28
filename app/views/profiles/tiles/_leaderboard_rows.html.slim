@@ -6,4 +6,4 @@
     td.nowrap = profile_web_link(profile_data, profile.team)
     td = points_format(profile_data.points)
     td = number_to_percentage(profile_data.percent_share, significant: true, precision: 2)
-    td.nowrap = time_ago_in_words(Time.parse(profile_data.last_timestamp)) + ' ago'
+    td.nowrap = time_ago_in_words(Time.use_zone(profile.team.time_zone) { Time.at(profile_data.last_timestamp) }) + ' ago'

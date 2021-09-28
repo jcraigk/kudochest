@@ -6,6 +6,8 @@ class WeeklyReport::ProfileWorker
 
   sidekiq_options queue: :weekly_report
 
+  TIMEFRAME = 1.week.freeze
+
   attr_reader :profile_id
 
   def perform(profile_id)
@@ -45,7 +47,7 @@ class WeeklyReport::ProfileWorker
   def tips_received
     @tips_received ||=
       Tip.where(to_profile: profile)
-         .where('tips.created_at > ?', previous_timestamp)
+         .where('tips.created_at > ?', TIMEFRAME.ago)
          .includes(:from_profile)
          .order(quantity: :desc)
   end
@@ -53,7 +55,7 @@ class WeeklyReport::ProfileWorker
   def tips_sent
     @tips_sent ||=
       Tip.where(from_profile: profile)
-         .where('tips.created_at > ?', previous_timestamp)
+         .where('tips.created_at > ?', TIMEFRAME.ago)
          .order(quantity: :desc)
   end
 
@@ -110,13 +112,9 @@ class WeeklyReport::ProfileWorker
     @leaderboard_data ||=
       LeaderboardService.call(
         profile: profile,
-        previous_timestamp: previous_timestamp,
+        previous_timestamp: TIMEFRAME.ago,
         count: 1
       ).profiles.first
-  end
-
-  def previous_timestamp
-    @previous_timestamp ||= 1.week.ago
   end
 
   def profile
