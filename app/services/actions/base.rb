@@ -13,6 +13,6 @@ class Actions::Base < Base::Service
   end
 
   def team
-    @team ||= profile.team
+    @team ||= profile&.team
   end
 end

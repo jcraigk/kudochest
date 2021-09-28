@@ -64,7 +64,7 @@ class Commands::Leaderboard < Commands::Base
       time_ago_in_words \
         Time.use_zone(team.time_zone) { Time.at(prof.last_timestamp).utc }
     <<~TEXT.chomp
-      #{prof.rank}. #{prof.link} - #{points_format(prof.points, label: true)} last #{verb} #{timeframe} ago
+      #{prof.rank}. #{prof.link} - #{points_format(prof.points, label: true)} (most recently #{timeframe} ago)
     TEXT
   end
 
