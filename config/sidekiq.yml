@@ -25,4 +25,4 @@
     cron: '0 0 6 * * 1 America/Los_Angeles' # Every Monday at 6am
 
   Leaderboard::RecurrentWorker:
-    cron: '0 */5 * * * * America/Los_Angeles' # Every 5 minutes
+    cron: '0 */2 * * * * America/Los_Angeles' # Every 2 minutes

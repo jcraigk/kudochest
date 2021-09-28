@@ -33,10 +33,10 @@ RSpec.describe Commands::Leaderboard, :freeze_time do
     let(:text) do
       <<~TEXT.chomp
         *Top 4 #{App.points_term.titleize} Earners*
-        1. #{profile1.link} - #{points_format(500, label: true)} last earned less than a minute ago
-        2. #{profile2.link} - #{points_format(83, label: true)} last earned about 1 hour ago
-        2. #{profile3.link} - #{points_format(83, label: true)} last earned 7 days ago
-        3. #{profile4.link} - #{points_format(3, label: true)} last earned 2 months ago
+        1. #{profile1.link} - #{points_format(500, label: true)} (most recently less than a minute ago)
+        2. #{profile2.link} - #{points_format(83, label: true)} (most recently about 1 hour ago)
+        2. #{profile3.link} - #{points_format(83, label: true)} (most recently 7 days ago)
+        3. #{profile4.link} - #{points_format(3, label: true)} (most recently 2 months ago)
       TEXT
     end
     let(:mock_result) do
