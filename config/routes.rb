@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 require 'sidekiq/web'
 require 'sidekiq-scheduler/web'
+require 'sidekiq_unique_jobs/web'
 
 Rails.application.routes.draw do
   mount Sidekiq::Web => '/sidekiq', constraints: AdminConstraint.new
