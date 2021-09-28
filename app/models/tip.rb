@@ -56,6 +56,7 @@ class Tip < ApplicationRecord
   def update_timestamps
     from_profile.update!(last_tip_sent_at: created_at)
     to_profile.update!(last_tip_received_at: created_at)
+    to_profile.team.update!(last_tip_sent_at: created_at)
   end
 
   def after_destroy

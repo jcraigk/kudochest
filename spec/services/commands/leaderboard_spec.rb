@@ -24,9 +24,7 @@ RSpec.describe Commands::Leaderboard, :freeze_time do
   end
 
   context 'when no tips have been given' do
-    let(:text) do
-      "No activity yet. The leaderboard updates every #{App.leaderboard_refresh_seconds} seconds."
-    end
+    let(:text) { 'No activity yet. The leaderboard updates periodically.' }
 
     include_examples 'expected response'
   end
@@ -86,7 +84,7 @@ RSpec.describe Commands::Leaderboard, :freeze_time do
       real_name: prof.real_name,
       points: prof.points,
       percent_share: (prof.points / team.points_sent.to_f) * 100,
-      last_timestamp: prof.last_tip_received_at.to_s
+      last_timestamp: prof.last_tip_received_at.to_i
     )
   end
 end

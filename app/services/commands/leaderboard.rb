@@ -32,9 +32,7 @@ class Commands::Leaderboard < Commands::Base
   end
 
   def base_text
-    if profile_data.none?
-      return I18n.t('teams.leaderboard_empty', seconds: App.leaderboard_refresh_seconds)
-    end
+    return I18n.t('teams.leaderboard_empty') if profile_data.blank?
     [title, rows].join("\n")
   end
 
@@ -62,8 +60,11 @@ class Commands::Leaderboard < Commands::Base
   end
 
   def row(prof)
+    timeframe =
+      time_ago_in_words \
+        Time.use_zone(team.time_zone) { Time.at(prof.last_timestamp).utc }
     <<~TEXT.chomp
-      #{prof.rank}. #{prof.link} - #{points_format(prof.points, label: true)} last #{verb} #{time_ago_in_words(Time.zone.parse(prof.last_timestamp))} ago
+      #{prof.rank}. #{prof.link} - #{points_format(prof.points, label: true)} last #{verb} #{timeframe} ago
     TEXT
   end
 
@@ -109,6 +110,6 @@ class Commands::Leaderboard < Commands::Base
   end
 
   def profile_data
-    @profile_data ||= LeaderboardService.call(opts.compact).profiles
+    @profile_data ||= LeaderboardService.call(opts.compact)&.profiles
   end
 end

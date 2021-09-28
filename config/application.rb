@@ -88,7 +88,6 @@ module KudoChest
     config.default_streak_reward = 1
     config.max_streak_reward = 5
     config.channel_cache_ttl = 5.minutes
-    config.leaderboard_refresh_seconds = 10
     config.leaderboard_trend_days = 7
     config.leaderboard_size = 5
     config.modal_cache_ttl = 600 # seconds

@@ -1,14 +1,15 @@
 :concurrency: 1
 :max_retries: 5
 :queues:
-  - ['presence', 1]
   - ['channel_sync', 1]
   - ['chat_events', 2]
   - ['data_export', 1]
   - ['default', 1]
   - ['discord_event', 1]
   - ['hourly', 1]
+  - ['leaderboard', 1]
   - ['mailers', 1]
+  - ['presence', 1]
   - ['team_rename', 1]
   - ['team_reset', 1]
   - ['team_sync', 2]
@@ -22,3 +23,6 @@
 
   WeeklyReport::RecurrentWorker:
     cron: '0 0 6 * * 1 America/Los_Angeles' # Every Monday at 6am
+
+  Leaderboard::RecurrentWorker:
+    cron: '0 */5 * * * * America/Los_Angeles' # Every 5 minutes
