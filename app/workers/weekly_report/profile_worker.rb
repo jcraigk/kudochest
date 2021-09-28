@@ -114,7 +114,7 @@ class WeeklyReport::ProfileWorker
         profile: profile,
         previous_timestamp: TIMEFRAME.ago,
         count: 1
-      ).profiles.first
+      )&.profiles&.first
   end
 
   def profile
