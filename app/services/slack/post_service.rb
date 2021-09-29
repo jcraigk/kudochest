@@ -113,7 +113,10 @@ class Slack::PostService < Base::PostService
   end
 
   def respond_dm(to_profile_rid)
-    slack_client.chat_postMessage(message_params(to_profile_rid).merge(as_user: true))
+    post_params = message_params(to_profile_rid).merge(as_user: true)
+    slack_client.chat_postMessage(post_params)
+  rescue Slack::Web::Api::Errors::InvalidBlocks => e
+    Honeybadger.notify(e, parameters: post_params)
   end
 
   def respond_ephemeral(to_profile_rid)
