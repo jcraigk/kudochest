@@ -12,6 +12,7 @@ class ResponseImageService < Base::Service
   def call
     if team_config.platform.to_sym == :slack
       store_image
+      assign_image_acl
       image_url
     else
       image_file
@@ -21,13 +22,20 @@ class ResponseImageService < Base::Service
   private
 
   def store_image
+    Aws::S3::Client.new.put_object(
+      bucket: ENV['RESPONSE_IMAGE_AWS_BUCKET'],
+      key: key,
+      body: File.read(image_file)
+    )
+    File.delete(image_file)
+  end
+
+  def assign_image_acl
     Aws::S3::Client.new.put_object_acl(
       bucket: ENV['RESPONSE_IMAGE_AWS_BUCKET'],
       key: key,
-      body: File.read(image_file),
       acl: 'public-read'
     )
-    File.delete(image_file)
   end
 
   def image_url
