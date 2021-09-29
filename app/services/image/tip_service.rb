@@ -131,7 +131,7 @@ class Image::TipService < Base::ImageService
 
         draw = Magick::Draw.new
         if frag_idx == 2
-          chunk = "\"#{truncate(chunk.delete('"'), length: 70)}\""
+          chunk = truncate(chunk, length: 70)
           draw.font = FONT_FILE_ITALIC
         else
           draw.font = FONT_FILE
