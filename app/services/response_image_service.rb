@@ -21,10 +21,11 @@ class ResponseImageService < Base::Service
   private
 
   def store_image
-    Aws::S3::Client.new.put_object(
+    Aws::S3::Client.new.put_object_acl(
       bucket: ENV['RESPONSE_IMAGE_AWS_BUCKET'],
       key: key,
-      body: File.read(image_file)
+      body: File.read(image_file),
+      acl: 'public-read'
     )
     File.delete(image_file)
   end
