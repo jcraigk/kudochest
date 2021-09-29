@@ -16,7 +16,7 @@ class QuantityValidator < ActiveModel::Validator
 
   def error_msg
     <<~TEXT.chomp
-      must be an increment of #{points_format(increment)} and a maximum of #{points_format(App.max_points_per_tip)}
+      must be an increment of #{points_format(increment)} and a maximum of #{points_format(team.max_points_per_tip)}
     TEXT
   end
 
@@ -29,10 +29,18 @@ class QuantityValidator < ActiveModel::Validator
   end
 
   def exceeds_max?
-    record.quantity > App.max_points_per_tip
+    record.quantity > max_quantity
+  end
+
+  def max_quantity
+    team.max_points_per_tip || App.max_points_per_tip
   end
 
   def absent?
     !record.quantity.positive?
+  end
+
+  def team
+    @team ||= record.from_profile&.team
   end
 end
