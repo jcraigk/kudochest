@@ -29,7 +29,7 @@ module ProfileDecorator
   end
 
   def webref
-    helpers.tag.span(display_name_ref, class: 'chat-ref')
+    helpers.tag.span(display_name, class: 'chat-ref')
   end
 
   def webref_with_stat
@@ -45,7 +45,7 @@ module ProfileDecorator
   end
 
   def long_name
-    str = display_name_ref
+    str = display_name
     str += " (#{real_name})" if display_name != real_name
     str
   end
@@ -123,10 +123,6 @@ module ProfileDecorator
       date = date.advance(days: 1)
       return date if working_day?(date)
     end
-  end
-
-  def display_name_ref
-    "#{PROF_PREFIX}#{display_name}"
   end
 
   def working_day?(date)

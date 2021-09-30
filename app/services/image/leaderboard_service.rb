@@ -113,15 +113,13 @@ class Image::LeaderboardService < Base::ImageService
 
       # Name
       draw.text_align(Magick::LeftAlign)
-      value = "#{PROF_PREFIX}#{data.display_name}"
-      draw.annotate(comp, 0, 0, x, y, value) do
+      draw.annotate(comp, 0, 0, x, y, data.display_name) do
         self.fill = color2
       end
       x += 165
 
       # Points
-      value = points_format(data.points)
-      draw.annotate(comp, 0, 0, x, y, value) do
+      draw.annotate(comp, 0, 0, x, y, points_format(data.points)) do
         self.fill = color1
       end
       x += 45

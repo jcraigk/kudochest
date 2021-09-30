@@ -1,9 +1,9 @@
 Greetings,
 
-Here's your Weekly Digest for <%= "#{PROF_PREFIX}#{@profile.display_name}" %> of <%= "#{PROF_PREFIX}#{@profile.team.name}" %>.
+Here's your Weekly Digest for <%= @profile.display_name %> of <%= @profile.team.name %>.
 
 <% if @data.top_benefactors.none? && @data.top_recipients.none? %>
-No activity this week. If you're having trouble using the app, please see the #{App.help_url}.
+No activity this week. If you're having trouble using the app, please see #{App.help_url}.
 <% else %>
 <%= App.points_term.titleize %> Received: <%= @data.points_received %>
 <%= App.points_term.titleize %> Given: <%= @data.points_sent %>

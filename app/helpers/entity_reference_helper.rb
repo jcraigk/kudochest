@@ -13,7 +13,7 @@ module EntityReferenceHelper
   end
 
   def subteam_webref(name)
-    helpers.tag.span("#{PROF_PREFIX}#{name}", class: 'chat-ref')
+    helpers.tag.span(name, class: 'chat-ref')
   end
 
   def mention_pattern(platform)

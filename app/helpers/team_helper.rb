@@ -91,7 +91,7 @@ module TeamHelper
     select_tag(
       column,
       options_for_select(
-        team.profiles.active.map { |p| ["#{PROF_PREFIX}#{p.display_name}", p.id] },
+        team.profiles.active.map { |p| [p.display_name, p.id] },
         value
       ),
       class: 'input select2 autosubmit',
