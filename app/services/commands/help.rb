@@ -18,18 +18,16 @@ class Commands::Help < Commands::Base
   end
 
   def keyword_list
-    <<~TEXT.chomp
-      * `admin`  See app configuration (set by admin)
-        * `connect`  Connect your chat profile to your web account
-        * `help`  You're looking at it!
-        * `levels`  See a chart mapping #{App.points_term} to levels
-        * `me`  See your current stats
-        * `preferences`  Update your preferences
-        * `stats #{PROF_PREFIX}user`  See another user's stats
-        * `top`  See the leaderboard
-        * `topics`  See all topics
-        * `undo`  Revoke #{App.points_term} you just gave
-    TEXT
+    str = "* `admin`  See app configuration\n"
+    str += "  * `connect`  Connect your chat profile to your web account\n"
+    str += "  * `help`  You're looking at it!\n"
+    str += "  * `levels`  See a chart mapping #{App.points_term} to levels\n" if team.enable_levels?
+    str += "  * `me`  See your current stats\n"
+    str += "  * `preferences`  Update your preferences\n"
+    str += "  * `stats #{PROF_PREFIX}user`  See another user's stats\n"
+    str += "  * `top`  See the leaderboard\n"
+    str += "  * `topics`  See all topics\n" if team.enable_topics?
+    str + "  * `undo`  Revoke #{App.points_term} you just gave"
   end
 
   def discord_text

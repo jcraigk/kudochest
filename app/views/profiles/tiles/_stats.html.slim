@@ -5,7 +5,7 @@
       .media-left = avatar_image(profile)
       .media-content
         h2.subtitle.is-4
-          strong> #{PROF_PREFIX}#{profile.display_name}
+          strong> = profile.display_name
           - if profile.real_name != profile.display_name
             br
             span.profile-title

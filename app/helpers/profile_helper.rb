@@ -41,14 +41,14 @@ module ProfileHelper
     tag.span(class: 'profile-link') do
       css = "avatar platform-#{team.platform}"
       h = image_tag(profile.avatar_url, size: 20, alt: 'Avatar image', class: css)
-      h += link_to("#{PROF_PREFIX}#{profile.display_name}", profile_path(profile.slug))
+      h += link_to(profile.display_name, profile_path(profile.slug))
       h + " (#{profile.real_name})" if profile.display_name != profile.real_name
       h
     end
   end
 
   def profile_mail_link(profile)
-    h = link_to("#{PROF_PREFIX}#{profile.display_name}", profile.web_url)
+    h = link_to(profile.display_name, profile.web_url)
     h += " (#{profile.real_name})" if profile.display_name != profile.real_name
     h
   end
