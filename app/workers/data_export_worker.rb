@@ -3,9 +3,7 @@ require 'csv'
 
 class DataExportWorker
   include Sidekiq::Worker
-  sidekiq_options queue: :data_export,
-                  lock: :until_and_while_executing,
-                  unique_args: ->(args) { [args.first] }
+  sidekiq_options queue: :data_export, lock: :until_and_while_executing
 
   attr_reader :team_id
 
