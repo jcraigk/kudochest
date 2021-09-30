@@ -2,7 +2,7 @@
 :max_retries: 5
 :queues:
   - ['channel_sync', 1]
-  - ['chat_events', 2]
+  - ['chat_events', 5]
   - ['data_export', 1]
   - ['default', 1]
   - ['discord_event', 1]
