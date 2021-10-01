@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 class TokenDispersalWorker
   include Sidekiq::Worker
-  sidekiq_options queue: :token_dispersal, lock: :until_and_while_executing
+  sidekiq_options queue: :token_dispersal, lock: :until_executed
 
   def perform(team_id)
     team = Team.find(team_id)

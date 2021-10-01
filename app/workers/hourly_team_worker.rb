@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 class HourlyTeamWorker
   include Sidekiq::Worker
-  sidekiq_options queue: :hourly, lock: :until_and_while_executing
+  sidekiq_options queue: :hourly, lock: :until_executed
 
   attr_reader :processed_teams
 

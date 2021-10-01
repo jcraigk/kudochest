@@ -2,7 +2,7 @@
 class Leaderboard::TeamRefreshWorker
   include Sidekiq::Worker
   sidekiq_options queue: :leaderboard,
-                  lock: :until_and_while_executing,
+                  lock: :until_executed,
                   lock_ttl: 1.hour
 
   attr_reader :team_id, :givingboard
