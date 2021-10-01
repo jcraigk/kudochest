@@ -85,7 +85,7 @@ RSpec.describe ProfileDecorator do
   describe '#webref' do
     it 'returns expected text' do
       expect(profile.webref)
-        .to eq("<span class=\"chat-ref\">#{PROF_PREFIX}#{profile.display_name}</span>")
+        .to eq("<span class=\"chat-ref\">#{profile.display_name}</span>")
     end
   end
 
@@ -134,7 +134,7 @@ RSpec.describe ProfileDecorator do
   describe '#long_name' do
     it 'returns expected text' do
       expect(profile.long_name)
-        .to eq("#{PROF_PREFIX}#{profile.display_name} (#{profile.real_name})")
+        .to eq("#{profile.display_name} (#{profile.real_name})")
     end
   end
 

@@ -34,7 +34,7 @@ RSpec.describe TipResponseService do
   let(:main_frag) { nil }
   let(:image_main_frag) do
     <<~TEXT.chomp
-      #{IMG_DELIM}#{PROF_PREFIX}#{from_profile.display_name} #{IMG_DELIM} gave #{IMG_DELIM}#{PROF_PREFIX}#{to_profile.display_name} #{IMG_DELIM} #{points_format(quantity, label: true)}!
+      #{IMG_DELIM}#{from_profile.display_name} #{IMG_DELIM} gave #{IMG_DELIM}#{to_profile.display_name} #{IMG_DELIM} #{points_format(quantity, label: true)}!
     TEXT
   end
   let(:note_frag) { "Note: _#{tip.note}_" }
@@ -170,7 +170,7 @@ RSpec.describe TipResponseService do
     end
     let(:levelup_frag) { "#{to_profile.link} leveled up!" }
     let(:image_levelup_frag) do
-      "#{IMG_DELIM}#{PROF_PREFIX}#{to_profile.display_name} #{IMG_DELIM} leveled up!"
+      "#{IMG_DELIM}#{to_profile.display_name} #{IMG_DELIM} leveled up!"
     end
     let(:web_response) do
       <<~TEXT.chomp
@@ -219,7 +219,7 @@ RSpec.describe TipResponseService do
     end
     let(:image_main_frag) do
       <<~TEXT.chomp
-        #{IMG_DELIM}#{PROF_PREFIX}#{from_profile.display_name} #{IMG_DELIM} gave #{IMG_DELIM}#{PROF_PREFIX}#{to_profile3.display_name} #{IMG_DELIM} #{points_format(2, label: true)} and #{IMG_DELIM}#{PROF_PREFIX}#{to_profile.display_name} #{IMG_DELIM} and #{IMG_DELIM}#{PROF_PREFIX}#{to_profile2.display_name} #{IMG_DELIM} #{points_format(1, label: true)} each!
+        #{IMG_DELIM}#{from_profile.display_name} #{IMG_DELIM} gave #{IMG_DELIM}#{to_profile3.display_name} #{IMG_DELIM} #{points_format(2, label: true)} and #{IMG_DELIM}#{to_profile.display_name} #{IMG_DELIM} and #{IMG_DELIM}#{to_profile2.display_name} #{IMG_DELIM} #{points_format(1, label: true)} each!
       TEXT
     end
     let(:web_response) do
@@ -293,7 +293,7 @@ RSpec.describe TipResponseService do
       end
       let(:image_main_frag) do
         <<~TEXT.chomp
-          #{IMG_DELIM}#{PROF_PREFIX}#{from_profile.display_name} #{IMG_DELIM} gave #{IMG_DELIM}#{PROF_PREFIX}#{to_profile3.display_name} #{IMG_DELIM} #{points_format(2, label: true)} and 2 users #{points_format(1, label: true)} each!
+          #{IMG_DELIM}#{from_profile.display_name} #{IMG_DELIM} gave #{IMG_DELIM}#{to_profile3.display_name} #{IMG_DELIM} #{points_format(2, label: true)} and 2 users #{points_format(1, label: true)} each!
         TEXT
       end
       let(:web_response) do

@@ -135,7 +135,7 @@ class TipResponseService < Base::Service
     profile.points_received = new_points if new_points
     case platform
     when :slack, :discord then chat_profile_link(profile)
-    when :image then "#{IMG_DELIM}#{PROF_PREFIX}#{profile.display_name} #{IMG_DELIM}"
+    when :image then "#{IMG_DELIM}#{profile.display_name} #{IMG_DELIM}"
     when :web then web_profile_link(profile)
     end
   end

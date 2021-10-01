@@ -144,7 +144,7 @@ class Slack::PostService < Base::PostService
 
   def fast_ack_text
     return unless mode == :fast_ack
-    word = sender.announce_tip_sent? ? "<#{PROF_PREFIX}#{profile_rid}>'s" : 'a'
+    word = sender.announce_tip_sent? ? "#{sender.display_name}'s" : 'a'
     "_Working on #{word} request..._"
   end
 
