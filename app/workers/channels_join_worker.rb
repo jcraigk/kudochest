@@ -15,6 +15,7 @@ class ChannelsJoinWorker
 
   def join_all_channels
     team.channels.each do |channel|
+      sleep(1)
       Slack::ChannelJoinService.call(team: team, channel_rid: channel.rid)
     end
   end
