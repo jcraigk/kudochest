@@ -13,6 +13,7 @@ class Base::SubteamService < Base::Service
   def sync_active_subteams
     remote_subteams.each do |subteam|
       assign_profiles(find_or_create_subteam(subteam))
+      sleep 1
     end
   end
 
