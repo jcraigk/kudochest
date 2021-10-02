@@ -8,7 +8,6 @@
   - ['discord_event', 1]
   - ['hourly', 1]
   - ['leaderboard', 1]
-  - ['mailers', 1]
   - ['presence', 1]
   - ['team_rename', 1]
   - ['team_reset', 1]
@@ -23,6 +22,3 @@
 
   WeeklyReport::RecurrentWorker:
     cron: '0 0 6 * * 1 America/Los_Angeles' # Every Monday at 6am
-
-  Leaderboard::RecurrentWorker:
-    cron: '0 */2 * * * * America/Los_Angeles' # Every 2 minutes

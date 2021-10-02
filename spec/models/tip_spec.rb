@@ -141,6 +141,18 @@ RSpec.describe Tip do
     let(:sender) { create(:profile, team: team) }
     let(:recipient) { create(:profile, team: team) }
 
+    context 'when saving a tip' do
+      before do
+        allow(LeaderboardRefreshWorker).to receive(:perform_async)
+        create(:tip, from_profile: sender, to_profile: recipient, quantity: 2)
+      end
+
+      it 'calls LeaderboardRefreshWorker' do
+        expect(LeaderboardRefreshWorker).to have_received(:perform_async).with(team.id)
+        expect(LeaderboardRefreshWorker).to have_received(:perform_async).with(team.id, true)
+      end
+    end
+
     context 'when creating a tip' do
       before do
         create(:tip, from_profile: sender, to_profile: recipient, quantity: 2)

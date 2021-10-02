@@ -1,9 +1,7 @@
 # frozen_string_literal: true
-class Leaderboard::TeamRefreshWorker
+class LeaderboardRefreshWorker
   include Sidekiq::Worker
-  sidekiq_options queue: :leaderboard,
-                  lock: :until_executed,
-                  lock_ttl: 1.hour
+  sidekiq_options queue: :leaderboard, lock: :until_executed
 
   attr_reader :team_id, :givingboard
 

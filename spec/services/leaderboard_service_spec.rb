@@ -115,7 +115,7 @@ RSpec.describe LeaderboardService, :freeze_time do
       )
     end
     let(:tip_last_week) { create(:tip, to_profile: profile4, quantity: 5) }
-    let(:created_at) { Time.current - App.leaderboard_trend_days.days - 1.day }
+    let(:created_at) { Time.current - 10.days }
     let(:team_points) { 41 }
 
     before do

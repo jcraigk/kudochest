@@ -30,6 +30,7 @@ class Tip < ApplicationRecord
 
   after_create_commit :after_create
   after_destroy_commit :after_destroy
+  after_commit :refresh_leaderboards
 
   scope :undoable, lambda {
     where(source: UNDOABLE_SOURCES)
@@ -70,6 +71,11 @@ class Tip < ApplicationRecord
   def reset_timestamps
     from_profile.update!(last_tip_sent_at: last_sent_tip&.created_at)
     to_profile.update!(last_tip_received_at: last_received_tip&.created_at)
+  end
+
+  def refresh_leaderboards
+    LeaderboardRefreshWorker.perform_async(to_profile.team.id)
+    LeaderboardRefreshWorker.perform_async(to_profile.team.id, true)
   end
 
   def last_sent_tip

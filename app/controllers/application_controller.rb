@@ -41,7 +41,7 @@ class ApplicationController < ActionController::Base
   end
 
   def build_dashboard_for(profile)
-    @leaderboard = LeaderboardService.call(profile: profile, count: App.leaderboard_size)
+    @leaderboard = LeaderboardService.call(profile: profile)
     @tips = fetch_recent_tips(profile)
     @histogram_data = TipHistogramService.call(
       profile: profile,

@@ -2,7 +2,7 @@
 class LeaderboardService < Base::Service
   option :team, default: proc {}
   option :profile, default: proc {}
-  option :count, default: proc { 10 }
+  option :count, default: proc { App.leaderboard_size }
   option :offset, default: proc {}
   option :givingboard, default: proc { false }
 
