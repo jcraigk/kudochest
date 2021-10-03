@@ -12,23 +12,24 @@ class HourlyTeamWorker
   private
 
   def handle_dispersals
-    Team.active.where(throttle_tips: true).find_each do |team|
-      current_interval = current_interval_for(team)
-      next if team.token_hour != current_interval.hour
-      next if next_dispersal_at(team) > current_interval
-      TokenDispersalWorker.perform_async(team.id)
+    Team.active.find_each do |team|
+      current_hour = Time.use_zone(team.time_zone) { Time.current.beginning_of_hour }
+      handle_hint_post(team, current_hour)
+      handle_token_dispersals(team, current_hour)
     end
   end
 
-  def current_interval_for(team)
-    Time.use_zone(team.time_zone) { Time.current.beginning_of_hour }
+  def handle_token_dispersals(team, current_hour)
+    return if !team.throttle_tips ||
+              team.token_hour != current_hour.hour ||
+              team.next_tokens_at > current_hour
+    TokenDispersalWorker.perform_async(team.id)
   end
 
-  def next_dispersal_at(team)
-    NextIntervalService.call(
-      team: team,
-      attribute: :token_frequency,
-      start_at: team.tokens_disbursed_at
-    )
+  def handle_hint_post(team, current_hour)
+    return if team.hint_frequency.never? ||
+              team.hint_channel_rid.blank? ||
+              team.next_hint_at > current_hour
+    HintWorker.perform_async(team.id)
   end
 end

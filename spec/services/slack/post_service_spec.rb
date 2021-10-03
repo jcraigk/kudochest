@@ -68,6 +68,29 @@ RSpec.describe Slack::PostService do
     allow(Slack::Web::Client).to receive(:new).and_return(slack_client)
   end
 
+  context 'with `hint` mode' do
+    let(:mode) { :hint }
+    let(:arguments) do
+      {
+        blocks: [{ text: { text: chat_response, type: :mrkdwn }, type: :section }],
+        channel: channel.rid,
+        text: web_response,
+        thread_ts: thread_ts,
+        unfurl_links: false,
+        unfurl_media: false
+      }
+    end
+
+    before do
+      allow(slack_client).to receive(:chat_postMessage)
+    end
+
+    it 'calls chat_postMessage' do
+      service
+      expect(slack_client).to have_received(:chat_postMessage)
+    end
+  end
+
   context 'with `tip_modal` mode' do
     let(:mode) { :tip_modal }
 

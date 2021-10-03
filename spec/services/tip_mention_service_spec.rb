@@ -4,7 +4,9 @@ require 'rails_helper'
 RSpec.describe TipMentionService, :freeze_time do
   subject(:service) { described_class.call(opts) }
 
-  let(:team) { create(:team, throttle_tips: true, split_tip: false) }
+  let(:team) do
+    create(:team, throttle_tips: true, split_tip: false, tokens_disbursed_at: Time.current)
+  end
   let(:channel) { create(:channel, team: team) }
   let(:profile) { create(:profile, team: team) }
   let(:to_profile) { create(:profile, team: team) }

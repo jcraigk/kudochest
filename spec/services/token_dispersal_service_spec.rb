@@ -15,6 +15,7 @@ RSpec.describe TokenDispersalService do
 
   before do
     travel_to(Time.zone.local(2019, 11, 8, 21, 1, 1))
+    team.update(tokens_disbursed_at: Time.current)
     allow(Slack::PostService).to receive(:call)
   end
 

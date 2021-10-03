@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_09_28_025530) do
+ActiveRecord::Schema.define(version: 2021_10_03_002137) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -180,6 +180,9 @@ ActiveRecord::Schema.define(version: 2021_09_28_025530) do
     t.boolean "enable_emoji", default: true, null: false
     t.string "ditto_emoji"
     t.datetime "last_tip_sent_at"
+    t.string "hint_frequency", default: "never", null: false
+    t.string "hint_channel_rid"
+    t.datetime "hint_posted_at"
     t.index ["api_key"], name: "index_teams_on_api_key", unique: true
     t.index ["name"], name: "index_teams_on_name"
     t.index ["owner_user_id"], name: "index_teams_on_owner_user_id"

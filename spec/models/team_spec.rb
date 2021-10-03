@@ -273,9 +273,8 @@ RSpec.describe Team do
 
     it 'calls NextIntervalService' do
       team.next_tokens_at
-      expect(NextIntervalService).to have_received(:call).with(
-        team: team, attribute: :token_frequency
-      )
+      expect(NextIntervalService).to have_received(:call).with \
+        team: team, attr: :token_frequency, start_at: team.tokens_disbursed_at
     end
   end
 
