@@ -70,7 +70,7 @@ class Team < ApplicationRecord
   attribute :max_level_points,   :integer, default: App.default_max_level_points
   attribute :token_quantity,     :integer, default: App.default_token_quantity
   attribute :token_max,          :integer, default: App.default_token_max
-  attribute :token_hour,         :integer, default: App.default_token_hour
+  attribute :action_hour,        :integer, default: App.default_action_hour
   attribute :work_days_mask,     :integer, default: 62 # monday - friday
   attribute :member_count,       :integer, default: 0
   attribute :points_sent,        :decimal, default: 0.0
@@ -86,7 +86,7 @@ class Team < ApplicationRecord
   validates :rid, presence: true, uniqueness: true
   validates :slug, presence: true, uniqueness: true
   validates :avatar_url, presence: true
-  validates :token_hour, numericality: {
+  validates :action_hour, numericality: {
     greater_than_or_equal_to: 0,
     less_than_or_equal_to: 23
   }

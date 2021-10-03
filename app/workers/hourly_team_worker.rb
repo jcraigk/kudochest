@@ -14,6 +14,7 @@ class HourlyTeamWorker
   def handle_dispersals
     Team.active.find_each do |team|
       current_hour = Time.use_zone(team.time_zone) { Time.current.beginning_of_hour }
+      next if team.action_hour != current_hour.hour
       handle_hint_post(team, current_hour)
       handle_token_dispersals(team, current_hour)
     end
@@ -21,7 +22,6 @@ class HourlyTeamWorker
 
   def handle_token_dispersals(team, current_hour)
     return if !team.throttle_tips ||
-              team.token_hour != current_hour.hour ||
               team.next_tokens_at > current_hour
     TokenDispersalWorker.perform_async(team.id)
   end

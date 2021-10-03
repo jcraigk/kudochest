@@ -14,7 +14,7 @@ FactoryBot.define do
     max_level_points { App.default_max_level_points }
     token_max { App.default_token_max }
     time_zone { 'UTC' }
-    token_hour { 7 }
+    action_hour { 7 }
 
     trait :with_profiles do
       after(:create) do |team|

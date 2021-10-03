@@ -14,12 +14,12 @@
 
     .field.is-horizontal
       .field-label.is-normal
-        = f.label :token_hour, t('teams.token_hour'), class: 'label'
+        = f.label :action_hour, t('teams.action_hour'), class: 'label'
       .field-body
         .field
           .control
-            .select = hour_select(f, :token_hour)
-            = tooltip_btn('teams.token_hour_tooltip')
+            .select = hour_select(f, :action_hour)
+            = tooltip_btn('teams.action_hour_tooltip')
 
     .field.is-horizontal
       .field-label.is-normal

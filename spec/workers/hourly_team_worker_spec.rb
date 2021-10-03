@@ -10,14 +10,14 @@ RSpec.describe HourlyTeamWorker do
   let(:frequency) { 'weekly' }
   let(:mock_relation) { instance_spy(ActiveRecord::Relation) }
   let(:current_time) { Time.zone.local(2019, 11, 8, 21, 1, 1) }
-  let!(:team1) { create(:team, throttle_tips: true, token_hour: current_hour) }
-  let!(:team2) { create(:team, throttle_tips: true, token_hour: current_hour) }
+  let!(:team1) { create(:team, throttle_tips: true, action_hour: current_hour) }
+  let!(:team2) { create(:team, throttle_tips: true, action_hour: current_hour) }
   let!(:team3) do
     create(
       :team,
       throttle_tips: true,
       token_frequency: 'weekly',
-      token_hour: current_hour,
+      action_hour: current_hour,
       tokens_disbursed_at: travel_to_time
     )
   end
@@ -26,7 +26,7 @@ RSpec.describe HourlyTeamWorker do
       :team,
       throttle_tips: true,
       token_frequency: 'monthly',
-      token_hour: current_hour,
+      action_hour: current_hour,
       hint_frequency: 'hourly',
       hint_channel_rid: 'foo'
     )

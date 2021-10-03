@@ -62,8 +62,8 @@ en:
     throttling: Throttling
     token_frequency_tooltip: The frequency at which users receive tokens, which are required to give %{points} to other users. See the Time section to configure when tokens are distributed.
     token_frequency: Token Dispersal Frequency
-    token_hour_tooltip: The hour of the day when the bot takes action for your team and does things like distributing tokens and posting usage hints. You may want to adjust this to occur during normal working hours so users actively see the associated notifications.
-    token_hour: Bot Action Hour
+    action_hour_tooltip: The hour of the day when the bot takes action for your team and does things like distributing tokens and posting usage hints. You may want to adjust this to occur during normal working hours so users actively see the associated notifications.
+    action_hour: Bot Action Hour
     token_max_tooltip: The maximum number of tokens a user can accrue.
     token_max: Maximum Token Balance
     token_quantity_tooltip: The number of tokens sent to each user at the frequency selected above.

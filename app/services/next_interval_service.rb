@@ -61,6 +61,6 @@ class NextIntervalService < Base::Service
   end
 
   def hour
-    @hour ||= team.token_hour
+    @hour ||= team.action_hour
   end
 end

@@ -87,7 +87,7 @@ class Commands::Admin < Commands::Base
     <<~TEXT.chomp
 
       *Exempt Users:* #{team.infinite_profiles_sentence}
-      *Token Dispersal Hour:* #{num_to_hour(team.token_hour)}
+      *Token Dispersal Hour:* #{num_to_hour(team.action_hour)}
       *Token Dispersal Frequency:* #{team.token_frequency.titleize}
       *Token Dispersal Quantity:* #{number_with_delimiter(team.token_quantity)}
       *Token Max Balance:* #{number_with_delimiter(team.token_max)}
