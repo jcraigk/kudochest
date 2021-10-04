@@ -1,11 +1,11 @@
 # frozen_string_literal: true
 class NextIntervalService < Base::Service
   option :team
-  option :attribute
-  option :start_at, default: proc {}
+  option :attr
+  option :start_at
 
   def call
-    @start_at ||= Time.current
+    return Time.current.beginning_of_hour if start_at.blank?
     send("next_#{frequency}")
   end
 
@@ -53,7 +53,7 @@ class NextIntervalService < Base::Service
   end
 
   def frequency
-    @frequency ||= team.send(attribute)
+    @frequency ||= team.send(attr)
   end
 
   def week_start_wday
@@ -61,6 +61,6 @@ class NextIntervalService < Base::Service
   end
 
   def hour
-    @hour ||= team.token_hour
+    @hour ||= team.action_hour
   end
 end

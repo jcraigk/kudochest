@@ -12,6 +12,9 @@
       .team-setting-link data-link='presence'
         = icon_and_text('door-open', t('teams.presence'))
 
+    .team-setting-link data-link='hints'
+      = icon_and_text('lightbulb', t('teams.hints'))
+
     .team-setting-link data-link='giving_points'
       = icon_and_text('hand-holding-seedling', t('teams.giving_points', points_title: App.points_term.titleize))
 
@@ -49,6 +52,7 @@
       = render partial: 'teams/settings/responses', locals: { f: f }
       - if @current_team.platform.slack?
         = render partial: 'teams/settings/presence', locals: { f: f }
+      = render partial: 'teams/settings/hints', locals: { f: f }
       = render partial: 'teams/settings/giving_points', locals: { f: f }
       = render partial: 'teams/settings/emoji', locals: { f: f }
       = render partial: 'teams/settings/throttling', locals: { f: f }

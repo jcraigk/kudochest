@@ -29,6 +29,7 @@ class Base::PostService < Base::Service
   def handle_responses
     return post_log_message if response_mode == :silent
     return post_response if mode == :fast_ack
+    return post_hint if mode == :hint
     post_to_all_channels
   end
 
@@ -37,6 +38,10 @@ class Base::PostService < Base::Service
     attach_tips_to_response
     broadcast_via_websocket
     post_log_message
+  end
+
+  def post_hint
+    respond_in_convo(team_config.hint_channel_rid)
   end
 
   def post_log_message

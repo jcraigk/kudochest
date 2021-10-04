@@ -6,7 +6,7 @@ RSpec.describe Commands::Stats do
     described_class.call(team_rid: team.rid, profile_rid: profile_rid, text: request_text)
   end
 
-  let(:team) { create(:team, throttle_tips: true) }
+  let(:team) { create(:team, throttle_tips: true, tokens_disbursed_at: Time.current) }
   let(:profile) { create(:profile, team: team) }
   let(:profile_rid) { profile.rid }
   let(:response) { OpenStruct.new(mode: :public, text: response_text) }

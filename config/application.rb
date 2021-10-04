@@ -80,7 +80,7 @@ module KudoChest
     config.max_token_quantity = 1_000
     config.default_token_max = 50
     config.max_token_max = 1_000
-    config.default_token_hour = 13
+    config.default_action_hour = 13
     config.default_time_zone = 'Pacific Time (US & Canada)'
     config.default_streak_duration = 5
     config.min_streak_duration = 3

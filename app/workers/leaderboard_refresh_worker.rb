@@ -53,7 +53,7 @@ class LeaderboardRefreshWorker
       display_name: prof.display_name,
       real_name: prof.real_name,
       points: points,
-      percent_share: percent,
+      percent_share: percent.round(4),
       last_timestamp: timestamp.to_i,
       avatar_url: prof.avatar_url
     }
@@ -84,7 +84,7 @@ class LeaderboardRefreshWorker
     team.profiles
         .active
         .where("#{points_col} > ?", 0)
-        .order(points_col => :desc, last_timestamp_col => :asc)
+        .order(points_col => :desc, last_timestamp_col => :desc)
   end
 
   def last_timestamp_for(prof)

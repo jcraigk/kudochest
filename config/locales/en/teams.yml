@@ -62,8 +62,8 @@ en:
     throttling: Throttling
     token_frequency_tooltip: The frequency at which users receive tokens, which are required to give %{points} to other users. See the Time section to configure when tokens are distributed.
     token_frequency: Token Dispersal Frequency
-    token_hour_tooltip: The hour of the day when the bot takes action for your team and does things like distributing tokens. You may want to adjust this to occur during normal working hours so users actively see the associated notifications.
-    token_hour: Bot Action Hour
+    action_hour_tooltip: The hour of the day when the bot takes action for your team and does things like distributing tokens and posting usage hints. You may want to adjust this to occur during normal working hours so users actively see the associated notifications.
+    action_hour: Bot Action Hour
     token_max_tooltip: The maximum number of tokens a user can accrue.
     token_max: Maximum Token Balance
     token_quantity_tooltip: The number of tokens sent to each user at the frequency selected above.
@@ -114,3 +114,8 @@ en:
     require_topic: Require Topic
     require_topic_tooltip: When enabled, users must specify a topic when giving %{points}. Topics can be company values or processes you want your team to adopt.
     max_allowed_html: The maximum number of active teams has been reached. Change the <strong>config.max_teams</strong> server setting to integrate more workspaces.
+    hint_frequency: Usage Hint Frequency
+    hint_frequency_tooltip: Specify how often usage hints will be posted in the channel you specify below. Usage hints are posted at the Bot Action Hour (see Schedule settings).
+    hint_channel_rid: Usage Hint Channel
+    hint_channel_rid_tooltip: Select the channel that the bot will post usage hints in.
+    hints: Usage Hints

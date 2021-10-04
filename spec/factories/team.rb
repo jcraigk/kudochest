@@ -10,12 +10,11 @@ FactoryBot.define do
     api_key { SecureRandom.hex }
     app_profile_rid { FactoryHelper.rid(platform, 'U') }
     app_subteam_rid { FactoryHelper.rid(:discord) }
-    tokens_disbursed_at { Time.current }
     max_level { App.default_max_level }
     max_level_points { App.default_max_level_points }
     token_max { App.default_token_max }
     time_zone { 'UTC' }
-    token_hour { 7 }
+    action_hour { 7 }
 
     trait :with_profiles do
       after(:create) do |team|

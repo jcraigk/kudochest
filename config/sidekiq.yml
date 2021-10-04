@@ -21,4 +21,4 @@
     cron: '0 0 * * * * America/Los_Angeles' # Hourly
 
   WeeklyReport::RecurrentWorker:
-    cron: '0 0 6 * * 1 America/Los_Angeles' # Every Monday at 6am
+    cron: '0 0 8 * * 1 America/Los_Angeles' # Every Monday at 8am

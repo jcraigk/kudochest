@@ -1,0 +1,22 @@
+.card data-section='hints' style='display: none;'
+  header.card-header
+    p.card-header-title = t('teams.hints')
+  .card-content
+
+    .field.is-horizontal
+      .field-label.is-normal
+        = f.label :hint_frequency, t('teams.hint_frequency'), class: 'label'
+      .field-body
+        .field
+          .control
+            .select = f.select :hint_frequency, Team.hint_frequency.options
+            = tooltip_btn('teams.hint_frequency_tooltip')
+
+    .field.is-horizontal
+      .field-label.is-normal
+        = f.label :hint_channel_rid, t('teams.hint_channel_rid'), class: 'label'
+      .field-body
+        .field
+          .control
+            .select = channel_select(f, :hint_channel_rid)
+            = tooltip_btn('teams.hint_channel_rid_tooltip')

@@ -5,10 +5,10 @@ class Team < ApplicationRecord
   include TeamDecorator
 
   CACHED_ATTRS = %w[
-    active api_key app_profile_rid app_subteam_rid avatar_url enable_cheers enable_fast_ack
-    tip_emoji ditto_emoji enable_emoji emoji_quantity tip_increment log_channel_rid
-    max_points_per_tip platform response_mode response_theme show_channel time_zone
-    tip_notes enable_topics require_topic
+    active api_key app_profile_rid app_subteam_rid avatar_url enable_cheers
+    enable_fast_ack tip_emoji ditto_emoji enable_emoji emoji_quantity tip_increment
+    log_channel_rid hint_channel_rid max_points_per_tip platform response_mode
+    response_theme show_channel time_zone tip_notes enable_topics require_topic
   ].freeze
   TIP_INCREMENTS = [1.0, 0.5, 0.25, 0.1, 0.05, 0.01].freeze
   EMOJI_VALS = [1.0, 2.0, 3.0, 4.0, 5.0, 0.75, 0.5, 0.25, 0.2, 0.1, 0.05, 0.02, 0.01].freeze
@@ -41,6 +41,9 @@ class Team < ApplicationRecord
   enumerize :week_start_day,
             in: Date::DAYNAMES.map(&:downcase),
             default: 'monday'
+  enumerize :hint_frequency,
+            in: %w[never hourly daily weekly],
+            default: 'never'
 
   attribute :active,             :boolean, default: true
   attribute :enable_cheers,      :boolean, default: true
@@ -67,7 +70,7 @@ class Team < ApplicationRecord
   attribute :max_level_points,   :integer, default: App.default_max_level_points
   attribute :token_quantity,     :integer, default: App.default_token_quantity
   attribute :token_max,          :integer, default: App.default_token_max
-  attribute :token_hour,         :integer, default: App.default_token_hour
+  attribute :action_hour,        :integer, default: App.default_action_hour
   attribute :work_days_mask,     :integer, default: 62 # monday - friday
   attribute :member_count,       :integer, default: 0
   attribute :points_sent,        :decimal, default: 0.0
@@ -83,7 +86,7 @@ class Team < ApplicationRecord
   validates :rid, presence: true, uniqueness: true
   validates :slug, presence: true, uniqueness: true
   validates :avatar_url, presence: true
-  validates :token_hour, numericality: {
+  validates :action_hour, numericality: {
     greater_than_or_equal_to: 0,
     less_than_or_equal_to: 23
   }
@@ -146,7 +149,19 @@ class Team < ApplicationRecord
   end
 
   def next_tokens_at
-    NextIntervalService.call(team: self, attribute: :token_frequency)
+    NextIntervalService.call(
+      team: self,
+      attr: :token_frequency,
+      start_at: tokens_disbursed_at
+    )
+  end
+
+  def next_hint_at
+    NextIntervalService.call(
+      team: self,
+      attr: :hint_frequency,
+      start_at: hint_posted_at
+    )
   end
 
   def app_profile

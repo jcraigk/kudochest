@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_09_28_025530) do
+ActiveRecord::Schema.define(version: 2021_10_03_062633) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -136,7 +136,7 @@ ActiveRecord::Schema.define(version: 2021_09_28_025530) do
     t.string "api_key", null: false
     t.boolean "throttle_tips", null: false
     t.integer "max_points_per_tip", null: false
-    t.integer "token_hour", null: false
+    t.integer "action_hour", null: false
     t.string "token_frequency", null: false
     t.integer "token_quantity", null: false
     t.integer "token_max", null: false
@@ -180,12 +180,15 @@ ActiveRecord::Schema.define(version: 2021_09_28_025530) do
     t.boolean "enable_emoji", default: true, null: false
     t.string "ditto_emoji"
     t.datetime "last_tip_sent_at"
+    t.string "hint_frequency", default: "never", null: false
+    t.string "hint_channel_rid"
+    t.datetime "hint_posted_at"
+    t.index ["action_hour"], name: "index_teams_on_action_hour"
     t.index ["api_key"], name: "index_teams_on_api_key", unique: true
     t.index ["name"], name: "index_teams_on_name"
     t.index ["owner_user_id"], name: "index_teams_on_owner_user_id"
     t.index ["rid"], name: "index_teams_on_rid", unique: true
     t.index ["slug"], name: "index_teams_on_slug", unique: true
-    t.index ["token_hour"], name: "index_teams_on_token_hour"
   end
 
   create_table "tips", force: :cascade do |t|

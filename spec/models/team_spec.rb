@@ -25,8 +25,8 @@ RSpec.describe Team do
   it { is_expected.to validate_uniqueness_of(:rid) }
   it { is_expected.to validate_uniqueness_of(:api_key) }
   it { is_expected.to validate_presence_of(:avatar_url) }
-  it { is_expected.to validate_numericality_of(:token_hour).is_greater_than_or_equal_to(0) }
-  it { is_expected.to validate_numericality_of(:token_hour).is_less_than_or_equal_to(23) }
+  it { is_expected.to validate_numericality_of(:action_hour).is_greater_than_or_equal_to(0) }
+  it { is_expected.to validate_numericality_of(:action_hour).is_less_than_or_equal_to(23) }
   it { is_expected.to validate_numericality_of(:token_quantity).is_greater_than_or_equal_to(1) }
 
   it do
@@ -273,9 +273,18 @@ RSpec.describe Team do
 
     it 'calls NextIntervalService' do
       team.next_tokens_at
-      expect(NextIntervalService).to have_received(:call).with(
-        team: team, attribute: :token_frequency
-      )
+      expect(NextIntervalService).to have_received(:call).with \
+        team: team, attr: :token_frequency, start_at: team.tokens_disbursed_at
+    end
+  end
+
+  describe '#next_hint_at' do
+    before { allow(NextIntervalService).to receive(:call) }
+
+    it 'calls NextIntervalService' do
+      team.next_hint_at
+      expect(NextIntervalService).to have_received(:call).with \
+        team: team, attr: :hint_frequency, start_at: team.hint_posted_at
     end
   end
 
