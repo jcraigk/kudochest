@@ -93,15 +93,17 @@ class WeeklyReport::ProfileWorker
 
   def rank_sentence
     return if leaderboard_data.blank?
-    previous_rank = leaderboard_data.previous_rank
-    delta = previous_rank.zero? ? 0 : leaderboard_data.rank - previous_rank
-    verb = delta.positive? ? 'lost' : 'gained'
-    diff = delta.abs
-    case diff
-    when 0 then "You held steady at ##{profile.rank}."
-    when 1 then "You #{verb} a rank! #{rank_snippet}"
-    else "You #{verb} #{pluralize(diff, 'rank')}! #{rank_snippet}"
-    end
+    rank_snippet
+    # TODO: re-enable
+    # previous_rank = leaderboard_data.previous_rank
+    # delta = previous_rank.zero? ? 0 : leaderboard_data.rank - previous_rank
+    # verb = delta.positive? ? 'lost' : 'gained'
+    # diff = delta.abs
+    # case diff
+    # when 0 then "You held steady at ##{profile.rank}."
+    # when 1 then "You #{verb} a rank! #{rank_snippet}"
+    # else "You #{verb} #{pluralize(diff, 'rank')}! #{rank_snippet}"
+    # end
   end
 
   def rank_snippet
