@@ -51,8 +51,10 @@ en:
     reset_now_info: You can reset all user %{points} to zero by clicking the button below. Each user will automatically receive an initial token dispersal if throttling is enabled.
     reset_requested: Team stats will be reset momentarily
     reset_stats_now: Reset All %{points_title} Now
-    show_channel_tooltip: Whether %{points} responses may include a reference to the channel where the %{points} were given.
-    show_channel: Show Channel
+    show_channel: Show Channel in Log
+    show_channel_tooltip: Whether responses in the Log Channel include a reference to the channel where the %{points} were given.
+    show_note: Show Note in Log
+    show_note_tooltip: Whether responses in the Log Channel include a copy of the note. This setting has no effect if the Log Channel is disabled or if Notes are disabled.
     enable_cheers: Enable Cheers
     enable_cheers_tooltip: Cheers are extra bits of text that celebrate user progression events like levelups and streak rewards.
     tip_notes_tooltip: When someone sends %{points} they can include a reason or a brief note about it, which is recorded and displayed to other users. This can be required or disabled entirely. Long notes are truncated to a maximum of %{chars} characters.

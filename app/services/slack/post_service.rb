@@ -63,32 +63,33 @@ class Slack::PostService < Base::PostService
   end
 
   def message_params(channel, thread = nil)
+    contextual = first_tip.present? && channel == first_tip.from_channel_rid
     {
       channel: channel || channel_rid,
       thread_ts: thread,
       unfurl_links: false,
       unfurl_media: false,
-      text: unformatted_text # Desktop notification (blocks take precedent in client)
-    }.merge(response_params).compact
+      text: unformatted_text(contextual) # Desktop notification (blocks take precedent in client)
+    }.merge(response_params(contextual)).compact
   end
 
-  def unformatted_text
+  def unformatted_text(contextual)
     return alt_text if image.present?
-    chat_response_text.gsub(/(_\s+)|(\s+_)|(\A_)|(_\z)/, ' ').strip
+    chat_response_text(contextual: contextual).gsub(/(_\s+)|(\s+_)|(\A_)|(_\z)/, ' ').strip
   end
 
-  def response_params
-    image_param || text_param
+  def response_params(contextual)
+    image_param || text_param(contextual)
   end
 
-  def text_param # rubocop:disable Metrics/MethodLength
+  def text_param(contextual) # rubocop:disable Metrics/MethodLength
     {
       blocks: [
         {
           type: :section,
           text: {
             type: :mrkdwn,
-            text: chat_response_text
+            text: chat_response_text(contextual: contextual)
           }
         }
       ]

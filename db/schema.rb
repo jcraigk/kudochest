@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_10_03_062633) do
+ActiveRecord::Schema.define(version: 2021_10_04_204717) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -183,6 +183,7 @@ ActiveRecord::Schema.define(version: 2021_10_03_062633) do
     t.string "hint_frequency", default: "never", null: false
     t.string "hint_channel_rid"
     t.datetime "hint_posted_at"
+    t.boolean "show_note", default: true, null: false
     t.index ["action_hour"], name: "index_teams_on_action_hour"
     t.index ["api_key"], name: "index_teams_on_api_key", unique: true
     t.index ["name"], name: "index_teams_on_name"

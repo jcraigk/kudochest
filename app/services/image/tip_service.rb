@@ -185,15 +185,11 @@ class Image::TipService < Base::ImageService
   end
 
   def cheer_fragments
-    @cheer_fragments ||= fragments[3..]&.reject(&:blank?) || []
-  end
-
-  def num_fragments
-    @num_fragments ||= main_fragments.count(&:present?)
+    @cheer_fragments ||= fragments.slice(:levelup, :streak).values.reject(&:blank?)
   end
 
   def main_fragments
-    @main_fragments ||= fragments.first(3)
+    @main_fragments ||= fragments.slice(:lead, :main, :note).values
   end
 
   def timestamp

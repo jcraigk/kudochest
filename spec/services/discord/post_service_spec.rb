@@ -23,7 +23,7 @@ RSpec.describe Discord::PostService do
   let(:web_response) { 'Web response' }
   let(:response) do
     OpenStruct.new(
-      chat_fragments: ['', chat_response],
+      chat_fragments: { main: chat_response },
       web: web_response
     )
   end

@@ -23,12 +23,6 @@ class TipResponseService < Base::Service
     )
   end
 
-  def append_channel?
-    team.config.show_channel &&
-      first_tip&.from_channel_name &&
-      first_tip&.from_channel_rid != first_tip&.to_channel_rid
-  end
-
   def web_sentence
     return unless tips.any?
     <<~TEXT.squish
@@ -37,8 +31,15 @@ class TipResponseService < Base::Service
     TEXT
   end
 
-  def formatted_web_str
-    emojify(build_fragments(:web).compact.join(tag.br).strip, size: 12)
+  def formatted_web_str # rubocop:disable Metrics/AbcSize
+    frags = build_fragments(:web)
+    frags.reject! { |k, _v| k == :channel } unless team.show_channel?
+    frags.reject! { |k, _v| k == :note } unless team.show_note?
+    if frags[:channel].present?
+      frags[:main] += " #{frags[:channel]}"
+      frags.delete(:channel)
+    end
+    emojify(frags.values.compact.join(tag.br).strip, size: 12)
   end
 
   def current_time_in_zone
@@ -46,13 +47,14 @@ class TipResponseService < Base::Service
   end
 
   def build_fragments(platform)
-    [
-      lead_fragment(platform),
-      main_fragment(platform),
-      note_fragment(platform),
-      levelup_fragment(platform),
-      streak_fragment(platform)
-    ]
+    {
+      lead: lead_fragment(platform),
+      main: main_fragment(platform),
+      channel: channel_fragment(platform),
+      note: note_fragment(platform),
+      levelup: levelup_fragment(platform),
+      streak: streak_fragment(platform)
+    }
   end
 
   def main_fragment(platform)
@@ -219,23 +221,21 @@ class TipResponseService < Base::Service
   end
 
   def points_clause(platform)
-    fragments = tips_by_quantity.map do |quantity, quantity_tips|
+    tips_by_quantity.map do |quantity, quantity_tips|
       quantity_tips.group_by(&:topic_id).map do |topic_id, similar_tips|
         str = compose_str(platform, quantity, topic_id, similar_tips)
         str += ' each' if similar_tips.size > 1
         str
       end
-    end.flatten
-    "#{fragments.to_sentence}#{channel_suffix(platform)}!"
+    end.flatten.to_sentence
   end
 
-  def channel_suffix(platform)
-    return unless append_channel?
+  def channel_fragment(platform)
     case platform
     when :slack, :discord
-      " in <#{CHAN_PREFIX}#{first_tip.from_channel_rid}>"
+      "in <#{CHAN_PREFIX}#{first_tip.from_channel_rid}>"
     when :web
-      " in #{channel_webref(first_tip.from_channel_name)}"
+      "in #{channel_webref(first_tip.from_channel_name)}"
     end
   end
 

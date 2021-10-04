@@ -92,7 +92,7 @@ class TeamsController < ApplicationController
       :response_mode, :response_theme, :log_channel_rid, :tip_emoji, :ditto_emoji,
       :enable_streaks, :streak_duration, :streak_reward, :time_zone, :weekly_report,
       :tip_increment, :split_tip, :join_channels, :enable_cheers, :enable_loot,
-      :enable_topics, :require_topic, work_days: []
+      :enable_topics, :require_topic, :show_note, work_days: []
     )
   end
 
