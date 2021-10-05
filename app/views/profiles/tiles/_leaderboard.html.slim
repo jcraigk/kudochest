@@ -63,7 +63,7 @@ javascript:
     }
 
     function shiftLeaderboardPage(dir) {
-      const PER_PAGE = #{App.leaderboard_size}
+      const PER_PAGE = #{App.default_leaderboard_size}
       let offset = (dir == 'left' ? 0 - PER_PAGE : PER_PAGE)
       let new_offset = $('.rank-cell').first().data('rank') - 1 + offset
       if (new_offset < 0) new_offset = 0
