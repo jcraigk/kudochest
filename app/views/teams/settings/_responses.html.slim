@@ -46,6 +46,16 @@
 
     .field.is-horizontal
       .field-label.is-switch-label
+        = f.label :show_note, t('teams.show_note'), class: 'label'
+      .field-body
+        .field
+          .control
+            = f.check_box :show_note, class: 'switch is-rounded'
+            = f.label :show_note, '&nbsp;'.html_safe, class: 'label'
+            = tooltip_btn('teams.show_note_tooltip', 'nudge-up')
+
+    .field.is-horizontal
+      .field-label.is-switch-label
         = f.label :enable_cheers, t('teams.enable_cheers'), class: 'label'
       .field-body
         .field

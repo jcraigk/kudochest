@@ -72,36 +72,50 @@ class Base::PostService < Base::Service
     )
   end
 
-  def chat_response_text
-    fast_ack_text || compose_response
+  def chat_response_text(contextual: true)
+    fast_ack_text || compose_response(contextual)
   end
 
   def first_tip
     @first_tip ||= tips.first
   end
 
-  def compose_response
+  def compose_response(contextual)
     return image if image.present?
     return text unless any_chat_fragments?
-    fragment_composition
+    fragment_composition(contextual)
   end
 
-  def fragment_composition
-    [main_text, cheer_text].compact.join("\n")
-  end
-
-  def join_fragments(fragments)
-    return if fragments.blank?
-    fragments.join(' ')
+  def fragment_composition(contextual)
+    [primary_text(contextual), cheer_text].reject(&:blank?).join("\n")
   end
 
   def cheer_text
     return unless team_config.enable_cheers
-    join_fragments(chat_fragments[3..]&.reject(&:blank?))
+    [chat_fragments[:levelup], chat_fragments[:streak]].reject(&:blank?).join("\n")
   end
 
-  def main_text
-    join_fragments(chat_fragments.first(3)&.reject(&:blank?))
+  def primary_text(contextual)
+    contextual ? contextual_primary_text : public_primary_text
+  end
+
+  def contextual_primary_text
+    parts = chat_fragments.slice(:lead, :main)
+    note = chat_fragments[:note]
+    parts[:main] += ". #{note}" if note.present?
+    parts.values.reject(&:blank?).join("\n")
+  end
+
+  def public_primary_text # rubocop:disable Metrics/AbcSize, Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
+    parts = chat_fragments.slice(:main)
+    note = chat_fragments[:note]
+    channel = chat_fragments[:channel]
+    if team_config.show_channel || tips.any? { |tip| tip.to_channel_rid.present? }
+      parts[:lead] = chat_fragments[:lead]
+    end
+    parts[:main] += " #{channel}" if team_config.show_channel && channel.present?
+    parts[:main] += ". #{note}" if team_config.show_note && note.present?
+    parts.values.reject(&:blank?).join("\n")
   end
 
   def chat_fragments
@@ -109,6 +123,6 @@ class Base::PostService < Base::Service
   end
 
   def any_chat_fragments?
-    chat_fragments&.any?(&:present?)
+    chat_fragments&.compact.present?
   end
 end

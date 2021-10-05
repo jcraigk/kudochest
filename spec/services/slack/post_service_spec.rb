@@ -48,7 +48,7 @@ RSpec.describe Slack::PostService do
   let(:tips) { {} }
   let(:response) do
     OpenStruct.new(
-      chat_fragments: ['', chat_response],
+      chat_fragments: { main: chat_response },
       web: web_response
     )
   end
@@ -294,8 +294,9 @@ RSpec.describe Slack::PostService do
       end
     end
 
-    # TODO: posts dupe in log channel in addition to normal response
-    # but only if tips present and source is different channel
+    # TODO: posts expected message in log channel in addition to contextual response
+    # but only if tips present and source is different channel.
+    # Take into account team.show_note and team.show_channel options as well
     xcontext 'when there is a specified log_channel_rid' do
       let(:log_channel_rid) { create(:channel).rid }
       let(:cache_response) do
