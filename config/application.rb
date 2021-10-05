@@ -71,14 +71,14 @@ module KudoChest
 
     ## Feature defaults/limits
     config.max_response_mentions = 3
-    config.undo_cutoff = 5.minutes
-    config.max_points_per_tip = 10
+    config.undo_cutoff = 1.minute
+    config.max_points_per_tip = 100
     config.default_max_level = 20
     config.default_max_level_points = 1_000
     config.error_emoji = 'grimacing'
-    config.default_token_quantity = 50
+    config.default_token_quantity = 100
     config.max_token_quantity = 1_000
-    config.default_token_max = 50
+    config.default_token_max = 100
     config.max_token_max = 1_000
     config.default_action_hour = 13
     config.default_time_zone = 'Pacific Time (US & Canada)'
@@ -89,13 +89,13 @@ module KudoChest
     config.max_streak_reward = 5
     config.channel_cache_ttl = 5.minutes
     # config.leaderboard_trend_days = 7 # TODO: Re-enable leaderboard trends
-    config.leaderboard_size = 5
+    config.default_leaderboard_size = 5
     config.modal_cache_ttl = 600 # seconds
     config.password_length = 5
     config.gentle_level_coefficient = 1.5
     config.steep_level_coefficient = 2.1
     config.default_tip_history_days = 14
-    config.max_note_length = 150
+    config.max_note_length = 255
     config.give_color = '#460878'
     config.receive_color = '#247808'
   end
