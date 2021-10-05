@@ -34,8 +34,11 @@ class Base::PostService < Base::Service
   end
 
   def post_to_all_channels
-    post_response
-    attach_tips_to_response
+    # TODO: re-enable responses on reactions
+    unless first_tip&.source&.in?(%w[reaction ditto])
+      post_response
+      attach_tips_to_response
+    end
     broadcast_via_websocket
     post_log_message
   end
