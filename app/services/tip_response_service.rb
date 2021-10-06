@@ -182,7 +182,7 @@ class TipResponseService < Base::Service
 
   def levelup_fragment(platform)
     return unless team.enable_levels && levelups.any?
-    "#{levelup_sentence(platform)} leveled up!"
+    "#{levelup_sentence(platform)} leveled up"
   end
 
   def sender_profile_levelup
