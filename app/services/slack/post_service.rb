@@ -50,10 +50,16 @@ class Slack::PostService < Base::PostService
 
   def reply_to_message
     return respond_in_convo if action == :submit_tip_modal
-    thread = message_ts || event_ts
-    slack_client.chat_postMessage(message_params(channel_rid, thread))
+    slack_client.chat_postMessage(message_params(channel_rid, parent_ts))
   rescue Slack::Web::Api::Errors::SlackError
     fallback_to_dm_response
+  end
+
+  def parent_ts
+    slack_client.conversations_replies(
+      channel: channel_rid,
+      ts: message_ts || event_ts
+    )[:messages].first[:thread_ts]
   end
 
   def respond_in_convo(channel = nil)

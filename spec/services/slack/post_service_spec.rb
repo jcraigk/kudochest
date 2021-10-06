@@ -241,15 +241,24 @@ RSpec.describe Slack::PostService do
 
     context 'when response_mode is `reply`' do
       let(:response_mode) { :reply }
+      let(:replies_data) { { messages: [{ thread_ts: thread_ts }] } }
       let(:arguments) do
         {
           text: chat_response,
           blocks: [text_block],
           channel: channel.rid,
-          thread_ts: message_ts,
+          thread_ts: thread_ts,
           unfurl_links: false,
           unfurl_media: false
         }
+      end
+
+      before do
+        allow(slack_client).to \
+          receive(:conversations_replies).with(
+            channel: channel.rid,
+            ts: message_ts
+          ).and_return(replies_data)
       end
 
       it 'calls Slack::Web::Client#chat_postMessage' do
