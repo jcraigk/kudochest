@@ -5,7 +5,7 @@
       span.profile_ref> @Mark
       ' gave
       span.profile_ref> @Lisa
-      ' #{points_format(1, label: true)}!
+      ' #{points_format(1, label: true)}
     p The Basic theme mentions recipients, which may result in a direct notification to them depending on their Slack settings.
 
   .theme-info data-name='unobtrusive' style='display: none;'
@@ -14,7 +14,7 @@
         span.profile_ref> Mark
         ' gave
         span.profile_ref> Lisa
-        ' #{points_format(1, label: true)}!
+        ' #{points_format(1, label: true)}
       p The Unobtrusive theme does not mention recipients so they do not get notified. The usernames are linked to web profiles instead.
 
     - elsif @current_team.platform.discord?
@@ -22,7 +22,7 @@
         strong> Mark
         ' gave
         strong> Lisa
-        ' #{points_format(1, label: true)}!
+        ' #{points_format(1, label: true)}
       p The Unobtrusive theme does not mention recipients so they do not get notified.
 
   .theme-info data-name='fancy' style='display: none;'

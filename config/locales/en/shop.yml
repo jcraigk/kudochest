@@ -16,7 +16,7 @@ en:
     my_claims: My Claims
     claims_empty: "You haven't made any claims yet. Earn %{points} and claim items in the Loot Shop!"
     reward_for_price_chat: '*%{reward}* for *%{quantity}* %{points}'
-    claimed_for_points: You succesfully claimed *%{reward}* for *%{quantity}* %{points}!
+    claimed_for_points: You succesfully claimed *%{reward}* for *%{quantity}* %{points}
     fulfillment_key_with_val: 'Fulfillment key: %{value}'
     fulfillment_pending: Fulfillment of the claim is pending admin action
     unrecognized_reward: Sorry, that loot name doesn't look right. Enter the name of the loot item exactly as it appears in the shop list.

@@ -25,16 +25,20 @@ class Base::SubteamService < Base::Service
     team.update!(app_subteam_rid: app_subteam_rid)
   end
 
-  def find_or_create_subteam(attrs)
+  def find_or_create_subteam(attrs) # rubocop:disable Metrics/MethodLength
     base_attrs = base_attributes(attrs)
     sync_attrs = syncable_attributes(attrs)
 
     if (subteam = Subteam.find_by(base_attrs))
-      subteam.update(sync_attrs)
+      subteam.update!(sync_attrs)
       return subteam
     end
 
-    Subteam.create!(base_attrs.merge(sync_attrs))
+    combined_attrs = base_attrs.merge(sync_attrs)
+    Subteam.create!(combined_attrs)
+  rescue ActiveRecord::RecordInvalid => e
+    parameters = { attrs: attrs, combined_attrs: combined_attrs }
+    Honeybadger.notify(e, parameters: parameters) if defined?(Honeybadger)
   end
 
   def destroy_old_subteams

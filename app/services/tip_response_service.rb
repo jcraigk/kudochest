@@ -80,19 +80,19 @@ class TipResponseService < Base::Service
     return unless to_channels.one?
     channel = to_channels.first
     channel_ref = channel_ref(platform, channel.rid, channel.name)
-    @channel_lead = "Everyone in #{channel_ref} has received #{App.points_term}!"
+    @channel_lead = "Everyone in #{channel_ref} has received #{App.points_term}"
   end
 
   def subteam_lead(platform)
     return unless to_subteams.one?
     subteam = to_subteams.first
     subteam_ref = subteam_ref(platform, subteam.rid, subteam.handle)
-    "Everyone in #{subteam_ref} has received #{App.points_term}!"
+    "Everyone in #{subteam_ref} has received #{App.points_term}"
   end
 
   def everyone_lead
     return if tips.find(&:to_everyone?).blank?
-    "Everyone has received #{App.points_term}!"
+    "Everyone has received #{App.points_term}"
   end
 
   def to_channels

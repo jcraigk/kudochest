@@ -270,12 +270,12 @@ RSpec.describe TipResponseService do
       end
       let(:lead_frag) do
         <<~TEXT.chomp
-          Everyone in #{channel_link(channel.rid)} has received #{App.points_term}!
+          Everyone in #{channel_link(channel.rid)} has received #{App.points_term}
         TEXT
       end
       let(:image_lead_frag) do
         <<~TEXT.chomp
-          Everyone in #{IMG_DELIM}#{CHAN_PREFIX}#{channel.name} #{IMG_DELIM} has received #{App.points_term}!
+          Everyone in #{IMG_DELIM}#{CHAN_PREFIX}#{channel.name} #{IMG_DELIM} has received #{App.points_term}
         TEXT
       end
 
