@@ -11,14 +11,15 @@ class Base::SubteamService < Base::Service
   private
 
   def sync_active_subteams
-    remote_subteams.each do |subteam|
-      assign_profiles(find_or_create_subteam(subteam))
-      sleep 1
+    remote_subteams.each do |remote_subteam|
+      subteam = find_or_create_subteam(remote_subteam)
+      assign_profiles(subteam, remote_subteam)
     end
   end
 
-  def assign_profiles(subteam)
-    subteam.profiles = Profile.collection_with_team(team.rid, profile_rids_for(subteam))
+  def assign_profiles(subteam, remote_subteam)
+    subteam.profiles =
+      Profile.collection_with_team(team.rid, profile_rids_for(remote_subteam))
   end
 
   def assign_app_subteam

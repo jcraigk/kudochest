@@ -2,8 +2,8 @@
 class Slack::SubteamService < Base::SubteamService
   private
 
-  def profile_rids_for(subteam)
-    team.slack_client.usergroups_users_list(usergroup: subteam.rid)[:users]
+  def profile_rids_for(remote_subteam)
+    remote_subteam.users
   end
 
   def remote_subteams
