@@ -11,8 +11,9 @@ class Base::SubteamService < Base::Service
   private
 
   def sync_active_subteams
-    remote_subteams.each do |subteam|
-      assign_profiles(find_or_create_subteam(subteam))
+    remote_subteams.each do |remote_subteam|
+      next unless (subteam = find_or_create_subteam(remote_subteam))
+      assign_profiles(subteam)
     end
   end
 
@@ -37,8 +38,9 @@ class Base::SubteamService < Base::Service
     combined_attrs = base_attrs.merge(sync_attrs)
     Subteam.create!(combined_attrs)
   rescue ActiveRecord::RecordInvalid => e
-    parameters = { attrs: attrs, combined_attrs: combined_attrs }
+    parameters = { attrs: attrs.to_h, combined_attrs: combined_attrs }
     Honeybadger.notify(e, parameters: parameters) if defined?(Honeybadger)
+    nil
   end
 
   def destroy_old_subteams
@@ -46,10 +48,10 @@ class Base::SubteamService < Base::Service
     team.subteams.where(rid: old_rids).destroy_all
   end
 
-  def base_attributes(subteam)
+  def base_attributes(remote_subteam)
     {
-      team: team,
-      rid: subteam.id
+      team_id: team.id,
+      rid: remote_subteam.id
     }
   end
 end

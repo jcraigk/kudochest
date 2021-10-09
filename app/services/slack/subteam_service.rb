@@ -14,11 +14,11 @@ class Slack::SubteamService < Base::SubteamService
     )[:usergroups].map { |data| OpenStruct.new(data) }
   end
 
-  def syncable_attributes(subteam)
+  def syncable_attributes(remote_subteam)
     {
-      name: subteam.name,
-      description: subteam.description,
-      handle: subteam.handle
+      name: remote_subteam.name,
+      description: remote_subteam.description,
+      handle: remote_subteam.handle
     }
   end
 
