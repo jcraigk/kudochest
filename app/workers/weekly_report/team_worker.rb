@@ -108,6 +108,7 @@ class WeeklyReport::TeamWorker
   end
 
   def loot_claims_sentence
+    return unless team.enable_loot?
     claims = Claim.where('created_at > ?', previous_timestamp)
     return 'None' if claims.size.zero?
     num_pending = claims.all.count(&:pending?)

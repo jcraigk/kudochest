@@ -2,6 +2,7 @@
 class WeeklyReportMailer < ApplicationMailer
   helper ActionView::Helpers::UrlHelper
   helper ProfileHelper
+  helper PointsHelper
 
   layout 'email'
 
