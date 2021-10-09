@@ -46,7 +46,7 @@ class Base::PostService < Base::Service
 
   def post_log_message
     return unless post_in_log_channel?
-    respond_in_convo(log_channel_rid)
+    respond_in_convo(log_channel_rid, nil)
   end
 
   def post_in_log_channel?
