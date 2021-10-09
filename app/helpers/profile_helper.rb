@@ -47,12 +47,6 @@ module ProfileHelper
     end
   end
 
-  def profile_mail_link(profile)
-    h = link_to(profile.display_name, profile.web_url)
-    h += " (#{profile.real_name})" if profile.display_name != profile.real_name
-    h
-  end
-
   def direction_with_icon(tip, profile)
     dir, word = tip.from_profile == profile ? %w[right Given] : %w[left Earned]
     tag.span(class: "points-direction-#{dir}") do

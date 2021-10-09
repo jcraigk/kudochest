@@ -1,27 +1,10 @@
-Greetings,
+<%= render partial: 'header' %>
+Here are personal stats for <%= @profile.display_name %>:
 
-Here's your Weekly Digest for <%= @profile.display_name %> of <%= @profile.team.name %>.
+<%= render partial: 'profile_digest' %>
 
-<% if @data.top_benefactors.none? && @data.top_recipients.none? %>
-No activity this week. If you're having trouble using the app, please see #{App.help_url}.
-<% else %>
-<%= App.points_term.titleize %> Received: <%= @data.points_received %>
-<%= App.points_term.titleize %> Given: <%= @data.points_sent %>
-<% if @data.points_from_streak.present? %>
-<%= App.points_term.titleize %> from Giving Streaks: <%= @data.points_from_streak %>
-<% end %>
-<% if @data.top_benefactors_sentence.present? %>
-Top Benefactors: <%= @data.top_benefactors_sentence %>
-<% end %>
-<% if @data.top_recipients_sentence.present? %>
-Top Recipients: <%= @data.top_recipients_sentence %>
-<% end %>
-<% if @data.levelup_sentence.present? %>
-Level: <%= @data.levelup_sentence %>
-<% end %>
-<% if @data.rank_sentence.present? %>
-Leaderboard Rank: <%= @data.rank_sentence %>
-<% end %>
-<% end %>
+Here are team stats for <%= @team.name %>:
 
-You can disable this report at <%= profile_settings_url %> or unsubscribe from all <%= App.app_name %> emails at <%= unsubscribe_url(token: @unsub_token) %>.
+<%= render partial: 'team_digest' %>
+
+<%= render partial: 'footer' %>

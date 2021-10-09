@@ -7,6 +7,7 @@ class WeeklyReport::ProfileWorker
   sidekiq_options queue: :weekly_report
 
   TIMEFRAME = 1.week.freeze
+  TEAM_CACHE_TTL = 10.minutes
 
   attr_reader :profile_id
 
@@ -21,109 +22,20 @@ class WeeklyReport::ProfileWorker
   private
 
   def send_email
-    WeeklyReportMailer.profile_report(profile, data).deliver
+    WeeklyReportMailer.profile_report(profile_data, team_data).deliver
   end
 
-  def data
-    OpenStruct.new(
-      points_received: points_format(points_received),
-      points_sent: points_format(points_sent),
-      points_from_streak: points_format(points_from_streak),
-      levelup_sentence: levelup_sentence,
-      rank_sentence: rank_sentence,
-      top_recipients: top_recipients,
-      top_benefactors: top_benefactors
-    )
+  def profile_data
+    Reports::ProfileDigestService.call(profile: profile)
   end
 
-  def top_recipients
-    tips_sent.map(&:to_profile).uniq.take(3)
-  end
-
-  def top_benefactors
-    tips_received.map(&:from_profile).uniq.take(3)
-  end
-
-  def tips_received
-    @tips_received ||=
-      Tip.where(to_profile: profile)
-         .where('tips.created_at > ?', TIMEFRAME.ago)
-         .includes(:from_profile)
-         .order(quantity: :desc)
-  end
-
-  def tips_sent
-    @tips_sent ||=
-      Tip.where(from_profile: profile)
-         .where('tips.created_at > ?', TIMEFRAME.ago)
-         .order(quantity: :desc)
-  end
-
-  def points_received
-    @points_received ||= tips_received.sum(:quantity)
-  end
-
-  def points_sent
-    @points_sent ||= tips_sent.sum(:quantity)
-  end
-
-  def points_from_streak
-    return unless team.enable_streaks?
-    tips_received.where(source: 'streak').sum(:quantity)
-  end
-
-  def levelup_sentence
-    return unless team.enable_levels?
-
-    delta = profile.level - previous_level
-    case delta
-    when 0 then "You held steady at level #{profile.level}"
-    when 1 then "You gained a level! #{level_snippet}"
-    else "You gained #{pluralize(delta, 'level')}! #{level_snippet}"
+  def team_data
+    Rails.cache.fetch('team_digest', expires_in: TEAM_CACHE_TTL.from_now) do
+      Reports::TeamDigestService.call(team: profile.team)
     end
-  end
-
-  def level_snippet
-    "You're now at level #{profile.level}."
-  end
-
-  def previous_level
-    PointsToLevelService.call(team: profile.team, points: profile.points - points_received)
-  end
-
-  def rank_sentence
-    return if leaderboard_data.blank?
-    rank_snippet
-    # TODO: re-enable
-    # previous_rank = leaderboard_data.previous_rank
-    # delta = previous_rank.zero? ? 0 : leaderboard_data.rank - previous_rank
-    # verb = delta.positive? ? 'lost' : 'gained'
-    # diff = delta.abs
-    # case diff
-    # when 0 then "You held steady at ##{profile.rank}."
-    # when 1 then "You #{verb} a rank! #{rank_snippet}"
-    # else "You #{verb} #{pluralize(diff, 'rank')}! #{rank_snippet}"
-    # end
-  end
-
-  def rank_snippet
-    "You're now at ##{profile.rank}."
-  end
-
-  def leaderboard_data
-    @leaderboard_data ||=
-      LeaderboardService.call(
-        profile: profile,
-        previous_timestamp: TIMEFRAME.ago,
-        count: 1
-      )&.profiles&.first
   end
 
   def profile
     @profile ||= Profile.includes(:team, :user).find(profile_id)
-  end
-
-  def team
-    @team ||= profile.team
   end
 end

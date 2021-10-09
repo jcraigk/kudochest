@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 class Commands::Leaderboard < Commands::Base
+  GIVING_WORDS = %w[benefactors giving giver givers gift gifts gifters sent].freeze
+
   def call
     respond_success
   end
@@ -96,7 +98,7 @@ class Commands::Leaderboard < Commands::Base
   end
 
   def givingboard?
-    @givingboard ||= words.last&.in?(%w[giving giver givers sent gift gifts gifters])
+    @givingboard ||= words.last&.in?(GIVING_WORDS)
   end
 
   def opts
