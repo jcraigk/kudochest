@@ -1,0 +1,30 @@
+- if @team_data.top_benefactors.none? && @team_data.top_recipients.none? && @team_data.loot_claims_sentence.blank?
+  h2 No team activity this week :(
+  h3 If you're having trouble using the app, please see the #{link_to('help page', App.help_url)}.
+
+- else
+
+  table style='font-size: 1.2rem;'
+    tr
+      td style='text-align: right; vertical-align: top; font-weight: bold; width: 50%;' Total #{App.points_term.titleize} Given:
+      td = @team_data.points_sent
+    - if @team_data.points_from_streak.present?
+      tr
+        td style='text-align: right; vertical-align: top; font-weight: bold; width: 50%;' #{App.points_term.titleize} from Giving Streaks:
+        td = @team_data.points_from_streak
+    - if @team_data.top_benefactors.any?
+      tr
+        td style='text-align: right; vertical-align: top; font-weight: bold; width: 50%;' Top Benefactors:
+        td = @team_data.top_benefactors.map { |data| "#{mail_profile_link(data.profile)} (#{points_format(data.quantity, label: true)})" }.join('<br>').html_safe
+    - if @team_data.top_recipients.any?
+      tr
+        td style='text-align: right; vertical-align: top; font-weight: bold; width: 50%;' Top Recipients:
+        td = @team_data.top_recipients.map { |data| "#{mail_profile_link(data.profile)} (#{points_format(data.quantity, label: true)})" }.join('<br>').html_safe
+    - if @team_data.levelup_sentence.present?
+      tr
+        td style='text-align: right; vertical-align: top; font-weight: bold; width: 50%;' User Events:
+        td = @team_data.levelup_sentence
+    - if @team_data.loot_claims_sentence.present?
+      tr
+        td style='text-align: right; vertical-align: top; font-weight: bold; width: 50%;' Loot Claims:
+        td = @team_data.loot_claims_sentence

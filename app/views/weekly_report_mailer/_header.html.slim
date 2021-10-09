@@ -1,0 +1,7 @@
+img src="#{ENV['ASSET_HOST']}#{asset_pack_url('media/images/logos/app-144.png')}" alt="#{App.app_name} Logo" style='margin: 0 auto; width: 72px; height: 72px;'
+
+h1 #{App.app_name} Activity for #{Time.use_zone(@team.time_zone) { 1.week.ago }.strftime('%B %-d')} - #{Time.use_zone(@team.time_zone) { Time.current }.strftime('%B %-d')}
+
+br
+br
+br
