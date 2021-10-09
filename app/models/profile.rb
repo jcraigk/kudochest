@@ -23,7 +23,7 @@ class Profile < ApplicationRecord
   attribute :allow_dm, :boolean, default: true
   attribute :bot_user,            :boolean, default: false
   attribute :deleted,             :boolean, default: false
-  attribute :weekly_report,       :boolean, default: false
+  attribute :weekly_report,       :boolean, default: true
   attribute :infinite_tokens,     :boolean, default: false
   attribute :points_claimed,      :integer, default: 0
   attribute :points_received,     :decimal, default: 0.0

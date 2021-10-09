@@ -48,8 +48,12 @@ class Oauth::DiscordController < ApplicationController
     }
   end
 
+  def default_avatar_url
+    "https://#{ENV['WEB_DOMAIN']}/static/avatars/team-default-256.webp"
+  end
+
   def avatar_url
-    return if oauth_data[:guild][:icon].blank?
+    return default_avatar_url if oauth_data[:guild][:icon].blank?
     "#{App.discord_cdn_base}/icons/#{params[:guild_id]}/#{oauth_data[:guild][:icon]}.png?size=256"
   end
 end

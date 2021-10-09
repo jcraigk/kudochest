@@ -9,16 +9,17 @@ class Reports::BaseDigestService < Base::Service
   private
 
   def top_recipients
-    recipient_quantities.reject { |data| data.quantity.zero? }
-                        .sort_by(&:quantity)
-                        .reverse
-                        .take(count)
+    top_players(recipient_quantities)
   end
 
-  def top_benefactors
-    benefactor_quantities.reject { |data| data.quantity.zero? }
-                         .sort_by(&:quantity)
-                         .reverse
-                         .take(count)
+  def top_givers
+    top_players(giver_quantities)
+  end
+
+  def top_players(data)
+    data.reject { |d| d.profile.bot_user? || d.quantity.zero? }
+        .sort_by(&:quantity)
+        .reverse
+        .take(count)
   end
 end
