@@ -38,12 +38,8 @@ class Discord::ProfileService < Base::ProfileService
     }
   end
 
-  def default_avatar_url
-    "https://#{ENV['WEB_DOMAIN']}/static/avatars/profile-default-256.webp"
-  end
-
   def avatar_url(member)
-    return default_avatar_url if member.avatar.blank?
+    return if member.avatar.blank?
     "#{App.discord_cdn_base}/avatars/#{member.id}/#{member.avatar}.png?size=256"
   end
 end
