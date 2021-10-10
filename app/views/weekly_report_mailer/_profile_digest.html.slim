@@ -11,10 +11,6 @@
     tr
       td style='text-align: right; vertical-align: top; font-weight: bold; width: 50%;' Given:
       td #{points_format(@profile_data.points_sent, label: true)} to #{pluralize(@profile_data.num_recipients, 'user')}
-    - if @profile_data.points_from_streak.present?
-      tr
-        td style='text-align: right; vertical-align: top; font-weight: bold; width: 50%;' Giving Streak Rewards:
-        td = points_format(@profile_data.points_from_streak, label: true)
     - if @profile_data.top_givers.any?
       tr
         td style='text-align: right; vertical-align: top; font-weight: bold; width: 50%;' Top Givers:
@@ -23,6 +19,10 @@
       tr
         td style='text-align: right; vertical-align: top; font-weight: bold; width: 50%;' Top Recipients:
         td = @profile_data.top_recipients.map { |data| "#{mail_profile_link(data.profile)} (#{points_format(data.quantity, label: true)})" }.join('<br>').html_safe
+    - if @profile_data.points_from_streak.present?
+      tr
+        td style='text-align: right; vertical-align: top; font-weight: bold; width: 50%;' Giving Streak Rewards:
+        td = points_format(@profile_data.points_from_streak, label: true)
     - if @profile_data.levelup_sentence.present?
       tr
         td style='text-align: right; vertical-align: top; font-weight: bold; width: 50%;' Level:

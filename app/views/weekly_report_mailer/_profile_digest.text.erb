@@ -3,14 +3,14 @@ No activity this week. If you're having trouble using the app, please see #{App.
 <% else %>
 Received: <%= points_format(@profile_data.points_received, label: true) %> from <%= pluralize(@profile_data.num_givers, 'user') %>
 Given: <%= points_format(@profile_data.points_sent, label: true) %> to <%= pluralize(@profile_data.num_recipients, 'user') %>
-<% if @profile_data.points_from_streak.present? %>
-Giving Streak Rewards: <%= points_format(@profile_data.points_from_streak, label: true) %>
-<% end %>
 <% if @profile_data.top_givers.any? %>
 Top Givers: <%= @profile_data.top_givers.map { |data| data.profile.display_name }.to_sentence %>
 <% end %>
 <% if @profile_data.top_recipients.any? %>
 Top Recipients: <%= @profile_data.top_recipients.map { |data| data.profile.display_name }.to_sentence %>
+<% end %>
+<% if @profile_data.points_from_streak.present? %>
+Giving Streak Rewards: <%= points_format(@profile_data.points_from_streak, label: true) %>
 <% end %>
 <% if @profile_data.levelup_sentence.present? %>
 Level: <%= @profile_data.levelup_sentence %>
