@@ -10,11 +10,12 @@ class Reports::TeamDigestService < Reports::BaseDigestService
 
   private
 
-  def team_data
+  def team_data # rubocop:disable Metrics/MethodLength
     OpenStruct.new(
       team: team,
       points_sent: points_sent,
-      num_participants: num_participants,
+      num_givers: num_givers,
+      num_recipients: num_recipients,
       points_from_streak: points_from_streak,
       levelup_sentence: levelup_sentence,
       top_recipients: top_recipients,
@@ -23,8 +24,12 @@ class Reports::TeamDigestService < Reports::BaseDigestService
     )
   end
 
-  def num_participants
-    tips.map(&:to_profile).uniq.size + tips.map(&:from_profile).uniq.size
+  def num_recipients
+    tips.map(&:to_profile).uniq.size
+  end
+
+  def num_givers
+    tips.map(&:from_profile).uniq.size
   end
 
   def recipient_quantities
