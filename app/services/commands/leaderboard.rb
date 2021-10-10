@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 class Commands::Leaderboard < Commands::Base
-  GIVING_WORDS = %w[benefactors giving giver givers gift gifts gifters sent].freeze
+  GIVING_WORDS = %w[giving giver givers gift gifts gifters sent].freeze
 
   def call
     respond_success

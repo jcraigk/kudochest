@@ -8,8 +8,9 @@ RSpec.describe Reports::ProfileDigestService do
   let(:profile) { create(:profile, team: team) }
   let(:keys) do
     %i[
-      profile points_received points_sent points_from_streak
-      levelup_sentence rank_sentence top_recipients top_benefactors
+      profile points_received num_givers points_sent num_recipients
+      points_from_streak levelup_sentence rank_sentence top_recipients
+      top_givers
     ]
   end
 

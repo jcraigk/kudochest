@@ -10,27 +10,45 @@ class Reports::ProfileDigestService < Reports::BaseDigestService
 
   private
 
-  def profile_data
+  def profile_data # rubocop:disable Metrics/MethodLength
     OpenStruct.new(
       profile: profile,
-      points_received: points_format(points_received),
-      points_sent: points_format(points_sent),
-      points_from_streak: points_format(points_from_streak),
+      points_received: points_received,
+      num_givers: num_givers,
+      points_sent: points_sent,
+      num_recipients: num_recipients,
+      points_from_streak: points_from_streak,
       levelup_sentence: levelup_sentence,
       rank_sentence: rank_sentence,
       top_recipients: top_recipients,
-      top_benefactors: top_benefactors
+      top_givers: top_givers
     )
   end
 
+  def num_givers
+    unique_givers.size
+  end
+
+  def num_recipients
+    unique_recipients.size
+  end
+
+  def unique_recipients
+    @unique_recipients ||= tips_sent.map(&:to_profile).uniq
+  end
+
   def recipient_quantities
-    tips_sent.map(&:to_profile).uniq.map do |profile|
+    unique_recipients.map do |profile|
       OpenStruct.new(profile: profile, quantity: quantity_to(profile))
     end
   end
 
-  def benefactor_quantities
-    tips_received.map(&:from_profile).uniq.map do |profile|
+  def unique_givers
+    @unique_givers ||= tips_received.map(&:from_profile).uniq
+  end
+
+  def giver_quantities
+    unique_givers.map do |profile|
       OpenStruct.new(profile: profile, quantity: quantity_from(profile))
     end
   end

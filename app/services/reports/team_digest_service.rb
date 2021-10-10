@@ -13,13 +13,18 @@ class Reports::TeamDigestService < Reports::BaseDigestService
   def team_data
     OpenStruct.new(
       team: team,
-      points_sent: points_format(points_sent),
-      points_from_streak: points_format(points_from_streak),
+      points_sent: points_sent,
+      num_participants: num_participants,
+      points_from_streak: points_from_streak,
       levelup_sentence: levelup_sentence,
       top_recipients: top_recipients,
-      top_benefactors: top_benefactors,
+      top_givers: top_givers,
       loot_claims_sentence: loot_claims_sentence
     )
+  end
+
+  def num_participants
+    tips.map(&:to_profile).uniq.size + tips.map(&:from_profile).uniq.size
   end
 
   def recipient_quantities
@@ -28,7 +33,7 @@ class Reports::TeamDigestService < Reports::BaseDigestService
     end
   end
 
-  def benefactor_quantities
+  def giver_quantities
     profiles.map do |profile|
       OpenStruct.new(profile: profile, quantity: quantity_from(profile))
     end

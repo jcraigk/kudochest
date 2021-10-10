@@ -1,12 +1,12 @@
-<% if @team_data.top_benefactors.none? && @team_data.top_recipients.none? && @team_data.loot_claims_sentence.blank? %>
+<% if @team_data.top_givers.none? && @team_data.top_recipients.none? && @team_data.loot_claims_sentence.blank? %>
 No team activity this week. If you're having trouble using the app, please see <%= App.help_url %>.
 <% else %>
-Total <%= App.points_term.titleize %> Given: <%= @team_data.points_sent %>
+Total: <%= points_format(@team_data.points_sent, label: true) %> amongst <%= pluralize(@team_data.num_participants, 'user') %>
 <% if @team_data.points_from_streak.present? %>
-<%= App.points_term.titleize %> from Giving Streaks: <%= @team_data.points_from_streak %>
+Giving Streak Rewards: <%= points_format(@team_data.points_from_streak, label: true) %>
 <% end %>
-<% if @team_data.top_benefactors.any? %>
-Top Benefactors: <%= @team_data.top_benefactors.map { |data| data.profile.display_name }.to_sentence %>
+<% if @team_data.top_givers.any? %>
+Top Givers: <%= @team_data.top_givers.map { |data| data.profile.display_name }.to_sentence %>
 <% end %>
 <% if @team_data.top_recipients.any? %>
 Top Recipients: <%= @team_data.top_recipients.map { |data| data.profile.display_name }.to_sentence %>
