@@ -31,7 +31,7 @@ class Team < ApplicationRecord
             in: %w[adaptive convo reply direct silent],
             default: 'adaptive'
   enumerize :response_theme,
-            in: %w[basic unobtrusive fancy gif_day gif_night],
+            in: %w[basic fancy quiet quiet_stat gif_day gif_night],
             default: 'basic'
   enumerize :tip_notes,
             in: %w[optional required disabled],

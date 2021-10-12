@@ -111,6 +111,21 @@ module ProfileDecorator
     end
   end
 
+  def profile_link_with_stat
+    case team.platform.to_sym
+    when :slack then "<#{web_url}|#{display_name} (#{points_format(points_received)})>"
+    when :discord then "**#{display_name} (#{points_format(points_received)})**"
+    when :web then web_profile_link
+    end
+  end
+
+  def web_profile_link
+    case team.response_theme.to_sym
+    when :quiet, :quiet_stat, :basic then webref
+    when :fancy then webref_with_stat
+    end
+  end
+
   def points_unclaimed
     points_received - points_claimed
   end

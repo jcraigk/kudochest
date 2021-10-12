@@ -138,22 +138,16 @@ class TipResponseService < Base::Service
     case platform
     when :slack, :discord then chat_profile_link(profile)
     when :image then "#{IMG_DELIM}#{profile.display_name} #{IMG_DELIM}"
-    when :web then web_profile_link(profile)
+    when :web then profile.web_profile_link
     end
   end
 
   def chat_profile_link(profile)
     case team.response_theme
-    when 'unobtrusive' then profile.profile_link
+    when 'quiet' then profile.profile_link
+    when 'quiet_stat' then profile.profile_link_with_stat
     when 'fancy' then profile.link_with_stat
     when 'basic' then profile.link
-    end
-  end
-
-  def web_profile_link(profile)
-    case team.response_theme.to_sym
-    when :unobtrusive, :basic then profile.webref
-    when :fancy then profile.webref_with_stat
     end
   end
 
@@ -182,6 +176,10 @@ class TipResponseService < Base::Service
 
   def levelup_fragment(platform)
     return unless team.enable_levels && levelups.any?
+    if levelups.one?
+      profile = levelups.first.profile
+      return "#{profile_ref(platform, profile)} is now at level #{profile.level}"
+    end
     "#{levelup_sentence(platform)} leveled up"
   end
 

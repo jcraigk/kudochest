@@ -70,8 +70,8 @@ class Reports::TeamDigestService < Reports::BaseDigestService
 
   def levelup_sentence
     return unless team.enable_levels?
-    return 'No users leveled up.' if num_levelups.zero?
-    "#{pluralize(num_levelups, 'user')} leveled up."
+    return 'No users leveled up' if num_levelups.zero?
+    "#{pluralize(num_levelups, 'user')} leveled up"
   end
 
   def num_levelups

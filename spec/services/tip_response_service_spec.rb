@@ -100,7 +100,7 @@ RSpec.describe TipResponseService do
       TEXT
     end
 
-    before { team.response_theme = 'unobtrusive' }
+    before { team.response_theme = 'quiet' }
 
     include_examples 'expected response'
   end
@@ -125,7 +125,7 @@ RSpec.describe TipResponseService do
     end
   end
 
-  context 'when response_theme is `unobtrusive`' do
+  context 'when response_theme is `quiet`' do
     let(:main_frag) do
       <<~TEXT.chomp
         <#{App.base_url}/profiles/#{from_profile.slug}|#{from_profile.display_name}> gave <#{App.base_url}/profiles/#{to_profile.slug}|#{to_profile.display_name}> #{points_format(quantity, label: true)}
@@ -138,7 +138,25 @@ RSpec.describe TipResponseService do
       TEXT
     end
 
-    before { team.response_theme = 'unobtrusive' }
+    before { team.response_theme = 'quiet' }
+
+    include_examples 'expected response'
+  end
+
+  context 'when response_theme is `quiet_stat`' do
+    let(:main_frag) do
+      <<~TEXT.chomp
+        #{from_profile.profile_link_with_stat} gave #{to_profile.profile_link_with_stat} #{points_format(quantity, label: true)}
+      TEXT
+    end
+    let(:channel_frag) { "in #{channel.link}" }
+    let(:web_response) do
+      <<~TEXT.chomp
+        #{web_ts} #{from_profile.webref} gave #{to_profile.webref} #{points_format(quantity, label: true)} in #{channel.webref}<br>Note: <i>#{note}</i>
+      TEXT
+    end
+
+    before { team.response_theme = 'quiet_stat' }
 
     include_examples 'expected response'
   end
@@ -191,13 +209,13 @@ RSpec.describe TipResponseService do
       TEXT
     end
     let(:channel_frag) { "in #{channel.link}" }
-    let(:levelup_frag) { "#{to_profile.link} leveled up" }
+    let(:levelup_frag) { "#{to_profile.link} is now at level #{to_profile.level}" }
     let(:image_levelup_frag) do
-      "#{IMG_DELIM}#{to_profile.display_name} #{IMG_DELIM} leveled up"
+      "#{IMG_DELIM}#{to_profile.display_name} #{IMG_DELIM} is now at level #{to_profile.level}"
     end
     let(:web_response) do
       <<~TEXT.chomp
-        #{web_ts} #{from_profile.webref} gave #{to_profile.webref} #{points_format(quantity, label: true)} in #{channel.webref}<br>Note: <i>#{note}</i><br>#{to_profile.webref} leveled up
+        #{web_ts} #{from_profile.webref} gave #{to_profile.webref} #{points_format(quantity, label: true)} in #{channel.webref}<br>Note: <i>#{note}</i><br>#{to_profile.webref} is now at level #{to_profile.level}
       TEXT
     end
 
