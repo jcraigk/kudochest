@@ -8,14 +8,14 @@
       ' #{points_format(1, label: true)}
     p The Basic theme mentions recipients, which may result in a direct notification to them depending on their Slack settings.
 
-  .theme-info data-name='unobtrusive' style='display: none;'
+  .theme-info data-name='quiet' style='display: none;'
     - if @current_team.platform.slack?
       .command
         span.profile_ref> Mark
         ' gave
         span.profile_ref> Lisa
         ' #{points_format(1, label: true)}
-      p The Unobtrusive theme does not mention recipients so they do not get notified. The usernames are linked to web profiles instead.
+      p Quiet themes do not mention recipients so they do not get notified. The usernames are linked to web profiles instead.
 
     - elsif @current_team.platform.discord?
       .command
@@ -23,7 +23,22 @@
         ' gave
         strong> Lisa
         ' #{points_format(1, label: true)}
-      p The Unobtrusive theme does not mention recipients so they do not get notified.
+      p Quiet themes do not mention recipients so they do not get notified.
+
+  .theme-info data-name='quiet_stat' style='display: none;'
+    - if @current_team.platform.slack?
+      .command
+        span.profile_ref> Mark (231)
+        ' gave
+        span.profile_ref> Lisa (9,983)
+        ' #{points_format(1, label: true)}
+    - elsif @current_team.platform.discord?
+      .command
+        strong> Mark
+        ' gave
+        strong> Lisa
+        ' #{points_format(1, label: true)}
+    p Quiet themes do not mention recipients so they do not get notified. This theme includes total number of #{App.points_term} received.
 
   .theme-info data-name='fancy' style='display: none;'
     .command

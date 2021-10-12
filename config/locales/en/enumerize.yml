@@ -9,7 +9,8 @@ en:
         silent: Silent
       response_theme:
         basic: Basic Text
-        unobtrusive: Unobtrusive Text
         fancy: Fancy Text
+        quiet: Quiet Text
+        quiet_stat: Quiet Text with Stats
         gif_day: Graphical - Day
         gif_night: Graphical - Night
