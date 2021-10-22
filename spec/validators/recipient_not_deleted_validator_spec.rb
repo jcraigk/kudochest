@@ -18,6 +18,7 @@ RSpec.describe RecipientNotDeletedValidator do
     let(:expected) do
       I18n.t(
         'activerecord.errors.models.tip.attributes.base.cannot_tip_deleted',
+        user: from_profile.link,
         points: App.points_term
       )
     end

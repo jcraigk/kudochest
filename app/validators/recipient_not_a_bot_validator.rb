@@ -6,6 +6,7 @@ class RecipientNotABotValidator < ActiveModel::Validator
       :base,
       I18n.t(
         "activerecord.errors.models.tip.attributes.base.#{type(record)}",
+        user: record.from_profile&.link,
         points: App.points_term
       ).squish
     )
