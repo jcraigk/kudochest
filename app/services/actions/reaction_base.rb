@@ -20,7 +20,7 @@ class Actions::ReactionBase < Actions::Base
   end
 
   def topic
-    @topic ||= team.config.topics.find { |topic| topic.emoji == emoji }
+    @topic ||= team&.config&.topics&.find { |topic| topic.emoji == emoji }
   end
 
   def topic_id
@@ -28,7 +28,7 @@ class Actions::ReactionBase < Actions::Base
   end
 
   def process_emoji?
-    team.enable_emoji? && relevant_emoji?
+    team&.enable_emoji? && relevant_emoji?
   end
 
   def relevant_emoji?

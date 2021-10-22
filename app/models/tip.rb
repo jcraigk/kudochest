@@ -50,7 +50,7 @@ class Tip < ApplicationRecord
   def after_create
     transaction do
       update_timestamps
-      increment_points
+      update_points
     end
   end
 
@@ -63,7 +63,7 @@ class Tip < ApplicationRecord
   def after_destroy
     transaction do
       reset_timestamps
-      decrement_points
+      update_points(decrement: true)
       delete_chat_response
     end
   end
@@ -86,19 +86,11 @@ class Tip < ApplicationRecord
     Tip.where(to_profile_id: to_profile_id).order(created_at: :desc).first
   end
 
-  # rubocop:disable Rails/SkipsModelValidations
-  def increment_points
-    from_profile.increment!(:points_sent, quantity)
-    to_profile.increment!(:points_received, quantity)
-    to_profile.team.increment!(:points_sent, quantity)
+  def update_points(decrement: false)
+    from_profile.increment_with_sql!(:points_sent, quantity, decrement)
+    to_profile.increment_with_sql!(:points_received, quantity, decrement)
+    to_profile.team.increment_with_sql!(:points_sent, quantity, decrement)
   end
-
-  def decrement_points
-    from_profile.decrement!(:points_sent, quantity)
-    to_profile.decrement!(:points_received, quantity)
-    to_profile.team.decrement!(:points_sent, quantity)
-  end
-  # rubocop:enable Rails/SkipsModelValidations
 
   def delete_chat_response
     return if response_channel_rid.blank? || response_ts.blank?

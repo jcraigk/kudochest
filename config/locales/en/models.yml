@@ -17,10 +17,10 @@ en:
         tip:
           attributes:
             base:
-              cannot_tip_bots: Sorry, you can't send %{points} to bots
-              cannot_accept_tips: Sorry, I can't accept %{points}, but I appreciate the thought!
-              cannot_tip_deleted: Sorry, you can't give %{points} to archived users
-              cannot_tip_self: Sorry, you can't give %{points} to yourself, but nice try!
+              cannot_tip_bots: Sorry %{user}, you can't send %{points} to bots
+              cannot_accept_tips: Sorry %{user}, I can't accept %{points}, but I appreciate the thought!
+              cannot_tip_deleted: Sorry %{user}, you can't give %{points} to archived users
+              cannot_tip_self: Sorry %{user}, you can't give %{points} to yourself, but nice try!
         reward:
           attributes:
             quantity:

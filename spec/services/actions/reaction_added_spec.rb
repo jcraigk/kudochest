@@ -41,7 +41,7 @@ RSpec.describe Actions::ReactionAdded do
     end
   end
 
-  context 'when reaction is tip emoji' do
+  context 'when reaction is kudos emoji' do
     let(:reaction) { team.tip_emoji }
     let(:expected_args) do
       {
@@ -72,7 +72,7 @@ RSpec.describe Actions::ReactionAdded do
     end
   end
 
-  context 'when reaction is ditto against existing Tips (same sender)' do
+  context 'when ditto reaction to message associated with tips' do
     let(:reaction) { team.ditto_emoji }
     let(:recipient2) { create(:profile, team: team) }
     let(:expected_args) do
@@ -113,6 +113,14 @@ RSpec.describe Actions::ReactionAdded do
         :tip,
         from_profile: sender,
         to_profile: recipient2,
+        quantity: quantity,
+        response_ts: ts
+      )
+      # This should be ignored as to_profile is sender (cannot give to self)
+      create(
+        :tip,
+        from_profile: recipient2,
+        to_profile: sender,
         quantity: quantity,
         response_ts: ts
       )

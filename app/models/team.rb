@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 class Team < ApplicationRecord
   extend Enumerize
+  include Incrementable
   include Sluggi::Slugged
   include TeamDecorator
 
