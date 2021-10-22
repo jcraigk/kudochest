@@ -87,9 +87,11 @@ class Tip < ApplicationRecord
   end
 
   def update_points(decrement: false)
-    from_profile.increment_with_sql!(:points_sent, quantity, decrement)
-    to_profile.increment_with_sql!(:points_received, quantity, decrement)
-    to_profile.team.increment_with_sql!(:points_sent, quantity, decrement)
+    meth = decrement ? :decrement! : :increment!
+    from_profile.with_lock { from_profile.send(meth, :points_sent, quantity) }
+    to_profile.with_lock { to_profile.send(meth, :points_received, quantity) }
+    team = to_profile.team
+    team.with_lock { team.send(meth, :points_sent, quantity) }
   end
 
   def delete_chat_response

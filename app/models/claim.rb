@@ -26,11 +26,13 @@ class Claim < ApplicationRecord
 
   private
 
+  # rubocop:disable Rails/SkipsModelValidations
   def after_create
-    profile.increment_with_sql!(:points_claimed, price, false)
+    profile.with_lock { profile.increment!(:points_claimed, price) }
   end
 
   def after_destroy
-    profile.increment_with_sql!(:points_claimed, price, true)
+    profile.with_lock { profile.decrement!(:points_claimed, price) }
   end
+  # rubocop:enable Rails/SkipsModelValidations
 end
