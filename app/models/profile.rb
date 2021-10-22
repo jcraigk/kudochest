@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 class Profile < ApplicationRecord
+  include Incrementable
   include ProfileDecorator
   include Sluggi::Slugged
   include TokenRegisterable

@@ -21,7 +21,7 @@ namespace :seeds do
     profiles = team.profiles.active
     profiles.each do |profile|
       num = rand(20..50)
-      profile.increment!(:tokens_accrued, num) # rubocop:disable Rails/SkipsModelValidations
+      profile.increment_with_sql!(:tokens_accrued, num)
       num.times do
         channel = team.channels.sample
         topic_id = rand(3).zero? ? nil : team.topics.sample.id

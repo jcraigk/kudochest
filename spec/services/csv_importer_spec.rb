@@ -7,10 +7,9 @@ RSpec.describe CsvImporter do
   let(:team) { create(:team, :with_app_profile) }
   let(:profile1) { create(:profile, team: team) }
   let(:profile2) { create(:profile, team: team) }
-  let(:quantity1) { 100 }
   let(:csv_text) do
     [
-      [profile1.display_name, quantity1].join(','),
+      [profile1.display_name, 100].join(','),
       [profile2.display_name, 250].join(','),
       ['@invalid_name', 38].join(',')
     ].join("\n")
@@ -37,6 +36,6 @@ RSpec.describe CsvImporter do
 
   it 'increments priofile.points_claimed' do
     call
-    expect(profile1.reload.points_claimed).to eq(quantity1)
+    expect(profile1.reload.points_claimed).to eq(100)
   end
 end
