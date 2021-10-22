@@ -39,7 +39,8 @@ class Actions::ReactionAdded < Actions::ReactionBase
     @ditto_tips ||=
       Tip.includes(:to_profile)
          .where(event_ts: message_ts)
-         .or(Tip.where(response_ts: message_ts))
+         .where.not(to_profile: profile)
+         .or(Tip.where(response_ts: message_ts).where.not(to_profile: profile))
   end
 
   def author_mention
