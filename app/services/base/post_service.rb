@@ -82,7 +82,7 @@ class Base::PostService < Base::Service
 
   def compose_response(contextual)
     return image if image.present?
-    return text unless any_chat_fragments?
+    return text if mode == :hint || no_chat_fragments?
     fragment_composition(contextual)
   end
 
@@ -122,7 +122,7 @@ class Base::PostService < Base::Service
     @chat_fragments ||= response&.chat_fragments
   end
 
-  def any_chat_fragments?
-    chat_fragments&.compact.present?
+  def no_chat_fragments?
+    chat_fragments&.compact.blank?
   end
 end

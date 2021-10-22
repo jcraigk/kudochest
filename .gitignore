@@ -7,7 +7,9 @@ config/master.key
 coverage
 log
 node_modules
-public/assets
+public/assets/packs
+public/assets/manifest*
+public/assets/.sprockets*
 public/assets-test
 tmp
 yarn-debug.log*

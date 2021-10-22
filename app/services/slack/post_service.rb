@@ -81,6 +81,7 @@ class Slack::PostService < Base::PostService
   end
 
   def unformatted_text(contextual)
+    return 'A random usage hint' if mode == :hint
     return alt_text if image.present?
     chat_response_text(contextual: contextual).gsub(/(_\s+)|(\s+_)|(\A_)|(_\z)/, ' ').strip
   end
@@ -90,6 +91,7 @@ class Slack::PostService < Base::PostService
   end
 
   def text_param(contextual) # rubocop:disable Metrics/MethodLength
+    return text if text.is_a?(Hash) # { blocks: ... } for Slack formatting
     {
       blocks: [
         {

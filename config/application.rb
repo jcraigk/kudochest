@@ -31,6 +31,7 @@ module KudoChest
     config.singular_prefix = ENV.fetch('SINGULAR_PREFIX', 'a')
     config.help_url = "#{config.base_url}/help"
     config.issues_url = 'https://github.com/jcraigk/kudochest/issues'
+    config.asset_host = ENV['ASSET_HOST']
 
     ## Access Control
     # Default to single team install
