@@ -49,7 +49,7 @@ class Oauth::DiscordController < ApplicationController
   end
 
   def default_avatar_url
-    "https://#{ENV['WEB_DOMAIN']}/static/avatars/team-default-256.webp"
+    "https://#{ENV['WEB_DOMAIN']}/assets/static/team-default-256.webp"
   end
 
   def avatar_url

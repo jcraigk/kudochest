@@ -39,7 +39,7 @@ class Discord::ProfileService < Base::ProfileService
   end
 
   def default_avatar_url
-    "https://#{ENV['WEB_DOMAIN']}/static/avatars/profile-default-256.webp"
+    "https://#{ENV['WEB_DOMAIN']}/assets/static/profile-default-256.webp"
   end
 
   def avatar_url(member)

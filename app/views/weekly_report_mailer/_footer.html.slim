@@ -2,6 +2,6 @@ br
 br
 br
 
-img src="#{ENV['ASSET_HOST']}#{asset_pack_url("media/images/gifs/#{GIFS['48'].sample}.gif")}" alt='Animated GIF' style='margin: 0 auto; width: 48px; height: 48px;'
+img src="#{App.asset_host}#{asset_pack_path("media/images/gifs/#{GIFS['48'].sample}.gif")}" alt='Animated GIF' style='margin: 0 auto; width: 48px; height: 48px;'
 
 p You can disable this report in <a href="#{app_settings_url(section: :reports)}">profile settings</a> or <a href="#{unsubscribe_url(token: @unsub_token)}">unsubscribe from all #{App.app_name} emails</a>.
