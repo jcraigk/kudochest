@@ -1,10 +1,7 @@
 # frozen_string_literal: true
 class Commands::Help < Commands::Base
   def call
-    OpenStruct.new(
-      mode: :private,
-      text: send("#{team.platform}_text")
-    )
+    ChatResponse.new(mode: :private, text: send("#{team.platform}_text"))
   end
 
   private

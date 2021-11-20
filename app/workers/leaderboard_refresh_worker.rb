@@ -37,31 +37,29 @@ class LeaderboardRefreshWorker
       profile_data(prof, rank, last_timestamp)
     end
 
-    profiles.sort_by { |prof| [prof[:rank], prof[:display_name]] }
+    profiles.sort_by { |prof| [prof.rank, prof.display_name] }
   end
 
   def profile_data(prof, rank, timestamp) # rubocop:disable Metrics/MethodLength
     points = prof.send("points_#{verb}")
-    percent = percent_share(prof, points)
-    {
+    LeaderboardProfile.new \
       id: prof.id,
       rank: rank,
-      # previous_rank: previous_rank_for(prof), # TODO: Re-enable later
-      previous_rank: rank,
+      previous_rank: rank, # TODO: Re-enable later
       slug: prof.slug,
       link: prof.profile_link,
       display_name: prof.display_name,
       real_name: prof.real_name,
       points: points,
-      percent_share: percent.round(4),
+      percent_share: percent_share(prof, points),
       last_timestamp: timestamp.to_i,
       avatar_url: prof.avatar_url
-    }
   end
 
   def percent_share(prof, points)
     return 0 if prof.team.points_sent.zero?
-    (points / prof.team.points_sent.to_f) * 100
+    value = (points / prof.team.points_sent.to_f) * 100
+    value.round(4)
   end
 
   def points_col
@@ -90,42 +88,6 @@ class LeaderboardRefreshWorker
   def last_timestamp_for(prof)
     prof.send(last_timestamp_col)
   end
-
-  # def previous_rank_for(prof)
-  #   previous_leaderboard.find { |row| row.id == prof.id }.rank
-  # end
-  #
-  # def previous_leaderboard
-  #   rank = 0
-  #   points = 0
-  #   timestamp = nil
-  #
-  #   previous_point_sums.sort_by(&:points).reverse_each.with_object([]) do |prof, ary|
-  #     last_timestamp = last_timestamp_for(prof)
-  #     if points != prof.points || timestamp != last_timestamp
-  #       rank += 1
-  #       points = prof.points
-  #       timestamp = last_timestamp
-  #     end
-  #
-  #     ary << OpenStruct.new(id: prof.id, rank: rank)
-  #   end
-  # end
-  #
-  # def previous_point_sums
-  #   sorted_active_profiles.map do |prof|
-  #     OpenStruct.new(
-  #       id: prof.id,
-  #       points: previous_points_for(prof)
-  #     )
-  #   end
-  # end
-  #
-  # def previous_points_for(prof)
-  #   prof.send(givingboard ? 'tips_sent' : 'tips_received')
-  #       .where('created_at < ?', App.leaderboard_trend_days.days.ago)
-  #       .sum(:quantity)
-  # end
 
   def team
     @team ||= Team.find(team_id)

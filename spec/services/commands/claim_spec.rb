@@ -12,13 +12,13 @@ RSpec.describe Commands::Claim do
 
   shared_examples 'expected response' do
     it 'response as expected' do
-      expect(command).to eq(response)
+      expect(command).to eq(expected)
     end
   end
 
   context 'when team.enable_loot? is false' do
     let(:enable_loot) { false }
-    let(:response) { OpenStruct.new(mode: :private, text: I18n.t('shop.disabled')) }
+    let(:expected) { ChatResponse.new(mode: :private, text: I18n.t('shop.disabled')) }
 
     include_examples 'expected response'
   end
@@ -28,11 +28,10 @@ RSpec.describe Commands::Claim do
 
     context 'with invalid reward name' do
       let(:text) { 'invalid name' }
-      let(:response) do
-        OpenStruct.new(
+      let(:expected) do
+        ChatResponse.new \
           mode: :error,
           text: ":#{App.error_emoji}: #{I18n.t('shop.unrecognized_reward')}"
-        )
       end
 
       include_examples 'expected response'
@@ -44,12 +43,12 @@ RSpec.describe Commands::Claim do
 
       context 'when RewardClaimService returns error' do
         let(:error) { 'an error message' }
-        let(:response) { OpenStruct.new(mode: :error, text: error) }
+        let(:expected) { ChatResponse.new(mode: :error, text: error) }
 
         before do
-          allow(RewardClaimService).to(
-            receive(:call).and_return(OpenStruct.new(error: error))
-          )
+          allow(RewardClaimService).to \
+            receive(:call).and_return \
+              RewardClaimService::ClaimResponse.new(nil, error)
         end
 
         include_examples 'expected response'
@@ -57,7 +56,7 @@ RSpec.describe Commands::Claim do
 
       context 'when RewardClaimService returns success' do
         let(:error) { 'an error message' }
-        let(:response) { OpenStruct.new(mode: :private, text: response_text) }
+        let(:expected) { ChatResponse.new(mode: :private, text: response_text) }
         let(:response_text) do
           <<~TEXT.chomp
             #{I18n.t('shop.claimed_for_points', reward: reward.name, quantity: reward.price, points: App.points_term)}
@@ -67,9 +66,9 @@ RSpec.describe Commands::Claim do
         let(:claim) { create(:claim, reward: reward, profile: profile) }
 
         before do
-          allow(RewardClaimService).to(
-            receive(:call).and_return(OpenStruct.new(error: nil, claim: claim))
-          )
+          allow(RewardClaimService).to \
+            receive(:call).and_return \
+              RewardClaimService::ClaimResponse.new(claim, nil)
         end
 
         include_examples 'expected response'

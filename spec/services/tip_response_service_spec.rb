@@ -62,7 +62,7 @@ RSpec.describe TipResponseService do
     }
   end
   let(:expected_result) do
-    OpenStruct.new(
+    described_class::TipResponse.new(
       chat_fragments: chat_fragments,
       image_fragments: image_fragments,
       web: web_response

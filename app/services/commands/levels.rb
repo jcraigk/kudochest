@@ -7,7 +7,7 @@ class Commands::Levels < Commands::Base
   private
 
   def respond_success
-    OpenStruct.new(
+    ChatResponse.new(
       mode: :private,
       text: level_table_text
     )

@@ -99,7 +99,7 @@ RSpec.describe LeaderboardRefreshWorker, :freeze_time do
   def profile_data(profile, rank, givingboard) # rubocop:disable Metrics/MethodLength
     verb = givingboard ? 'sent' : 'received'
     points_col = "points_#{verb}"
-    {
+    LeaderboardProfile.new \
       id: profile.id,
       rank: rank,
       previous_rank: rank,
@@ -111,6 +111,5 @@ RSpec.describe LeaderboardRefreshWorker, :freeze_time do
       percent_share: ((profile.send(points_col) / team_points.to_f) * 100).round(4),
       last_timestamp: profile.send("last_tip_#{verb}_at").to_i,
       avatar_url: profile.avatar_url
-    }
   end
 end

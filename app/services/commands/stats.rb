@@ -7,7 +7,7 @@ class Commands::Stats < Commands::Base
   private
 
   def respond
-    OpenStruct.new(mode: :public, text: response_text)
+    ChatResponse.new(mode: :public, text: response_text)
   end
 
   def base_text # rubocop:disable Metrics/AbcSize

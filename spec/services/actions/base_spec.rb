@@ -11,11 +11,11 @@ RSpec.describe Actions::Base do
 
   it 'calls `#new(params)` on self' do
     allow(described_class).to receive(:new).and_call_original
-    described_class.call(params)
+    described_class.call(**params)
     expect(described_class).to have_received(:new).with(params)
   end
 
   it 'exposes #call as self.call' do
-    expect(described_class.call(params)).to eq('Override in child class')
+    expect(described_class.call(**params)).to eq('Override in child class')
   end
 end

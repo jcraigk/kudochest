@@ -6,7 +6,7 @@ RSpec.describe Commands::Preferences do
 
   let(:team) { create(:team) }
   let(:profile) { create(:profile, team: team) }
-  let(:response) { OpenStruct.new(mode: :prefs_modal) }
+  let(:response) { ChatResponse.new(mode: :prefs_modal) }
 
   it 'returns stats text' do
     expect(command).to eq(response)

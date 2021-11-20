@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 class Oauth::SlackController < ApplicationController
   def integration
-    TeamRegistrar.call(team_data)
+    TeamRegistrar.call(**team_data)
     redirect_to dashboard_path,
                 notice: t('oauth.code_grant_success_html')
   rescue Slack::Web::Api::Errors::SlackError, ArgumentError

@@ -18,10 +18,7 @@ class LeaderboardService < Base::Service
   private
 
   def leaderboard_snippet
-    OpenStruct.new(
-      updated_at: leaderboard_cache.updated_at,
-      profiles: snippet_profiles
-    )
+    LeaderboardSnippet.new(leaderboard_cache.updated_at, snippet_profiles)
   end
 
   def snippet_profiles

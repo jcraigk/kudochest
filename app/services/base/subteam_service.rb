@@ -44,14 +44,14 @@ class Base::SubteamService < Base::Service
   end
 
   def destroy_old_subteams
-    old_rids = team.subteams.map(&:rid) - remote_subteams.map(&:id)
+    old_rids = team.subteams.pluck(:rid) - remote_subteams.pluck(:id)
     team.subteams.where(rid: old_rids).destroy_all
   end
 
   def base_attributes(remote_subteam)
     {
       team_id: team.id,
-      rid: remote_subteam.id
+      rid: remote_subteam[:id]
     }
   end
 end

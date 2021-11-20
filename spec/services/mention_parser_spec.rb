@@ -2,7 +2,7 @@
 require 'rails_helper'
 
 RSpec.describe MentionParser do
-  subject(:service) { described_class.call(opts) }
+  subject(:service) { described_class.call(**opts) }
 
   let(:team) { create(:team) }
   let(:profile) { create(:profile, team: team) }
@@ -16,12 +16,12 @@ RSpec.describe MentionParser do
   let(:ts) { Time.current.to_f.to_s }
   let(:matches) do
     [
-      OpenStruct.new(
+      Actions::Message::MentionMatch.new(
         profile_rid: to_profile.rid,
         prefix_digits: '',
         suffix_digits: 2
       ),
-      OpenStruct.new(
+      Actions::Message::MentionMatch.new(
         profile_rid: to_profile2.rid,
         prefix_digits: quantity2,
         suffix_digits: ''
@@ -52,12 +52,12 @@ RSpec.describe MentionParser do
   end
   let(:mentions) do
     [
-      OpenStruct.new(
+      Mention.new(
         rid: to_profile.rid,
         quantity: quantity.to_i,
         topic_id: nil
       ),
-      OpenStruct.new(
+      Mention.new(
         rid: to_profile2.rid,
         quantity: quantity2.to_i,
         topic_id: nil

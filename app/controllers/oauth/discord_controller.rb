@@ -7,7 +7,7 @@ class Oauth::DiscordController < ApplicationController
       return redirect_to dashboard_path, alert: t('oauth.permissions_required')
     end
 
-    TeamRegistrar.call(team_data)
+    TeamRegistrar.call(**team_data)
     redirect_to dashboard_path, notice: t('oauth.code_grant_success_html')
   end
 
@@ -30,7 +30,7 @@ class Oauth::DiscordController < ApplicationController
   end
 
   def oauth_data
-    @oauth_data ||= JSON[HTTP.post(oauth_url, form: oauth_params)].deep_symbolize_keys
+    @oauth_data ||= JSON.parse(HTTP.post(oauth_url, form: oauth_params), symbolize_names: true)
   end
 
   def oauth_url

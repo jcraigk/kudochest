@@ -51,7 +51,7 @@ class Actions::Message < Actions::Base
 
   def open_tip_modal
     Cache::TipModal.set("#{team_rid}/#{profile_rid}", channel_rid, channel_name)
-    OpenStruct.new(mode: :tip_modal)
+    ChatResponse.new(mode: :tip_modal)
   end
 
   def keyword_detected?
@@ -108,7 +108,7 @@ class Actions::Message < Actions::Base
   end
 
   def mention_match_struct(match, last_match_end)
-    OpenStruct.new(
+    MentionMatch.new(
       profile_rid: match.second || match.first, # 'everyone' or entity RID match
       prefix_digits: match.third,
       suffix_digits: match.fifth,
@@ -161,13 +161,13 @@ class Actions::Message < Actions::Base
   end
 
   def respond_bad_input(message = nil)
-    OpenStruct.new(
-      mode: :error,
-      text: message || bad_input_text
-    )
+    ChatResponse.new(mode: :error, text: message || bad_input_text)
   end
 
   def bad_input_text
     ":#{App.error_emoji}: #{I18n.t('errors.bad_command', text: user_text)}"
   end
+
+  MentionMatch = Struct.new \
+    :profile_rid, :prefix_digits, :suffix_digits, :emoji_string, :end, keyword_init: true
 end

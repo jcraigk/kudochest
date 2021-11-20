@@ -15,14 +15,14 @@ RSpec.describe Commands::Undo, :freeze_time do
 
   context 'when no undoable tip exists' do
     let(:text) { ":#{App.error_emoji}: Nothing to undo" }
-    let(:response) { OpenStruct.new(mode: :error, text: text) }
+    let(:response) { ChatResponse.new(mode: :error, text: text) }
 
     include_examples 'expected response'
   end
 
   context 'when an older undoable tip exists' do
     let(:text) { ":#{App.error_emoji}: Nothing to undo" }
-    let(:response) { OpenStruct.new(mode: :error, text: text) }
+    let(:response) { ChatResponse.new(mode: :error, text: text) }
 
     before do
       create(
@@ -39,7 +39,7 @@ RSpec.describe Commands::Undo, :freeze_time do
   context 'when a recent undoable tip exists' do
     let(:recipient) { create(:profile, team: team) }
     let(:text) { "You revoked #{points_format(1, label: true)} from #{recipient.link}" }
-    let(:response) { OpenStruct.new(mode: :private, text: text) }
+    let(:response) { ChatResponse.new(mode: :private, text: text) }
 
     before do
       create(
@@ -63,7 +63,7 @@ RSpec.describe Commands::Undo, :freeze_time do
         You revoked #{points_format(2, label: true)} from #{recipient2.link} and #{points_format(1, label: true)} from #{recipient1.link}
       TEXT
     end
-    let(:response) { OpenStruct.new(mode: :private, text: text) }
+    let(:response) { ChatResponse.new(mode: :private, text: text) }
     let(:app_profile) { create(:profile, team: team, rid: team.app_profile_rid) }
     let(:created_at) { Time.current - App.undo_cutoff + 1.minute }
 

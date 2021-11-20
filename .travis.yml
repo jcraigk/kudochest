@@ -1,7 +1,7 @@
 dist: focal
 language: ruby
 rvm:
-  - 2.7.4
+  - 3.0.2
 cache: bundler
 notifications:
   email: false

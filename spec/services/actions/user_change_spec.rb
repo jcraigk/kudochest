@@ -2,7 +2,7 @@
 require 'rails_helper'
 
 RSpec.describe Actions::UserChange do
-  subject(:action) { described_class.call(params) }
+  subject(:action) { described_class.call(**params) }
 
   let(:team) { create(:team) }
   let(:team_rid) { team.rid }

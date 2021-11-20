@@ -14,7 +14,7 @@ class Actions::AppHomeOpened < Actions::Base
   end
 
   def respond
-    OpenStruct.new(mode: :direct, text: text)
+    ChatResponse.new(mode: :direct, text: text)
   end
 
   def text

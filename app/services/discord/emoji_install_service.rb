@@ -26,18 +26,16 @@ class Discord::EmojiInstallService < Base::Service
   def existing_emoji_id(type)
     fetch(
       Discordrb::API::Server.resolve(App.discord_token, team.rid)
-    ).emojis.find { |emoji| emoji.name == App.send("discord_#{type}_emoji") }&.id
+    )[:emojis].find { |emoji| emoji[:name] == App.send("discord_#{type}_emoji") }[:id]
   end
 
   def create_new_emoji(type)
-    fetch(
-      Discordrb::API::Server.add_emoji(
+    fetch \
+      Discordrb::API::Server.add_emoji \
         App.discord_token,
         team.rid,
         emoji_data(type),
         App.send("discord_#{type}_emoji")
-      )
-    )
   end
 
   def emoji_data(type)
@@ -47,6 +45,6 @@ class Discord::EmojiInstallService < Base::Service
 
   def fetch(request)
     return {} if request.blank?
-    JSON.parse(request, object_class: OpenStruct)
+    JSON.parse(request, symbolize_names: true)
   end
 end

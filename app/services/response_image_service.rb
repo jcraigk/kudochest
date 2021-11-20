@@ -4,7 +4,7 @@ require 'rmagick'
 class ResponseImageService < Base::Service
   option :type
   option :team_config
-  option :fragments,    default: proc { OpenStruct.new }
+  option :fragments,    default: proc { {} }
   option :tips,         default: proc { [] }
   option :profile_data, default: proc { [] }
   option :title,        default: proc { '' }
@@ -43,7 +43,7 @@ class ResponseImageService < Base::Service
   end
 
   def image_file
-    @image_file ||= "Image::#{type.titleize}Service".constantize.call(params)
+    @image_file ||= "Image::#{type.titleize}Service".constantize.call(**params)
   end
 
   def params

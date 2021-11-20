@@ -6,7 +6,7 @@ class RewardClaimService < Base::Service
   attr_reader :error
 
   def call
-    OpenStruct.new(claim: create_claim, error: error)
+    ClaimResponse.new(create_claim, error)
   end
 
   private
@@ -60,4 +60,6 @@ class RewardClaimService < Base::Service
   def remaining_keys
     @remaining_keys ||= fulfillment_keys[1..]&.join("\n")
   end
+
+  ClaimResponse = Struct.new(:claim, :error)
 end

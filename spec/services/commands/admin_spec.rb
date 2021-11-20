@@ -9,7 +9,7 @@ RSpec.describe Commands::Admin do
   let(:user) { create(:user) }
   let(:team) { create(:team, owning_user: user, throttle_tips: true, enable_topics: true) }
   let(:profile) { create(:profile, team: team) }
-  let(:response) { OpenStruct.new(mode: :private, text: text) }
+  let(:response) { ChatResponse.new(mode: :private, text: text) }
   let(:text) do
     <<~TEXT.chomp
       *Throttle #{App.points_term.titleize}:* Yes

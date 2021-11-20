@@ -28,7 +28,7 @@ class Actions::SubmitTipModal < Actions::Base
       .find { |_k, v| v[:rids] }
       .second[:rids][:selected_options]&.map do |option|
         val = option[:value]
-        OpenStruct.new(
+        Mention.new(
           rid: "#{prefix(val)}#{val}",
           topic_id: topic_id,
           quantity: BigDecimal(quantity.presence || 0)

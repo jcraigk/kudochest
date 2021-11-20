@@ -12,7 +12,7 @@ RSpec.describe Commands::Connect do
   let(:code) { nil }
 
   shared_examples 'expected response' do
-    let(:response) { OpenStruct.new(mode: mode, text: text) }
+    let(:response) { ChatResponse.new(mode: mode, text: text) }
 
     it 'returns expected response' do
       expect(command).to eq(response)

@@ -37,22 +37,14 @@ class MentionParser < Base::Service
   def stacked_mentions
     raw_mentions.group_by(&:rid).map do |rid, mentions_by_rid|
       mentions_by_rid.group_by(&:topic_id).map do |topic_id, mentions|
-        OpenStruct.new(
-          rid: rid,
-          topic_id: topic_id,
-          quantity: mentions.sum(&:quantity)
-        )
+        Mention.new(rid: rid, topic_id: topic_id, quantity: mentions.sum(&:quantity))
       end
     end.flatten
   end
 
   def raw_mentions
-    matches.map do |match|
-      OpenStruct.new(
-        rid: match.profile_rid,
-        topic_id: tip_topic_id(match),
-        quantity: tip_quantity(match)
-      )
+    matches.map do |m|
+      Mention.new(rid: m.profile_rid, topic_id: tip_topic_id(m), quantity: tip_quantity(m))
     end
   end
 

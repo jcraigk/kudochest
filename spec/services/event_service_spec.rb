@@ -43,7 +43,7 @@ RSpec.describe EventService do
 
   context 'without exception' do
     let(:args) { params.merge(result.to_h) }
-    let(:result) { OpenStruct.new(mode: :public) }
+    let(:result) { ChatResponse.new(mode: :public) }
 
     before { allow(Actions::Message).to receive(:call).and_return(result) }
 

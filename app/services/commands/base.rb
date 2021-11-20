@@ -21,11 +21,11 @@ class Commands::Base < Base::Service
   end
 
   def respond_privately(text)
-    OpenStruct.new(mode: :private, text: text)
+    ChatResponse.new(mode: :private, text: text)
   end
 
   def respond_failure(text)
-    OpenStruct.new(mode: :error, text: ":#{App.error_emoji}: #{text}")
+    ChatResponse.new(mode: :error, text: ":#{App.error_emoji}: #{text}")
   end
 
   def response_text

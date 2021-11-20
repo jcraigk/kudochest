@@ -16,7 +16,7 @@ class TipResponseService < Base::Service
   private
 
   def build_response
-    OpenStruct.new(
+    TipResponse.new(
       chat_fragments: build_fragments(team.platform.to_sym),
       image_fragments: build_fragments(:image),
       web: web_sentence
@@ -98,19 +98,13 @@ class TipResponseService < Base::Service
   def to_channels
     @to_channels ||=
       tips.select(&:to_channel_rid).uniq(&:to_channel_rid).map do |tip|
-        OpenStruct.new(
-          rid: tip.to_channel_rid,
-          name: tip.to_channel_name
-        )
+        ChannelData.new(tip.to_channel_rid, tip.to_channel_name)
       end
   end
 
   def to_subteams
     tips.select(&:to_subteam_rid).uniq(&:to_subteam_rid).map do |tip|
-      OpenStruct.new(
-        rid: tip.to_subteam_rid,
-        handle: tip.to_subteam_handle
-      )
+      SubteamData.new(tip.to_subteam_rid, tip.to_subteam_handle)
     end
   end
 
@@ -190,7 +184,7 @@ class TipResponseService < Base::Service
     new_points = old_points + team.streak_reward
     return unless level_for(new_points) > level_for(old_points)
 
-    OpenStruct.new(profile: from_profile, new_points: new_points)
+    ProfilePoints.new(from_profile, new_points)
   end
 
   def levelups
@@ -199,7 +193,7 @@ class TipResponseService < Base::Service
         new_points = profile.points_received
         old_points = new_points - profile_tips.sum(&:quantity)
         next unless level_for(new_points) > level_for(old_points)
-        OpenStruct.new(profile: profile, new_points: new_points)
+        ProfilePoints.new(profile, new_points)
       end + [sender_profile_levelup]
     ).flatten.compact
   end
@@ -292,4 +286,8 @@ class TipResponseService < Base::Service
   def note
     @note ||= first_tip.note
   end
+
+  ProfilePoints = Struct.new(:profile, :new_points)
+  SubteamData = Struct.new(:rid, :handle)
+  TipResponse = Struct.new(:chat_fragments, :image_fragments, :web, keyword_init: true)
 end

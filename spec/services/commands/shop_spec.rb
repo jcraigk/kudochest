@@ -9,7 +9,7 @@ RSpec.describe Commands::Shop do
 
   context 'when team.enable_loot? is false' do
     let(:enable_loot) { false }
-    let(:response) { OpenStruct.new(mode: :private, text: I18n.t('shop.disabled')) }
+    let(:response) { ChatResponse.new(mode: :private, text: I18n.t('shop.disabled')) }
 
     it 'returns shop empty' do
       expect(command).to eq(response)
@@ -20,7 +20,7 @@ RSpec.describe Commands::Shop do
     let(:enable_loot) { true }
 
     context 'when no rewards exist' do
-      let(:response) { OpenStruct.new(mode: :private, text: I18n.t('shop.empty')) }
+      let(:response) { ChatResponse.new(mode: :private, text: I18n.t('shop.empty')) }
 
       it 'returns shop empty' do
         expect(command).to eq(response)

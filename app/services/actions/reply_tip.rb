@@ -18,6 +18,6 @@ class Actions::ReplyTip < Actions::Base
   end
 
   def mentions
-    [OpenStruct.new(rid: "#{PROF_PREFIX}#{params[:message_profile_rid]}", quantity: 1)]
+    [Mention.new(rid: "#{PROF_PREFIX}#{params[:message_profile_rid]}", quantity: 1)]
   end
 end

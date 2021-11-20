@@ -1,4 +1,4 @@
-FROM ruby:2.7.4-slim
+FROM ruby:3.0.2-slim
 
 ARG APP_NAME=kudochest
 

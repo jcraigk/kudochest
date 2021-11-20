@@ -9,7 +9,7 @@ describe Hooks::BaseController do
 
     let(:slack_request) { instance_spy(Slack::Events::Request) }
     let(:params) { { event: { foo: 'bar' } } }
-    let(:result) { OpenStruct.new(mode: :foo, text: 'bar') }
+    let(:result) { ChatResponse.new(mode: :foo, text: 'bar') }
 
     before do
       allow(Slack::PostService).to receive(:call)

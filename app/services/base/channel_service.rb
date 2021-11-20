@@ -24,7 +24,7 @@ class Base::ChannelService < Base::Service
   end
 
   def old_channel_rids
-    @old_channel_rids ||= team.channels.map(&:rid) - remote_channels.map(&:id)
+    @old_channel_rids ||= team.channels.pluck(:rid) - remote_channels.pluck(:id)
   end
 
   def destroy_old_channels

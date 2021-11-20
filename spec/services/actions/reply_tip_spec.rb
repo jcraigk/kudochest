@@ -2,7 +2,7 @@
 require 'rails_helper'
 
 RSpec.describe Actions::ReplyTip do
-  subject(:action) { described_class.call(params) }
+  subject(:action) { described_class.call(**params) }
 
   let(:team) { create(:team) }
   let(:sender) { create(:profile, team: team) }
@@ -18,14 +18,14 @@ RSpec.describe Actions::ReplyTip do
       message_profile_rid: recipient.rid,
       message_ts: ts,
       profile_rid: sender.rid,
-      team_config: {},
+      team_config: TeamConfig.new,
       team_rid: team.rid
     }
   end
   let(:expected_args) do
     {
       profile: sender,
-      mentions: [OpenStruct.new(rid: "#{PROF_PREFIX}#{recipient.rid}", quantity: 1)],
+      mentions: [Mention.new(rid: "#{PROF_PREFIX}#{recipient.rid}", quantity: 1)],
       source: 'reply',
       event_ts: ts,
       channel_rid: channel.rid,

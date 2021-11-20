@@ -2,7 +2,7 @@
 require 'rails_helper'
 
 RSpec.describe Actions::Message do
-  subject(:action) { described_class.call(params) }
+  subject(:action) { described_class.call(**params) }
 
   let(:team) { build(:team, platform: platform) }
   let(:sender) { create(:profile, team: team) }
@@ -16,10 +16,10 @@ RSpec.describe Actions::Message do
     {
       platform: platform,
       team_rid: team.rid,
-      team_config: {
+      team_config: TeamConfig.new(
         app_profile_rid: team.app_profile_rid,
         app_subteam_rid: team.app_subteam_rid
-      },
+      ),
       channel_name: channel.name,
       channel_rid: channel.rid,
       event_ts: ts,
@@ -102,7 +102,7 @@ RSpec.describe Actions::Message do
     context 'when text includes `++` with user mention' do
       let(:text) { "hello <#{user_mention}> ++ #{note}" }
       let(:mentions) do
-        [OpenStruct.new(rid: user_mention, quantity: 1, topic_id: nil)]
+        [Mention.new(rid: user_mention, topic_id: nil, quantity: 1)]
       end
 
       include_examples 'success'
@@ -111,7 +111,7 @@ RSpec.describe Actions::Message do
     context 'when text includes `++2` with user mention' do
       let(:text) { "hello <#{user_mention}> ++2 #{note}" }
       let(:mentions) do
-        [OpenStruct.new(rid: user_mention, quantity: 2, topic_id: nil)]
+        [Mention.new(rid: user_mention, topic_id: nil, quantity: 2)]
       end
 
       include_examples 'success'
@@ -123,7 +123,7 @@ RSpec.describe Actions::Message do
     context 'when text includes `+=` with valid user' do
       let(:text) { "hello <#{user_mention}> += #{note}" }
       let(:mentions) do
-        [OpenStruct.new(rid: user_mention, quantity: 1, topic_id: nil)]
+        [Mention.new(rid: user_mention, quantity: 1, topic_id: nil)]
       end
 
       include_examples 'success'
@@ -132,7 +132,7 @@ RSpec.describe Actions::Message do
     context 'when text includes single valid inline emoji with valid user' do
       let(:text) { "hello <#{user_mention}> :#{team.tip_emoji}: #{note}" }
       let(:mentions) do
-        [OpenStruct.new(rid: user_mention, quantity: 1, topic_id: nil)]
+        [Mention.new(rid: user_mention, quantity: 1, topic_id: nil)]
       end
 
       include_examples 'success'
@@ -141,7 +141,7 @@ RSpec.describe Actions::Message do
     context 'when text includes single valid inline emoji with int suffix' do
       let(:text) { "hello <#{user_mention}> :#{team.tip_emoji}: 2 #{note}" }
       let(:mentions) do
-        [OpenStruct.new(rid: user_mention, quantity: 2, topic_id: nil)]
+        [Mention.new(rid: user_mention, quantity: 2, topic_id: nil)]
       end
 
       include_examples 'success'
@@ -150,7 +150,7 @@ RSpec.describe Actions::Message do
     context 'when text includes single valid inline emoji with int prefix' do
       let(:text) { "hello <#{user_mention}> 2 :#{team.tip_emoji}: #{note}" }
       let(:mentions) do
-        [OpenStruct.new(rid: user_mention, quantity: 2, topic_id: nil)]
+        [Mention.new(rid: user_mention, quantity: 2, topic_id: nil)]
       end
 
       include_examples 'success'
@@ -163,7 +163,7 @@ RSpec.describe Actions::Message do
         TEXT
       end
       let(:mentions) do
-        [OpenStruct.new(rid: user_mention, quantity: 3, topic_id: nil)]
+        [Mention.new(rid: user_mention, quantity: 3, topic_id: nil)]
       end
 
       include_examples 'success'
@@ -174,7 +174,7 @@ RSpec.describe Actions::Message do
         "hello <#{user_mention}> :#{team.tip_emoji}: :invalid_emoji::#{team.tip_emoji}: #{note}"
       end
       let(:mentions) do
-        [OpenStruct.new(rid: user_mention, quantity: 2, topic_id: nil)]
+        [Mention.new(rid: user_mention, quantity: 2, topic_id: nil)]
       end
 
       include_examples 'success'
@@ -188,17 +188,17 @@ RSpec.describe Actions::Message do
       end
       let(:mentions) do
         [
-          OpenStruct.new(
+          Mention.new(
             rid: "#{PROFILE_PREFIX[platform]}#{profile.rid}",
             quantity: 1,
             topic_id: nil
           ),
-          OpenStruct.new(
+          Mention.new(
             rid: "#{SUBTEAM_PREFIX[platform]}#{subteam.rid}",
             quantity: 2,
             topic_id: nil
           ),
-          OpenStruct.new(
+          Mention.new(
             rid: "#{CHAN_PREFIX}#{channel.rid}",
             quantity: 3,
             topic_id: nil
@@ -223,7 +223,7 @@ RSpec.describe Actions::Message do
       let(:text) { '' }
 
       it 'opens a modal' do
-        expect(action).to eq(OpenStruct.new(mode: :tip_modal))
+        expect(action).to eq(ChatResponse.new(mode: :tip_modal))
       end
     end
   end

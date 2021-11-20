@@ -2,7 +2,7 @@
 require 'rails_helper'
 
 RSpec.describe Actions::SubmitPrefsModal do
-  subject(:action) { described_class.call(params) }
+  subject(:action) { described_class.call(**params) }
 
   let(:team) { build(:team) }
   let(:profile) { create(:profile, team: team, allow_dm: false) }

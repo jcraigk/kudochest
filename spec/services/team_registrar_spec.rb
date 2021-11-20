@@ -2,7 +2,7 @@
 require 'rails_helper'
 
 RSpec.describe TeamRegistrar, :freeze_time do
-  subject(:service) { described_class.call(opts) }
+  subject(:service) { described_class.call(**opts) }
 
   let(:opts) do
     {

@@ -16,10 +16,10 @@ RSpec.describe Commands::Leaderboard, :freeze_time do
   let(:text) { '' }
 
   shared_examples 'expected response' do
-    let(:response) { OpenStruct.new(mode: :public, text: text) }
+    let(:expected) { ChatResponse.new(mode: :public, text: text) }
 
     it 'returns leaderboard text' do
-      expect(command).to eq(response)
+      expect(command).to eq(expected)
     end
   end
 
@@ -39,16 +39,14 @@ RSpec.describe Commands::Leaderboard, :freeze_time do
         3. #{profile4.link} - #{points_format(3, label: true)} (most recently 2 months ago)
       TEXT
     end
-    let(:mock_result) do
-      OpenStruct.new(
-        updated_at: Time.current,
-        profiles: [
-          profile_data(profile1, 1),
-          profile_data(profile2, 2),
-          profile_data(profile3, 2),
-          profile_data(profile4, 3)
-        ]
-      )
+    let(:mock_result) { LeaderboardSnippet.new(Time.current, profiles) }
+    let(:profiles) do
+      [
+        profile_data(profile1, 1),
+        profile_data(profile2, 2),
+        profile_data(profile3, 2),
+        profile_data(profile4, 3)
+      ]
     end
 
     before do
@@ -76,7 +74,7 @@ RSpec.describe Commands::Leaderboard, :freeze_time do
   end
 
   def profile_data(prof, rank)
-    OpenStruct.new(
+    LeaderboardProfile.new(
       rank: rank,
       slug: prof.slug,
       link: prof.link,

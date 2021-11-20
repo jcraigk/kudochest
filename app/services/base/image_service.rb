@@ -10,11 +10,11 @@ class Base::ImageService < Base::Service
   }.freeze
 
   BASE_PATH = 'lib/response_images'
-  DEBUG_FILE = "#{BASE_PATH}/debug.gif"
+  DEBUG_FILE = "#{BASE_PATH}/debug.gif".freeze
 
-  TMP_PATH = "#{STORAGE_PATH}/response_images/tmp"
-  CACHE_PATH = "#{STORAGE_PATH}/response_images/cache"
-  DEFAULT_AVATAR = "#{BASE_PATH}/avatars/default-avatar-36.png"
+  TMP_PATH = "#{STORAGE_PATH}/response_images/tmp".freeze
+  CACHE_PATH = "#{STORAGE_PATH}/response_images/cache".freeze
+  DEFAULT_AVATAR = "#{BASE_PATH}/avatars/default-avatar-36.png".freeze
 
   BG_COLOR = {
     day: '#f5f5f5',
@@ -33,8 +33,8 @@ class Base::ImageService < Base::Service
   GIF_REST = 500
   GIF_NO_REST = %w[comet confetti cherries fire star].freeze
 
-  FONT_FILE = "#{BASE_PATH}/fonts/BarlowSemiCondensed-Regular.ttf"
-  FONT_FILE_ITALIC = "#{BASE_PATH}/fonts/BarlowSemiCondensed-Italic.ttf"
+  FONT_FILE = "#{BASE_PATH}/fonts/BarlowSemiCondensed-Regular.ttf".freeze
+  FONT_FILE_ITALIC = "#{BASE_PATH}/fonts/BarlowSemiCondensed-Italic.ttf".freeze
   MIN_FONT_SIZE = 15
   MAX_FONT_SIZE = 40
 

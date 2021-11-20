@@ -13,7 +13,7 @@ class Commands::Undo < Commands::Base
   private
 
   def respond
-    OpenStruct.new(
+    ChatResponse.new(
       mode: :private,
       text: text
     )
