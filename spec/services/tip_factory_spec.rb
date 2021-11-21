@@ -4,7 +4,7 @@ require 'rails_helper'
 RSpec.describe TipFactory do
   include ActionView::Helpers::TextHelper
 
-  subject(:service) { described_class.call(opts) }
+  subject(:service) { described_class.call(**opts) }
 
   let(:team) { build(:team, split_tip: split_tip) }
   let(:topic) { create(:topic, team: team) }

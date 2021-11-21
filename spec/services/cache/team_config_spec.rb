@@ -8,18 +8,18 @@ RSpec.describe Cache::TeamConfig do
   let(:team) { create(:team, log_channel_rid: channel_rid) }
   let(:cache_key) { "team_response_config/#{team.rid}" }
   let!(:topics) { create_list(:topic, 2, team: team) }
-  let(:team_attrs) { team.attributes.slice(*Team::CACHED_ATTRS) }
+  let(:team_attrs) { team.attributes.slice(*TeamConfig.members.map(&:to_s)) }
   let(:topic_attrs) do
     {
       topics: topics.map do |topic|
-        OpenStruct.new(topic.attributes.slice('id', 'name', 'keyword', 'emoji'))
+        TopicData.new(topic.attributes.slice(*TopicData.members.map(&:to_s)))
       end
     }
   end
-  let(:response) { OpenStruct.new(team_attrs.merge(topic_attrs)) }
+  let(:expected) { TeamConfig.new(team_attrs.merge(topic_attrs)) }
 
   it 'returns expected data' do
-    expect(cache.call).to eq(response)
+    expect(cache.call).to eq(expected)
   end
 
   it 'deletes cache' do

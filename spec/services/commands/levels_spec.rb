@@ -6,7 +6,7 @@ RSpec.describe Commands::Levels do
 
   let(:team) { create(:team) }
   let(:profile) { create(:profile, team: team) }
-  let(:response) { OpenStruct.new(mode: :private, text: text) }
+  let(:response) { ChatResponse.new(mode: :private, text: text) }
   let(:text) do
     "```\nLevel  #{App.points_term.titleize}  Delta\n-----  -----  -----\n" \
       "1      0      0\n2      13     13\n3      35     22\n" \

@@ -11,7 +11,7 @@ class Reports::TeamDigestService < Reports::BaseDigestService
   private
 
   def team_data # rubocop:disable Metrics/MethodLength
-    OpenStruct.new(
+    TeamData.new(
       team: team,
       points_sent: points_sent,
       num_givers: num_givers,
@@ -34,13 +34,13 @@ class Reports::TeamDigestService < Reports::BaseDigestService
 
   def recipient_quantities
     profiles.map do |profile|
-      OpenStruct.new(profile: profile, quantity: quantity_to(profile))
+      ProfileQuantity.new(profile, quantity_to(profile))
     end
   end
 
   def giver_quantities
     profiles.map do |profile|
-      OpenStruct.new(profile: profile, quantity: quantity_from(profile))
+      ProfileQuantity.new(profile, quantity_from(profile))
     end
   end
 
@@ -85,7 +85,7 @@ class Reports::TeamDigestService < Reports::BaseDigestService
           team: team,
           points: profile.points - quantity_to(profile)
         )
-      OpenStruct.new(name: profile.display_name, delta: profile.level - previous_level)
+      ProfileDelta.new(profile.display_name, profile.level - previous_level)
     end
   end
 
@@ -104,4 +104,10 @@ class Reports::TeamDigestService < Reports::BaseDigestService
   def profiles
     @profiles ||= team.profiles.active
   end
+
+  TeamData = Struct.new \
+    :team, :points_sent, :num_givers, :num_recipients, :points_from_streak, :levelup_sentence,
+    :top_recipients, :top_givers, :loot_claims_sentence, keyword_init: true
+  ProfileDelta = Struct.new(:name, :delta)
+  ProfileQuantity = Struct.new(:profile, :quantity)
 end

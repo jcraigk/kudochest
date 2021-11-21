@@ -2,13 +2,16 @@
 require 'rails_helper'
 
 RSpec.describe Slack::PostService do
-  subject(:service) { described_class.call(opts) }
+  subject(:service) { described_class.call(**opts) }
 
   let(:opts) do
     {
       team_rid: team.rid,
       mode: mode,
-      team_config: team_config,
+      team_config: {
+        log_channel_rid: team.log_channel_rid,
+        response_mode: response_mode
+      },
       channel_rid: channel.rid,
       is_bot_dm: false,
       message_ts: message_ts,
@@ -19,12 +22,6 @@ RSpec.describe Slack::PostService do
       tips: tips,
       trigger_id: trigger_id
     }.compact
-  end
-  let(:team_config) do
-    OpenStruct.new(
-      log_channel_rid: team.log_channel_rid,
-      response_mode: response_mode
-    )
   end
   let(:response_mode) { :convo }
   let(:team) { create(:team) }
@@ -47,7 +44,7 @@ RSpec.describe Slack::PostService do
   end
   let(:tips) { {} }
   let(:response) do
-    OpenStruct.new(
+    TipResponseService::TipResponse.new(
       chat_fragments: { main: chat_response },
       web: web_response
     )
@@ -309,10 +306,10 @@ RSpec.describe Slack::PostService do
     xcontext 'when there is a specified log_channel_rid' do
       let(:log_channel_rid) { create(:channel).rid }
       let(:cache_response) do
-        OpenStruct.new(
+        {
           response_mode: 'channel',
           log_channel_rid: log_channel_rid
-        )
+        }
       end
 
       context 'when channel_rid != log_channel_rid' do

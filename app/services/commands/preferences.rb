@@ -2,7 +2,7 @@
 class Commands::Preferences < Commands::Base
   def call
     return admin_command if team.platform.discord?
-    OpenStruct.new(mode: :prefs_modal)
+    ChatResponse.new(mode: :prefs_modal)
   end
 
   private

@@ -2,13 +2,13 @@
 require 'rails_helper'
 
 RSpec.describe Discord::PostService do
-  subject(:service) { described_class.call(opts) }
+  subject(:service) { described_class.call(**opts) }
 
   let(:team) { create(:team) }
   let(:opts) do
     {
       mode: mode,
-      team_config: team.config,
+      team_config: team.config.to_h,
       profile_rid: profile.rid,
       channel_rid: channel.rid,
       response: response,
@@ -22,7 +22,7 @@ RSpec.describe Discord::PostService do
   let(:chat_response) { 'Chat response' }
   let(:web_response) { 'Web response' }
   let(:response) do
-    OpenStruct.new(
+    TipResponseService::TipResponse.new(
       chat_fragments: { main: chat_response },
       web: web_response
     )

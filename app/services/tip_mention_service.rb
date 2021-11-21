@@ -19,8 +19,8 @@ class TipMentionService < Base::Service
   private
 
   def respond_success
-    return OpenStruct.new(mode: :silent) unless profile.announce_tip_sent?
-    OpenStruct.new(
+    return ChatResponse.new(mode: :silent) unless profile.announce_tip_sent?
+    ChatResponse.new(
       mode: :public,
       response: response,
       tips: tips,
@@ -29,7 +29,7 @@ class TipMentionService < Base::Service
   end
 
   def respond_no_action
-    OpenStruct.new(
+    ChatResponse.new(
       mode: :error,
       text: I18n.t('errors.no_tips', points: App.points_term)
     )
@@ -79,11 +79,11 @@ class TipMentionService < Base::Service
   end
 
   def respond_need_tokens
-    OpenStruct.new(mode: :error, text: @need_tokens)
+    ChatResponse.new(mode: :error, text: @need_tokens)
   end
 
   def respond_note_required
-    OpenStruct.new(mode: :error, text: I18n.t('tips.note_required'))
+    ChatResponse.new(mode: :error, text: I18n.t('tips.note_required'))
   end
 
   def fetch_entity(rid)
@@ -184,7 +184,7 @@ class TipMentionService < Base::Service
   def entity_mentions
     @entity_mentions ||= mentions.filter_map do |mention|
       next unless (entity = fetch_entity(mention.rid))
-      OpenStruct.new(
+      EntityMention.new(
         entity: entity,
         profiles: profiles_for_entity(entity),
         topic_id: mention.topic_id,

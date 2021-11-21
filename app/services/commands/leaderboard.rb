@@ -9,7 +9,7 @@ class Commands::Leaderboard < Commands::Base
   private
 
   def respond_success
-    OpenStruct.new({ mode: :public }.merge(result))
+    ChatResponse.new({ mode: :public }.merge(result))
   end
 
   def result
@@ -94,7 +94,7 @@ class Commands::Leaderboard < Commands::Base
   # `top :fire:`
   def topic_id
     word = givingboard? ? words[-1] : words.last
-    team.config.topics.find { |topic| word.in?([topic.keyword, ":#{topic.emoji}:"]) }&.id
+    team.config.topics.find { |t| word.in?([t.keyword, ":#{t.emoji}:"]) }&.id
   end
 
   def givingboard?
@@ -112,6 +112,6 @@ class Commands::Leaderboard < Commands::Base
   end
 
   def profile_data
-    @profile_data ||= LeaderboardService.call(opts.compact)&.profiles
+    @profile_data ||= LeaderboardService.call(**opts.compact)&.profiles
   end
 end

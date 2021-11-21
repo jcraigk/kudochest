@@ -27,7 +27,7 @@ class Actions::ReactionAdded < Actions::ReactionBase
 
   def ditto_mentions
     ditto_tips.map do |tip|
-      OpenStruct.new(
+      Mention.new(
         rid: "#{PROF_PREFIX}#{tip.to_profile.rid}",
         topic_id: tip.topic_id,
         quantity: tip.quantity
@@ -45,7 +45,7 @@ class Actions::ReactionAdded < Actions::ReactionBase
 
   def author_mention
     [
-      OpenStruct.new(
+      Mention.new(
         rid: "#{PROF_PREFIX}#{author_profile_rid}",
         topic_id: topic_id,
         quantity: team.emoji_quantity

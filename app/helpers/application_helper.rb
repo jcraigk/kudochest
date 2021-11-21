@@ -84,7 +84,7 @@ module ApplicationHelper
     tag.span(
       tag.i(class: 'fa fa-question-circle is-grey'),
       class: "tooltip-btn has-tooltip-multiline #{css_class}",
-      data: { tooltip: t(i18n_key, i18n_params) }
+      data: { tooltip: t(i18n_key, **i18n_params) }
     )
   end
 

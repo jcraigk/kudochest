@@ -16,8 +16,8 @@ class Hooks::Slack::ActionsController < Hooks::Slack::BaseController
   def data # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
     payload.merge(
       action: callback_id,
-      channel_name: payload.dig(:channel, :name) || modal_cache&.channel_name,
-      channel_rid: payload.dig(:channel, :id) || modal_cache&.channel_rid,
+      channel_name: payload.dig(:channel, :name) || modal_channel.name,
+      channel_rid: payload.dig(:channel, :id) || modal_channel.rid,
       event_ts: Time.current.to_f.to_s,
       message_profile_rid: payload.dig(:message, :user),
       message_ts: payload.dig(:message, :ts),
@@ -35,8 +35,8 @@ class Hooks::Slack::ActionsController < Hooks::Slack::BaseController
     @team_rid ||= payload[:team][:id]
   end
 
-  def modal_cache
-    @modal_cache ||= Cache::TipModal.get("#{team_rid}/#{profile_rid}")
+  def modal_channel
+    @modal_channel ||= Cache::TipModal.get("#{team_rid}/#{profile_rid}")
   end
 
   def callback_id
@@ -44,6 +44,6 @@ class Hooks::Slack::ActionsController < Hooks::Slack::BaseController
   end
 
   def payload
-    @payload ||= JSON[params[:payload]].deep_symbolize_keys
+    @payload ||= JSON.parse(params[:payload], symbolize_names: true)
   end
 end

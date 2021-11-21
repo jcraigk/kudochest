@@ -27,7 +27,7 @@ class Hooks::Slack::BaseController < Hooks::BaseController
   end
 
   def prefs_submission?
-    json_payload.dig('view', 'callback_id') == 'submit_prefs_modal'
+    json_payload.dig(:view, :callback_id) == 'submit_prefs_modal'
   end
 
   def private_command?
@@ -51,7 +51,7 @@ class Hooks::Slack::BaseController < Hooks::BaseController
   end
 
   def topic_emojis
-    team_config.topics&.map(&:emoji) || []
+    team_config.topics.map(&:emoji)
   end
 
   def relevant_text?
@@ -69,7 +69,7 @@ class Hooks::Slack::BaseController < Hooks::BaseController
 
   def fast_ack
     return unless fast_ackable?
-    @fast_ack ||= Slack::PostService.call(data.merge(mode: :fast_ack))
+    @fast_ack ||= Slack::PostService.call(**data.merge(mode: :fast_ack))
   end
 
   private
@@ -110,16 +110,16 @@ class Hooks::Slack::BaseController < Hooks::BaseController
   end
 
   def team_rid
-    params[:team_id] || params.dig(:event, :team) || json_payload.dig('team', 'id')
+    params[:team_id] || params.dig(:event, :team) || json_payload.dig(:team, :id)
   end
 
   def channel_rid
-    params[:channel_id] || params.dig(:event, :channel) || json_payload.dig('channel', 'id')
+    params[:channel_id] || params.dig(:event, :channel) || json_payload.dig(:channel, :id)
   end
 
   def json_payload
     return {} if params[:payload].blank?
-    @json_payload ||= JSON[params[:payload]]
+    @json_payload ||= JSON.parse(params[:payload], symbolize_names: true)
   end
 
   def verify_challenge_param

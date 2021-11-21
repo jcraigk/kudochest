@@ -30,11 +30,11 @@ class EventService < Base::Service
   end
 
   def post_success_message
-    responder.call(params.merge(result.to_h))
+    responder.call(**params.merge(result.to_h))
   end
 
   def result
-    @result ||= "Actions::#{params[:action].titleize.tr(' ', '')}".constantize.call(params)
+    @result ||= "Actions::#{params[:action].titleize.tr(' ', '')}".constantize.call(**params)
   end
 
   def respond_in_chat?
@@ -49,7 +49,7 @@ class EventService < Base::Service
   def post_chat_error(exception)
     return if params[:channel_rid].blank? && params[:replace_channel_rid].blank?
     text = ":#{App.error_emoji}: #{error_text(exception)}"
-    responder.call(params.merge(mode: :error, text: text))
+    responder.call(**params.merge(mode: :error, text: text))
   end
 
   def reportable?(exception)

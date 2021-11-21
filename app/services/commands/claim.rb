@@ -12,7 +12,7 @@ class Commands::Claim < Commands::Base
   private
 
   def respond_disabled
-    OpenStruct.new(mode: :private, text: t('shop.disabled'))
+    ChatResponse.new(mode: :private, text: t('shop.disabled'))
   end
 
   def result
@@ -20,12 +20,12 @@ class Commands::Claim < Commands::Base
   end
 
   def respond_error(text)
-    OpenStruct.new(mode: :error, text: text)
+    ChatResponse.new(mode: :error, text: text)
   end
 
   def respond_success
     @claim = result.claim
-    OpenStruct.new(mode: :private, text: response_text)
+    ChatResponse.new(mode: :private, text: response_text)
   end
 
   def unrecognized_reward_text

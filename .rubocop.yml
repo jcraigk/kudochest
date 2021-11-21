@@ -10,7 +10,7 @@ AllCops:
     - node_modules/**/*
     - vendor/**/*
   NewCops: enable
-  TargetRubyVersion: 2.7.4
+  TargetRubyVersion: 3.0.2
 Layout/EmptyLineAfterGuardClause:
   Enabled: false
 Layout/EmptyLineAfterMagicComment:

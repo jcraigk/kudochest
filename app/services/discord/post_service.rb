@@ -3,7 +3,7 @@ class Discord::PostService < Base::PostService
   private
 
   def post_response
-    @post_response ||= JSON.parse(respond_in_discord, object_class: OpenStruct)
+    @post_response ||= JSON.parse(respond_in_discord, symbolize_names: true)
   end
 
   def respond_in_discord
@@ -26,16 +26,20 @@ class Discord::PostService < Base::PostService
   end
 
   def respond_dm(profile_rid)
-    dm_channel = JSON[Discordrb::API::User.create_pm(App.discord_token, profile_rid)]['id']
+    dm_channel = JSON.parse(create_pm(profile_rid), symbolize_names: true)[:id]
     respond_in_convo(dm_channel)
   end
 
+  def create_pm(profile_rid)
+    Discordrb::API::User.create_pm(App.discord_token, profile_rid)
+  end
+
   def post_response_channel_rid
-    post_response.channel_id
+    post_response[:channel_id]
   end
 
   def post_response_ts
-    post_response.id
+    post_response[:id]
   end
 
   def fast_ack_text

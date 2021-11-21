@@ -21,8 +21,8 @@ describe Hooks::Slack::BaseController do
         }
       }
     end
-    let(:result) { OpenStruct.new(mode: :foo, text: 'bar') }
-    let(:team_config) { OpenStruct.new(active: true) }
+    let(:result) { ChatResponse.new(mode: :foo, text: 'bar') }
+    let(:team_config) { TeamConfig.new(active: true, topics: []) }
 
     before do
       allow(EventWorker).to receive(:perform_async)
@@ -42,7 +42,7 @@ describe Hooks::Slack::BaseController do
     end
 
     shared_examples 'ignores irrelevant messages' do
-      let(:team_config) { OpenStruct.new(active: true) }
+      let(:team_config) { TeamConfig.new(active: true) }
 
       before do
         allow(slack_request).to receive(:verify!).and_return(true)

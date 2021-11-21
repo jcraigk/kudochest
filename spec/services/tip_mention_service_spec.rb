@@ -2,7 +2,7 @@
 require 'rails_helper'
 
 RSpec.describe TipMentionService, :freeze_time do
-  subject(:service) { described_class.call(opts) }
+  subject(:service) { described_class.call(**opts) }
 
   let(:team) do
     create(:team, throttle_tips: true, split_tip: false, tokens_disbursed_at: Time.current)
@@ -10,7 +10,7 @@ RSpec.describe TipMentionService, :freeze_time do
   let(:channel) { create(:channel, team: team) }
   let(:profile) { create(:profile, team: team) }
   let(:to_profile) { create(:profile, team: team) }
-  let(:mentions) { [OpenStruct.new(rid: "#{PROF_PREFIX}#{to_profile.rid}", quantity: 1)] }
+  let(:mentions) { [Mention.new(rid: "#{PROF_PREFIX}#{to_profile.rid}", quantity: 1)] }
   let(:note) { 'A note!' }
   let(:ts) { Time.current.to_f.to_s }
   let(:timestamp) { Time.current }
@@ -36,7 +36,7 @@ RSpec.describe TipMentionService, :freeze_time do
   before { travel_to(Time.zone.local(2019, 11, 10, 21, 1, 1)) }
 
   context 'when `profile.announce_tip_sent `is false`' do
-    let(:result) { OpenStruct.new(mode: :silent) }
+    let(:result) { ChatResponse.new(mode: :silent) }
 
     before do
       profile.update(announce_tip_sent: false, tokens_accrued: 10)
@@ -51,7 +51,7 @@ RSpec.describe TipMentionService, :freeze_time do
         :#{App.error_emoji}: Giving #{points_format(1, label: true)} would exceed your token balance of 0. The next dispersal of #{team.token_quantity} tokens will occur in about 10 hours.
       TEXT
     end
-    let(:result) { OpenStruct.new(mode: :error, text: text) }
+    let(:result) { ChatResponse.new(mode: :error, text: text) }
 
     include_examples 'expected result'
   end
@@ -59,7 +59,7 @@ RSpec.describe TipMentionService, :freeze_time do
   context 'when required note is missing' do
     let(:note) { '' }
     let(:text) { I18n.t('tips.note_required') }
-    let(:result) { OpenStruct.new(mode: :error, text: text) }
+    let(:result) { ChatResponse.new(mode: :error, text: text) }
 
     before do
       profile.tokens_accrued = 10
@@ -72,7 +72,7 @@ RSpec.describe TipMentionService, :freeze_time do
   context 'when no mentions are provided' do
     let(:mentions) { [] }
     let(:result) do
-      OpenStruct.new(mode: :error, text: I18n.t('errors.no_tips', points: App.points_term))
+      ChatResponse.new(mode: :error, text: I18n.t('errors.no_tips', points: App.points_term))
     end
 
     include_examples 'expected result'
@@ -89,13 +89,13 @@ RSpec.describe TipMentionService, :freeze_time do
   context 'when mixture of valid mentions are provided' do
     let(:mentions) do
       [
-        OpenStruct.new(rid: "#{PROF_PREFIX}#{to_profile.rid}", quantity: 1, topic_id: nil),
-        OpenStruct.new(rid: "#{CHAN_PREFIX}#{channel.rid}", quantity: 1, topic_id: nil),
-        OpenStruct.new(rid: "#{SUBTEAM_PREFIX[:slack]}#{subteam.rid}", quantity: 1, topic_id: nil)
+        Mention.new(rid: "#{PROF_PREFIX}#{to_profile.rid}", quantity: 1, topic_id: nil),
+        Mention.new(rid: "#{CHAN_PREFIX}#{channel.rid}", quantity: 1, topic_id: nil),
+        Mention.new(rid: "#{SUBTEAM_PREFIX[:slack]}#{subteam.rid}", quantity: 1, topic_id: nil)
       ]
     end
     let(:result) do
-      OpenStruct.new(
+      ChatResponse.new(
         mode: :public,
         response: tip_response,
         tips: Tip.all,
@@ -105,9 +105,9 @@ RSpec.describe TipMentionService, :freeze_time do
     let(:tip_response) { 'A mock tip response' }
     let(:mention_entities) do
       [
-        OpenStruct.new(entity: to_profile, profiles: [to_profile]),
-        OpenStruct.new(entity: subteam, profiles: [subteam_profile, other_profile]),
-        OpenStruct.new(entity: channel, profiles: [channel_profile])
+        EntityMention.new(entity: to_profile, profiles: [to_profile]),
+        EntityMention.new(entity: subteam, profiles: [subteam_profile, other_profile]),
+        EntityMention.new(entity: channel, profiles: [channel_profile])
       ]
     end
     let(:subteam) { create(:subteam, team: team) }
@@ -141,7 +141,7 @@ RSpec.describe TipMentionService, :freeze_time do
       service
       mention_entities.each do |mh|
         args = base_tip_attrs.merge(to_entity: mh.entity, to_profiles: mh.profiles)
-        expect(TipFactory).to have_received(:call).with(args)
+        expect(TipFactory).to have_received(:call).with(**args)
       end
     end
 

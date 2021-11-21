@@ -13,22 +13,26 @@ class Cache::TeamConfig < Base::Service
   private
 
   def coerce_values(hash)
-    Team::CACHED_ATTRS.each_with_object(hash) do |attr, h|
-      value = h[attr]
-      h[attr] =
-        case Team.columns_hash[attr].type
-        when :integer then value.to_i
-        when :decimal then BigDecimal(value.presence || 0)
-        else value; end
+    data = TeamConfig.members.each_with_object(hash) do |attr, h|
+      h[attr] = coerce_value(attr, h[attr])
     end
+    data[:topics] = hash[:topics].map { |topic| TopicData.new(topic) }
+    data
+  end
+
+  def coerce_value(attr, value)
+    case Team.columns_hash[attr.to_s]&.type
+    when :integer then value.to_i
+    when :decimal then BigDecimal(value.presence || 0)
+    else value; end
   end
 
   def coerced_cache_result
-    coerce_values(fetch_or_cache_team_config)
+    TeamConfig.new(coerce_values(cached_hash))
   end
 
-  def fetch_or_cache_team_config
-    JSON.parse(cached_json, object_class: OpenStruct)
+  def cached_hash
+    JSON.parse(cached_json, symbolize_names: true)
   end
 
   def cached_json
@@ -36,13 +40,13 @@ class Cache::TeamConfig < Base::Service
   end
 
   def attr_data
-    team.attributes.slice(*Team::CACHED_ATTRS)
+    team.attributes.slice(*TeamConfig.members.map(&:to_s))
   end
 
   def topic_data
     {
       topics: Topic.active.where(team: team).order(name: :asc).map do |topic|
-        topic.slice(:id, :name, :keyword, :emoji)
+        topic.attributes.slice(*TopicData.members.map(&:to_s))
       end
     }
   end

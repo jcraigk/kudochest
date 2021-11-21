@@ -2,7 +2,7 @@
 require 'rails_helper'
 
 RSpec.describe Actions::ChannelSync do
-  subject(:action) { described_class.call(params) }
+  subject(:action) { described_class.call(**params) }
 
   let(:params) do
     {

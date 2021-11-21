@@ -2,7 +2,7 @@
 require 'rails_helper'
 
 RSpec.describe Actions::TeamJoin do
-  subject(:action) { described_class.call(params) }
+  subject(:action) { described_class.call(**params) }
 
   let(:team) { create(:team) }
   let(:params) { { team_rid: team.rid } }

@@ -10,7 +10,7 @@ class Actions::ReactionRemoved < Actions::ReactionBase
   private
 
   def respond
-    OpenStruct.new(mode: :silent)
+    ChatResponse.new(mode: :silent)
   end
 
   def destroy_tips

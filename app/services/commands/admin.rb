@@ -11,7 +11,7 @@ class Commands::Admin < Commands::Base
   private
 
   def respond_success
-    OpenStruct.new(mode: :private, text: response_text)
+    ChatResponse.new(mode: :private, text: response_text)
   end
 
   def base_text

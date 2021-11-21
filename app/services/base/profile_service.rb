@@ -51,7 +51,7 @@ class Base::ProfileService < Base::Service
   end
 
   def create_or_update_profile(member)
-    member = member.user if team.platform.discord?
+    member = member[:user] if team.platform.discord?
 
     base_attrs = base_attributes(member)
     sync_attrs = syncable_attributes(member).merge(deleted: false)

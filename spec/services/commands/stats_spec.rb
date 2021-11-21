@@ -9,16 +9,9 @@ RSpec.describe Commands::Stats do
   let(:team) { create(:team, throttle_tips: true, tokens_disbursed_at: Time.current) }
   let(:profile) { create(:profile, team: team) }
   let(:profile_rid) { profile.rid }
-  let(:response) { OpenStruct.new(mode: :public, text: response_text) }
+  let(:response) { ChatResponse.new(mode: :public, text: response_text) }
   let(:leaderboard_data) do
-    OpenStruct.new(
-      updated_at: Time.current,
-      profiles: [
-        OpenStruct.new(
-          rank: rank
-        )
-      ]
-    )
+    LeaderboardSnippet.new(Time.current, [LeaderboardProfile.new(rank: rank)])
   end
   let(:rank) { 12 }
 

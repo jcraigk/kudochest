@@ -2,7 +2,7 @@
 class Actions::SubmitPrefsModal < Actions::Base
   def call
     profile.update!(attrs)
-    OpenStruct.new(mode: :silent)
+    ChatResponse.new(mode: :silent)
   end
 
   private

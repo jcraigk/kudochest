@@ -2,7 +2,7 @@
 require 'rails_helper'
 
 RSpec.describe Actions::ReactionRemoved do
-  subject(:action) { described_class.call(params) }
+  subject(:action) { described_class.call(**params) }
 
   let(:team) { create(:team, platform: platform) }
   let(:sender) { create(:profile, team: team, tokens_accrued: 10) }

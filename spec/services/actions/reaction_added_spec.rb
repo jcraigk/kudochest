@@ -2,7 +2,7 @@
 require 'rails_helper'
 
 RSpec.describe Actions::ReactionAdded do
-  subject(:action) { described_class.call(params) }
+  subject(:action) { described_class.call(**params) }
 
   let(:team) { create(:team) }
   let(:sender) { create(:profile, team: team) }
@@ -43,11 +43,11 @@ RSpec.describe Actions::ReactionAdded do
 
   context 'when reaction is kudos emoji' do
     let(:reaction) { team.tip_emoji }
-    let(:expected_args) do
+    let(:args) do
       {
         profile: sender,
         mentions: [
-          OpenStruct.new(
+          Mention.new(
             rid: "#{PROF_PREFIX}#{recipient.rid}",
             quantity: team.emoji_quantity,
             topic_id: nil
@@ -62,7 +62,7 @@ RSpec.describe Actions::ReactionAdded do
 
     it 'calls TipMentionService' do
       action
-      expect(TipMentionService).to have_received(:call).with(expected_args)
+      expect(TipMentionService).to have_received(:call).with(**args)
     end
 
     context 'when team.enable_emoji is false' do
@@ -75,16 +75,16 @@ RSpec.describe Actions::ReactionAdded do
   context 'when ditto reaction to message associated with tips' do
     let(:reaction) { team.ditto_emoji }
     let(:recipient2) { create(:profile, team: team) }
-    let(:expected_args) do
+    let(:args) do
       {
         profile: sender,
         mentions: [
-          OpenStruct.new(
+          Mention.new(
             rid: "#{PROF_PREFIX}#{recipient.rid}",
             quantity: quantity,
             topic_id: nil
           ),
-          OpenStruct.new(
+          Mention.new(
             rid: "#{PROF_PREFIX}#{recipient2.rid}",
             quantity: quantity,
             topic_id: nil
@@ -128,7 +128,7 @@ RSpec.describe Actions::ReactionAdded do
     end
 
     it 'calls TipMentionService' do
-      expect(TipMentionService).to have_received(:call).with(expected_args)
+      expect(TipMentionService).to have_received(:call).with(**args)
     end
   end
 

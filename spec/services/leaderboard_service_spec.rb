@@ -2,38 +2,28 @@
 require 'rails_helper'
 
 RSpec.describe LeaderboardService do
-  subject(:service) { described_class.call(args) }
+  subject(:service) { described_class.call(**args) }
 
   let(:team) { create(:team) }
   let(:profile) { create(:profile, team: team) }
-  let(:cache_data) do
-    OpenStruct.new(
-      updated_at: Time.current.to_i,
-      profiles: profiles
-    )
-  end
-  let(:cache_giving_data) do
-    OpenStruct.new(
-      updated_at: Time.current.to_i,
-      profiles: giving_profiles
-    )
-  end
+  let(:cache_data) { LeaderboardSnippet.new(Time.current.to_i, profiles) }
+  let(:cache_giving_data) { LeaderboardSnippet.new(Time.current.to_i, giving_profiles) }
   let(:mock_cache) { instance_spy(Cache::Leaderboard) }
   let(:mock_giving_cache) { instance_spy(Cache::Leaderboard) }
   let(:profiles) do
     [
-      OpenStruct.new(id: 1, slug: 'profile1'),
-      OpenStruct.new(id: 2, slug: 'profile2'),
-      OpenStruct.new(id: 3, slug: 'profile3'),
-      OpenStruct.new(id: 4, slug: 'profile4'),
-      OpenStruct.new(id: 5, slug: 'profile5')
+      LeaderboardProfile.new(id: 1, slug: 'profile1'),
+      LeaderboardProfile.new(id: 2, slug: 'profile2'),
+      LeaderboardProfile.new(id: 3, slug: 'profile3'),
+      LeaderboardProfile.new(id: 4, slug: 'profile4'),
+      LeaderboardProfile.new(id: 5, slug: 'profile5')
     ]
   end
   let(:giving_profiles) do
     [
-      OpenStruct.new(id: 3, slug: 'profile3'),
-      OpenStruct.new(id: 4, slug: 'profile4'),
-      OpenStruct.new(id: 5, slug: 'profile5')
+      LeaderboardProfile.new(id: 3, slug: 'profile3'),
+      LeaderboardProfile.new(id: 4, slug: 'profile4'),
+      LeaderboardProfile.new(id: 5, slug: 'profile5')
     ]
   end
   let(:result_ids) { service.profiles.pluck(:id) }

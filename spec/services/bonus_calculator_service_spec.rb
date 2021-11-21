@@ -2,7 +2,7 @@
 require 'rails_helper'
 
 RSpec.describe BonusCalculatorService, :freeze_time do
-  subject(:service) { described_class.call(args) }
+  subject(:service) { described_class.call(**args) }
 
   let(:team) { create(:team) }
   let(:profile1) { create(:profile, team: team) }

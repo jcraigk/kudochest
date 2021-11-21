@@ -16,14 +16,14 @@ class Slack::ChannelService < Base::ChannelService
     cursor = nil
     channels = []
     loop do
-      data = fetch_page_of_remote_channels(cursor)
-      channels += data[:channels].map { |channel_data| OpenStruct.new(channel_data) }
+      data = page_of_remote_channels(cursor)
+      channels += data[:channels]
       break if (cursor = data.dig(:response_metadata, :next_cursor)).blank?
     end
     channels
   end
 
-  def fetch_page_of_remote_channels(cursor)
+  def page_of_remote_channels(cursor)
     team.slack_client.conversations_list(
       types: 'public_channel',
       exclude_archived: true,
@@ -34,14 +34,14 @@ class Slack::ChannelService < Base::ChannelService
   def base_attributes(channel)
     {
       team: team,
-      rid: channel.id
+      rid: channel[:id]
     }
   end
 
   def syncable_attributes(channel)
     {
-      name: channel.name,
-      shared: channel.is_shared
+      name: channel[:name],
+      shared: channel[:is_shared]
     }.compact
   end
 end

@@ -2,7 +2,7 @@
 require 'rails_helper'
 
 RSpec.describe Actions::SubmitTipModal do
-  subject(:action) { described_class.call(params) }
+  subject(:action) { described_class.call(**params) }
 
   let(:team) { build(:team) }
   let(:sender) { create(:profile, team: team) }
@@ -75,14 +75,14 @@ RSpec.describe Actions::SubmitTipModal do
     end
     let(:mentions) do
       [
-        OpenStruct.new(rid: "#{PROF_PREFIX}#{profile.rid}", topic_id: nil, quantity: quantity),
-        OpenStruct.new(rid: "#{CHAN_PREFIX}#{channel.rid}", topic_id: nil, quantity: quantity),
-        OpenStruct.new(
+        Mention.new(rid: "#{PROF_PREFIX}#{profile.rid}", topic_id: nil, quantity: quantity),
+        Mention.new(rid: "#{CHAN_PREFIX}#{channel.rid}", topic_id: nil, quantity: quantity),
+        Mention.new(
           rid: "#{SUBTEAM_PREFIX[:slack]}#{subteam.rid}",
           topic_id: nil,
           quantity: quantity
         ),
-        OpenStruct.new(rid: 'everyone', topic_id: nil, quantity: quantity)
+        Mention.new(rid: 'everyone', topic_id: nil, quantity: quantity)
       ]
     end
     let(:expected_args) do

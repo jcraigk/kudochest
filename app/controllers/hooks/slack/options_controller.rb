@@ -63,18 +63,18 @@ class Hooks::Slack::OptionsController < Hooks::Slack::BaseController
   end
 
   def user_input
-    payload['value'].gsub(/[^0-9a-z\s]/i, '')
+    payload[:value].gsub(/[^0-9a-z\s]/i, '')
   end
 
   def profile_rid
-    payload['user']['id']
+    payload[:user][:id]
   end
 
   def team_rid
-    payload['team']['id']
+    payload[:team][:id]
   end
 
   def payload
-    @payload ||= JSON[params[:payload]]
+    @payload ||= JSON.parse(params[:payload], symbolize_names: true)
   end
 end

@@ -5,7 +5,7 @@ class Cache::Leaderboard < Base::Service
 
   def get
     return if redis_value.blank?
-    JSON.parse(redis_value, object_class: OpenStruct)
+    LeaderboardSnippet.new(updated_at, profiles)
   end
 
   def set(value)
@@ -13,6 +13,18 @@ class Cache::Leaderboard < Base::Service
   end
 
   private
+
+  def updated_at
+    data[:updated_at]
+  end
+
+  def profiles
+    data[:profiles].map { |p| LeaderboardProfile.new(p) }
+  end
+
+  def data
+    @data ||= JSON.parse(redis_value, symbolize_names: true)
+  end
 
   def redis_value
     @redis_value ||= RedisClient.get(key)

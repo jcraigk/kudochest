@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 class Commands::Topics < Commands::Base
   def call
-    OpenStruct.new(
+    ChatResponse.new(
       mode: :private,
       text: topic_text
     )

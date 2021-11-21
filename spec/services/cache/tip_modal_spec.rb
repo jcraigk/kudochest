@@ -6,12 +6,7 @@ RSpec.describe Cache::TipModal do
   let(:str) { "#{channel.rid}:#{channel.name}" }
   let(:arg_key) { 'my-unique-key' }
   let(:redis_key) { "modal/#{arg_key}" }
-  let(:expected_data) do
-    OpenStruct.new(
-      channel_rid: channel.rid,
-      channel_name: channel.name
-    )
-  end
+  let(:expected_data) { ChannelData.new(channel.rid, channel.name) }
 
   before do
     allow(RedisClient).to receive(:set).and_call_original

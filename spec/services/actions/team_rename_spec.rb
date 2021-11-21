@@ -2,7 +2,7 @@
 require 'rails_helper'
 
 RSpec.describe Actions::TeamRename do
-  subject(:action) { described_class.call(params) }
+  subject(:action) { described_class.call(**params) }
 
   let(:team) { create(:team) }
   let(:name) { 'New Name' }

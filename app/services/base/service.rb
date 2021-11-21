@@ -7,8 +7,8 @@ class Base::Service
   include ActionView::Helpers::TranslationHelper
   include PointsHelper
 
-  def self.call(opts = {})
-    new(opts).call
+  def self.call(...)
+    new(...).call
   end
 
   private

@@ -17,7 +17,7 @@ class Base::PostService < Base::Service
 
   def call
     @action = action&.to_sym
-    @team_config = OpenStruct.new(team_config)
+    @team_config = TeamConfig.new(team_config)
     @log_channel_rid = team_config.log_channel_rid
     @response_mode = team_config.response_mode&.to_sym
 
@@ -50,11 +50,11 @@ class Base::PostService < Base::Service
   end
 
   def post_in_log_channel?
-    tips.any? && log_channel_rid.present? && log_channel_rid != channel_rid
+    tips.present? && log_channel_rid.present? && log_channel_rid != channel_rid
   end
 
   def broadcast_via_websocket
-    return if tips.none?
+    return if tips.blank?
     ResponseChannel.broadcast_to(sender.team, response.web)
   end
 
@@ -65,7 +65,7 @@ class Base::PostService < Base::Service
   end
 
   def attach_tips_to_response
-    return if tips.none? || (response_mode == :silent && log_channel_rid.blank?)
+    return if tips.blank? || (response_mode == :silent && log_channel_rid.blank?)
     Tip.where(id: tips.map(&:id)).update_all( # rubocop:disable Rails/SkipsModelValidations
       response_channel_rid: log_channel_rid.presence || post_response_channel_rid,
       response_ts: post_response_ts
@@ -77,7 +77,7 @@ class Base::PostService < Base::Service
   end
 
   def first_tip
-    @first_tip ||= tips.first
+    @first_tip ||= tips&.first
   end
 
   def compose_response(contextual)
@@ -110,7 +110,7 @@ class Base::PostService < Base::Service
     parts = chat_fragments.slice(:main)
     note = chat_fragments[:note]
     channel = chat_fragments[:channel]
-    if team_config.show_channel || tips.any? { |tip| tip.to_channel_rid.present? }
+    if team_config.show_channel || tips&.any? { |tip| tip.to_channel_rid.present? }
       parts[:lead] = chat_fragments[:lead]
     end
     parts[:main] += " #{channel}" if team_config.show_channel && channel.present?

@@ -3,7 +3,7 @@ class Slack::SubteamService < Base::SubteamService
   private
 
   def profile_rids_for(subteam)
-    remote_subteams.find { |sub| sub.id == subteam.rid }.users
+    remote_subteams.find { |sub| sub[:id] == subteam.rid }.users
   end
 
   def remote_subteams
@@ -11,14 +11,14 @@ class Slack::SubteamService < Base::SubteamService
       include_count: false,
       include_disabled: false,
       include_users: true
-    )[:usergroups].map { |data| OpenStruct.new(data) }
+    )[:usergroups]
   end
 
   def syncable_attributes(remote_subteam)
     {
-      name: remote_subteam.name,
-      description: remote_subteam.description,
-      handle: remote_subteam.handle
+      name: remote_subteam[:name],
+      description: remote_subteam[:description],
+      handle: remote_subteam[:handle]
     }
   end
 

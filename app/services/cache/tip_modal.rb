@@ -17,9 +17,6 @@ class Cache::TipModal
   def self.get(key)
     key = "#{PREFIX}/#{key}"
     val = RedisClient.get(key)&.split(':') || []
-    OpenStruct.new(
-      channel_rid: val.first,
-      channel_name: val.second
-    )
+    ChannelData.new(val.first, val.second)
   end
 end

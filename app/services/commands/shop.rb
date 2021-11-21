@@ -8,11 +8,11 @@ class Commands::Shop < Commands::Base
   private
 
   def respond_disabled
-    OpenStruct.new(mode: :private, text: t('shop.disabled'))
+    ChatResponse.new(mode: :private, text: t('shop.disabled'))
   end
 
   def respond_success
-    OpenStruct.new(mode: :private, text: response_text)
+    ChatResponse.new(mode: :private, text: response_text)
   end
 
   def base_text
