@@ -115,7 +115,7 @@ class Reports::ProfileDigestService < Reports::BaseDigestService
   def rank_sentence
     return if leaderboard_data.blank?
     rank_snippet
-    # TODO: re-enable
+    # TODO: re-enable rank trends
     # previous_rank = leaderboard_data.previous_rank
     # delta = previous_rank.zero? ? 0 : leaderboard_data.rank - previous_rank
     # verb = delta.positive? ? 'lost' : 'gained'
