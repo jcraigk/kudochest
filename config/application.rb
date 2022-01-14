@@ -12,7 +12,7 @@ Bundler.require(*Rails.groups)
 
 module KudoChest
   class Application < Rails::Application
-    config.load_defaults '6.1'
+    config.load_defaults '7.0'
     Rails.autoloaders.main.ignore(Rails.root.join('app/webpacker'))
     config.i18n.load_path += Dir[Rails.root.join('config/locales/**/*.yml')]
     config.exceptions_app = routes
