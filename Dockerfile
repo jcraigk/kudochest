@@ -14,9 +14,10 @@ RUN apt-get update -qq && \
       libpq-dev \
       libsodium-dev \
       memcached \
-      postgresql-client \
       nodejs \
       npm \
+      postgresql-client \
+      python2 \
     && apt-get clean
 
 COPY lib/image_magick/policy.xml /etc/ImageMagick-6/policy.xml
@@ -27,8 +28,9 @@ WORKDIR $INSTALL_PATH
 
 COPY . .
 
-RUN gem install bundler && bundle install
 RUN npm install yarn -g
+RUN yarn install
+RUN gem install bundler && bundle install
 RUN bundle exec rake assets:precompile
 
 EXPOSE 3000
