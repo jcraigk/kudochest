@@ -8,7 +8,7 @@ RSpec.describe Actions::AppHomeOpened, :freeze_time do
   let!(:profile) { create(:profile, team:) }
   let(:params) { { team_rid: team.rid, profile_rid: profile.rid } }
   let(:expected_response) do
-    ChatResponse.new(
+    ChatResponse.new \
       mode: :direct,
       text: I18n.t(
         'profiles.app_home_opened',
@@ -16,7 +16,6 @@ RSpec.describe Actions::AppHomeOpened, :freeze_time do
         url: App.help_url,
         points: App.points_term
       )
-    )
   end
 
   it 'returns a private response' do

@@ -16,11 +16,10 @@ class TipResponseService < Base::Service
   private
 
   def build_response
-    TipResponse.new(
+    TipResponse.new \
       chat_fragments: build_fragments(team.platform.to_sym),
       image_fragments: build_fragments(:image),
       web: web_sentence
-    )
   end
 
   def web_sentence
@@ -162,10 +161,9 @@ class TipResponseService < Base::Service
 
   def streak_rewarded?
     return @streak_rewarded unless @streak_rewarded.nil?
-    @streak_rewarded = StreakRewardService.call(
+    @streak_rewarded = StreakRewardService.call \
       profile: from_profile,
       event_ts: first_tip.event_ts
-    )
   end
 
   def levelup_fragment(platform)

@@ -5,12 +5,11 @@ RSpec.describe LevelToPointsService do
   subject(:call) { described_class.call(team:, level:) }
 
   let(:team) do
-    create(
+    create \
       :team,
       max_level:,
       max_level_points:,
       level_curve: curve
-    )
   end
   let(:max_level) { 20 }
   let(:max_level_points) { 500 }

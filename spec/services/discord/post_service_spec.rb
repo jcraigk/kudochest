@@ -22,10 +22,9 @@ RSpec.describe Discord::PostService do
   let(:chat_response) { 'Chat response' }
   let(:web_response) { 'Web response' }
   let(:response) do
-    TipResponseService::TipResponse.new(
+    TipResponseService::TipResponse.new \
       chat_fragments: { main: chat_response },
       web: web_response
-    )
   end
   let(:post_response) do
     {

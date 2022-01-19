@@ -33,11 +33,10 @@ class TeamsController < ApplicationController
   end
 
   def leaderboard_page
-    @leaderboard = LeaderboardService.call(
+    @leaderboard = LeaderboardService.call \
       team: @current_profile.team,
       offset: params[:offset].to_i,
       count: params[:count].to_i
-    )
     return if @leaderboard.profiles.blank?
     render partial: 'profiles/tiles/leaderboard_rows',
            locals: { leaderboard: @leaderboard, profile: @current_profile }
@@ -51,10 +50,9 @@ class TeamsController < ApplicationController
   end
 
   def handle_import
-    flash[:notice] = CsvImporter.call(
+    flash[:notice] = CsvImporter.call \
       team: current_team,
       text: params[:team][:import_file].read
-    )
     redirect_to app_settings_path
   end
 
@@ -84,7 +82,7 @@ class TeamsController < ApplicationController
   end
 
   def team_params
-    params.require(:team).permit(
+    params.require(:team).permit \
       :throttle_tips, :token_frequency, :token_quantity, :token_max, :action_hour,
       :hint_frequency, :hint_channel_rid, :notify_tokens, :max_points_per_tip,
       :tip_notes, :show_channel, :enable_fast_ack, :week_start_day, :enable_levels,
@@ -93,7 +91,6 @@ class TeamsController < ApplicationController
       :enable_streaks, :streak_duration, :streak_reward, :time_zone, :weekly_report,
       :tip_increment, :split_tip, :join_channels, :enable_cheers, :enable_loot,
       :enable_topics, :require_topic, :show_note, work_days: []
-    )
   end
 
   def platform_team_params

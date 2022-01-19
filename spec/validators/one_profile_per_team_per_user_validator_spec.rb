@@ -27,9 +27,8 @@ RSpec.describe OneProfilePerTeamPerUserValidator do
 
     it 'is invalid' do
       validate
-      expect(profile.errors[:base]).to eq(
+      expect(profile.errors[:base]).to eq \
         [I18n.t('activerecord.errors.models.profile.attributes.base.one_team_profile_per_user')]
-      )
     end
   end
 end

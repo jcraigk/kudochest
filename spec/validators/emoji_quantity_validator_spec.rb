@@ -11,9 +11,8 @@ RSpec.describe EmojiQuantityValidator do
   shared_examples 'invalid' do
     it 'is invalid' do
       validate
-      expect(team.errors[:emoji_quantity]).to eq(
+      expect(team.errors[:emoji_quantity]).to eq \
         ["must be a multiple of the #{App.points_term.titleize} Increment (#{team.tip_increment})"]
-      )
     end
   end
 

@@ -37,12 +37,11 @@ class Commands::Claim < Commands::Base
   end
 
   def claimed_fragment
-    t(
+    t \
       'shop.claimed_for_points',
       reward: reward.name,
       quantity: claim.price,
       points: App.points_term
-    )
   end
 
   def fulfillment_fragment

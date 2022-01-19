@@ -20,7 +20,7 @@ class TeamResetService < Base::Service
   end
 
   def reset_profile_stats(profile)
-    profile.update!(
+    profile.update! \
       points_received: 0,
       points_sent: 0,
       points_claimed: 0,
@@ -28,7 +28,6 @@ class TeamResetService < Base::Service
       tokens_forfeited: 0,
       last_tip_received_at: nil,
       last_tip_sent_at: nil
-    )
   end
 
   def destroy_tips(profile)

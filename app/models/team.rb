@@ -143,19 +143,17 @@ class Team < ApplicationRecord
   end
 
   def next_tokens_at
-    NextIntervalService.call(
+    NextIntervalService.call \
       team: self,
       attr: :token_frequency,
       start_at: tokens_disbursed_at
-    )
   end
 
   def next_hint_at
-    NextIntervalService.call(
+    NextIntervalService.call \
       team: self,
       attr: :hint_frequency,
       start_at: hint_posted_at
-    )
   end
 
   def app_profile

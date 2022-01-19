@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 module BonusHelper
-  def select_bonus_calc_style # rubocop:disable Metrics/MethodLength
-    select_tag(
+  def select_bonus_calc_style
+    select_tag \
       :style,
       options_for_select(
         [
@@ -11,6 +11,5 @@ module BonusHelper
         ]
       ),
       id: 'bonus-calc-style'
-    )
   end
 end

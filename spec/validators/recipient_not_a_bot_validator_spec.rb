@@ -8,11 +8,10 @@ RSpec.describe RecipientNotABotValidator do
   let(:from_profile) { build(:profile) }
   let(:to_profile) { build(:profile) }
   let(:expected) do
-    I18n.t(
+    I18n.t \
       "activerecord.errors.models.tip.attributes.base.#{type}",
       user: from_profile.link,
       points: App.points_term
-    )
   end
 
   it 'is valid when to_profile is not a bot' do

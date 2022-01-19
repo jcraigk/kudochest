@@ -37,13 +37,11 @@ class Hooks::Slack::BaseController < Hooks::BaseController
 
   def mentions_found?
     @mentions_found ||=
-      text&.match?(
-        mention_regex(
+      text&.match? \
+        mention_regex \
           :slack,
           "(?:#{valid_emojis.join('|')})",
           emoji: team_config.enable_emoji
-        )
-      )
   end
 
   def valid_emojis

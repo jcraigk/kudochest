@@ -15,7 +15,7 @@ class MentionParser < Base::Service
   private
 
   def process_tip_mentions
-    TipMentionService.call(
+    TipMentionService.call \
       profile:,
       mentions:,
       note:,
@@ -23,7 +23,6 @@ class MentionParser < Base::Service
       event_ts:,
       channel_rid:,
       channel_name:
-    )
   end
 
   def mentions

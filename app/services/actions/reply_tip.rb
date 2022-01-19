@@ -7,14 +7,13 @@ class Actions::ReplyTip < Actions::Base
   private
 
   def process_tip_mentions
-    TipMentionService.call(
+    TipMentionService.call \
       profile:,
       mentions:,
       source: 'reply',
       event_ts: params[:message_ts],
       channel_rid: params[:channel_rid],
       channel_name: params[:channel_name]
-    )
   end
 
   def mentions

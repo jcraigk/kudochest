@@ -29,9 +29,8 @@ RSpec.describe TokenQuantityWithinTokenMaxValidator do
 
     it 'is invalid' do
       validate
-      expect(team.errors[:token_quantity]).to eq(
+      expect(team.errors[:token_quantity]).to eq \
         [I18n.t('activerecord.errors.models.team.attributes.token_quantity.within_token_max')]
-      )
     end
   end
 end

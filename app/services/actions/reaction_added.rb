@@ -8,14 +8,13 @@ class Actions::ReactionAdded < Actions::ReactionBase
   private
 
   def process_reaction_and_respond
-    TipMentionService.call(
+    TipMentionService.call \
       profile:,
       mentions:,
       source:,
       event_ts:,
       channel_rid: params[:channel_rid],
       channel_name:
-    )
   end
 
   def mentions
@@ -27,11 +26,10 @@ class Actions::ReactionAdded < Actions::ReactionBase
 
   def ditto_mentions
     ditto_tips.map do |tip|
-      Mention.new(
+      Mention.new \
         rid: "#{PROF_PREFIX}#{tip.to_profile.rid}",
         topic_id: tip.topic_id,
         quantity: tip.quantity
-      )
     end
   end
 

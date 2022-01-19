@@ -11,7 +11,7 @@ class Reports::ProfileDigestService < Reports::BaseDigestService
   private
 
   def profile_data # rubocop:disable Metrics/MethodLength
-    DigestData.new(
+    DigestData.new \
       profile:,
       points_received:,
       num_givers:,
@@ -22,7 +22,6 @@ class Reports::ProfileDigestService < Reports::BaseDigestService
       rank_sentence:,
       top_recipients:,
       top_givers:
-    )
   end
 
   def num_givers

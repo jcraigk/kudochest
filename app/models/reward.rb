@@ -17,11 +17,10 @@ class Reward < ApplicationRecord
   scope :active, -> { where(active: true) }
   scope :inactive, -> { where(active: false) }
   scope :search, lambda { |term|
-    where(
+    where \
       'lower(rewards.name) LIKE lower(:term) OR lower(rewards.description) LIKE lower(:term) ' \
       'OR lower(rewards.fulfillment_keys) LIKE lower(:term)',
       term: "%#{sanitize_sql_like(term)}%"
-    )
   }
 
   def self.shop_list(team)

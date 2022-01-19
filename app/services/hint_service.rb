@@ -14,13 +14,12 @@ class HintService < Base::Service
   private
 
   def post_random_hint
-    responder.call(
+    responder.call \
       team_rid: team.rid,
       team_config: team.config,
       mode: :hint,
       text:,
       channel_rid: team.hint_channel_rid
-    )
     team.update!(hint_posted_at: Time.current)
   end
 

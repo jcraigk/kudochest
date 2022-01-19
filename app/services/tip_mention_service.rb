@@ -20,19 +20,17 @@ class TipMentionService < Base::Service
 
   def respond_success
     return ChatResponse.new(mode: :silent) unless profile.announce_tip_sent?
-    ChatResponse.new(
+    ChatResponse.new \
       mode: :public,
       response:,
       tips:,
       image: response_image
-    )
   end
 
   def respond_no_action
-    ChatResponse.new(
+    ChatResponse.new \
       mode: :error,
       text: I18n.t('errors.no_tips', points: App.points_term)
-    )
   end
 
   def tips
@@ -45,7 +43,7 @@ class TipMentionService < Base::Service
   end
 
   def create_tips_for(mention, timestamp) # rubocop:disable Metrics/MethodLength
-    TipFactory.call(
+    TipFactory.call \
       topic_id: mention.topic_id,
       event_ts:,
       from_channel_name: channel_name,
@@ -57,7 +55,6 @@ class TipMentionService < Base::Service
       to_entity: mention.entity,
       to_profiles: mention.profiles,
       timestamp:
-    )
   end
 
   def timestamp
@@ -66,12 +63,11 @@ class TipMentionService < Base::Service
 
   def response_image
     return unless team.response_theme.start_with?('gif') && tips.any?
-    ResponseImageService.call(
+    ResponseImageService.call \
       type: 'tip',
       team_config: team.config,
       fragments: response.image_fragments,
       tips:
-    )
   end
 
   def response
@@ -184,12 +180,11 @@ class TipMentionService < Base::Service
   def entity_mentions
     @entity_mentions ||= mentions.filter_map do |mention|
       next unless (entity = fetch_entity(mention.rid))
-      EntityMention.new(
+      EntityMention.new \
         entity:,
         profiles: profiles_for_entity(entity),
         topic_id: mention.topic_id,
         quantity: mention.quantity
-      )
     end
   end
 

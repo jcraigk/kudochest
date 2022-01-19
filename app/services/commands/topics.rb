@@ -1,10 +1,9 @@
 # frozen_string_literal: true
 class Commands::Topics < Commands::Base
   def call
-    ChatResponse.new(
+    ChatResponse.new \
       mode: :private,
       text: topic_text
-    )
   end
 
   private

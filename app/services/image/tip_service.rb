@@ -148,13 +148,12 @@ class Image::TipService < Base::ImageService
     end
 
     # Cover extra long text with same color background
-    comp.composite(
+    comp.composite \
       solid_color_background(300, 300),
       Magick::NorthWestGravity,
       body_width + 10,
       46,
       Magick::OverCompositeOp
-    )
   end
   # rubocop:enable Metrics/MethodLength, Metrics/AbcSize, Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
 
@@ -217,13 +216,12 @@ class Image::TipService < Base::ImageService
 
   def add_sender_avatar(comp)
     sender_avatar = profile_avatar(first_tip.from_profile)
-    comp.composite(
+    comp.composite \
       sender_avatar,
       Magick::NorthEastGravity,
       HEADER_PAD,
       HEADER_PAD,
       Magick::OverCompositeOp
-    )
   end
 
   def add_quantity(comp)

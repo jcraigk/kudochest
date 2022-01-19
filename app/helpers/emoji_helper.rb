@@ -8,10 +8,9 @@ module EmojiHelper
       emoji_alias = Regexp.last_match[1]
       emoji = Emoji.find_by_alias(emoji_alias) # rubocop:disable Rails/DynamicFindBy
       return match unless emoji
-      image_tag(
+      image_tag \
         emoji_image_url(emoji),
         { alt: emoji_alias, class: 'emoji' }.merge(opts)
-      )
     end.html_safe # rubocop:disable Rails/OutputSafety
   end
 

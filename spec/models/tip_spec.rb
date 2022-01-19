@@ -25,9 +25,8 @@ RSpec.describe Tip do
       end
 
       it 'is invalid without a topic' do
-        expect(tip.errors[:topic_id]).to eq(
+        expect(tip.errors[:topic_id]).to eq \
           ["must be specified - use the \"topics\" command or visit #{App.base_url}/topic-list"]
-        )
       end
     end
 
@@ -108,13 +107,12 @@ RSpec.describe Tip do
 
   describe 'delete_discord_response after destroy' do
     subject(:tip) do
-      create(
+      create \
         :tip,
         from_profile: profile,
         response_channel_rid:
         channel.rid,
         response_ts: ts
-      )
     end
 
     let(:team) { create(:team, platform: :discord) }

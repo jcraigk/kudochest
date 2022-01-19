@@ -172,9 +172,8 @@ RSpec.describe ProfileDecorator do
 
     it 'calls PointsToLevelService' do
       profile.level
-      expect(PointsToLevelService).to have_received(:call).with(
+      expect(PointsToLevelService).to have_received(:call).with \
         team: profile.team, points: profile.points
-      )
     end
   end
 

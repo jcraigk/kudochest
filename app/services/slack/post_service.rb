@@ -130,11 +130,10 @@ class Slack::PostService < Base::PostService
   end
 
   def respond_ephemeral(to_profile_rid)
-    slack_client.chat_postEphemeral(
+    slack_client.chat_postEphemeral \
       channel: channel_rid,
       user: to_profile_rid,
       text: chat_response_text
-    )
   rescue Slack::Web::Api::Errors::SlackError # Bot not in channel
     respond_dm(to_profile_rid)
   end
@@ -159,17 +158,15 @@ class Slack::PostService < Base::PostService
   end
 
   def render_tip_modal
-    slack_client.views_open(
+    slack_client.views_open \
       trigger_id:,
       view: Slack::Modals::Tip.call(team_rid:)
-    )
   end
 
   def render_prefs_modal
-    slack_client.views_open(
+    slack_client.views_open \
       trigger_id:,
       view: Slack::Modals::Preferences.call(team_rid:, profile_rid:)
-    )
   end
 
   def post_response_channel_rid

@@ -95,12 +95,11 @@ RSpec.describe TipMentionService, :freeze_time do
       ]
     end
     let(:result) do
-      ChatResponse.new(
+      ChatResponse.new \
         mode: :public,
         response: tip_response,
         tips: Tip.all,
         image: nil
-      )
     end
     let(:tip_response) { 'A mock tip response' }
     let(:mention_entities) do

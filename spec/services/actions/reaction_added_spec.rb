@@ -102,28 +102,25 @@ RSpec.describe Actions::ReactionAdded do
     # and the response. Normally these would not be associated
     # with the same event_ts, but it's irrelevant for the test
     before do
-      create(
+      create \
         :tip,
         from_profile: sender,
         to_profile: recipient,
         quantity:,
         event_ts: ts
-      )
-      create(
+      create \
         :tip,
         from_profile: sender,
         to_profile: recipient2,
         quantity:,
         response_ts: ts
-      )
       # This should be ignored as to_profile is sender (cannot give to self)
-      create(
+      create \
         :tip,
         from_profile: recipient2,
         to_profile: sender,
         quantity:,
         response_ts: ts
-      )
       action
     end
 

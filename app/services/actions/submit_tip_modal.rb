@@ -8,7 +8,7 @@ class Actions::SubmitTipModal < Actions::Base
   private
 
   def create_tips_and_respond
-    TipMentionService.call(
+    TipMentionService.call \
       profile:,
       mentions:,
       note:,
@@ -16,7 +16,6 @@ class Actions::SubmitTipModal < Actions::Base
       event_ts:,
       channel_rid: params[:channel_rid],
       channel_name: params[:channel_name]
-    )
   end
 
   def event_ts
@@ -28,11 +27,10 @@ class Actions::SubmitTipModal < Actions::Base
       .find { |_k, v| v[:rids] }
       .second[:rids][:selected_options]&.map do |option|
         val = option[:value]
-        Mention.new(
+        Mention.new \
           rid: "#{prefix(val)}#{val}",
           topic_id:,
           quantity: BigDecimal(quantity.presence || 0)
-        )
       end || []
   end
 
@@ -52,12 +50,11 @@ class Actions::SubmitTipModal < Actions::Base
 
   def quantity
     @quantity ||=
-      BigDecimal(
+      BigDecimal \
         submission.find { |_k, v| v[:quantity].present? }
                   &.second
                   &.dig(:quantity, :selected_option, :value)
                   .presence || 0
-      )
   end
 
   def topic_id

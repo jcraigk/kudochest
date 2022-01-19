@@ -28,12 +28,11 @@ module ProfileHelper
   end
 
   def level_progress_bar(profile)
-    tag.progress(
+    tag.progress \
       class: 'progress profile-level-progress',
       value: percent_of_current_level(profile),
       max: 100,
       title: profile.next_level_points_sentence
-    )
   end
 
   def profile_web_link(profile, team = nil)
@@ -78,11 +77,10 @@ module ProfileHelper
   end
 
   def avatar_image(profile, size: 150)
-    image_tag(
+    image_tag \
       profile.avatar_url,
       alt: 'Profile avatar image',
       size:,
       class: "platform-#{profile.team.platform}"
-    )
   end
 end

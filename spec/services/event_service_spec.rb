@@ -30,10 +30,7 @@ RSpec.describe EventService do
       TEXT
     end
     let(:args) do
-      params.merge(
-        mode: :error,
-        text:
-      )
+      params.merge(mode: :error, text:)
     end
 
     before { allow(Actions::Message).to receive(:call).and_raise('whoopsy') }

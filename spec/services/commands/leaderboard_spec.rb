@@ -74,7 +74,7 @@ RSpec.describe Commands::Leaderboard, :freeze_time do
   end
 
   def profile_data(prof, rank)
-    LeaderboardProfile.new(
+    LeaderboardProfile.new \
       rank:,
       slug: prof.slug,
       link: prof.link,
@@ -83,6 +83,5 @@ RSpec.describe Commands::Leaderboard, :freeze_time do
       points: prof.points,
       percent_share: (prof.points / team.points_sent.to_f) * 100,
       last_timestamp: prof.last_tip_received_at.to_i
-    )
   end
 end

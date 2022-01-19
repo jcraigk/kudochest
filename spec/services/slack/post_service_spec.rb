@@ -44,10 +44,9 @@ RSpec.describe Slack::PostService do
   end
   let(:tips) { {} }
   let(:response) do
-    TipResponseService::TipResponse.new(
+    TipResponseService::TipResponse.new \
       chat_fragments: { main: chat_response },
       web: web_response
-    )
   end
   let(:web_ts) { '<span class="ts">Nov 11 9:01pm:</span>' }
   let(:text_block) do
@@ -275,14 +274,13 @@ RSpec.describe Slack::PostService do
 
       it 'calls Slack::Web::Client#chat_postMessage' do # rubocop:disable RSpec/ExampleLength
         tips.each do |tip|
-          expect(slack_client).to have_received(:chat_postMessage).with(
+          expect(slack_client).to have_received(:chat_postMessage).with \
             text: chat_response,
             blocks: [text_block],
             channel: tip.to_profile.rid,
             as_user: true,
             unfurl_links: false,
             unfurl_media: false
-          )
         end
       end
 

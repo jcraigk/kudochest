@@ -63,7 +63,7 @@ class Actions::Message < Actions::Base
   end
 
   def handle_mentions
-    MentionParser.call(
+    MentionParser.call \
       team_rid:,
       profile_rid:,
       event_ts:,
@@ -71,7 +71,6 @@ class Actions::Message < Actions::Base
       channel_name:,
       matches: mention_matches,
       note:
-    )
   end
 
   def note
@@ -108,13 +107,12 @@ class Actions::Message < Actions::Base
   end
 
   def mention_match_struct(match, last_match_end)
-    MentionMatch.new(
+    MentionMatch.new \
       profile_rid: match.second || match.first, # 'everyone' or entity RID match
       prefix_digits: match.third,
       suffix_digits: match.fifth,
       emoji_string: match.fourth,
       end: last_match_end
-    )
   end
 
   def command_key
@@ -124,11 +122,10 @@ class Actions::Message < Actions::Base
   end
 
   def call_command
-    "Commands::#{command_key.to_s.titleize}".constantize.call(
+    "Commands::#{command_key.to_s.titleize}".constantize.call \
       team_rid:,
       profile_rid:,
       text: opts_str
-    )
   end
 
   def keyword
