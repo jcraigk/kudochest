@@ -53,7 +53,7 @@ class MentionParser < Base::Service
     return unless team.enable_topics?
 
     if match.emoji_string.present?
-      first_emoji = match.emoji_string.split(':').reject(&:blank?).first
+      first_emoji = match.emoji_string.split(':').compact_blank.first
       team.topics.active.find { |topic| first_emoji == topic.emoji }&.id
     else
       topic_id_from_note
@@ -85,7 +85,7 @@ class MentionParser < Base::Service
   # `:high_brightness: :fire:` => first emoji is used for topic, but gets 2 quantity
   # TODO: Split this out into 2 Tips
   def num_inline_emoji(emoji_string)
-    emoji_string.split(':').reject(&:blank?).count do |emoji|
+    emoji_string.split(':').compact_blank.count do |emoji|
       emoji == team.tip_emoji || emoji.in?(team.topics.active.map(&:emoji))
     end
   end

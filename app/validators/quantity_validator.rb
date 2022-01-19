@@ -33,7 +33,7 @@ class QuantityValidator < ActiveModel::Validator
   end
 
   def max_quantity
-    team.max_points_per_tip || App.max_points_per_tip
+    team&.max_points_per_tip || App.max_points_per_tip
   end
 
   def absent?

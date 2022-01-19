@@ -42,7 +42,7 @@ class Image::TipService < Base::ImageService
     y = MAIN_HEIGHT + CHEER_PAD
     cheer_fragments.each do |text|
       x = BODY_PAD
-      text.split(IMG_DELIM).reject(&:blank?).each_with_index do |chunk, idx|
+      text.split(IMG_DELIM).compact_blank.each_with_index do |chunk, idx|
         draw.annotate(comp, 0, 0, x, y, chunk) do
           self.fill = colors[idx % 2]
         end
@@ -185,7 +185,7 @@ class Image::TipService < Base::ImageService
   end
 
   def cheer_fragments
-    @cheer_fragments ||= fragments.slice(:levelup, :streak).values.reject(&:blank?)
+    @cheer_fragments ||= fragments.slice(:levelup, :streak).values.compact_blank
   end
 
   def main_fragments

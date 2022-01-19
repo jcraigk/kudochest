@@ -47,7 +47,7 @@ class Hooks::Slack::BaseController < Hooks::BaseController
   end
 
   def valid_emojis
-    (topic_emojis + [team_config.tip_emoji]).reject(&:blank?)
+    (topic_emojis + [team_config.tip_emoji]).compact_blank
   end
 
   def topic_emojis

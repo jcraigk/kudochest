@@ -3,7 +3,7 @@ class Oauth::SorceryController < ApplicationController
   skip_before_action :require_login, raise: false
 
   def oauth
-    login_at(params[:provider])
+    redirect_to sorcery_login_url(params[:provider]), allow_other_host: true
   end
 
   def callback

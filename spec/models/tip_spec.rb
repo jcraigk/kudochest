@@ -10,8 +10,6 @@ RSpec.describe Tip do
   it { is_expected.to belong_to(:to_profile).class_name('Profile').inverse_of(:tips_received) }
   it { is_expected.to belong_to(:topic).optional(true) }
 
-  it { is_expected.to validate_presence_of(:from_profile_id) }
-  it { is_expected.to validate_presence_of(:to_profile_id) }
   it { is_expected.to validate_length_of(:note).is_at_most(App.max_note_length) }
 
   describe 'Topic presence validation' do
