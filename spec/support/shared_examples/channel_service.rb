@@ -2,11 +2,11 @@
 require 'rails_helper'
 
 RSpec.shared_examples 'ChannelService' do
-  subject(:service) { described_class.call(team: team, new_channel_rid: new_channel_rid) }
+  subject(:service) { described_class.call(team:, new_channel_rid:) }
 
   let(:team) { create(:team, api_key: 'api-key', join_channels: true) }
-  let!(:existing_channel) { create(:channel, team: team, rid: 'existing-rid') }
-  let!(:archived_channel) { create(:channel, team: team) }
+  let!(:existing_channel) { create(:channel, team:, rid: 'existing-rid') }
+  let!(:archived_channel) { create(:channel, team:) }
   let(:expected_channel_names) { %w[bot existing general kudos] }
   let(:team_channel_names) { team.reload.channels.order(name: :asc).map(&:name) }
 

@@ -14,7 +14,7 @@ class Actions::AppHomeOpened < Actions::Base
   end
 
   def respond
-    ChatResponse.new(mode: :direct, text: text)
+    ChatResponse.new(mode: :direct, text:)
   end
 
   def text

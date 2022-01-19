@@ -4,7 +4,7 @@ require 'rails_helper'
 RSpec.describe RecipientNotABotValidator do
   subject(:validate) { described_class.new.validate(tip) }
 
-  let(:tip) { build(:tip, from_profile: from_profile, to_profile: to_profile) }
+  let(:tip) { build(:tip, from_profile:, to_profile:) }
   let(:from_profile) { build(:profile) }
   let(:to_profile) { build(:profile) }
   let(:expected) do

@@ -9,12 +9,12 @@ class Actions::ReactionAdded < Actions::ReactionBase
 
   def process_reaction_and_respond
     TipMentionService.call(
-      profile: profile,
-      mentions: mentions,
-      source: source,
-      event_ts: event_ts,
+      profile:,
+      mentions:,
+      source:,
+      event_ts:,
       channel_rid: params[:channel_rid],
-      channel_name: channel_name
+      channel_name:
     )
   end
 
@@ -47,7 +47,7 @@ class Actions::ReactionAdded < Actions::ReactionBase
     [
       Mention.new(
         rid: "#{PROF_PREFIX}#{author_profile_rid}",
-        topic_id: topic_id,
+        topic_id:,
         quantity: team.emoji_quantity
       )
     ]

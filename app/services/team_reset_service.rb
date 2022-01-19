@@ -5,7 +5,7 @@ class TeamResetService < Base::Service
   def call
     Team.transaction do
       reset_all_stats
-      TokenDispersalService.call(team: team, notify: false)
+      TokenDispersalService.call(team:, notify: false)
     end
   end
 

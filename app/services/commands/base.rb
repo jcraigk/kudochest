@@ -21,7 +21,7 @@ class Commands::Base < Base::Service
   end
 
   def respond_privately(text)
-    ChatResponse.new(mode: :private, text: text)
+    ChatResponse.new(mode: :private, text:)
   end
 
   def respond_failure(text)

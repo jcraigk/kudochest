@@ -9,8 +9,8 @@ class Commands::Preferences < Commands::Base
 
   def admin_command
     Commands::Admin.call(
-      team_rid: team_rid,
-      profile_rid: profile_rid
+      team_rid:,
+      profile_rid:
     )
   end
 end

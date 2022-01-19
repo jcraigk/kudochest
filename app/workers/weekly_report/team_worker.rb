@@ -22,7 +22,7 @@ class WeeklyReport::TeamWorker
   end
 
   def team_data
-    Reports::TeamDigestService.call(team: team)
+    Reports::TeamDigestService.call(team:)
   end
 
   def team

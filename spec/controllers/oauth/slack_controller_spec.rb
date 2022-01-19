@@ -34,7 +34,7 @@ describe Oauth::SlackController do
       rid: team.rid,
       name: team.name,
       owner_user_id: user.id,
-      api_key: api_key
+      api_key:
     }
   end
 

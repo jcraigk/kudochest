@@ -140,7 +140,7 @@ class Base::ImageService < Base::Service
     end
     return unless response.code == 200
 
-    File.open(filename, 'wb') { |f| f.write(response.body) }
+    File.binwrite(filename, response.body)
     filename
   end
 end

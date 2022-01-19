@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 class Hooks::Slack::OptionsController < Hooks::Slack::BaseController
   def receiver
-    render json: { options: options }
+    render json: { options: }
   end
 
   private
@@ -56,7 +56,7 @@ class Hooks::Slack::OptionsController < Hooks::Slack::BaseController
     {
       text: {
         type: :plain_text,
-        text: text
+        text:
       },
       value: value
     }

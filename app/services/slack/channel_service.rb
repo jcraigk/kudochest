@@ -9,7 +9,7 @@ class Slack::ChannelService < Base::ChannelService
 
   def join_new_channel
     return unless new_channel_rid.present? && team.join_channels?
-    Slack::ChannelJoinService.call(team: team, channel_rid: new_channel_rid)
+    Slack::ChannelJoinService.call(team:, channel_rid: new_channel_rid)
   end
 
   def fetch_remote_channels
@@ -27,7 +27,7 @@ class Slack::ChannelService < Base::ChannelService
     team.slack_client.conversations_list(
       types: 'public_channel',
       exclude_archived: true,
-      cursor: cursor
+      cursor:
     )
   end
 

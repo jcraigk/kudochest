@@ -2,10 +2,10 @@
 require 'rails_helper'
 
 RSpec.describe Slack::ChannelJoinService do
-  subject(:service) { described_class.call(team: team, channel_rid: channel.rid) }
+  subject(:service) { described_class.call(team:, channel_rid: channel.rid) }
 
   let(:team) { create(:team) }
-  let(:channel) { create(:channel, team: team) }
+  let(:channel) { create(:channel, team:) }
   let(:slack_client) { instance_spy(Slack::Web::Client) }
 
   before do

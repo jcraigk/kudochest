@@ -9,11 +9,11 @@ class Actions::SubmitTipModal < Actions::Base
 
   def create_tips_and_respond
     TipMentionService.call(
-      profile: profile,
-      mentions: mentions,
-      note: note,
+      profile:,
+      mentions:,
+      note:,
       source: 'modal',
-      event_ts: event_ts,
+      event_ts:,
       channel_rid: params[:channel_rid],
       channel_name: params[:channel_name]
     )
@@ -30,7 +30,7 @@ class Actions::SubmitTipModal < Actions::Base
         val = option[:value]
         Mention.new(
           rid: "#{prefix(val)}#{val}",
-          topic_id: topic_id,
+          topic_id:,
           quantity: BigDecimal(quantity.presence || 0)
         )
       end || []

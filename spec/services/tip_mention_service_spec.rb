@@ -7,9 +7,9 @@ RSpec.describe TipMentionService, :freeze_time do
   let(:team) do
     create(:team, throttle_tips: true, split_tip: false, tokens_disbursed_at: Time.current)
   end
-  let(:channel) { create(:channel, team: team) }
-  let(:profile) { create(:profile, team: team) }
-  let(:to_profile) { create(:profile, team: team) }
+  let(:channel) { create(:channel, team:) }
+  let(:profile) { create(:profile, team:) }
+  let(:to_profile) { create(:profile, team:) }
   let(:mentions) { [Mention.new(rid: "#{PROF_PREFIX}#{to_profile.rid}", quantity: 1)] }
   let(:note) { 'A note!' }
   let(:ts) { Time.current.to_f.to_s }
@@ -51,7 +51,7 @@ RSpec.describe TipMentionService, :freeze_time do
         :#{App.error_emoji}: Giving #{points_format(1, label: true)} would exceed your token balance of 0. The next dispersal of #{team.token_quantity} tokens will occur in about 10 hours.
       TEXT
     end
-    let(:result) { ChatResponse.new(mode: :error, text: text) }
+    let(:result) { ChatResponse.new(mode: :error, text:) }
 
     include_examples 'expected result'
   end
@@ -59,7 +59,7 @@ RSpec.describe TipMentionService, :freeze_time do
   context 'when required note is missing' do
     let(:note) { '' }
     let(:text) { I18n.t('tips.note_required') }
-    let(:result) { ChatResponse.new(mode: :error, text: text) }
+    let(:result) { ChatResponse.new(mode: :error, text:) }
 
     before do
       profile.tokens_accrued = 10
@@ -110,9 +110,9 @@ RSpec.describe TipMentionService, :freeze_time do
         EntityMention.new(entity: channel, profiles: [channel_profile])
       ]
     end
-    let(:subteam) { create(:subteam, team: team) }
-    let(:subteam_profile) { create(:profile, team: team) }
-    let(:channel_profile) { create(:profile, team: team) }
+    let(:subteam) { create(:subteam, team:) }
+    let(:subteam_profile) { create(:profile, team:) }
+    let(:channel_profile) { create(:profile, team:) }
     let(:base_tip_attrs) do
       {
         event_ts: ts,
@@ -126,7 +126,7 @@ RSpec.describe TipMentionService, :freeze_time do
         timestamp: timestamp
       }
     end
-    let(:other_profile) { create(:profile, team: team) }
+    let(:other_profile) { create(:profile, team:) }
 
     before do
       team.throttle_tips = false

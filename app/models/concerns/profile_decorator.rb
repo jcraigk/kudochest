@@ -57,11 +57,11 @@ module ProfileDecorator
 
   def points_required_for_next_level
     return 0 if max_level?
-    LevelToPointsService.call(team: team, level: next_level) - points_received
+    LevelToPointsService.call(team:, level: next_level) - points_received
   end
 
   def level
-    PointsToLevelService.call(team: team, points: points_received)
+    PointsToLevelService.call(team:, points: points_received)
   end
 
   def next_level

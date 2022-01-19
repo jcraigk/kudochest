@@ -7,7 +7,7 @@ RSpec.describe Cache::TeamConfig do
   let(:channel_rid) { build(:channel).rid }
   let(:team) { create(:team, log_channel_rid: channel_rid) }
   let(:cache_key) { "team_response_config/#{team.rid}" }
-  let!(:topics) { create_list(:topic, 2, team: team) }
+  let!(:topics) { create_list(:topic, 2, team:) }
   let(:team_attrs) { team.attributes.slice(*TeamConfig.members.map(&:to_s)) }
   let(:topic_attrs) do
     {

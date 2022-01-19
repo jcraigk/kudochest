@@ -6,13 +6,13 @@ RSpec.describe Commands::Connect do
     described_class.call(team_rid: team.rid, profile_rid: profile.rid, text: code)
   end
 
-  let(:profile) { create(:profile, user: user) }
+  let(:profile) { create(:profile, user:) }
   let(:team) { profile.team }
   let(:user) { nil }
   let(:code) { nil }
 
   shared_examples 'expected response' do
-    let(:response) { ChatResponse.new(mode: mode, text: text) }
+    let(:response) { ChatResponse.new(mode:, text:) }
 
     it 'returns expected response' do
       expect(command).to eq(response)

@@ -65,7 +65,7 @@ module EntityReferenceHelper
   end
 
   def mention_regex(platform, emoji_str, emoji: true)
-    Regexp.new("#{mention_pattern(platform)}#{maybe_spaces}#{tip_pattern(emoji_str, emoji: emoji)}")
+    Regexp.new("#{mention_pattern(platform)}#{maybe_spaces}#{tip_pattern(emoji_str, emoji:)}")
   end
 
   def maybe_spaces

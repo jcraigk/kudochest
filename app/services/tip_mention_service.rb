@@ -22,8 +22,8 @@ class TipMentionService < Base::Service
     return ChatResponse.new(mode: :silent) unless profile.announce_tip_sent?
     ChatResponse.new(
       mode: :public,
-      response: response,
-      tips: tips,
+      response:,
+      tips:,
       image: response_image
     )
   end
@@ -47,16 +47,16 @@ class TipMentionService < Base::Service
   def create_tips_for(mention, timestamp) # rubocop:disable Metrics/MethodLength
     TipFactory.call(
       topic_id: mention.topic_id,
-      event_ts: event_ts,
+      event_ts:,
       from_channel_name: channel_name,
       from_channel_rid: channel_rid,
       from_profile: profile,
-      note: note,
+      note:,
       quantity: mention.quantity,
-      source: source,
+      source:,
       to_entity: mention.entity,
       to_profiles: mention.profiles,
-      timestamp: timestamp
+      timestamp:
     )
   end
 
@@ -70,12 +70,12 @@ class TipMentionService < Base::Service
       type: 'tip',
       team_config: team.config,
       fragments: response.image_fragments,
-      tips: tips
+      tips:
     )
   end
 
   def response
-    @response = TipResponseService.call(tips: tips)
+    @response = TipResponseService.call(tips:)
   end
 
   def respond_need_tokens
@@ -97,7 +97,7 @@ class TipMentionService < Base::Service
 
   def channel_entity(rid)
     rid = rid.delete(CHAN_PREFIX)
-    Channel.find_with_team(team.rid, rid) || Channel.new(name: channel_name, rid: rid)
+    Channel.find_with_team(team.rid, rid) || Channel.new(name: channel_name, rid:)
   end
 
   def profile_entity(rid)
@@ -120,7 +120,7 @@ class TipMentionService < Base::Service
 
   def channel_profiles(channel)
     "#{team.plat}::ChannelMemberService".constantize.call(
-      team: team,
+      team:,
       channel_rid: channel.rid
     ).reject { |prof| prof.id == profile.id }
   end
@@ -185,7 +185,7 @@ class TipMentionService < Base::Service
     @entity_mentions ||= mentions.filter_map do |mention|
       next unless (entity = fetch_entity(mention.rid))
       EntityMention.new(
-        entity: entity,
+        entity:,
         profiles: profiles_for_entity(entity),
         topic_id: mention.topic_id,
         quantity: mention.quantity
@@ -195,7 +195,7 @@ class TipMentionService < Base::Service
 
   def need_tokens?
     quantity = entity_mentions.sum { |m| mention_quantity(m) }
-    @need_tokens = TokenLimitService.call(profile: profile, quantity: quantity)
+    @need_tokens = TokenLimitService.call(profile:, quantity:)
   end
 
   def mention_quantity(mention)

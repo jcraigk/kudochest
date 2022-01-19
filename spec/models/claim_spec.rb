@@ -46,7 +46,7 @@ RSpec.describe Claim do
   end
 
   describe 'callbacks' do
-    subject(:claim) { build(:claim, profile: profile, price: 50) }
+    subject(:claim) { build(:claim, profile:, price: 50) }
 
     let(:profile) { create(:profile) }
 

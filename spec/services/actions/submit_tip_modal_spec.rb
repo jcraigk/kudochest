@@ -5,10 +5,10 @@ RSpec.describe Actions::SubmitTipModal do
   subject(:action) { described_class.call(**params) }
 
   let(:team) { build(:team) }
-  let(:sender) { create(:profile, team: team) }
-  let(:profile) { create(:profile, team: team) }
-  let(:channel) { create(:channel, team: team) }
-  let(:subteam) { create(:subteam, team: team) }
+  let(:sender) { create(:profile, team:) }
+  let(:profile) { create(:profile, team:) }
+  let(:channel) { create(:channel, team:) }
+  let(:subteam) { create(:subteam, team:) }
   let(:ts) { Time.current.to_f.to_s }
   let(:quantity) { 2 }
   let(:note) { 'A note' }
@@ -75,14 +75,14 @@ RSpec.describe Actions::SubmitTipModal do
     end
     let(:mentions) do
       [
-        Mention.new(rid: "#{PROF_PREFIX}#{profile.rid}", topic_id: nil, quantity: quantity),
-        Mention.new(rid: "#{CHAN_PREFIX}#{channel.rid}", topic_id: nil, quantity: quantity),
+        Mention.new(rid: "#{PROF_PREFIX}#{profile.rid}", topic_id: nil, quantity:),
+        Mention.new(rid: "#{CHAN_PREFIX}#{channel.rid}", topic_id: nil, quantity:),
         Mention.new(
           rid: "#{SUBTEAM_PREFIX[:slack]}#{subteam.rid}",
           topic_id: nil,
-          quantity: quantity
+          quantity:
         ),
-        Mention.new(rid: 'everyone', topic_id: nil, quantity: quantity)
+        Mention.new(rid: 'everyone', topic_id: nil, quantity:)
       ]
     end
     let(:expected_args) do

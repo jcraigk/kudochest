@@ -14,6 +14,6 @@ class Actions::ReactionRemoved < Actions::ReactionBase
   end
 
   def destroy_tips
-    Tip.undoable.where(event_ts: event_ts).destroy_all
+    Tip.undoable.where(event_ts:).destroy_all
   end
 end

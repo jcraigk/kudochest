@@ -2,11 +2,11 @@
 require 'rails_helper'
 
 RSpec.describe CsvImporter do
-  subject(:call) { described_class.call(team: team, text: csv_text) }
+  subject(:call) { described_class.call(team:, text: csv_text) }
 
   let(:team) { create(:team, :with_app_profile) }
-  let(:profile1) { create(:profile, team: team) }
-  let(:profile2) { create(:profile, team: team) }
+  let(:profile1) { create(:profile, team:) }
+  let(:profile2) { create(:profile, team:) }
   let(:csv_text) do
     [
       [profile1.display_name, 100].join(','),

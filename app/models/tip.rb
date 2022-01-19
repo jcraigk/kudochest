@@ -15,8 +15,6 @@ class Tip < ApplicationRecord
              inverse_of: :tips_received
   belongs_to :topic, optional: true
 
-  validates :from_profile_id, presence: true
-  validates :to_profile_id, presence: true
   validates :note, length: { maximum: App.max_note_length }
   validates :topic_id,
             presence: { message: I18n.t('tips.topic_presence', url: "#{App.base_url}/topic-list") },
@@ -79,11 +77,11 @@ class Tip < ApplicationRecord
   end
 
   def last_sent_tip
-    Tip.where(from_profile_id: from_profile_id).order(created_at: :desc).first
+    Tip.where(from_profile_id:).order(created_at: :desc).first
   end
 
   def last_received_tip
-    Tip.where(to_profile_id: to_profile_id).order(created_at: :desc).first
+    Tip.where(to_profile_id:).order(created_at: :desc).first
   end
 
   def update_points(decrement: false)

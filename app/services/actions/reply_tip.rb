@@ -8,8 +8,8 @@ class Actions::ReplyTip < Actions::Base
 
   def process_tip_mentions
     TipMentionService.call(
-      profile: profile,
-      mentions: mentions,
+      profile:,
+      mentions:,
       source: 'reply',
       event_ts: params[:message_ts],
       channel_rid: params[:channel_rid],

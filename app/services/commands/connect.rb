@@ -37,7 +37,7 @@ class Commands::Connect < Commands::Base
   end
 
   def connect_by_token
-    profile.update!(user: user)
+    profile.update!(user:)
     user.reset_reg_token!
     respond_privately(
       I18n.t('profiles.connect_success_email', profile: profile.link, email: user.email)

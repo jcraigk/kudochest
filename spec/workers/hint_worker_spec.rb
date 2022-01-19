@@ -12,6 +12,6 @@ RSpec.describe HintWorker do
   end
 
   it 'calls service with expected args' do
-    expect(HintService).to have_received(:call).with(team: team)
+    expect(HintService).to have_received(:call).with(team:)
   end
 end

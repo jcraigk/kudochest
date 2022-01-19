@@ -2,13 +2,13 @@
 require 'rails_helper'
 
 RSpec.describe TokenDispersalService do
-  subject(:service) { described_class.call(team: team, notify: notify) }
+  subject(:service) { described_class.call(team:, notify:) }
 
-  let(:team) { create(:team, platform: platform) }
+  let(:team) { create(:team, platform:) }
   let(:platform) { :slack }
-  let!(:profile1) { create(:profile, team: team) }
-  let!(:profile2) { create(:profile, team: team) }
-  let!(:profile3) { create(:profile, team: team, infinite_tokens: true) }
+  let!(:profile1) { create(:profile, team:) }
+  let!(:profile2) { create(:profile, team:) }
+  let!(:profile3) { create(:profile, team:, infinite_tokens: true) }
   let(:quantity) { team.token_quantity }
   let(:max) { team.token_max }
   let(:notify) { true }

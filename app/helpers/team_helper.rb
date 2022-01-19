@@ -143,20 +143,20 @@ module TeamHelper
 
   def reward_options(team)
     [['All Loot Items', 'all']] +
-      Reward.where(team: team)
+      Reward.where(team:)
             .order(name: :asc)
             .map { |reward| [reward.name, reward.id] }
   end
 
   def search_input(placeholder)
-    text_field_tag(:search, params[:search], class: 'input', placeholder: placeholder)
+    text_field_tag(:search, params[:search], class: 'input', placeholder:)
   end
 
   def team_avatar_image(team, size: 80)
     image_tag(
       team.avatar_url,
       alt: 'Team avatar image',
-      size: size,
+      size:,
       class: "team-avatar platform-#{team.platform}"
     )
   end
@@ -177,11 +177,11 @@ module TeamHelper
   end
 
   def discord_tip_emoji(size = nil)
-    image_pack_tag('media/images/emoji/plus_one_v1.png', size: size, alt: 'Plus One emoji')
+    image_pack_tag('media/images/emoji/plus_one_v1.png', size:, alt: 'Plus One emoji')
   end
 
   def discord_ditto_emoji(size = nil)
-    image_pack_tag('media/images/emoji/plus_plus.png', size: size, alt: 'Plus Plus emoji')
+    image_pack_tag('media/images/emoji/plus_plus.png', size:, alt: 'Plus Plus emoji')
   end
 
   def max_allowed_teams?

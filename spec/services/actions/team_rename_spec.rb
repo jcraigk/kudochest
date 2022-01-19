@@ -14,7 +14,7 @@ RSpec.describe Actions::TeamRename do
   let(:slack_params) do
     {
       event: {
-        name: name
+        name:
       }
     }
   end

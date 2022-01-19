@@ -5,10 +5,10 @@ RSpec.describe MentionParser do
   subject(:service) { described_class.call(**opts) }
 
   let(:team) { create(:team) }
-  let(:profile) { create(:profile, team: team) }
-  let(:to_profile) { create(:profile, team: team) }
-  let(:to_profile2) { create(:profile, team: team) }
-  let(:channel) { create(:channel, team: team) }
+  let(:profile) { create(:profile, team:) }
+  let(:to_profile) { create(:profile, team:) }
+  let(:to_profile2) { create(:profile, team:) }
+  let(:channel) { create(:channel, team:) }
   let(:channel_name) { channel.name }
   let(:quantity) { '2' }
   let(:quantity2) { '2' }

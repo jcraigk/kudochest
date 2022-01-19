@@ -3,15 +3,15 @@ require 'rails_helper'
 
 RSpec.describe Commands::Stats do
   subject(:command) do
-    described_class.call(team_rid: team.rid, profile_rid: profile_rid, text: request_text)
+    described_class.call(team_rid: team.rid, profile_rid:, text: request_text)
   end
 
   let(:team) { create(:team, throttle_tips: true, tokens_disbursed_at: Time.current) }
-  let(:profile) { create(:profile, team: team) }
+  let(:profile) { create(:profile, team:) }
   let(:profile_rid) { profile.rid }
   let(:response) { ChatResponse.new(mode: :public, text: response_text) }
   let(:leaderboard_data) do
-    LeaderboardSnippet.new(Time.current, [LeaderboardProfile.new(rank: rank)])
+    LeaderboardSnippet.new(Time.current, [LeaderboardProfile.new(rank:)])
   end
   let(:rank) { 12 }
 
@@ -62,7 +62,7 @@ RSpec.describe Commands::Stats do
   end
 
   context 'when a profile is given' do
-    let(:profile2) { create(:profile, team: team) }
+    let(:profile2) { create(:profile, team:) }
     let(:request_text) { profile2.link }
     let(:response_text) do
       <<~TEXT.chomp
@@ -79,7 +79,7 @@ RSpec.describe Commands::Stats do
   end
 
   context 'when team.enable_levels is false' do
-    let(:profile2) { create(:profile, team: team) }
+    let(:profile2) { create(:profile, team:) }
     let(:request_text) { profile2.link }
     let(:response_text) do
       <<~TEXT.chomp
@@ -97,7 +97,7 @@ RSpec.describe Commands::Stats do
   end
 
   context 'when team.throttle_tips is false' do
-    let(:profile2) { create(:profile, team: team) }
+    let(:profile2) { create(:profile, team:) }
     let(:request_text) { profile2.link }
     let(:response_text) do
       <<~TEXT.chomp
@@ -116,7 +116,7 @@ RSpec.describe Commands::Stats do
   end
 
   context 'when team.enable_streaks is false' do
-    let(:profile2) { create(:profile, team: team) }
+    let(:profile2) { create(:profile, team:) }
     let(:request_text) { profile2.link }
     let(:response_text) do
       <<~TEXT.chomp

@@ -56,7 +56,7 @@ class Slack::Modals::Preferences < Base::Service
       accessory: {
         type: 'checkboxes',
         action_id: :prefs,
-        initial_options: initial_options,
+        initial_options:,
         options: prefs_options
       }
     }

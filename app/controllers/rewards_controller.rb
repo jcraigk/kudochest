@@ -64,7 +64,7 @@ class RewardsController < ApplicationController
     return redirect_to_dasboard(alert: t('shop.disabled')) unless @current_profile.team.enable_loot?
 
     reward = Reward.find_by(team: @current_profile.team, id: params[:id], active: true)
-    result = RewardClaimService.call(profile: @current_profile, reward: reward)
+    result = RewardClaimService.call(profile: @current_profile, reward:)
 
     if result.error.present?
       flash[:alert] = result.error

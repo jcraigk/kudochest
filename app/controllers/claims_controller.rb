@@ -67,7 +67,7 @@ class ClaimsController < ApplicationController
   def apply_reward_filter
     reward_id = params[:reward_id]
     return if reward_id.blank? || reward_id == 'all'
-    @claims = @claims.where(reward_id: reward_id)
+    @claims = @claims.where(reward_id:)
   end
 
   def apply_fulfillment_filter

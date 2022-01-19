@@ -32,16 +32,16 @@ RSpec.describe Discord::SubteamService do
     ]
   end
   let!(:existing_subteam) do # rubocop:disable RSpec/LetSetup
-    create(:subteam, :with_profiles, team: team, rid: existing_rid)
+    create(:subteam, :with_profiles, team:, rid: existing_rid)
   end
-  let!(:old_subteam) { create(:subteam, team: team) } # rubocop:disable RSpec/LetSetup
+  let!(:old_subteam) { create(:subteam, team:) } # rubocop:disable RSpec/LetSetup
 
   before do
     allow(Discordrb::API::Server)
       .to receive(:roles).with(App.discord_token, team.rid).and_return(roles_data.to_json)
 
     expected_profile_rids.each do |profile_rid|
-      create(:profile, team: team, rid: profile_rid)
+      create(:profile, team:, rid: profile_rid)
     end
 
     team.profiles.active.each do |profile|

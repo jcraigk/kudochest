@@ -12,6 +12,6 @@ RSpec.describe SubteamWorker do
   end
 
   it 'calls service with expected args' do
-    expect(Slack::SubteamService).to have_received(:call).with(team: team)
+    expect(Slack::SubteamService).to have_received(:call).with(team:)
   end
 end

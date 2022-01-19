@@ -141,7 +141,7 @@ RSpec.describe Team do
   end
 
   describe 'slug' do
-    subject(:team) { create(:team, name: name) }
+    subject(:team) { create(:team, name:) }
 
     let(:name) { 'My Team' }
 
@@ -150,7 +150,7 @@ RSpec.describe Team do
     end
 
     context 'with a name that produces a conflicting slug' do
-      before { create(:team, name: name) }
+      before { create(:team, name:) }
 
       it 'creates the slug from parameterized name with random suffix' do
         expect(team.slug).to match(/my-team-[a-f0-9]{6}/)
@@ -289,7 +289,7 @@ RSpec.describe Team do
   end
 
   describe 'app_profile' do
-    let!(:profile) { create(:profile, team: team, rid: team.app_profile_rid) }
+    let!(:profile) { create(:profile, team:, rid: team.app_profile_rid) }
 
     it 'returns the expected profile' do
       expect(team.app_profile).to eq(profile)
@@ -297,7 +297,7 @@ RSpec.describe Team do
   end
 
   describe 'joins log_channel on change (Slack only)' do
-    let(:channel) { create(:channel, team: team) }
+    let(:channel) { create(:channel, team:) }
 
     before do
       allow(Slack::ChannelJoinService).to receive(:call)
@@ -306,7 +306,7 @@ RSpec.describe Team do
 
     it 'calls Slack::ChannelJoinService' do
       expect(Slack::ChannelJoinService)
-        .to have_received(:call).with(team: team, channel_rid: channel.rid)
+        .to have_received(:call).with(team:, channel_rid: channel.rid)
     end
   end
 

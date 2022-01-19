@@ -2,11 +2,11 @@
 require 'rails_helper'
 
 RSpec.shared_examples 'ProfileService' do
-  subject(:service) { described_class.call(team: team, first_run: first_run) }
+  subject(:service) { described_class.call(team:, first_run:) }
 
   let(:team) { create(:team, api_key: 'api-key') }
-  let!(:existing_profile) { create(:profile, team: team, rid: 'existing-rid') }
-  let!(:extra_profile) { create(:profile, team: team, display_name: 'Extra') }
+  let!(:existing_profile) { create(:profile, team:, rid: 'existing-rid') }
+  let!(:extra_profile) { create(:profile, team:, display_name: 'Extra') }
   let(:display_names) { team.profiles.active.order(display_name: :asc).map(&:display_name) }
   let(:first_run) { false }
 
@@ -44,7 +44,7 @@ RSpec.shared_examples 'ProfileService' do
     let(:first_run) { true }
 
     it 'calls TokenDispersalService without notifications' do
-      expect(TokenDispersalService).to have_received(:call).with(team: team, notify: false)
+      expect(TokenDispersalService).to have_received(:call).with(team:, notify: false)
     end
 
     it 'invokes SubteamWorker' do

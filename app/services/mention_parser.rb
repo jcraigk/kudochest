@@ -16,13 +16,13 @@ class MentionParser < Base::Service
 
   def process_tip_mentions
     TipMentionService.call(
-      profile: profile,
-      mentions: mentions,
-      note: note,
+      profile:,
+      mentions:,
+      note:,
       source: 'plusplus',
-      event_ts: event_ts,
-      channel_rid: channel_rid,
-      channel_name: channel_name
+      event_ts:,
+      channel_rid:,
+      channel_name:
     )
   end
 
@@ -37,7 +37,7 @@ class MentionParser < Base::Service
   def stacked_mentions
     raw_mentions.group_by(&:rid).map do |rid, mentions_by_rid|
       mentions_by_rid.group_by(&:topic_id).map do |topic_id, mentions|
-        Mention.new(rid: rid, topic_id: topic_id, quantity: mentions.sum(&:quantity))
+        Mention.new(rid:, topic_id:, quantity: mentions.sum(&:quantity))
       end
     end.flatten
   end

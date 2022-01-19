@@ -5,11 +5,11 @@ RSpec.describe TipResponseService do
   include EmojiHelper
   include EntityReferenceHelper
 
-  subject(:service) { described_class.call(tips: tips) }
+  subject(:service) { described_class.call(tips:) }
 
-  let(:team) { build(:team, platform: platform) }
-  let(:from_profile) { create(:profile, team: team) }
-  let(:to_profile) { create(:profile, team: team) }
+  let(:team) { build(:team, platform:) }
+  let(:from_profile) { create(:profile, team:) }
+  let(:to_profile) { create(:profile, team:) }
   let(:quantity) { 1 }
   let(:note) { 'For being just super' }
   let(:channel) { build(:channel) }
@@ -17,10 +17,10 @@ RSpec.describe TipResponseService do
   let(:tip) do
     create(
       :tip,
-      from_profile: from_profile,
-      to_profile: to_profile,
-      quantity: quantity,
-      note: note,
+      from_profile:,
+      to_profile:,
+      quantity:,
+      note:,
       from_channel_rid: channel.rid,
       from_channel_name: channel.name
     )
@@ -63,8 +63,8 @@ RSpec.describe TipResponseService do
   end
   let(:expected_result) do
     described_class::TipResponse.new(
-      chat_fragments: chat_fragments,
-      image_fragments: image_fragments,
+      chat_fragments:,
+      image_fragments:,
       web: web_response
     )
   end
@@ -228,16 +228,16 @@ RSpec.describe TipResponseService do
   end
 
   context 'with multiple recipients' do
-    let(:to_profile2) { create(:profile, team: team) }
-    let(:to_profile3) { create(:profile, team: team) }
+    let(:to_profile2) { create(:profile, team:) }
+    let(:to_profile3) { create(:profile, team:) }
     let(:tips) { [tip, tip2, tip3] }
     let(:tip2) do
       create(
         :tip,
-        from_profile: from_profile,
+        from_profile:,
         to_profile: to_profile2,
         quantity: 1,
-        note: note,
+        note:,
         from_channel_rid: channel.rid,
         from_channel_name: channel.name
       )
@@ -245,10 +245,10 @@ RSpec.describe TipResponseService do
     let(:tip3) do
       create(
         :tip,
-        from_profile: from_profile,
+        from_profile:,
         to_profile: to_profile3,
         quantity: 2,
-        note: note,
+        note:,
         from_channel_rid: channel.rid,
         from_channel_name: channel.name
       )
@@ -276,10 +276,10 @@ RSpec.describe TipResponseService do
       let(:tip3) do
         create(
           :tip,
-          from_profile: from_profile,
+          from_profile:,
           to_profile: to_profile3,
           quantity: 2,
-          note: note,
+          note:,
           from_channel_rid: channel.rid,
           from_channel_name: channel.name,
           to_channel_rid: channel.rid,
@@ -306,14 +306,14 @@ RSpec.describe TipResponseService do
     end
 
     context 'when at least one tip was gave to a subteam' do
-      let(:subteam) { create(:subteam, team: team) }
+      let(:subteam) { create(:subteam, team:) }
       let(:tip3) do
         create(
           :tip,
-          from_profile: from_profile,
+          from_profile:,
           to_profile: to_profile3,
           quantity: 2,
-          note: note,
+          note:,
           from_channel_rid: channel.rid,
           from_channel_name: channel.name,
           to_subteam_rid: subteam.rid,

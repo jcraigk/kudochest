@@ -4,9 +4,9 @@ require 'rails_helper'
 RSpec.describe Actions::ReactionRemoved do
   subject(:action) { described_class.call(**params) }
 
-  let(:team) { create(:team, platform: platform) }
-  let(:sender) { create(:profile, team: team, tokens_accrued: 10) }
-  let(:recipient) { create(:profile, team: team) }
+  let(:team) { create(:team, platform:) }
+  let(:sender) { create(:profile, team:, tokens_accrued: 10) }
+  let(:recipient) { create(:profile, team:) }
   let(:ts) { Time.current.to_f }
   let(:curated_params) do
     {
@@ -19,7 +19,7 @@ RSpec.describe Actions::ReactionRemoved do
     {
       event: {
         item: {
-          ts: ts
+          ts:
         },
         reaction: emoji
       }
@@ -39,7 +39,7 @@ RSpec.describe Actions::ReactionRemoved do
     let(:source) { 'reaction' }
 
     before do
-      create(:tip, event_ts: event_ts, from_profile: sender)
+      create(:tip, event_ts:, from_profile: sender)
     end
 
     context 'when slack' do
@@ -62,7 +62,7 @@ RSpec.describe Actions::ReactionRemoved do
     let(:source) { 'ditto' }
 
     before do
-      create(:tip, event_ts: event_ts, from_profile: sender)
+      create(:tip, event_ts:, from_profile: sender)
     end
 
     context 'when slack' do

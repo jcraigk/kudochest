@@ -16,8 +16,8 @@ RSpec.describe Discord::PostService do
       tips: tips
     }.compact
   end
-  let(:channel) { create(:channel, team: team, rid: 'pub-channel') }
-  let(:profile) { create(:profile, team: team) }
+  let(:channel) { create(:channel, team:, rid: 'pub-channel') }
+  let(:profile) { create(:profile, team:) }
   let(:text) { '' }
   let(:chat_response) { 'Chat response' }
   let(:web_response) { 'Web response' }

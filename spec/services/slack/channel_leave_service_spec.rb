@@ -3,11 +3,11 @@ require 'rails_helper'
 
 RSpec.describe Slack::ChannelLeaveService do
   subject(:service) do
-    described_class.call(team: team, channel_rid: channel.rid, channel_name: channel.name)
+    described_class.call(team:, channel_rid: channel.rid, channel_name: channel.name)
   end
 
   let(:team) { create(:team) }
-  let(:channel) { create(:channel, team: team) }
+  let(:channel) { create(:channel, team:) }
   let(:slack_client) { instance_spy(Slack::Web::Client) }
 
   before do

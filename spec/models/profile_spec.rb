@@ -43,8 +43,8 @@ RSpec.describe Profile do
   end
 
   describe '#collection_with_team' do
-    let!(:profile) { create(:profile, team: team) }
-    let!(:profile2) { create(:profile, team: team) }
+    let!(:profile) { create(:profile, team:) }
+    let!(:profile2) { create(:profile, team:) }
     let(:team) { build(:team) }
 
     before do
@@ -58,7 +58,7 @@ RSpec.describe Profile do
   end
 
   describe '#find_with_team' do
-    let!(:profile) { create(:profile, team: team) }
+    let!(:profile) { create(:profile, team:) }
     let(:team) { build(:team) }
 
     before do
@@ -107,7 +107,7 @@ RSpec.describe Profile do
   end
 
   describe 'slug' do
-    subject(:profile) { create(:profile, display_name: name, team: team) }
+    subject(:profile) { create(:profile, display_name: name, team:) }
 
     let(:team) { create(:team, name: team_name) }
 
@@ -119,7 +119,7 @@ RSpec.describe Profile do
     end
 
     context 'with a name that produces a conflicting slug' do
-      before { create(:profile, display_name: name, team: team) }
+      before { create(:profile, display_name: name, team:) }
 
       it 'creates the slug from parameterized name with random suffix' do
         expect(profile.slug).to match(/my-team-my-profile-[a-f0-9]{6}/)

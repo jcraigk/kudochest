@@ -19,7 +19,7 @@ RSpec.describe BonusCalculatorWorker do
   end
   let(:args) do
     params.merge(
-      team: team,
+      team:,
       include_streak_points: true,
       include_imported_points: true
     )

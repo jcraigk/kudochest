@@ -7,7 +7,7 @@ RSpec.describe Discord::ProfileService do
     expected_names[1..].map do |username|
       {
         id: rand(100_000),
-        username: username,
+        username:,
         bot: false
       }
     end + [

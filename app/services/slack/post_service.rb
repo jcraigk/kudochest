@@ -83,7 +83,7 @@ class Slack::PostService < Base::PostService
   def unformatted_text(contextual)
     return 'A random usage hint' if mode == :hint
     return alt_text if image.present?
-    chat_response_text(contextual: contextual).gsub(/(_\s+)|(\s+_)|(\A_)|(_\z)/, ' ').strip
+    chat_response_text(contextual:).gsub(/(_\s+)|(\s+_)|(\A_)|(_\z)/, ' ').strip
   end
 
   def response_params(contextual)
@@ -98,7 +98,7 @@ class Slack::PostService < Base::PostService
           type: :section,
           text: {
             type: :mrkdwn,
-            text: chat_response_text(contextual: contextual)
+            text: chat_response_text(contextual:)
           }
         }
       ]
@@ -112,7 +112,7 @@ class Slack::PostService < Base::PostService
         {
           type: 'image',
           image_url: image,
-          alt_text: alt_text
+          alt_text:
         }
       ]
     }
@@ -160,15 +160,15 @@ class Slack::PostService < Base::PostService
 
   def render_tip_modal
     slack_client.views_open(
-      trigger_id: trigger_id,
-      view: Slack::Modals::Tip.call(team_rid: team_rid)
+      trigger_id:,
+      view: Slack::Modals::Tip.call(team_rid:)
     )
   end
 
   def render_prefs_modal
     slack_client.views_open(
-      trigger_id: trigger_id,
-      view: Slack::Modals::Preferences.call(team_rid: team_rid, profile_rid: profile_rid)
+      trigger_id:,
+      view: Slack::Modals::Preferences.call(team_rid:, profile_rid:)
     )
   end
 
@@ -194,6 +194,6 @@ class Slack::PostService < Base::PostService
   end
 
   def slack_client
-    @slack_client ||= Slack::SlackApi.client(team_rid: team_rid)
+    @slack_client ||= Slack::SlackApi.client(team_rid:)
   end
 end

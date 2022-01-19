@@ -39,7 +39,7 @@ class Discord::EmojiInstallService < Base::Service
   end
 
   def emoji_data(type)
-    data = File.open("#{EMOJI_DIR}/#{type}.png").read
+    data = File.read("#{EMOJI_DIR}/#{type}.png")
     "data:image/png;base64,#{Base64.encode64(data)}"
   end
 

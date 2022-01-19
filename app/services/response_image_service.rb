@@ -24,7 +24,7 @@ class ResponseImageService < Base::Service
   def store_image
     Aws::S3::Client.new.put_object(
       bucket: ENV['RESPONSE_IMAGE_AWS_BUCKET'],
-      key: key,
+      key:,
       body: File.read(image_file)
     )
     File.delete(image_file)
@@ -33,7 +33,7 @@ class ResponseImageService < Base::Service
   def assign_image_acl
     Aws::S3::Client.new.put_object_acl(
       bucket: ENV['RESPONSE_IMAGE_AWS_BUCKET'],
-      key: key,
+      key:,
       acl: 'public-read'
     )
   end

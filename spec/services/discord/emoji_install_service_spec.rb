@@ -2,7 +2,7 @@
 require 'rails_helper'
 
 RSpec.describe Discord::EmojiInstallService do
-  subject(:service) { described_class.call(team: team) }
+  subject(:service) { described_class.call(team:) }
 
   let(:team) { create(:team) }
   let(:existing_emoji_rid) { '456' }
@@ -41,7 +41,7 @@ RSpec.describe Discord::EmojiInstallService do
     end
 
     it 'creates new emoji' do
-      image = File.open("#{described_class::EMOJI_DIR}/#{type}.png").read
+      image = File.read("#{described_class::EMOJI_DIR}/#{type}.png")
       emoji_data = "data:image/png;base64,#{Base64.encode64(image)}"
       expect(Discordrb::API::Server).to \
         have_received(:add_emoji)

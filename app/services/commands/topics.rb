@@ -15,7 +15,7 @@ class Commands::Topics < Commands::Base
   end
 
   def topic_list
-    Topic.active.where(team: team).order(name: :asc).map do |topic|
+    Topic.active.where(team:).order(name: :asc).map do |topic|
       <<~TEXT.chomp
         *Name:* #{topic.name}
         *Description:* #{topic.description}

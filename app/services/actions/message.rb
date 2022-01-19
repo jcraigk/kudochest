@@ -31,7 +31,7 @@ class Actions::Message < Actions::Base
 
   def fetch_channel_name
     return unless platform == :slack
-    Slack::ChannelNameService.call(team: team, channel_rid: channel_rid).presence
+    Slack::ChannelNameService.call(team:, channel_rid:).presence
   end
 
   def process_message
@@ -64,18 +64,18 @@ class Actions::Message < Actions::Base
 
   def handle_mentions
     MentionParser.call(
-      team_rid: team_rid,
-      profile_rid: profile_rid,
-      event_ts: event_ts,
-      channel_rid: channel_rid,
-      channel_name: channel_name,
+      team_rid:,
+      profile_rid:,
+      event_ts:,
+      channel_rid:,
+      channel_name:,
       matches: mention_matches,
-      note: note
+      note:
     )
   end
 
   def note
-    NoteSanitizer.call(platform: platform, team_rid: team_rid, text: raw_note)
+    NoteSanitizer.call(platform:, team_rid:, text: raw_note)
   end
 
   def raw_note
@@ -125,8 +125,8 @@ class Actions::Message < Actions::Base
 
   def call_command
     "Commands::#{command_key.to_s.titleize}".constantize.call(
-      team_rid: team_rid,
-      profile_rid: profile_rid,
+      team_rid:,
+      profile_rid:,
       text: opts_str
     )
   end

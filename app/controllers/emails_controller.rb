@@ -4,9 +4,9 @@ class EmailsController < ApplicationController
 
   def unsubscribe
     email = Rails.application.message_verifier(:unsubscribe).verify(params[:token])
-    user = User.find_by!(email: email)
+    user = User.find_by!(email:)
     unsubscribe_from_all(user)
-    flash[:notice] = t('users.unsubscribed_html', email: email, app: App.app_name)
+    flash[:notice] = t('users.unsubscribed_html', email:, app: App.app_name)
   end
 
   private

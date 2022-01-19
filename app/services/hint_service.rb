@@ -18,7 +18,7 @@ class HintService < Base::Service
       team_rid: team.rid,
       team_config: team.config,
       mode: :hint,
-      text: text,
+      text:,
       channel_rid: team.hint_channel_rid
     )
     team.update!(hint_posted_at: Time.current)

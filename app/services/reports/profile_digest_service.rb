@@ -12,16 +12,16 @@ class Reports::ProfileDigestService < Reports::BaseDigestService
 
   def profile_data # rubocop:disable Metrics/MethodLength
     DigestData.new(
-      profile: profile,
-      points_received: points_received,
-      num_givers: num_givers,
-      points_sent: points_sent,
-      num_recipients: num_recipients,
-      points_from_streak: points_from_streak,
-      levelup_sentence: levelup_sentence,
-      rank_sentence: rank_sentence,
-      top_recipients: top_recipients,
-      top_givers: top_givers
+      profile:,
+      points_received:,
+      num_givers:,
+      points_sent:,
+      num_recipients:,
+      points_from_streak:,
+      levelup_sentence:,
+      rank_sentence:,
+      top_recipients:,
+      top_givers:
     )
   end
 
@@ -134,7 +134,7 @@ class Reports::ProfileDigestService < Reports::BaseDigestService
   def leaderboard_data
     @leaderboard_data ||=
       LeaderboardService.call(
-        profile: profile,
+        profile:,
         previous_timestamp: timeframe,
         count: 1
       )&.profiles&.first

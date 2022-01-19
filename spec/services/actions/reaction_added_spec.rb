@@ -5,9 +5,9 @@ RSpec.describe Actions::ReactionAdded do
   subject(:action) { described_class.call(**params) }
 
   let(:team) { create(:team) }
-  let(:sender) { create(:profile, team: team) }
-  let(:recipient) { create(:profile, team: team) }
-  let(:channel) { create(:channel, team: team) }
+  let(:sender) { create(:profile, team:) }
+  let(:recipient) { create(:profile, team:) }
+  let(:channel) { create(:channel, team:) }
   let(:ts) { Time.current.to_f.to_s }
   let(:curated_params) do
     {
@@ -21,9 +21,9 @@ RSpec.describe Actions::ReactionAdded do
   let(:slack_params) do
     {
       event: {
-        reaction: reaction,
+        reaction:,
         item: {
-          ts: ts,
+          ts:,
           channel: channel.rid
         },
         item_user: recipient.rid
@@ -74,19 +74,19 @@ RSpec.describe Actions::ReactionAdded do
 
   context 'when ditto reaction to message associated with tips' do
     let(:reaction) { team.ditto_emoji }
-    let(:recipient2) { create(:profile, team: team) }
+    let(:recipient2) { create(:profile, team:) }
     let(:args) do
       {
         profile: sender,
         mentions: [
           Mention.new(
             rid: "#{PROF_PREFIX}#{recipient.rid}",
-            quantity: quantity,
+            quantity:,
             topic_id: nil
           ),
           Mention.new(
             rid: "#{PROF_PREFIX}#{recipient2.rid}",
-            quantity: quantity,
+            quantity:,
             topic_id: nil
           )
         ],
@@ -106,14 +106,14 @@ RSpec.describe Actions::ReactionAdded do
         :tip,
         from_profile: sender,
         to_profile: recipient,
-        quantity: quantity,
+        quantity:,
         event_ts: ts
       )
       create(
         :tip,
         from_profile: sender,
         to_profile: recipient2,
-        quantity: quantity,
+        quantity:,
         response_ts: ts
       )
       # This should be ignored as to_profile is sender (cannot give to self)
@@ -121,7 +121,7 @@ RSpec.describe Actions::ReactionAdded do
         :tip,
         from_profile: recipient2,
         to_profile: sender,
-        quantity: quantity,
+        quantity:,
         response_ts: ts
       )
       action

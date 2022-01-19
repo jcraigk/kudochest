@@ -4,12 +4,12 @@ module ChartHelper
     column_chart(
       [
         {
-          name: name,
-          data: data,
+          name:,
+          data:,
           library: chartjs_library_options(user)
         }
       ],
-      id: id
+      id:
     )
   end
 

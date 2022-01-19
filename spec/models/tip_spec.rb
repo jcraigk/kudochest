@@ -18,7 +18,7 @@ RSpec.describe Tip do
     subject(:tip) { build(:tip, from_profile: profile, topic: nil) }
 
     let(:team) { create(:team) }
-    let(:profile) { create(:profile, team: team) }
+    let(:profile) { create(:profile, team:) }
 
     context 'when team requires it' do
       before do
@@ -54,7 +54,7 @@ RSpec.describe Tip do
 
     before do
       create(:tip, source: 'auto', from_profile: profile) # wrong source
-      create(:tip, source: 'modal', from_profile: profile, created_at: Time.current - 1.year) # old
+      create(:tip, source: 'modal', from_profile: profile, created_at: 1.year.ago) # old
     end
 
     it 'returns expected records' do
@@ -120,10 +120,10 @@ RSpec.describe Tip do
     end
 
     let(:team) { create(:team, platform: :discord) }
-    let(:profile) { create(:profile, team: team) }
+    let(:profile) { create(:profile, team:) }
     let(:ts) { Time.current.to_f.to_s }
     let(:channel) { build(:channel) }
-    let(:expected_args) { { channel: channel.rid, ts: ts } }
+    let(:expected_args) { { channel: channel.rid, ts: } }
 
     before do
       allow(Discordrb::API::Channel).to receive(:delete_message)
@@ -138,8 +138,8 @@ RSpec.describe Tip do
 
   describe 'callbacks' do
     let(:team) { create(:team) }
-    let(:sender) { create(:profile, team: team) }
-    let(:recipient) { create(:profile, team: team) }
+    let(:sender) { create(:profile, team:) }
+    let(:recipient) { create(:profile, team:) }
 
     context 'when saving a tip' do
       before do

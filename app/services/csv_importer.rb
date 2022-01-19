@@ -53,7 +53,7 @@ class CsvImporter < Base::Service
     Tip.new(
       from_profile: team.app_profile,
       to_profile: profile,
-      quantity: quantity,
+      quantity:,
       source: 'import',
       event_ts: Time.current.to_f.to_s
     ).save(validate: false)

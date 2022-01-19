@@ -2,13 +2,13 @@
 require 'rails_helper'
 
 RSpec.describe LevelToPointsService do
-  subject(:call) { described_class.call(team: team, level: level) }
+  subject(:call) { described_class.call(team:, level:) }
 
   let(:team) do
     create(
       :team,
-      max_level: max_level,
-      max_level_points: max_level_points,
+      max_level:,
+      max_level_points:,
       level_curve: curve
     )
   end

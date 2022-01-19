@@ -12,7 +12,7 @@ module PointsHelper
 
   def formatted_points(points)
     return '0' if points.to_f.zero?
-    format('%<points>.2f', points: points)
+    format('%<points>.2f', points:)
       .delete_suffix('0')
       .delete_suffix('0')
       .delete_suffix('.')

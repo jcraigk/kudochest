@@ -2,13 +2,13 @@
 require 'rails_helper'
 
 RSpec.describe NoteSanitizer do
-  subject(:service) { described_class.call(platform: platform, team_rid: team.rid, text: text) }
+  subject(:service) { described_class.call(platform:, team_rid: team.rid, text:) }
 
-  let(:team) { create(:team, platform: platform) }
+  let(:team) { create(:team, platform:) }
   let(:platform) { :slack }
-  let(:subteam) { create(:subteam, team: team) }
-  let(:profile) { create(:profile, team: team) }
-  let(:channel) { create(:channel, team: team) }
+  let(:subteam) { create(:subteam, team:) }
+  let(:profile) { create(:profile, team:) }
+  let(:channel) { create(:channel, team:) }
 
   shared_examples 'success' do
     it 'sanitizes mentions' do

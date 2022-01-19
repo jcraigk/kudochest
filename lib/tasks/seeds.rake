@@ -14,7 +14,7 @@ namespace :seeds do
 
     print 'Generating topics'
     rand(5..30).times do
-      create(:topic, team: team)
+      create(:topic, team:)
     end
 
     print 'Generating tips'
@@ -26,7 +26,7 @@ namespace :seeds do
         channel = team.channels.sample
         topic_id = rand(3).zero? ? nil : team.topics.sample.id
         TipFactory.call(
-          topic_id: topic_id,
+          topic_id:,
           from_profile: profile,
           to_entity: 'Profile',
           to_profiles: [(profiles - [profile]).sample],
@@ -63,12 +63,12 @@ namespace :seeds do
       fulfillment_keys = Array.new(5) { Faker::Crypto.md5 }
       quantity = n.even? ? 0 : rand(100).to_i
       reward = Reward.create(
-        team: team,
+        team:,
         name: "Reward #{Faker::Crypto.md5.first(5)}",
         price: prices.sample,
         description: Faker::Lorem.paragraph,
-        auto_fulfill: auto_fulfill,
-        quantity: quantity,
+        auto_fulfill:,
+        quantity:,
         fulfillment_keys: auto_fulfill ? fulfillment_keys.join("\n") : nil,
         active: rand(3).to_i != 1
       )

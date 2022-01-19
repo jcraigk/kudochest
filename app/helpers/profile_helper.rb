@@ -81,7 +81,7 @@ module ProfileHelper
     image_tag(
       profile.avatar_url,
       alt: 'Profile avatar image',
-      size: size,
+      size:,
       class: "platform-#{profile.team.platform}"
     )
   end

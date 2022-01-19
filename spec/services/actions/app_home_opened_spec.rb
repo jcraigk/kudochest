@@ -5,7 +5,7 @@ RSpec.describe Actions::AppHomeOpened, :freeze_time do
   subject(:action) { described_class.call(**params) }
 
   let(:team) { create(:team) }
-  let!(:profile) { create(:profile, team: team) }
+  let!(:profile) { create(:profile, team:) }
   let(:params) { { team_rid: team.rid, profile_rid: profile.rid } }
   let(:expected_response) do
     ChatResponse.new(

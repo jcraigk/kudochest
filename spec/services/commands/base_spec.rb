@@ -5,7 +5,7 @@ RSpec.describe Commands::Base do
   let(:args) { { team_rid: team.rid, profile_rid: profile.rid, text: 'some text' } }
 
   let(:team) { create(:team) }
-  let(:profile) { create(:profile, team: team) }
+  let(:profile) { create(:profile, team:) }
 
   it 'calls `#new(args)` on self' do
     allow(described_class).to receive(:new).and_call_original

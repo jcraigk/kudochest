@@ -26,7 +26,7 @@ class Reward < ApplicationRecord
 
   def self.shop_list(team)
     Reward.active
-          .where(team: team)
+          .where(team:)
           .order(price: :asc, name: :asc)
           .select { |reward| reward.remaining.positive? }
   end

@@ -4,11 +4,11 @@ require 'rails_helper'
 RSpec.describe Actions::Message do
   subject(:action) { described_class.call(**params) }
 
-  let(:team) { build(:team, platform: platform) }
-  let(:sender) { create(:profile, team: team) }
-  let(:profile) { create(:profile, team: team) }
-  let(:channel) { create(:channel, team: team) }
-  let(:subteam) { create(:subteam, team: team) }
+  let(:team) { build(:team, platform:) }
+  let(:sender) { create(:profile, team:) }
+  let(:profile) { create(:profile, team:) }
+  let(:channel) { create(:channel, team:) }
+  let(:subteam) { create(:subteam, team:) }
   let(:ts) { Time.current.to_f.to_s }
   let(:note) { 'for being awesome' }
   let(:platform) { :slack }

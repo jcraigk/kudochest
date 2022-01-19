@@ -199,7 +199,7 @@ class TipResponseService < Base::Service
   end
 
   def level_for(points)
-    PointsToLevelService.call(team: team, points: points)
+    PointsToLevelService.call(team:, points:)
   end
 
   def levelup_sentence(platform)

@@ -13,6 +13,6 @@ RSpec.describe TokenDispersalWorker do
   end
 
   it 'calls TokenDispersalService' do
-    expect(TokenDispersalService).to have_received(:call).with(team: team)
+    expect(TokenDispersalService).to have_received(:call).with(team:)
   end
 end

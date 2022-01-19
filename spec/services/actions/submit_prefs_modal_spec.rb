@@ -5,7 +5,7 @@ RSpec.describe Actions::SubmitPrefsModal do
   subject(:action) { described_class.call(**params) }
 
   let(:team) { build(:team) }
-  let(:profile) { create(:profile, team: team, allow_dm: false) }
+  let(:profile) { create(:profile, team:, allow_dm: false) }
   let(:curated_params) do
     {
       profile_rid: profile.rid,

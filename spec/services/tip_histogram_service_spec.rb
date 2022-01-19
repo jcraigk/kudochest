@@ -2,7 +2,7 @@
 require 'rails_helper'
 
 RSpec.describe TipHistogramService do
-  subject(:call) { described_class.call(profile: profile, user: user, limit: 5) }
+  subject(:call) { described_class.call(profile:, user:, limit: 5) }
 
   let!(:profile) { create(:profile) }
   let(:user) { build(:user) }
@@ -12,7 +12,7 @@ RSpec.describe TipHistogramService do
       datalabels: {
         align: 'top',
         anchor: 'end',
-        color: color
+        color:
       }
     }
   end
@@ -44,7 +44,7 @@ RSpec.describe TipHistogramService do
             'Nov 4' => 0,
             'Nov 5' => 0
           },
-          library: library
+          library:
         },
         {
           name: "#{App.points_term.titleize} Received",
@@ -55,7 +55,7 @@ RSpec.describe TipHistogramService do
             'Nov 4' => 0,
             'Nov 5' => 0
           },
-          library: library
+          library:
         }
       ]
     end
@@ -75,7 +75,7 @@ RSpec.describe TipHistogramService do
             'Nov 4' => 0,
             'Nov 5' => 0
           },
-          library: library
+          library:
         },
         {
           name: "#{App.points_term.titleize} Received",
@@ -86,7 +86,7 @@ RSpec.describe TipHistogramService do
             'Nov 4' => 1,
             'Nov 5' => 2
           },
-          library: library
+          library:
         }
       ]
     end

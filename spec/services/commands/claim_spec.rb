@@ -3,11 +3,11 @@ require 'rails_helper'
 
 RSpec.describe Commands::Claim do
   subject(:command) do
-    described_class.call(team_rid: team.rid, profile_rid: profile.rid, text: text)
+    described_class.call(team_rid: team.rid, profile_rid: profile.rid, text:)
   end
 
-  let(:team) { create(:team, enable_loot: enable_loot) }
-  let(:profile) { create(:profile, team: team) }
+  let(:team) { create(:team, enable_loot:) }
+  let(:profile) { create(:profile, team:) }
   let(:text) { nil }
 
   shared_examples 'expected response' do
@@ -38,7 +38,7 @@ RSpec.describe Commands::Claim do
     end
 
     context 'with valid reward name' do
-      let!(:reward) { create(:reward, team: team, active: true) }
+      let!(:reward) { create(:reward, team:, active: true) }
       let(:text) { reward.name }
 
       context 'when RewardClaimService returns error' do
@@ -63,7 +63,7 @@ RSpec.describe Commands::Claim do
             #{I18n.t('shop.fulfillment_pending')}
           TEXT
         end
-        let(:claim) { create(:claim, reward: reward, profile: profile) }
+        let(:claim) { create(:claim, reward:, profile:) }
 
         before do
           allow(RewardClaimService).to \

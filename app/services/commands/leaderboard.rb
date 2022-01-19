@@ -28,8 +28,8 @@ class Commands::Leaderboard < Commands::Base
     ResponseImageService.call(
       type: 'leaderboard',
       team_config: team.config,
-      profile_data: profile_data,
-      title: title
+      profile_data:,
+      title:
     )
   end
 

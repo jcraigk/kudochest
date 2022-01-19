@@ -6,10 +6,10 @@ RSpec.describe TipFactory do
 
   subject(:service) { described_class.call(**opts) }
 
-  let(:team) { build(:team, split_tip: split_tip) }
-  let(:topic) { create(:topic, team: team) }
-  let(:from_profile) { build(:profile, team: team) }
-  let(:from_channel) { build(:channel, team: team) }
+  let(:team) { build(:team, split_tip:) }
+  let(:topic) { create(:topic, team:) }
+  let(:from_profile) { build(:profile, team:) }
+  let(:from_channel) { build(:channel, team:) }
   let(:split_tip) { false }
   let(:note) do
     <<~TEXT
@@ -40,7 +40,7 @@ RSpec.describe TipFactory do
       event_ts: ts,
       from_channel_name: from_channel.name,
       from_channel_rid: from_channel.rid,
-      from_profile: from_profile,
+      from_profile:,
       note: expected_note,
       quantity: 1,
       source: 'auto',
@@ -53,7 +53,7 @@ RSpec.describe TipFactory do
     it 'creates a Tip for each to_profile' do
       service
       to_profiles.each do |to_profile|
-        expect(Tip).to have_received(:create!).with(tip_attrs.merge(to_profile: to_profile))
+        expect(Tip).to have_received(:create!).with(tip_attrs.merge(to_profile:))
       end
     end
   end
@@ -61,7 +61,7 @@ RSpec.describe TipFactory do
   before { allow(Tip).to receive(:create!) }
 
   context 'when entity is a profile' do
-    let(:to_entity) { build(:profile, team: team) }
+    let(:to_entity) { build(:profile, team:) }
     let(:to_profiles) { [to_entity] }
 
     include_examples 'tip creation'
@@ -83,8 +83,8 @@ RSpec.describe TipFactory do
   end
 
   context 'when entity is a channel' do
-    let(:to_entity) { build(:channel, team: team) }
-    let(:to_profiles) { build_list(:profile, 2, team: team) }
+    let(:to_entity) { build(:channel, team:) }
+    let(:to_profiles) { build_list(:profile, 2, team:) }
     let(:extra_attrs) do
       {
         to_channel_rid: to_entity.rid,
@@ -96,8 +96,8 @@ RSpec.describe TipFactory do
   end
 
   context 'when entity is a subteam' do
-    let(:to_entity) { build(:subteam, team: team) }
-    let(:to_profiles) { build_list(:profile, 2, team: team) }
+    let(:to_entity) { build(:subteam, team:) }
+    let(:to_profiles) { build_list(:profile, 2, team:) }
     let(:extra_attrs) do
       {
         to_subteam_rid: to_entity.rid,
@@ -110,7 +110,7 @@ RSpec.describe TipFactory do
 
   context 'when entity is `everyone`' do
     let(:to_entity) { 'everyone' }
-    let(:to_profiles) { build_list(:profile, 2, team: team) }
+    let(:to_profiles) { build_list(:profile, 2, team:) }
     let(:extra_attrs) { { to_everyone: true } }
   end
 end

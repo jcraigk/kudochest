@@ -13,6 +13,6 @@ RSpec.describe TeamResetWorker do
   end
 
   it 'calls service with expected args' do
-    expect(TeamResetService).to have_received(:call).with(team: team)
+    expect(TeamResetService).to have_received(:call).with(team:)
   end
 end

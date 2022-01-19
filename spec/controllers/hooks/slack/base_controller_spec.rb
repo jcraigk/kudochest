@@ -16,7 +16,7 @@ describe Hooks::Slack::BaseController do
         event: {
           team: team.rid,
           channel: channel.rid,
-          text: text,
+          text:,
           type: 'message'
         }
       }

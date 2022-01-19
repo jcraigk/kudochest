@@ -46,7 +46,7 @@ class BonusCalculatorService < Base::Service
 
   def bonus_display(bonus)
     return if bonus.blank?
-    format('$%<bonus>.2f', bonus: bonus)
+    format('$%<bonus>.2f', bonus:)
   end
 
   def style_bonus(points, share)

@@ -12,15 +12,15 @@ class Reports::TeamDigestService < Reports::BaseDigestService
 
   def team_data # rubocop:disable Metrics/MethodLength
     TeamData.new(
-      team: team,
-      points_sent: points_sent,
-      num_givers: num_givers,
-      num_recipients: num_recipients,
-      points_from_streak: points_from_streak,
-      levelup_sentence: levelup_sentence,
-      top_recipients: top_recipients,
-      top_givers: top_givers,
-      loot_claims_sentence: loot_claims_sentence
+      team:,
+      points_sent:,
+      num_givers:,
+      num_recipients:,
+      points_from_streak:,
+      levelup_sentence:,
+      top_recipients:,
+      top_givers:,
+      loot_claims_sentence:
     )
   end
 
@@ -82,7 +82,7 @@ class Reports::TeamDigestService < Reports::BaseDigestService
     profiles.map do |profile|
       previous_level =
         PointsToLevelService.call(
-          team: team,
+          team:,
           points: profile.points - quantity_to(profile)
         )
       ProfileDelta.new(profile.display_name, profile.level - previous_level)

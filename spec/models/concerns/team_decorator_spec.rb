@@ -42,15 +42,15 @@ RSpec.describe TeamDecorator do
 
     context 'when infinite profiles exist' do
       let!(:profile2) do
-        create(:profile, team: team, display_name: 'A1', infinite_tokens: true)
+        create(:profile, team:, display_name: 'A1', infinite_tokens: true)
       end
       let!(:profile3) do
-        create(:profile, team: team, display_name: 'B1', infinite_tokens: true)
+        create(:profile, team:, display_name: 'B1', infinite_tokens: true)
       end
       let(:sentence) { "#{profile2.link} and #{profile3.link}" }
 
       before do
-        create(:profile, team: team) # limited profile
+        create(:profile, team:) # limited profile
       end
 
       it 'returns expected sentence' do

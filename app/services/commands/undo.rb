@@ -15,7 +15,7 @@ class Commands::Undo < Commands::Base
   def respond
     ChatResponse.new(
       mode: :private,
-      text: text
+      text:
     )
   end
 

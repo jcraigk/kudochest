@@ -21,9 +21,9 @@ class Hooks::Slack::ActionsController < Hooks::Slack::BaseController
       event_ts: Time.current.to_f.to_s,
       message_profile_rid: payload.dig(:message, :user),
       message_ts: payload.dig(:message, :ts),
-      profile_rid: profile_rid,
+      profile_rid:,
       team_config: team_config.to_h,
-      team_rid: team_rid
+      team_rid:
     )
   end
 

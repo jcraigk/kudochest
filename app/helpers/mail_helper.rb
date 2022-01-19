@@ -4,7 +4,7 @@ module MailHelper
     image_tag(
       team.avatar_url,
       alt: 'Team avatar image',
-      size: size,
+      size:,
       style: 'border-radius: 5px;'
     )
   end
@@ -13,7 +13,7 @@ module MailHelper
     image_tag(
       profile.avatar_url,
       alt: 'Profile avatar image',
-      size: size,
+      size:,
       style: 'border-radius: 5px;'
     )
   end

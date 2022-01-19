@@ -22,7 +22,7 @@ class NextIntervalService < Base::Service
   def next_daily
     time = start_daily
     time = time.advance(days: 1) until Date::DAYNAMES[time.wday].downcase.in?(team.work_days)
-    time.change(hour: hour)
+    time.change(hour:)
   end
 
   def start_daily
@@ -32,20 +32,20 @@ class NextIntervalService < Base::Service
   def next_weekly
     days_till_next_week_start = week_start_wday - now.wday
     days_till_next_week_start += 7 unless days_till_next_week_start.positive?
-    now.change(hour: hour).advance(days: days_till_next_week_start)
+    now.change(hour:).advance(days: days_till_next_week_start)
   end
 
   def next_monthly
-    now.change(day: 1, hour: hour).advance(months: 1)
+    now.change(day: 1, hour:).advance(months: 1)
   end
 
   def next_quarterly
     quarter_start_month = ((now.month / 3.0).ceil * 3) - 2
-    now.change(month: quarter_start_month, day: 1, hour: hour).advance(months: 3)
+    now.change(month: quarter_start_month, day: 1, hour:).advance(months: 3)
   end
 
   def next_yearly
-    now.change(month: 1, day: 1, hour: hour).advance(years: 1)
+    now.change(month: 1, day: 1, hour:).advance(years: 1)
   end
 
   def now

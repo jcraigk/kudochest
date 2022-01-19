@@ -2,7 +2,7 @@
 require 'rails_helper'
 
 RSpec.shared_examples 'SubteamService' do
-  subject(:service) { described_class.call(team: team) }
+  subject(:service) { described_class.call(team:) }
 
   let(:team) { create(:team, api_key: 'api-key') }
 

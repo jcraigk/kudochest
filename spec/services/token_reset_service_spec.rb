@@ -2,7 +2,7 @@
 require 'rails_helper'
 
 RSpec.describe TokenResetService do
-  subject(:service) { described_class.call(team: team) }
+  subject(:service) { described_class.call(team:) }
 
   let(:team) { create(:team, :with_profiles, throttle_tips: true) }
 

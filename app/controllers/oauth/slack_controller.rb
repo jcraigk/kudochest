@@ -31,7 +31,7 @@ class Oauth::SlackController < ApplicationController
   end
 
   def avatar_url
-    Slack::SlackApi.client(api_key: api_key).team_info(team: team_rid)[:team][:icon][:image_230]
+    Slack::SlackApi.client(api_key:).team_info(team: team_rid)[:team][:icon][:image_230]
   end
 
   def team_params

@@ -10,7 +10,7 @@ RSpec.describe Slack::PostService do
       mode: mode,
       team_config: {
         log_channel_rid: team.log_channel_rid,
-        response_mode: response_mode
+        response_mode:
       },
       channel_rid: channel.rid,
       is_bot_dm: false,
@@ -25,7 +25,7 @@ RSpec.describe Slack::PostService do
   end
   let(:response_mode) { :convo }
   let(:team) { create(:team) }
-  let(:profile) { create(:profile, team: team) }
+  let(:profile) { create(:profile, team:) }
   let(:channel) { create(:channel) }
   let(:profile_rids) { [] }
   let(:thread_ts) { 'abc.def' }
@@ -72,7 +72,7 @@ RSpec.describe Slack::PostService do
         blocks: [{ text: { text: chat_response, type: :mrkdwn }, type: :section }],
         channel: channel.rid,
         text: web_response,
-        thread_ts: thread_ts,
+        thread_ts:,
         unfurl_links: false,
         unfurl_media: false
       }
@@ -238,13 +238,13 @@ RSpec.describe Slack::PostService do
 
     context 'when response_mode is `reply`' do
       let(:response_mode) { :reply }
-      let(:replies_data) { { messages: [{ thread_ts: thread_ts }] } }
+      let(:replies_data) { { messages: [{ thread_ts: }] } }
       let(:arguments) do
         {
           text: chat_response,
           blocks: [text_block],
           channel: channel.rid,
-          thread_ts: thread_ts,
+          thread_ts:,
           unfurl_links: false,
           unfurl_media: false
         }

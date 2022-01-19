@@ -18,7 +18,7 @@ RSpec.describe Subteam do
 
   describe '#find_with_team' do
     let(:team) { build(:team) }
-    let!(:subteam) { create(:subteam, team: team) }
+    let!(:subteam) { create(:subteam, team:) }
 
     before do
       create(:subteam, rid: team.rid, team: build(:team))

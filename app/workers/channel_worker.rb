@@ -6,6 +6,6 @@ class ChannelWorker
   def perform(team_rid, new_channel_rid = nil)
     team = Team.find_by!(rid: team_rid)
     return unless team.active?
-    "#{team.plat}::ChannelService".constantize.call(team: team, new_channel_rid: new_channel_rid)
+    "#{team.plat}::ChannelService".constantize.call(team:, new_channel_rid:)
   end
 end

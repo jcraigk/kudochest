@@ -7,6 +7,6 @@ class TokenResetService < Base::Service
       profile.update(tokens_accrued: profile.points_sent)
     end
 
-    TokenDispersalService.call(team: team, notify: false) if team.throttle_tips?
+    TokenDispersalService.call(team:, notify: false) if team.throttle_tips?
   end
 end

@@ -2,7 +2,7 @@
 require 'rails_helper'
 
 RSpec.describe Reports::TeamDigestService do
-  subject(:service) { described_class.call(team: team) }
+  subject(:service) { described_class.call(team:) }
 
   let(:team) { create(:team) }
   let(:keys) do

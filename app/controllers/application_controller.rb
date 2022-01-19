@@ -41,10 +41,10 @@ class ApplicationController < ActionController::Base
   end
 
   def build_dashboard_for(profile)
-    @leaderboard = LeaderboardService.call(profile: profile)
+    @leaderboard = LeaderboardService.call(profile:)
     @tips = fetch_recent_tips(profile)
     @histogram_data = TipHistogramService.call(
-      profile: profile,
+      profile:,
       limit: params[:limit],
       user: current_user
     )

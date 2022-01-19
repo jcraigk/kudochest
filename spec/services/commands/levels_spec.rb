@@ -5,8 +5,8 @@ RSpec.describe Commands::Levels do
   subject(:command) { described_class.call(team_rid: team.rid, profile_rid: profile.rid) }
 
   let(:team) { create(:team) }
-  let(:profile) { create(:profile, team: team) }
-  let(:response) { ChatResponse.new(mode: :private, text: text) }
+  let(:profile) { create(:profile, team:) }
+  let(:response) { ChatResponse.new(mode: :private, text:) }
   let(:text) do
     "```\nLevel  #{App.points_term.titleize}  Delta\n-----  -----  -----\n" \
       "1      0      0\n2      13     13\n3      35     22\n" \

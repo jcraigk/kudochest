@@ -8,8 +8,8 @@ RSpec.describe Commands::Admin do
 
   let(:user) { create(:user) }
   let(:team) { create(:team, owning_user: user, throttle_tips: true, enable_topics: true) }
-  let(:profile) { create(:profile, team: team) }
-  let(:response) { ChatResponse.new(mode: :private, text: text) }
+  let(:profile) { create(:profile, team:) }
+  let(:response) { ChatResponse.new(mode: :private, text:) }
   let(:text) do
     <<~TEXT.chomp
       *Throttle #{App.points_term.titleize}:* Yes
@@ -54,7 +54,7 @@ RSpec.describe Commands::Admin do
   end
 
   context 'when admin has connected a team profile' do
-    let!(:profile) { create(:profile, team: team, user: user) }
+    let!(:profile) { create(:profile, team:, user:) }
     let(:admin_text) { "#{profile.link} (#{user.email})" }
 
     include_examples 'expected response'
