@@ -16,11 +16,11 @@ class Commands::Claim < Commands::Base
   end
 
   def result
-    @result ||= RewardClaimService.call(profile: profile, reward: reward)
+    @result ||= RewardClaimService.call(profile:, reward:)
   end
 
   def respond_error(text)
-    ChatResponse.new(mode: :error, text: text)
+    ChatResponse.new(mode: :error, text:)
   end
 
   def respond_success
@@ -37,12 +37,11 @@ class Commands::Claim < Commands::Base
   end
 
   def claimed_fragment
-    t(
+    t \
       'shop.claimed_for_points',
       reward: reward.name,
       quantity: claim.price,
       points: App.points_term
-    )
   end
 
   def fulfillment_fragment

@@ -5,8 +5,8 @@ RSpec.describe QuantityValidator do
   subject(:validate) { described_class.new.validate(tip) }
 
   let(:team) { build(:team, tip_increment: increment) }
-  let(:profile) { build(:profile, team: team) }
-  let(:tip) { build(:tip, source: source, quantity: quantity, from_profile: profile) }
+  let(:profile) { build(:profile, team:) }
+  let(:tip) { build(:tip, source:, quantity:, from_profile: profile) }
   let(:quantity) { 0 }
   let(:increment) { 1.0 }
 

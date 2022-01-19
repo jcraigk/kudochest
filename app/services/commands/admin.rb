@@ -122,7 +122,7 @@ class Commands::Admin < Commands::Base
   end
 
   def owner_profile_link
-    @owner_profile_link ||= owner.profiles.where(team: team).first&.link
+    @owner_profile_link ||= owner.profiles.where(team:).first&.link
   end
 
   def long_time_zone

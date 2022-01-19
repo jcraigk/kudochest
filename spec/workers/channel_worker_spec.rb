@@ -14,6 +14,6 @@ RSpec.describe ChannelWorker do
 
   it 'calls service with expected args' do
     expect(Slack::ChannelService)
-      .to have_received(:call).with(team: team, new_channel_rid: 'new_channel_rid')
+      .to have_received(:call).with(team:, new_channel_rid: 'new_channel_rid')
   end
 end

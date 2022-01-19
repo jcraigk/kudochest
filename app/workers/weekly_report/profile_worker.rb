@@ -26,7 +26,7 @@ class WeeklyReport::ProfileWorker
   end
 
   def profile_data
-    Reports::ProfileDigestService.call(profile: profile)
+    Reports::ProfileDigestService.call(profile:)
   end
 
   def team_data

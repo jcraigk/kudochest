@@ -2,11 +2,11 @@
 require 'rails_helper'
 
 RSpec.describe TeamResetService do
-  subject(:call) { described_class.call(team: team) }
+  subject(:call) { described_class.call(team:) }
 
   let(:user) { create(:user) }
   let(:team) { create(:team) }
-  let(:profile) { create(:profile, team: team, user: user) }
+  let(:profile) { create(:profile, team:, user:) }
   let(:received_tips) { create_list(:tip, 3, to_profile: profile) }
   let(:sent_tips) { create_list(:tip, 3, from_profile: profile) }
   let(:response_attrs) do
@@ -44,6 +44,6 @@ RSpec.describe TeamResetService do
 
   it 'disburses fresh tokens' do
     call
-    expect(TokenDispersalService).to have_received(:call).with(team: team, notify: false)
+    expect(TokenDispersalService).to have_received(:call).with(team:, notify: false)
   end
 end

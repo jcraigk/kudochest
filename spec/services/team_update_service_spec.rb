@@ -2,7 +2,7 @@
 require 'rails_helper'
 
 RSpec.describe TeamUpdateService do
-  subject(:service) { described_class.call(team: team, name: name, avatar_url: avatar_url) }
+  subject(:service) { described_class.call(team:, name:, avatar_url:) }
 
   let(:profile) { create(:profile, display_name: 'Andy') }
   let(:team) { create(:team, profiles: [profile]) }

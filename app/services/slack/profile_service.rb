@@ -6,7 +6,7 @@ class Slack::ProfileService < Base::ProfileService
     cursor = nil
     members = []
     loop do
-      data = team.slack_client.users_list(cursor: cursor)
+      data = team.slack_client.users_list(cursor:)
       members += data[:members]
       break if (cursor = data.dig(:response_metadata, :next_cursor)).blank?
     end

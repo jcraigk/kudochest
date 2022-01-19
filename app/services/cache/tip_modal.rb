@@ -7,11 +7,10 @@ class Cache::TipModal
   PREFIX = 'modal'
 
   def self.set(key, channel_rid, channel_name)
-    RedisClient.set(
+    RedisClient.set \
       "#{PREFIX}/#{key}",
       [channel_rid, channel_name].join(':'),
       ex: App.modal_cache_ttl
-    )
   end
 
   def self.get(key)

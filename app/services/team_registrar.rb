@@ -20,14 +20,14 @@ class TeamRegistrar < Base::Service
   end
 
   def existing_team
-    @existing_team ||= Team.find_by(rid: rid)
+    @existing_team ||= Team.find_by(rid:)
   end
 
   def new_attrs
     {
-      platform: platform,
-      rid: rid,
-      response_mode: response_mode
+      platform:,
+      rid:,
+      response_mode:
     }.merge(update_attrs).merge(discord_attrs)
   end
 

@@ -114,19 +114,17 @@ class Base::ImageService < Base::Service
   def avatar_image(url, size = PROFILE_SIZE)
     file = file_from_url(url)
     avatar_image = file.present? ? Magick::ImageList.new(file) : blank_avatar
-    resize_and_round(
+    resize_and_round \
       avatar_image,
       "#{size}x#{size}",
       RADII[team_config.platform.to_sym]
-    )
   end
 
   def blank_avatar
-    resize_and_round(
+    resize_and_round \
       Magick::ImageList.new(DEFAULT_AVATAR).first,
       "#{PROFILE_SIZE}x#{PROFILE_SIZE}",
       RADII[team_config.platform.to_sym]
-    )
   end
 
   def file_from_url(url)
@@ -140,7 +138,7 @@ class Base::ImageService < Base::Service
     end
     return unless response.code == 200
 
-    File.open(filename, 'wb') { |f| f.write(response.body) }
+    File.binwrite(filename, response.body)
     filename
   end
 end

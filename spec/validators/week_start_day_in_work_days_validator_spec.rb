@@ -16,9 +16,8 @@ RSpec.describe WeekStartDayInWorkDaysValidator do
 
     it 'is invalid' do
       validate
-      expect(team.errors[:week_start_day]).to eq(
+      expect(team.errors[:week_start_day]).to eq \
         [I18n.t('activerecord.errors.models.team.attributes.week_start_day.must_be_working_day')]
-      )
     end
   end
 end

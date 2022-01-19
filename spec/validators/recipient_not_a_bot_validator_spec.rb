@@ -4,15 +4,14 @@ require 'rails_helper'
 RSpec.describe RecipientNotABotValidator do
   subject(:validate) { described_class.new.validate(tip) }
 
-  let(:tip) { build(:tip, from_profile: from_profile, to_profile: to_profile) }
+  let(:tip) { build(:tip, from_profile:, to_profile:) }
   let(:from_profile) { build(:profile) }
   let(:to_profile) { build(:profile) }
   let(:expected) do
-    I18n.t(
+    I18n.t \
       "activerecord.errors.models.tip.attributes.base.#{type}",
       user: from_profile.link,
       points: App.points_term
-    )
   end
 
   it 'is valid when to_profile is not a bot' do

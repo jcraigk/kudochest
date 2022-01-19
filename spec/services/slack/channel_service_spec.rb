@@ -8,6 +8,6 @@ RSpec.describe Slack::ChannelService, vcr: { cassette_name: 'slack/channel_servi
 
   it 'joins new channel' do
     expect(Slack::ChannelJoinService)
-      .to have_received(:call).with(team: team, channel_rid: new_channel_rid)
+      .to have_received(:call).with(team:, channel_rid: new_channel_rid)
   end
 end

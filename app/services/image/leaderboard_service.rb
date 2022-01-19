@@ -38,13 +38,12 @@ class Image::LeaderboardService < Base::ImageService
   end
 
   def add_team_avatar(comp)
-    comp.composite(
+    comp.composite \
       avatar_image(team_config.avatar_url),
       Magick::NorthWestGravity,
       HEADER_PAD,
       HEADER_PAD,
       Magick::OverCompositeOp
-    )
   end
 
   def add_header_text(comp)
@@ -85,13 +84,12 @@ class Image::LeaderboardService < Base::ImageService
       # Rank
       if data.rank <= 3
         trophy = Magick::ImageList.new("#{BASE_PATH}/trophies/#{data.rank}.png")
-        comp = comp.composite(
+        comp = comp.composite \
           trophy,
           Magick::NorthWestGravity,
           x,
           y + 3,
           Magick::OverCompositeOp
-        )
       else
         draw.text_align(Magick::RightAlign)
         value = "#{data.rank}."
@@ -102,13 +100,12 @@ class Image::LeaderboardService < Base::ImageService
       x += 35
 
       # Avatar
-      comp = comp.composite(
+      comp = comp.composite \
         avatar_image(data.avatar_url, 16),
         Magick::NorthWestGravity,
         x,
         y + 2,
         Magick::OverCompositeOp
-      )
       x += 25
 
       # Name

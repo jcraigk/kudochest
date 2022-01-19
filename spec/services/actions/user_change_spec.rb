@@ -6,7 +6,7 @@ RSpec.describe Actions::UserChange do
 
   let(:team) { create(:team) }
   let(:team_rid) { team.rid }
-  let(:profile) { create(:profile, team: team, display_name: original_display_name) }
+  let(:profile) { create(:profile, team:, display_name: original_display_name) }
   let(:new_display_name) { 'New Display Name' }
   let(:new_real_name) { 'New Real Name' }
   let(:image_url) { 'https://www.example.com' }
@@ -26,7 +26,7 @@ RSpec.describe Actions::UserChange do
           profile: {
             display_name_normalized: new_display_name,
             real_name_normalized: new_real_name,
-            title: title,
+            title:,
             image_512: image_url,
             team: team_rid
           },

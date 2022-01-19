@@ -2,7 +2,7 @@
 require 'rails_helper'
 
 RSpec.describe EventService do
-  subject(:service) { described_class.call(params: params) }
+  subject(:service) { described_class.call(params:) }
 
   let(:params) do
     {
@@ -30,10 +30,7 @@ RSpec.describe EventService do
       TEXT
     end
     let(:args) do
-      params.merge(
-        mode: :error,
-        text: text
-      )
+      params.merge(mode: :error, text:)
     end
 
     before { allow(Actions::Message).to receive(:call).and_raise('whoopsy') }

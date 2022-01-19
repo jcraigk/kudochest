@@ -1,10 +1,9 @@
 # frozen_string_literal: true
 class Commands::Topics < Commands::Base
   def call
-    ChatResponse.new(
+    ChatResponse.new \
       mode: :private,
       text: topic_text
-    )
   end
 
   private
@@ -15,7 +14,7 @@ class Commands::Topics < Commands::Base
   end
 
   def topic_list
-    Topic.active.where(team: team).order(name: :asc).map do |topic|
+    Topic.active.where(team:).order(name: :asc).map do |topic|
       <<~TEXT.chomp
         *Name:* #{topic.name}
         *Description:* #{topic.description}

@@ -5,7 +5,7 @@ RSpec.describe LeaderboardService do
   subject(:service) { described_class.call(**args) }
 
   let(:team) { create(:team) }
-  let(:profile) { create(:profile, team: team) }
+  let(:profile) { create(:profile, team:) }
   let(:cache_data) { LeaderboardSnippet.new(Time.current.to_i, profiles) }
   let(:cache_giving_data) { LeaderboardSnippet.new(Time.current.to_i, giving_profiles) }
   let(:mock_cache) { instance_spy(Cache::Leaderboard) }

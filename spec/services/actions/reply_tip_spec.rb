@@ -5,9 +5,9 @@ RSpec.describe Actions::ReplyTip do
   subject(:action) { described_class.call(**params) }
 
   let(:team) { create(:team) }
-  let(:sender) { create(:profile, team: team) }
-  let(:recipient) { create(:profile, team: team) }
-  let(:channel) { create(:channel, team: team) }
+  let(:sender) { create(:profile, team:) }
+  let(:recipient) { create(:profile, team:) }
+  let(:channel) { create(:channel, team:) }
   let(:ts) { Time.current.to_f.to_s }
   let(:params) do
     {

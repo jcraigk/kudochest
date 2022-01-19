@@ -45,7 +45,7 @@ class Cache::TeamConfig < Base::Service
 
   def topic_data
     {
-      topics: Topic.active.where(team: team).order(name: :asc).map do |topic|
+      topics: Topic.active.where(team:).order(name: :asc).map do |topic|
         topic.attributes.slice(*TopicData.members.map(&:to_s))
       end
     }

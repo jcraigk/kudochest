@@ -10,15 +10,13 @@ RSpec.describe Tip do
   it { is_expected.to belong_to(:to_profile).class_name('Profile').inverse_of(:tips_received) }
   it { is_expected.to belong_to(:topic).optional(true) }
 
-  it { is_expected.to validate_presence_of(:from_profile_id) }
-  it { is_expected.to validate_presence_of(:to_profile_id) }
   it { is_expected.to validate_length_of(:note).is_at_most(App.max_note_length) }
 
   describe 'Topic presence validation' do
     subject(:tip) { build(:tip, from_profile: profile, topic: nil) }
 
     let(:team) { create(:team) }
-    let(:profile) { create(:profile, team: team) }
+    let(:profile) { create(:profile, team:) }
 
     context 'when team requires it' do
       before do
@@ -27,9 +25,8 @@ RSpec.describe Tip do
       end
 
       it 'is invalid without a topic' do
-        expect(tip.errors[:topic_id]).to eq(
+        expect(tip.errors[:topic_id]).to eq \
           ["must be specified - use the \"topics\" command or visit #{App.base_url}/topic-list"]
-        )
       end
     end
 
@@ -54,7 +51,7 @@ RSpec.describe Tip do
 
     before do
       create(:tip, source: 'auto', from_profile: profile) # wrong source
-      create(:tip, source: 'modal', from_profile: profile, created_at: Time.current - 1.year) # old
+      create(:tip, source: 'modal', from_profile: profile, created_at: 1.year.ago) # old
     end
 
     it 'returns expected records' do
@@ -110,20 +107,19 @@ RSpec.describe Tip do
 
   describe 'delete_discord_response after destroy' do
     subject(:tip) do
-      create(
+      create \
         :tip,
         from_profile: profile,
         response_channel_rid:
         channel.rid,
         response_ts: ts
-      )
     end
 
     let(:team) { create(:team, platform: :discord) }
-    let(:profile) { create(:profile, team: team) }
+    let(:profile) { create(:profile, team:) }
     let(:ts) { Time.current.to_f.to_s }
     let(:channel) { build(:channel) }
-    let(:expected_args) { { channel: channel.rid, ts: ts } }
+    let(:expected_args) { { channel: channel.rid, ts: } }
 
     before do
       allow(Discordrb::API::Channel).to receive(:delete_message)
@@ -138,8 +134,8 @@ RSpec.describe Tip do
 
   describe 'callbacks' do
     let(:team) { create(:team) }
-    let(:sender) { create(:profile, team: team) }
-    let(:recipient) { create(:profile, team: team) }
+    let(:sender) { create(:profile, team:) }
+    let(:recipient) { create(:profile, team:) }
 
     context 'when saving a tip' do
       before do

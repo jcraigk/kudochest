@@ -13,6 +13,6 @@ RSpec.describe ProfileWorker do
   end
 
   it 'calls service with expected args' do
-    expect(Slack::ProfileService).to have_received(:call).with(team: team, first_run: first_run)
+    expect(Slack::ProfileService).to have_received(:call).with(team:, first_run:)
   end
 end

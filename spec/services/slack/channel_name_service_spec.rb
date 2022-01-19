@@ -2,7 +2,7 @@
 require 'rails_helper'
 
 RSpec.describe Slack::ChannelNameService do
-  subject(:service) { described_class.call(team: team, channel_rid: channel.rid) }
+  subject(:service) { described_class.call(team:, channel_rid: channel.rid) }
 
   let(:team) { create(:team, :with_profiles) }
   let(:channel) { create(:channel) }

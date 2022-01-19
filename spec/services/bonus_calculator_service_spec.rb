@@ -5,13 +5,13 @@ RSpec.describe BonusCalculatorService, :freeze_time do
   subject(:service) { described_class.call(**args) }
 
   let(:team) { create(:team) }
-  let(:profile1) { create(:profile, team: team) }
-  let(:profile2) { create(:profile, team: team) }
+  let(:profile1) { create(:profile, team:) }
+  let(:profile2) { create(:profile, team:) }
   let(:args) do
     {
       team: team,
-      start_date: (Time.current - 2.days).strftime('%Y-%m-%d'),
-      end_date: (Time.current + 2.days).strftime('%Y-%m-%d'),
+      start_date: (2.days.ago).strftime('%Y-%m-%d'),
+      end_date: (2.days.from_now).strftime('%Y-%m-%d'),
       include_streak_points: include_streak_points,
       include_imported_points: include_imported_points,
       style: style,

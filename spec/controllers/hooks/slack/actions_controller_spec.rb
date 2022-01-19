@@ -11,7 +11,7 @@ describe Hooks::Slack::ActionsController do
   end
 
   let(:team) { create(:team) }
-  let(:profile) { create(:profile, team: team) }
+  let(:profile) { create(:profile, team:) }
   let(:params) do
     {
       payload: {

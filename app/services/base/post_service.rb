@@ -87,12 +87,12 @@ class Base::PostService < Base::Service
   end
 
   def fragment_composition(contextual)
-    [primary_text(contextual), cheer_text].reject(&:blank?).join("\n")
+    [primary_text(contextual), cheer_text].compact_blank.join("\n")
   end
 
   def cheer_text
     return unless team_config.enable_cheers
-    [chat_fragments[:levelup], chat_fragments[:streak]].reject(&:blank?).join("\n")
+    [chat_fragments[:levelup], chat_fragments[:streak]].compact_blank.join("\n")
   end
 
   def primary_text(contextual)
@@ -103,7 +103,7 @@ class Base::PostService < Base::Service
     parts = chat_fragments.slice(:lead, :main)
     note = chat_fragments[:note]
     parts[:main] += ". #{note}" if note.present?
-    parts.values.reject(&:blank?).join("\n")
+    parts.values.compact_blank.join("\n")
   end
 
   def public_primary_text # rubocop:disable Metrics/AbcSize, Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
@@ -115,7 +115,7 @@ class Base::PostService < Base::Service
     end
     parts[:main] += " #{channel}" if team_config.show_channel && channel.present?
     parts[:main] += ". #{note}" if team_config.show_note && note.present?
-    parts.values.reject(&:blank?).join("\n")
+    parts.values.compact_blank.join("\n")
   end
 
   def chat_fragments

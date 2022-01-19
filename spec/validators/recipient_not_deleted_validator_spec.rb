@@ -4,7 +4,7 @@ require 'rails_helper'
 RSpec.describe RecipientNotDeletedValidator do
   subject(:validate) { described_class.new.validate(tip) }
 
-  let(:tip) { build(:tip, from_profile: from_profile, to_profile: to_profile) }
+  let(:tip) { build(:tip, from_profile:, to_profile:) }
   let(:from_profile) { build(:profile) }
   let(:to_profile) { build(:profile) }
 
@@ -16,11 +16,10 @@ RSpec.describe RecipientNotDeletedValidator do
   context 'when to_profile is deleted' do
     let(:to_profile) { build(:profile, deleted: true) }
     let(:expected) do
-      I18n.t(
+      I18n.t \
         'activerecord.errors.models.tip.attributes.base.cannot_tip_deleted',
         user: from_profile.link,
         points: App.points_term
-      )
     end
 
     it 'is invalid' do

@@ -2,7 +2,7 @@
 module TeamHelper
   # rubocop:disable Metrics/MethodLength
   def reset_team_stats_button(team)
-    link_to(
+    link_to \
       icon_and_text(
         'exclamation-circle',
         t('teams.reset_stats_now', points_title: App.points_term.titleize)
@@ -13,11 +13,10 @@ module TeamHelper
       data: {
         confirm: t('teams.confirm_reset_stats', points: App.points_term)
       }
-    )
   end
 
   def active_claim_button(reward)
-    link_to(
+    link_to \
       icon_and_text(
         'sparkles',
         t(
@@ -30,11 +29,10 @@ module TeamHelper
       method: :post,
       class: 'button is-primary is-large',
       data: { confirm: t('shop.confirm_claim') }
-    )
   end
 
   def inactive_claim_button(reward)
-    link_to(
+    link_to \
       icon_and_text(
         'do-not-enter',
         t(
@@ -46,12 +44,11 @@ module TeamHelper
       '#',
       class: 'button is-large btn-claim-disabled',
       disabled: true
-    )
   end
   # rubocop:enable Metrics/MethodLength
 
   def join_all_channels_button(team)
-    link_to(
+    link_to \
       icon_and_text('sign-in', t('teams.join_all_channels')),
       join_channels_team_path(team),
       class: 'button',
@@ -59,11 +56,10 @@ module TeamHelper
       data: {
         confirm: t('teams.confirm_join_all_channels')
       }
-    )
   end
 
   def export_data_button(team)
-    link_to(
+    link_to \
       icon_and_text('cloud-download', t('teams.export_data')),
       export_data_team_path(team),
       class: 'button',
@@ -71,7 +67,6 @@ module TeamHelper
       data: {
         confirm: t('teams.confirm_export_data')
       }
-    )
   end
 
   def claim_button(profile, reward)
@@ -88,7 +83,7 @@ module TeamHelper
   end
 
   def profile_select(team, column, blank_label, value)
-    select_tag(
+    select_tag \
       column,
       options_for_select(
         team.profiles.active.map { |p| [p.display_name, p.id] },
@@ -96,11 +91,10 @@ module TeamHelper
       ),
       class: 'input select2 autosubmit',
       include_blank: "(#{blank_label})"
-    )
   end
 
   def topic_select(team, blank_label, value)
-    select_tag(
+    select_tag \
       :topic_id,
       options_for_select(
         team.topics.active.map { |t| [t.name, t.id] },
@@ -108,57 +102,52 @@ module TeamHelper
       ),
       class: 'input select2 autosubmit',
       include_blank: "(#{blank_label})"
-    )
   end
 
   def status_select
-    select_tag(
+    select_tag \
       :status,
       options_for_select(
         [['All Status', 'all'], %w[Active active], %w[Inactive inactive]],
         params[:status]
       ),
       class: 'input autosubmit'
-    )
   end
 
   def fulfillment_select
-    select_tag(
+    select_tag \
       :fulfillment,
       options_for_select(
         [['All Status', 'all'], %w[Fulfilled fulfilled], %w[Pending pending]],
         params[:fulfillment]
       ),
       class: 'input autosubmit'
-    )
   end
 
   def reward_select(team)
-    select_tag(
+    select_tag \
       :reward_id,
       options_for_select(reward_options(team), params[:reward_id]),
       class: 'input autosubmit'
-    )
   end
 
   def reward_options(team)
     [['All Loot Items', 'all']] +
-      Reward.where(team: team)
+      Reward.where(team:)
             .order(name: :asc)
             .map { |reward| [reward.name, reward.id] }
   end
 
   def search_input(placeholder)
-    text_field_tag(:search, params[:search], class: 'input', placeholder: placeholder)
+    text_field_tag(:search, params[:search], class: 'input', placeholder:)
   end
 
   def team_avatar_image(team, size: 80)
-    image_tag(
+    image_tag \
       team.avatar_url,
       alt: 'Team avatar image',
-      size: size,
+      size:,
       class: "team-avatar platform-#{team.platform}"
-    )
   end
 
   def response_mode_options(team)
@@ -177,11 +166,11 @@ module TeamHelper
   end
 
   def discord_tip_emoji(size = nil)
-    image_pack_tag('media/images/emoji/plus_one_v1.png', size: size, alt: 'Plus One emoji')
+    image_pack_tag('media/images/emoji/plus_one_v1.png', size:, alt: 'Plus One emoji')
   end
 
   def discord_ditto_emoji(size = nil)
-    image_pack_tag('media/images/emoji/plus_plus.png', size: size, alt: 'Plus Plus emoji')
+    image_pack_tag('media/images/emoji/plus_plus.png', size:, alt: 'Plus Plus emoji')
   end
 
   def max_allowed_teams?

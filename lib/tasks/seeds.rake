@@ -14,7 +14,7 @@ namespace :seeds do
 
     print 'Generating topics'
     rand(5..30).times do
-      create(:topic, team: team)
+      create(:topic, team:)
     end
 
     print 'Generating tips'
@@ -25,8 +25,8 @@ namespace :seeds do
       num.times do
         channel = team.channels.sample
         topic_id = rand(3).zero? ? nil : team.topics.sample.id
-        TipFactory.call(
-          topic_id: topic_id,
+        TipFactory.call \
+          topic_id:,
           from_profile: profile,
           to_entity: 'Profile',
           to_profiles: [(profiles - [profile]).sample],
@@ -38,7 +38,6 @@ namespace :seeds do
           channel_rid: channel.rid,
           source: 'auto',
           timestamp: Time.current
-        )
       end
     end
     puts 'done'
@@ -62,27 +61,25 @@ namespace :seeds do
       auto_fulfill = rand(3).to_i == 1
       fulfillment_keys = Array.new(5) { Faker::Crypto.md5 }
       quantity = n.even? ? 0 : rand(100).to_i
-      reward = Reward.create(
-        team: team,
+      reward = Reward.create \
+        team:,
         name: "Reward #{Faker::Crypto.md5.first(5)}",
         price: prices.sample,
         description: Faker::Lorem.paragraph,
-        auto_fulfill: auto_fulfill,
-        quantity: quantity,
+        auto_fulfill:,
+        quantity:,
         fulfillment_keys: auto_fulfill ? fulfillment_keys.join("\n") : nil,
         active: rand(3).to_i != 1
-      )
       next if rand(3).to_i.positive? || ENV['SKIP_CLAIMS'].present?
       fulfilled = auto_fulfill ? true : rand(2).to_i.even?
       max_claims = auto_fulfill ? fulfillment_keys.size : quantity
       num_claims = rand(2).to_i.even? ? max_claims : rand(max_claims).to_i
       num_claims.times do |c|
-        reward.claims.create(
+        reward.claims.create \
           profile: rand(2).to_i.even? ? profile1 : profile2,
           fulfilled_at: fulfilled ? Time.current : nil,
           fulfillment_key: fulfilled ? fulfillment_keys[c] : nil,
           price: reward.price
-        )
       end
     end
 

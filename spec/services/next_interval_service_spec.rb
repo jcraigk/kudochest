@@ -3,7 +3,7 @@ require 'rails_helper'
 
 RSpec.describe NextIntervalService do
   subject(:service) do
-    described_class.call(team: team, attr: attr, start_at: start_at)
+    described_class.call(team:, attr:, start_at:)
   end
 
   let(:team) { create(:team) }
@@ -20,7 +20,7 @@ RSpec.describe NextIntervalService do
   end
 
   context 'when attr is :token_frequency' do
-    let(:team) { create(:team, token_frequency: token_frequency) }
+    let(:team) { create(:team, token_frequency:) }
     let(:attr) { :token_frequency }
     let(:start_at) { Time.current }
 

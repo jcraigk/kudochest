@@ -3,20 +3,20 @@ require 'rails_helper'
 
 RSpec.describe Commands::Leaderboard, :freeze_time do
   subject(:command) do
-    described_class.call(team_rid: team.rid, profile_rid: profile.rid, text: text)
+    described_class.call(team_rid: team.rid, profile_rid: profile.rid, text:)
   end
 
   let(:team) { create(:team) }
-  let(:profile) { create(:profile, team: team) }
-  let(:profile1) { create(:profile, team: team) }
-  let(:profile2) { create(:profile, team: team) }
-  let(:profile3) { create(:profile, team: team) }
-  let(:profile4) { create(:profile, team: team) }
+  let(:profile) { create(:profile, team:) }
+  let(:profile1) { create(:profile, team:) }
+  let(:profile2) { create(:profile, team:) }
+  let(:profile3) { create(:profile, team:) }
+  let(:profile4) { create(:profile, team:) }
   let(:profiles) { [profile1, profile2, profile3, profile4] }
   let(:text) { '' }
 
   shared_examples 'expected response' do
-    let(:expected) { ChatResponse.new(mode: :public, text: text) }
+    let(:expected) { ChatResponse.new(mode: :public, text:) }
 
     it 'returns leaderboard text' do
       expect(command).to eq(expected)
@@ -51,12 +51,12 @@ RSpec.describe Commands::Leaderboard, :freeze_time do
 
     before do
       profile1.update(points: 500, last_tip_received_at: Time.current)
-      profile2.update(points: 83, last_tip_received_at: Time.current - 1.hour)
-      profile3.update(points: 83, last_tip_received_at: Time.current - 1.week)
-      profile4.update(points: 3, last_tip_received_at: Time.current - 2.months)
+      profile2.update(points: 83, last_tip_received_at: 1.hour.ago)
+      profile3.update(points: 83, last_tip_received_at: 1.week.ago)
+      profile4.update(points: 3, last_tip_received_at: 2.months.ago)
       team.update(points_sent: profiles.sum(&:points))
       allow(LeaderboardService).to receive(:call).with(
-        team: team,
+        team:,
         givingboard: false
       ).and_return(mock_result)
     end
@@ -74,8 +74,8 @@ RSpec.describe Commands::Leaderboard, :freeze_time do
   end
 
   def profile_data(prof, rank)
-    LeaderboardProfile.new(
-      rank: rank,
+    LeaderboardProfile.new \
+      rank:,
       slug: prof.slug,
       link: prof.link,
       display_name: prof.display_name,
@@ -83,6 +83,5 @@ RSpec.describe Commands::Leaderboard, :freeze_time do
       points: prof.points,
       percent_share: (prof.points / team.points_sent.to_f) * 100,
       last_timestamp: prof.last_tip_received_at.to_i
-    )
   end
 end

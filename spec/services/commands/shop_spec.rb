@@ -4,8 +4,8 @@ require 'rails_helper'
 RSpec.describe Commands::Shop do
   subject(:command) { described_class.call(team_rid: team.rid, profile_rid: profile.rid) }
 
-  let(:team) { create(:team, enable_loot: enable_loot) }
-  let(:profile) { create(:profile, team: team) }
+  let(:team) { create(:team, enable_loot:) }
+  let(:profile) { create(:profile, team:) }
 
   context 'when team.enable_loot? is false' do
     let(:enable_loot) { false }
@@ -28,8 +28,8 @@ RSpec.describe Commands::Shop do
     end
 
     context 'when rewards exist' do
-      let!(:reward1) { create(:reward, team: team, active: true, quantity: 1) }
-      let!(:reward2) { create(:reward, team: team, active: true, quantity: 1) }
+      let!(:reward1) { create(:reward, team:, active: true, quantity: 1) }
+      let!(:reward2) { create(:reward, team:, active: true, quantity: 1) }
 
       it 'returns shop empty' do
         expect(command.text).to include(reward1.name)

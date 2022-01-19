@@ -2,10 +2,10 @@
 require 'rails_helper'
 
 RSpec.describe Reports::ProfileDigestService do
-  subject(:service) { described_class.call(profile: profile) }
+  subject(:service) { described_class.call(profile:) }
 
   let(:team) { create(:team) }
-  let(:profile) { create(:profile, team: team) }
+  let(:profile) { create(:profile, team:) }
   let(:keys) do
     %i[
       profile points_received num_givers points_sent num_recipients

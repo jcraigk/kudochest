@@ -49,7 +49,7 @@ class EventService < Base::Service
   def post_chat_error(exception)
     return if params[:channel_rid].blank? && params[:replace_channel_rid].blank?
     text = ":#{App.error_emoji}: #{error_text(exception)}"
-    responder.call(**params.merge(mode: :error, text: text))
+    responder.call(**params.merge(mode: :error, text:))
   end
 
   def reportable?(exception)

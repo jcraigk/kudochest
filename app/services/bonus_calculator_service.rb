@@ -46,7 +46,7 @@ class BonusCalculatorService < Base::Service
 
   def bonus_display(bonus)
     return if bonus.blank?
-    format('$%<bonus>.2f', bonus: bonus)
+    format('$%<bonus>.2f', bonus:)
   end
 
   def style_bonus(points, share)
@@ -81,10 +81,9 @@ class BonusCalculatorService < Base::Service
 
   def tip_relation(profile)
     Tip.where(to_profile: profile)
-       .where(
+       .where \
          'created_at >= ? AND created_at <= ?',
          Time.use_zone(team.time_zone) { "#{start_date} 00:00" }.to_time.utc,
          Time.use_zone(team.time_zone) { "#{end_date} 23:59" }.to_time.utc
-       )
   end
 end

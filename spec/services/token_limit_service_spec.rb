@@ -2,10 +2,10 @@
 require 'rails_helper'
 
 RSpec.describe TokenLimitService do
-  subject(:service) { described_class.call(profile: profile, quantity: quantity) }
+  subject(:service) { described_class.call(profile:, quantity:) }
 
   let(:team) { create(:team) }
-  let(:profile) { create(:profile, team: team) }
+  let(:profile) { create(:profile, team:) }
   let(:quantity) { 2 }
 
   context 'when team.throttle_tips is true' do

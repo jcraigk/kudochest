@@ -5,8 +5,8 @@ RSpec.describe DataExportWorker do
   subject(:perform) { described_class.new.perform(team.id) }
 
   let(:team) { create(:team) }
-  let!(:profile1) { create(:profile, team: team) }
-  let!(:profile2) { create(:profile, team: team) }
+  let!(:profile1) { create(:profile, team:) }
+  let!(:profile2) { create(:profile, team:) }
   let(:mock_mailer) { instance_spy(ActionMailer::MessageDelivery) }
   let(:csv_str) do
     CSV.generate do |csv|

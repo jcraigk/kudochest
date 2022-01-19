@@ -36,7 +36,7 @@ module TeamDecorator
   end
 
   def level_points_map
-    (1..max_level).index_with { |level| LevelToPointsService.call(team: self, level: level) }
+    (1..max_level).index_with { |level| LevelToPointsService.call(team: self, level:) }
   end
 
   def workspace_noun
@@ -73,9 +73,9 @@ module TeamDecorator
   def levels_table_row(level, points, delta)
     format(
       "%<level>-5d  %<points>-#{App.points_term.size}d  %<delta>-5d",
-      level: level,
-      points: points,
-      delta: delta
+      level:,
+      points:,
+      delta:
     ).strip
   end
 end

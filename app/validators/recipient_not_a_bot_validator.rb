@@ -2,14 +2,13 @@
 class RecipientNotABotValidator < ActiveModel::Validator
   def validate(record)
     return unless record.to_profile&.bot_user?
-    record.errors.add(
+    record.errors.add \
       :base,
       I18n.t(
         "activerecord.errors.models.tip.attributes.base.#{type(record)}",
         user: record.from_profile&.link,
         points: App.points_term
       ).squish
-    )
   end
 
   private

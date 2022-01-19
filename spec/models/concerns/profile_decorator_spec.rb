@@ -5,7 +5,7 @@ RSpec.describe ProfileDecorator do
   subject(:profile) { build(:profile) }
 
   describe '#token_balance_sentence' do
-    subject(:profile) { build(:profile, tokens_accrued: tokens_accrued) }
+    subject(:profile) { build(:profile, tokens_accrued:) }
 
     context 'when token balance is zero' do
       let(:tokens_accrued) { 0 }
@@ -34,7 +34,7 @@ RSpec.describe ProfileDecorator do
   end
 
   describe '#link_with_stat' do
-    subject(:profile) { build(:profile, team: team) }
+    subject(:profile) { build(:profile, team:) }
 
     let(:team) { build(:team) }
 
@@ -90,7 +90,7 @@ RSpec.describe ProfileDecorator do
   end
 
   describe '#webref_with_stat' do
-    subject(:profile) { build(:profile, team: team) }
+    subject(:profile) { build(:profile, team:) }
 
     let(:team) { build(:team) }
 
@@ -139,7 +139,7 @@ RSpec.describe ProfileDecorator do
   end
 
   describe '#next_level_points_sentence' do
-    subject(:profile) { build(:profile, team: team, points: 359) }
+    subject(:profile) { build(:profile, team:, points: 359) }
 
     let(:team) { build(:team, max_level: 10, max_level_points: 450, level_curve: :steep) }
     let(:expected_text) { "#{points_format(91, label: true)} until level 10" }
@@ -172,9 +172,8 @@ RSpec.describe ProfileDecorator do
 
     it 'calls PointsToLevelService' do
       profile.level
-      expect(PointsToLevelService).to have_received(:call).with(
+      expect(PointsToLevelService).to have_received(:call).with \
         team: profile.team, points: profile.points
-      )
     end
   end
 

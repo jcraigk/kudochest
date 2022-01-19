@@ -25,23 +25,21 @@ class Commands::Shop < Commands::Base
   end
 
   def balance_sentence
-    t(
+    t \
       'shop.balance_chat',
       points: App.points_term,
       claimed: points_format(profile.points_claimed),
       accrued: points_format(profile.points),
       remaining: points_format(profile.points_unclaimed)
-    )
   end
 
   def shop_rows
     rewards.map do |reward|
-      t(
+      t \
         'shop.reward_for_price_chat',
         reward: reward.name,
         quantity: number_with_delimiter(reward.price),
         points: App.points_term
-      )
     end
   end
 

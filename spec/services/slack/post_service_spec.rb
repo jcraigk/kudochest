@@ -10,7 +10,7 @@ RSpec.describe Slack::PostService do
       mode: mode,
       team_config: {
         log_channel_rid: team.log_channel_rid,
-        response_mode: response_mode
+        response_mode:
       },
       channel_rid: channel.rid,
       is_bot_dm: false,
@@ -25,7 +25,7 @@ RSpec.describe Slack::PostService do
   end
   let(:response_mode) { :convo }
   let(:team) { create(:team) }
-  let(:profile) { create(:profile, team: team) }
+  let(:profile) { create(:profile, team:) }
   let(:channel) { create(:channel) }
   let(:profile_rids) { [] }
   let(:thread_ts) { 'abc.def' }
@@ -44,10 +44,9 @@ RSpec.describe Slack::PostService do
   end
   let(:tips) { {} }
   let(:response) do
-    TipResponseService::TipResponse.new(
+    TipResponseService::TipResponse.new \
       chat_fragments: { main: chat_response },
       web: web_response
-    )
   end
   let(:web_ts) { '<span class="ts">Nov 11 9:01pm:</span>' }
   let(:text_block) do
@@ -72,7 +71,7 @@ RSpec.describe Slack::PostService do
         blocks: [{ text: { text: chat_response, type: :mrkdwn }, type: :section }],
         channel: channel.rid,
         text: web_response,
-        thread_ts: thread_ts,
+        thread_ts:,
         unfurl_links: false,
         unfurl_media: false
       }
@@ -238,13 +237,13 @@ RSpec.describe Slack::PostService do
 
     context 'when response_mode is `reply`' do
       let(:response_mode) { :reply }
-      let(:replies_data) { { messages: [{ thread_ts: thread_ts }] } }
+      let(:replies_data) { { messages: [{ thread_ts: }] } }
       let(:arguments) do
         {
           text: chat_response,
           blocks: [text_block],
           channel: channel.rid,
-          thread_ts: thread_ts,
+          thread_ts:,
           unfurl_links: false,
           unfurl_media: false
         }
@@ -275,14 +274,13 @@ RSpec.describe Slack::PostService do
 
       it 'calls Slack::Web::Client#chat_postMessage' do # rubocop:disable RSpec/ExampleLength
         tips.each do |tip|
-          expect(slack_client).to have_received(:chat_postMessage).with(
+          expect(slack_client).to have_received(:chat_postMessage).with \
             text: chat_response,
             blocks: [text_block],
             channel: tip.to_profile.rid,
             as_user: true,
             unfurl_links: false,
             unfurl_media: false
-          )
         end
       end
 

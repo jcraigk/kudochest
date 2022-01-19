@@ -2,11 +2,11 @@
 require 'rails_helper'
 
 RSpec.describe RewardClaimService, :freeze_time do
-  subject(:call) { described_class.call(profile: profile, reward: reward) }
+  subject(:call) { described_class.call(profile:, reward:) }
 
   let(:team) { create(:team) }
-  let(:profile) { create(:profile, team: team, points_received: 100) }
-  let(:reward) { create(:reward, team: team, price: 100, quantity: 1) }
+  let(:profile) { create(:profile, team:, points_received: 100) }
+  let(:reward) { create(:reward, team:, price: 100, quantity: 1) }
   let(:base_attrs) do
     {
       reward_id: reward.id,
@@ -46,7 +46,7 @@ RSpec.describe RewardClaimService, :freeze_time do
   end
 
   context 'when claim is set to auto_fulfill' do
-    let(:reward) { create(:reward, team: team, auto_fulfill: true, fulfillment_keys: "a\nb\nc") }
+    let(:reward) { create(:reward, team:, auto_fulfill: true, fulfillment_keys: "a\nb\nc") }
 
     it 'removes a key from the reward' do
       call

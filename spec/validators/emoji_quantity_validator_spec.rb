@@ -4,16 +4,15 @@ require 'rails_helper'
 RSpec.describe EmojiQuantityValidator do
   subject(:validate) { described_class.new.validate(team) }
 
-  let(:team) { build(:team, tip_increment: tip_increment, emoji_quantity: emoji_quantity) }
+  let(:team) { build(:team, tip_increment:, emoji_quantity:) }
   let(:tip_increment) { 1.0 }
   let(:emoji_quantity) { 1.0 }
 
   shared_examples 'invalid' do
     it 'is invalid' do
       validate
-      expect(team.errors[:emoji_quantity]).to eq(
+      expect(team.errors[:emoji_quantity]).to eq \
         ["must be a multiple of the #{App.points_term.titleize} Increment (#{team.tip_increment})"]
-      )
     end
   end
 

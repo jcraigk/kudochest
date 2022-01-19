@@ -13,6 +13,6 @@ RSpec.describe EmojiInstallWorker do
   end
 
   it 'calls service with expected args' do
-    expect(Discord::EmojiInstallService).to have_received(:call).with(team: team)
+    expect(Discord::EmojiInstallService).to have_received(:call).with(team:)
   end
 end

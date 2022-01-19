@@ -23,7 +23,7 @@ class Base::SubteamService < Base::Service
 
   def assign_app_subteam
     return if app_subteam_rid.blank?
-    team.update!(app_subteam_rid: app_subteam_rid)
+    team.update!(app_subteam_rid:)
   end
 
   def find_or_create_subteam(attrs) # rubocop:disable Metrics/MethodLength
@@ -38,8 +38,8 @@ class Base::SubteamService < Base::Service
     combined_attrs = base_attrs.merge(sync_attrs)
     Subteam.create!(combined_attrs)
   rescue ActiveRecord::RecordInvalid => e
-    parameters = { attrs: attrs.to_h, combined_attrs: combined_attrs }
-    Honeybadger.notify(e, parameters: parameters) if defined?(Honeybadger)
+    parameters = { attrs: attrs.to_h, combined_attrs: }
+    Honeybadger.notify(e, parameters:) if defined?(Honeybadger)
     nil
   end
 

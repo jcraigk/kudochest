@@ -6,6 +6,6 @@ class ProfileWorker
   def perform(team_rid, first_run = false)
     team = Team.find_by!(rid: team_rid)
     return unless team.active?
-    "#{team.plat}::ProfileService".constantize.call(team: team, first_run: first_run)
+    "#{team.plat}::ProfileService".constantize.call(team:, first_run:)
   end
 end

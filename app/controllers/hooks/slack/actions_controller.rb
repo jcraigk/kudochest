@@ -13,18 +13,17 @@ class Hooks::Slack::ActionsController < Hooks::Slack::BaseController
     callback_id.in?(CALLBACK_IDS)
   end
 
-  def data # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
-    payload.merge(
+  def data # rubocop:disable Metrics/AbcSize
+    payload.merge \
       action: callback_id,
       channel_name: payload.dig(:channel, :name) || modal_channel.name,
       channel_rid: payload.dig(:channel, :id) || modal_channel.rid,
       event_ts: Time.current.to_f.to_s,
       message_profile_rid: payload.dig(:message, :user),
       message_ts: payload.dig(:message, :ts),
-      profile_rid: profile_rid,
+      profile_rid:,
       team_config: team_config.to_h,
-      team_rid: team_rid
-    )
+      team_rid:
   end
 
   def profile_rid

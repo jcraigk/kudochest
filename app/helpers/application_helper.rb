@@ -67,11 +67,10 @@ module ApplicationHelper
   end
 
   def channel_select(form, attr)
-    form.select(
+    form.select \
       attr,
       options_for_select(channel_options(form.object), form.object.send(attr)),
       include_blank: 'Disabled'
-    )
   end
 
   def channel_options(team)
@@ -81,21 +80,19 @@ module ApplicationHelper
   end
 
   def tooltip_btn(i18n_key, css_class = nil, i18n_params = {})
-    tag.span(
+    tag.span \
       tag.i(class: 'fa fa-question-circle is-grey'),
       class: "tooltip-btn has-tooltip-multiline #{css_class}",
       data: { tooltip: t(i18n_key, **i18n_params) }
-    )
   end
 
   def hour_select(form, attr)
-    form.select(
+    form.select \
       attr,
       options_for_select(
         hour_options,
         form.object.send(attr)
       )
-    )
   end
 
   def hour_options
@@ -145,9 +142,8 @@ module ApplicationHelper
   end
 
   def user_email_domains_sentence
-    App.user_email_domains.to_sentence(
+    App.user_email_domains.to_sentence \
       two_words_connector: ' or ',
       last_word_connector: ', or '
-    )
   end
 end

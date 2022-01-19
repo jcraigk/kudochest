@@ -13,10 +13,9 @@ class Commands::Undo < Commands::Base
   private
 
   def respond
-    ChatResponse.new(
+    ChatResponse.new \
       mode: :private,
-      text: text
-    )
+      text:
   end
 
   def prepare_response

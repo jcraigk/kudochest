@@ -27,7 +27,7 @@ class Base::ProfileService < Base::Service
   end
 
   def handle_token_dispersal
-    TokenDispersalService.call(team: team, notify: false)
+    TokenDispersalService.call(team:, notify: false)
   end
 
   def sync_subteams

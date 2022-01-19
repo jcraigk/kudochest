@@ -27,13 +27,12 @@ class StreakRewardService < Base::Service
   end
 
   def reward_streak
-    Tip.create!(
+    Tip.create! \
       from_profile: team.app_profile,
       to_profile: profile,
       quantity: team.streak_reward,
-      event_ts: event_ts,
+      event_ts:,
       source: 'streak'
-    )
     true
   end
 

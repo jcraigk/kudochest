@@ -44,14 +44,14 @@ class TipsController < ApplicationController
   def apply_from_profile_filter
     from_profile = Profile.find_by(id: params[:from_profile_id])
     return unless from_profile&.team_id == current_team.id
-    @tips = @tips.where(from_profile: from_profile)
+    @tips = @tips.where(from_profile:)
     @profile_filter = true
   end
 
   def apply_to_profile_filter
     to_profile = Profile.find_by(id: params[:to_profile_id])
     return unless to_profile&.team_id == current_team.id
-    @tips = @tips.where(to_profile: to_profile)
+    @tips = @tips.where(to_profile:)
     @profile_filter = true
   end
 

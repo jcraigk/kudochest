@@ -15,15 +15,14 @@ class MentionParser < Base::Service
   private
 
   def process_tip_mentions
-    TipMentionService.call(
-      profile: profile,
-      mentions: mentions,
-      note: note,
+    TipMentionService.call \
+      profile:,
+      mentions:,
+      note:,
       source: 'plusplus',
-      event_ts: event_ts,
-      channel_rid: channel_rid,
-      channel_name: channel_name
-    )
+      event_ts:,
+      channel_rid:,
+      channel_name:
   end
 
   def mentions
@@ -37,7 +36,7 @@ class MentionParser < Base::Service
   def stacked_mentions
     raw_mentions.group_by(&:rid).map do |rid, mentions_by_rid|
       mentions_by_rid.group_by(&:topic_id).map do |topic_id, mentions|
-        Mention.new(rid: rid, topic_id: topic_id, quantity: mentions.sum(&:quantity))
+        Mention.new(rid:, topic_id:, quantity: mentions.sum(&:quantity))
       end
     end.flatten
   end
@@ -53,7 +52,7 @@ class MentionParser < Base::Service
     return unless team.enable_topics?
 
     if match.emoji_string.present?
-      first_emoji = match.emoji_string.split(':').reject(&:blank?).first
+      first_emoji = match.emoji_string.split(':').compact_blank.first
       team.topics.active.find { |topic| first_emoji == topic.emoji }&.id
     else
       topic_id_from_note
@@ -85,7 +84,7 @@ class MentionParser < Base::Service
   # `:high_brightness: :fire:` => first emoji is used for topic, but gets 2 quantity
   # TODO: Split this out into 2 Tips
   def num_inline_emoji(emoji_string)
-    emoji_string.split(':').reject(&:blank?).count do |emoji|
+    emoji_string.split(':').compact_blank.count do |emoji|
       emoji == team.tip_emoji || emoji.in?(team.topics.active.map(&:emoji))
     end
   end

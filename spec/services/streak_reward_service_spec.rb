@@ -2,10 +2,10 @@
 require 'rails_helper'
 
 RSpec.describe StreakRewardService do
-  subject(:service) { described_class.call(profile: profile, event_ts: event_ts) }
+  subject(:service) { described_class.call(profile:, event_ts:) }
 
-  let(:team) { create(:team, enable_streaks: enable_streaks) }
-  let(:profile) { create(:profile, team: team) }
+  let(:team) { create(:team, enable_streaks:) }
+  let(:profile) { create(:profile, team:) }
   let(:event_ts) { Time.current.to_f.to_s }
   let(:current_time) { Time.zone.local(2019, 11, 5) }
 
@@ -61,7 +61,7 @@ RSpec.describe StreakRewardService do
             source: 'streak'
           }
         end
-        let!(:app_profile) { create(:profile, team: team, rid: team.app_profile_rid) }
+        let!(:app_profile) { create(:profile, team:, rid: team.app_profile_rid) }
 
         before do
           allow(Tip).to receive(:create!)

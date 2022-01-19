@@ -42,7 +42,7 @@ class Image::TipService < Base::ImageService
     y = MAIN_HEIGHT + CHEER_PAD
     cheer_fragments.each do |text|
       x = BODY_PAD
-      text.split(IMG_DELIM).reject(&:blank?).each_with_index do |chunk, idx|
+      text.split(IMG_DELIM).compact_blank.each_with_index do |chunk, idx|
         draw.annotate(comp, 0, 0, x, y, chunk) do
           self.fill = colors[idx % 2]
         end
@@ -148,13 +148,12 @@ class Image::TipService < Base::ImageService
     end
 
     # Cover extra long text with same color background
-    comp.composite(
+    comp.composite \
       solid_color_background(300, 300),
       Magick::NorthWestGravity,
       body_width + 10,
       46,
       Magick::OverCompositeOp
-    )
   end
   # rubocop:enable Metrics/MethodLength, Metrics/AbcSize, Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
 
@@ -185,7 +184,7 @@ class Image::TipService < Base::ImageService
   end
 
   def cheer_fragments
-    @cheer_fragments ||= fragments.slice(:levelup, :streak).values.reject(&:blank?)
+    @cheer_fragments ||= fragments.slice(:levelup, :streak).values.compact_blank
   end
 
   def main_fragments
@@ -217,13 +216,12 @@ class Image::TipService < Base::ImageService
 
   def add_sender_avatar(comp)
     sender_avatar = profile_avatar(first_tip.from_profile)
-    comp.composite(
+    comp.composite \
       sender_avatar,
       Magick::NorthEastGravity,
       HEADER_PAD,
       HEADER_PAD,
       Magick::OverCompositeOp
-    )
   end
 
   def add_quantity(comp)

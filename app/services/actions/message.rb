@@ -31,7 +31,7 @@ class Actions::Message < Actions::Base
 
   def fetch_channel_name
     return unless platform == :slack
-    Slack::ChannelNameService.call(team: team, channel_rid: channel_rid).presence
+    Slack::ChannelNameService.call(team:, channel_rid:).presence
   end
 
   def process_message
@@ -63,19 +63,18 @@ class Actions::Message < Actions::Base
   end
 
   def handle_mentions
-    MentionParser.call(
-      team_rid: team_rid,
-      profile_rid: profile_rid,
-      event_ts: event_ts,
-      channel_rid: channel_rid,
-      channel_name: channel_name,
+    MentionParser.call \
+      team_rid:,
+      profile_rid:,
+      event_ts:,
+      channel_rid:,
+      channel_name:,
       matches: mention_matches,
-      note: note
-    )
+      note:
   end
 
   def note
-    NoteSanitizer.call(platform: platform, team_rid: team_rid, text: raw_note)
+    NoteSanitizer.call(platform:, team_rid:, text: raw_note)
   end
 
   def raw_note
@@ -108,13 +107,12 @@ class Actions::Message < Actions::Base
   end
 
   def mention_match_struct(match, last_match_end)
-    MentionMatch.new(
+    MentionMatch.new \
       profile_rid: match.second || match.first, # 'everyone' or entity RID match
       prefix_digits: match.third,
       suffix_digits: match.fifth,
       emoji_string: match.fourth,
       end: last_match_end
-    )
   end
 
   def command_key
@@ -124,11 +122,10 @@ class Actions::Message < Actions::Base
   end
 
   def call_command
-    "Commands::#{command_key.to_s.titleize}".constantize.call(
-      team_rid: team_rid,
-      profile_rid: profile_rid,
+    "Commands::#{command_key.to_s.titleize}".constantize.call \
+      team_rid:,
+      profile_rid:,
       text: opts_str
-    )
   end
 
   def keyword

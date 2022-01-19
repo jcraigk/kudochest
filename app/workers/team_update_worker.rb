@@ -6,6 +6,6 @@ class TeamUpdateWorker
   def perform(team_rid, name, avatar_url = nil)
     team = Team.find_by!(rid: team_rid)
     return unless team.active?
-    TeamUpdateService.call(team: team, name: name, avatar_url: avatar_url)
+    TeamUpdateService.call(team:, name:, avatar_url:)
   end
 end

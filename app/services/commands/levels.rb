@@ -7,10 +7,9 @@ class Commands::Levels < Commands::Base
   private
 
   def respond_success
-    ChatResponse.new(
+    ChatResponse.new \
       mode: :private,
       text: level_table_text
-    )
   end
 
   def level_table_text

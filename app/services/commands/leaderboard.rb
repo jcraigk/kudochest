@@ -25,12 +25,11 @@ class Commands::Leaderboard < Commands::Base
   end
 
   def response_image
-    ResponseImageService.call(
+    ResponseImageService.call \
       type: 'leaderboard',
       team_config: team.config,
-      profile_data: profile_data,
-      title: title
-    )
+      profile_data:,
+      title:
   end
 
   def base_text
