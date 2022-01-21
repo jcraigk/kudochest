@@ -28,16 +28,28 @@ class TipFactory < Base::Service
 
   def base_attrs # rubocop:disable Metrics/MethodLength
     {
-      topic_id: topic_id,
-      event_ts: event_ts,
+      chat_permanlink:
+      created_at: timestamp,
+      event_ts:,
       from_channel_name: from_channel,
       from_channel_rid: from_channel_rid,
-      from_profile: from_profile,
+      from_profile:,
       note: truncated_note,
       quantity: tip_quantity,
-      source: source,
-      created_at: timestamp
+      source:,
+      topic_id:,
     }
+  end
+
+  def chat_permalink
+    return unless team.platform.slack?
+    return if from_channel_rid.blank? || event_ts.blank?
+    team.slack_client.chat_getPermalink(
+      channel: from_channel_rid,
+      message_ts: event_ts
+    ).permalink
+  rescue Slack::Web::Api::Errors::ChannelNotFound, Slack::Web::Api::Errors::MessageNotFound
+    nil
   end
 
   def tip_quantity
@@ -51,7 +63,7 @@ class TipFactory < Base::Service
   end
 
   def channel_name_abbrev(name)
-    return SLACK_DM_NAME if team.platform == :slack && name&.start_with?(SLACK_DM_PREFIX)
+    return SLACK_DM_NAME if team.platform.slack? && name&.start_with?(SLACK_DM_PREFIX)
     name.presence
   end
 
