@@ -55,6 +55,7 @@ RSpec.describe Actions::ReactionAdded do
         ],
         source: 'reaction',
         event_ts: "#{ts}-reaction-#{sender.id}",
+        message_ts: ts,
         channel_rid: channel.rid,
         channel_name: channel.name
       }
@@ -92,6 +93,7 @@ RSpec.describe Actions::ReactionAdded do
         ],
         source: 'ditto',
         event_ts: "#{ts}-ditto-#{sender.id}",
+        message_ts: ts,
         channel_rid: channel.rid,
         channel_name: channel.name
       }

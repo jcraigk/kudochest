@@ -19,6 +19,7 @@ RSpec.describe TipMentionService, :freeze_time do
       channel_name: channel.name,
       channel_rid: channel.rid,
       event_ts: ts,
+      message_ts: ts,
       mentions: mentions,
       note: note,
       profile: profile,
@@ -33,7 +34,12 @@ RSpec.describe TipMentionService, :freeze_time do
     end
   end
 
-  before { travel_to(Time.zone.local(2019, 11, 10, 21, 1, 1)) }
+  before do
+    travel_to(Time.zone.local(2019, 11, 10, 21, 1, 1))
+    allow(TipFactory).to receive(:call).and_call_original
+    allow(team.slack_client).to \
+      receive(:chat_getPermalink).and_return(OpenStruct.new(permalink: 'link'))
+  end
 
   context 'when `profile.announce_tip_sent `is false`' do
     let(:result) { ChatResponse.new(mode: :silent) }
@@ -115,6 +121,7 @@ RSpec.describe TipMentionService, :freeze_time do
     let(:base_tip_attrs) do
       {
         event_ts: ts,
+        message_ts: ts,
         from_channel_name: channel.name,
         from_channel_rid: channel.rid,
         from_profile: profile,
@@ -130,7 +137,6 @@ RSpec.describe TipMentionService, :freeze_time do
     before do
       team.throttle_tips = false
       subteam.profiles << [subteam_profile, to_profile, other_profile]
-      allow(TipFactory).to receive(:call).and_call_original
       allow(TipResponseService).to receive(:call).and_return(tip_response)
       allow(Slack::ChannelMemberService)
         .to receive(:call).and_return([channel_profile, other_profile])

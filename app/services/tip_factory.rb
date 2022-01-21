@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 class TipFactory < Base::Service
   option :event_ts
+  option :message_ts, default: -> { nil }
   option :from_channel_name
   option :from_channel_rid
   option :from_profile
@@ -28,11 +29,11 @@ class TipFactory < Base::Service
 
   def base_attrs # rubocop:disable Metrics/MethodLength
     {
-      chat_permanlink:
+      chat_permalink:,
       created_at: timestamp,
       event_ts:,
       from_channel_name: from_channel,
-      from_channel_rid: from_channel_rid,
+      from_channel_rid:,
       from_profile:,
       note: truncated_note,
       quantity: tip_quantity,
@@ -43,10 +44,10 @@ class TipFactory < Base::Service
 
   def chat_permalink
     return unless team.platform.slack?
-    return if from_channel_rid.blank? || event_ts.blank?
+    return if from_channel_rid.blank? || (event_ts.blank? && message_ts.blank?)
     team.slack_client.chat_getPermalink(
       channel: from_channel_rid,
-      message_ts: event_ts
+      message_ts: message_ts || event_ts
     ).permalink
   rescue Slack::Web::Api::Errors::ChannelNotFound, Slack::Web::Api::Errors::MessageNotFound
     nil

@@ -36,7 +36,8 @@ RSpec.describe TipFactory do
   end
   let(:tip_attrs) do
     {
-      topic_id: topic.id,
+      chat_permalink:,
+      created_at: timestamp,
       event_ts: ts,
       from_channel_name: from_channel.name,
       from_channel_rid: from_channel.rid,
@@ -44,8 +45,7 @@ RSpec.describe TipFactory do
       note: expected_note,
       quantity: 1,
       source: 'auto',
-      created_at: timestamp,
-      chat_permalink:
+      topic_id: topic.id
     }.merge(extra_attrs)
   end
   let(:chat_permalink) { 'https://my-msg-permalink.org' }
@@ -56,12 +56,6 @@ RSpec.describe TipFactory do
       channel: from_channel.rid,
       message_ts: ts
     }
-  end
-  let(:permalink_response) do
-    OpenStruct.new \
-      ok: true,
-      permalink: chat_permalink,
-      channel: from_channel.rid
   end
 
   shared_examples 'tip creation' do
@@ -75,8 +69,8 @@ RSpec.describe TipFactory do
 
   before do
     allow(Tip).to receive(:create!)
-    allow(Slack::Web::Client).to receive(:new).and_return(slack_client)
-    allow(slack_client).to receive(:chat_getPermalink).with(permalink_args).and_return(permalink_response)
+    allow(team.slack_client).to \
+      receive(:chat_getPermalink).and_return(OpenStruct.new(permalink: chat_permalink))
   end
 
   context 'when entity is a profile' do

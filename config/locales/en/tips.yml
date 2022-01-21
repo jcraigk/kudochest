@@ -21,3 +21,4 @@ en:
     topic: Topic
     disabled: Sorry, Topics are currently disabled. Ask your admin to enable them.
     topic_presence: must be specified - use the "topics" command or visit %{url}
+    permalink: Permalink

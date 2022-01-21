@@ -210,7 +210,7 @@ ActiveRecord::Schema.define(version: 2022_01_21_061441) do
     t.datetime "created_at"
     t.boolean "to_everyone", default: false
     t.uuid "topic_id"
-    t.string "chat_permanlink"
+    t.string "chat_permalink"
     t.index "date_trunc('day'::text, created_at)", name: "idx_on_tips_created_at_truncated_to_day"
     t.index ["created_at"], name: "index_tips_on_created_at"
     t.index ["event_ts", "to_profile_id"], name: "index_tips_on_event_ts_and_to_profile_id", unique: true
