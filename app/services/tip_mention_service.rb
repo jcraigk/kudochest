@@ -3,6 +3,7 @@ class TipMentionService < Base::Service
   option :channel_name
   option :channel_rid
   option :event_ts
+  option :message_ts, default: -> { nil }
   option :mentions
   option :profile
   option :source
@@ -46,6 +47,7 @@ class TipMentionService < Base::Service
     TipFactory.call \
       topic_id: mention.topic_id,
       event_ts:,
+      message_ts:,
       from_channel_name: channel_name,
       from_channel_rid: channel_rid,
       from_profile: profile,

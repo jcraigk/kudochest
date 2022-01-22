@@ -13,6 +13,7 @@ class Actions::ReactionAdded < Actions::ReactionBase
       mentions:,
       source:,
       event_ts:,
+      message_ts:,
       channel_rid: params[:channel_rid],
       channel_name:
   end

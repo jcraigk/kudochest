@@ -36,7 +36,8 @@ RSpec.describe TipFactory do
   end
   let(:tip_attrs) do
     {
-      topic_id: topic.id,
+      chat_permalink:,
+      created_at: timestamp,
       event_ts: ts,
       from_channel_name: from_channel.name,
       from_channel_rid: from_channel.rid,
@@ -44,10 +45,18 @@ RSpec.describe TipFactory do
       note: expected_note,
       quantity: 1,
       source: 'auto',
-      created_at: timestamp
+      topic_id: topic.id
     }.merge(extra_attrs)
   end
+  let(:chat_permalink) { 'https://my-msg-permalink.org' }
   let(:extra_attrs) { {} }
+  let(:slack_client) { instance_spy(Slack::Web::Client) }
+  let(:permalink_args) do
+    {
+      channel: from_channel.rid,
+      message_ts: ts
+    }
+  end
 
   shared_examples 'tip creation' do
     it 'creates a Tip for each to_profile' do
@@ -58,7 +67,11 @@ RSpec.describe TipFactory do
     end
   end
 
-  before { allow(Tip).to receive(:create!) }
+  before do
+    allow(Tip).to receive(:create!)
+    allow(team.slack_client).to \
+      receive(:chat_getPermalink).and_return(OpenStruct.new(permalink: chat_permalink))
+  end
 
   context 'when entity is a profile' do
     let(:to_entity) { build(:profile, team:) }
