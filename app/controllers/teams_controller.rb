@@ -33,6 +33,7 @@ class TeamsController < ApplicationController
   end
 
   def leaderboard_page
+    return if @current_profile.blank?
     @leaderboard = LeaderboardService.call \
       team: @current_profile.team,
       offset: params[:offset].to_i,
