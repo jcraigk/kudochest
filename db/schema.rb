@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_01_21_061441) do
+ActiveRecord::Schema.define(version: 2022_01_23_001427) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -179,7 +179,6 @@ ActiveRecord::Schema.define(version: 2022_01_21_061441) do
     t.boolean "require_topic", default: false, null: false
     t.boolean "enable_emoji", default: true, null: false
     t.string "ditto_emoji"
-    t.datetime "last_tip_sent_at"
     t.string "hint_frequency", default: "never", null: false
     t.string "hint_channel_rid"
     t.datetime "hint_posted_at"

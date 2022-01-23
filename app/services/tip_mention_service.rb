@@ -3,7 +3,7 @@ class TipMentionService < Base::Service
   option :channel_name
   option :channel_rid
   option :event_ts
-  option :message_ts, default: -> { nil }
+  option :message_ts, default: -> {}
   option :mentions
   option :profile
   option :source

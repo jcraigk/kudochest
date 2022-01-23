@@ -5,6 +5,7 @@ module TipHelper
     link_to \
       fa_icon('external-link', 'btn-icon'),
       tip.chat_permalink,
-      target: '_blank'
+      target: '_blank',
+      rel: 'noopener'
   end
 end
