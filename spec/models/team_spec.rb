@@ -94,17 +94,17 @@ RSpec.describe Team do
     subject(:team) { create(:team, active: false) }
 
     before do
-      allow(ChannelWorker).to receive(:perform_async)
-      allow(ProfileWorker).to receive(:perform_async)
+      allow(ChannelSyncWorker).to receive(:perform_async)
+      allow(TeamSyncWorker).to receive(:perform_async)
       team.update(active: true)
     end
 
-    it 'calls ChannelWorker' do
-      expect(ChannelWorker).to have_received(:perform_async).with(team.rid)
+    it 'calls ChannelSyncWorker' do
+      expect(ChannelSyncWorker).to have_received(:perform_async).with(team.rid)
     end
 
-    it 'calls ProfileWorker' do
-      expect(ProfileWorker).to have_received(:perform_async).with(team.rid, false)
+    it 'calls TeamSyncWorker' do
+      expect(TeamSyncWorker).to have_received(:perform_async).with(team.rid, false)
     end
   end
 

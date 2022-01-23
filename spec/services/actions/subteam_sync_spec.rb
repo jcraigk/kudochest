@@ -9,12 +9,12 @@ RSpec.describe Actions::SubteamSync do
   let(:params) { { team_rid: team.rid } }
 
   before do
-    allow(SubteamWorker).to receive(:perform_async)
+    allow(SubteamSyncWorker).to receive(:perform_async)
   end
 
-  it 'calls SubteamWorker' do
+  it 'calls SubteamSyncWorker' do
     action
-    expect(SubteamWorker).to have_received(:perform_async).with(team.rid)
+    expect(SubteamSyncWorker).to have_received(:perform_async).with(team.rid)
   end
 
   it 'responds silently' do

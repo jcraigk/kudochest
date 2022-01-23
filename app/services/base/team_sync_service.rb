@@ -1,5 +1,5 @@
 # frozen_string_literal: true
-class Base::ProfileService < Base::Service
+class Base::TeamSyncService < Base::Service
   option :team
   option :first_run, default: proc { false }
 
@@ -31,7 +31,7 @@ class Base::ProfileService < Base::Service
   end
 
   def sync_subteams
-    SubteamWorker.perform_async(team.rid)
+    SubteamSyncWorker.perform_async(team.rid)
   end
 
   def sync_profiles

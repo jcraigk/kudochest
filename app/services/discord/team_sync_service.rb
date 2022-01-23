@@ -1,5 +1,5 @@
 # frozen_string_literal: true
-class Discord::ProfileService < Base::ProfileService
+class Discord::TeamSyncService < Base::TeamSyncService
   private
 
   def fetch_team_members

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 require 'rails_helper'
 
-RSpec.describe Slack::SubteamService, vcr: { cassette_name: 'slack/subteam_service' } do
+RSpec.describe Slack::SubteamSyncService, vcr: { cassette_name: 'slack/subteam_service' } do
   let(:expected_names) { ['Test Group 1', 'Test Group 2', 'Test Group 3'] }
   let(:expected_name) { 'Test Group 3' }
   let(:expected_profile_rids) { %w[UL5H1BQTG ULTHYD4UQ UNNQ4U048] }
@@ -15,5 +15,5 @@ RSpec.describe Slack::SubteamService, vcr: { cassette_name: 'slack/subteam_servi
     expected_profile_rids.each { |rid| create(:profile, team:, rid:) }
   end
 
-  include_examples 'SubteamService'
+  include_examples 'SubteamSyncService'
 end

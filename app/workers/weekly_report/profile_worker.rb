@@ -1,5 +1,5 @@
 # frozen_string_literal: true
-class WeeklyReport::ProfileWorker
+class WeeklyReport::TeamSyncWorker
   include ActionView::Helpers::TextHelper
   include PointsHelper
   include Sidekiq::Worker

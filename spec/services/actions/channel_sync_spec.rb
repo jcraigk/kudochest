@@ -20,12 +20,12 @@ RSpec.describe Actions::ChannelSync do
   let(:team) { build(:team) }
 
   before do
-    allow(ChannelWorker).to receive(:perform_async)
+    allow(ChannelSyncWorker).to receive(:perform_async)
   end
 
-  it 'calls ChannelWorker' do
+  it 'calls ChannelSyncWorker' do
     action
-    expect(ChannelWorker).to have_received(:perform_async).with(team.rid, 'new_channel_rid')
+    expect(ChannelSyncWorker).to have_received(:perform_async).with(team.rid, 'new_channel_rid')
   end
 
   it 'responds silently' do

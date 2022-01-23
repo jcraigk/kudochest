@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 require 'rails_helper'
 
-RSpec.shared_examples 'ProfileService' do
+RSpec.shared_examples 'TeamSyncService' do
   subject(:service) { described_class.call(team:, first_run:) }
 
   let(:team) { create(:team, api_key: 'api-key') }
@@ -11,7 +11,7 @@ RSpec.shared_examples 'ProfileService' do
   let(:first_run) { false }
 
   before do
-    allow(SubteamWorker).to receive(:perform_async)
+    allow(SubteamSyncWorker).to receive(:perform_async)
     allow(TokenDispersalService).to receive(:call)
     service
   end
@@ -47,8 +47,8 @@ RSpec.shared_examples 'ProfileService' do
       expect(TokenDispersalService).to have_received(:call).with(team:, notify: false)
     end
 
-    it 'invokes SubteamWorker' do
-      expect(SubteamWorker).to have_received(:perform_async).with(team.rid)
+    it 'invokes SubteamSyncWorker' do
+      expect(SubteamSyncWorker).to have_received(:perform_async).with(team.rid)
     end
   end
 end

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 require 'rails_helper'
 
-RSpec.shared_examples 'ChannelService' do
+RSpec.shared_examples 'ChannelSyncService' do
   subject(:service) { described_class.call(team:, new_channel_rid:) }
 
   let(:team) { create(:team, api_key: 'api-key', join_channels: true) }

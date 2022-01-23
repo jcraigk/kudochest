@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 require 'rails_helper'
 
-RSpec.describe Discord::ProfileService do
+RSpec.describe Discord::TeamSyncService do
   let(:expected_names) { %w[Existing Mark Vincent William Wolfgang] }
   let(:profile_data) do
     expected_names[1..].map do |username|
@@ -35,7 +35,7 @@ RSpec.describe Discord::ProfileService do
       .with(App.discord_token, team.rid, 1_000).and_return(profile_data.to_json)
   end
 
-  include_examples 'ProfileService'
+  include_examples 'TeamSyncService'
 
   xcontext 'when avatar is missing' do
     it 'assigns a default one' do

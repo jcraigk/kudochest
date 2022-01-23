@@ -7,6 +7,6 @@ class Actions::SubteamSync < Actions::Base
   private
 
   def sync_subteam
-    SubteamWorker.perform_async(params[:team_rid])
+    SubteamSyncWorker.perform_async(params[:team_rid])
   end
 end

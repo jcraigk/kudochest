@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 require 'rails_helper'
 
-RSpec.shared_examples 'SubteamService' do
+RSpec.shared_examples 'SubteamSyncService' do
   subject(:service) { described_class.call(team:) }
 
   let(:team) { create(:team, api_key: 'api-key') }

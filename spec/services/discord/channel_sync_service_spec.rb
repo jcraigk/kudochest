@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 require 'rails_helper'
 
-RSpec.describe Discord::ChannelService, vcr: {
-  cassette_name: 'discord/ChannelService/fetch_channels'
+RSpec.describe Discord::ChannelSyncService, vcr: {
+  cassette_name: 'discord/ChannelSyncService/fetch_channels'
 } do
   let(:mock_data) do
     [
@@ -41,5 +41,5 @@ RSpec.describe Discord::ChannelService, vcr: {
   end
 
   # TODO: This needs to be Discord-specific (record the cassette)
-  # include_examples 'ChannelService'
+  # include_examples 'ChannelSyncService'
 end
