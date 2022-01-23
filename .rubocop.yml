@@ -60,6 +60,9 @@ Style/Documentation:
   Enabled: false
 Style/DoubleNegation:
   Enabled: false
+Style/OpenStructUse:
+  Exclude:
+    - spec/**/*
 Style/OptionalBooleanParameter:
   Exclude:
     - app/workers/**/*

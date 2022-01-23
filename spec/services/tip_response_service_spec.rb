@@ -98,7 +98,7 @@ RSpec.describe TipResponseService do
       TEXT
     end
 
-    before { team.response_theme = 'quiet' }
+    before { team.update(response_theme: 'quiet') }
 
     include_examples 'expected response'
   end
@@ -117,7 +117,7 @@ RSpec.describe TipResponseService do
         TEXT
       end
 
-      before { team.response_theme = 'basic' }
+      before { team.update(response_theme: 'basic') }
 
       include_examples 'expected response'
     end
@@ -136,7 +136,7 @@ RSpec.describe TipResponseService do
       TEXT
     end
 
-    before { team.response_theme = 'quiet' }
+    before { team.update(response_theme: 'quiet') }
 
     include_examples 'expected response'
   end
@@ -154,7 +154,7 @@ RSpec.describe TipResponseService do
       TEXT
     end
 
-    before { team.response_theme = 'quiet_stat' }
+    before { team.update(response_theme: 'quiet_stat') }
 
     include_examples 'expected response'
   end
@@ -172,7 +172,7 @@ RSpec.describe TipResponseService do
       TEXT
     end
 
-    before { team.response_theme = 'fancy' }
+    before { team.update(response_theme: 'fancy') }
 
     include_examples 'expected response'
   end
@@ -191,7 +191,7 @@ RSpec.describe TipResponseService do
 
     before do
       allow(StreakRewardService).to receive(:call).and_return(true)
-      from_profile.streak_count = 5
+      from_profile.update(streak_count: 5)
     end
 
     it 'includes streak message' do
@@ -217,7 +217,7 @@ RSpec.describe TipResponseService do
       TEXT
     end
 
-    before { to_profile.points = 10 }
+    before { to_profile.update(points: 10) }
 
     include_examples 'expected response'
   end

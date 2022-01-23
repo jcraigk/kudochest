@@ -5,7 +5,7 @@ RSpec.describe TipMentionService, :freeze_time do
   subject(:service) { described_class.call(**opts) }
 
   let(:team) do
-    create(:team, throttle_tips: true, split_tip: false, tokens_disbursed_at: Time.current)
+    create(:team, throttle_tips: false, split_tip: false, tokens_disbursed_at: Time.current)
   end
   let(:channel) { create(:channel, team:) }
   let(:profile) { create(:profile, team:) }
@@ -58,6 +58,8 @@ RSpec.describe TipMentionService, :freeze_time do
       TEXT
     end
     let(:result) { ChatResponse.new(mode: :error, text:) }
+
+    before { team.update(throttle_tips: true) }
 
     include_examples 'expected result'
   end
@@ -135,7 +137,6 @@ RSpec.describe TipMentionService, :freeze_time do
     let(:other_profile) { create(:profile, team:) }
 
     before do
-      team.throttle_tips = false
       subteam.profiles << [subteam_profile, to_profile, other_profile]
       allow(TipResponseService).to receive(:call).and_return(tip_response)
       allow(Slack::ChannelMemberService)
@@ -144,8 +145,8 @@ RSpec.describe TipMentionService, :freeze_time do
 
     it 'calls TipFactory for each unique profile, favoring direct, then subteam, then channel' do
       service
-      mention_entities.each do |mh|
-        args = base_tip_attrs.merge(to_entity: mh.entity, to_profiles: mh.profiles)
+      mention_entities.each do |m|
+        args = base_tip_attrs.merge(to_entity: m.entity, to_profiles: m.profiles)
         expect(TipFactory).to have_received(:call).with(**args)
       end
     end

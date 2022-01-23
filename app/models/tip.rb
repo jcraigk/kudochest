@@ -26,7 +26,7 @@ class Tip < ApplicationRecord
   validates_with RecipientNotDeletedValidator
   validates_with RecipientNotSelfValidator
 
-  after_create_commit :after_create
+  after_create_commit :update_point_totals
   after_destroy_commit :after_destroy
   after_commit :refresh_leaderboards
 
@@ -45,35 +45,50 @@ class Tip < ApplicationRecord
 
   private
 
-  def after_create
+  def update_point_totals(subtract: false)
+    plus_or_minus, timestamp = subtract ? ['-', nil] : ['+', created_at]
     transaction do
-      update_timestamps
-      update_points
+      update_from_profile_points(plus_or_minus, timestamp)
+      update_to_profile_points(plus_or_minus, timestamp)
+      update_team_points(plus_or_minus)
     end
   end
 
-  def update_timestamps
-    from_profile.update!(last_tip_sent_at: created_at)
-    to_profile.update!(last_tip_received_at: created_at)
-    to_profile.team.update!(last_tip_sent_at: created_at)
+  def update_from_profile_points(plus_or_minus, timestamp)
+    from_profile.with_lock do
+      points_sent = from_profile.points_sent.send(plus_or_minus, quantity)
+      last_tip_sent_at = timestamp || last_sent_tip&.created_at
+      from_profile.update!(points_sent:, last_tip_sent_at:)
+    end
+  end
+
+  def update_to_profile_points(plus_or_minus, timestamp)
+    to_profile.with_lock do
+      points_received = to_profile.points_received.send(plus_or_minus, quantity)
+      last_tip_received_at = timestamp || last_received_tip&.created_at
+      to_profile.update!(points_received:, last_tip_received_at:)
+    end
+  end
+
+  def update_team_points(plus_or_minus)
+    team.with_lock do
+      points_sent = team.points_sent.send(plus_or_minus, quantity)
+      team.update!(points_sent:)
+    end
   end
 
   def after_destroy
-    transaction do
-      reset_timestamps
-      update_points(decrement: true)
-      delete_chat_response
-    end
-  end
-
-  def reset_timestamps
-    from_profile.update!(last_tip_sent_at: last_sent_tip&.created_at)
-    to_profile.update!(last_tip_received_at: last_received_tip&.created_at)
+    update_point_totals(subtract: true)
+    delete_chat_response
   end
 
   def refresh_leaderboards
-    LeaderboardRefreshWorker.perform_async(to_profile.team.id)
-    LeaderboardRefreshWorker.perform_async(to_profile.team.id, true)
+    LeaderboardRefreshWorker.perform_async(team.id)
+    LeaderboardRefreshWorker.perform_async(team.id, true)
+  end
+
+  def team
+    @team ||= from_profile.team
   end
 
   def last_sent_tip
@@ -84,21 +99,13 @@ class Tip < ApplicationRecord
     Tip.where(to_profile_id:).order(created_at: :desc).first
   end
 
-  def update_points(decrement: false)
-    meth = decrement ? :decrement! : :increment!
-    from_profile.with_lock { from_profile.send(meth, :points_sent, quantity) }
-    to_profile.with_lock { to_profile.send(meth, :points_received, quantity) }
-    team = to_profile.team
-    team.with_lock { team.send(meth, :points_sent, quantity) }
-  end
-
   def delete_chat_response
     return if response_channel_rid.blank? || response_ts.blank?
-    send("delete_#{from_profile.team.platform}_response")
+    send("delete_#{team.platform}_response")
   end
 
   def delete_slack_response
-    from_profile.team.slack_client.chat_delete(channel: response_channel_rid, ts: response_ts)
+    team.slack_client.chat_delete(channel: response_channel_rid, ts: response_ts)
   rescue Slack::Web::Api::Errors::MessageNotFound
     nil
   end
