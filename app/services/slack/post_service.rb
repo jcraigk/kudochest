@@ -144,7 +144,10 @@ class Slack::PostService < Base::PostService
   end
 
   def replace_message
-    slack_client.chat_update(message_params(replace_channel_rid).merge(ts: replace_ts))
+    slack_client.chat_update \
+      message_params(replace_channel_rid).merge(ts: replace_ts)
+  rescue Slack::Web::Api::Errors::FatalError # Unclear why this appears occasionally
+    false
   end
 
   def delete_message
