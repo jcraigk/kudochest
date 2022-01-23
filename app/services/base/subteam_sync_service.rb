@@ -1,5 +1,5 @@
 # frozen_string_literal: true
-class Base::SubteamService < Base::Service
+class Base::SubteamSyncService < Base::Service
   option :team
 
   def call

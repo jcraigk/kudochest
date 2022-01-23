@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 require 'rails_helper'
 
-RSpec.describe Discord::SubteamService do
+RSpec.describe Discord::SubteamSyncService do
   let(:expected_names) { ['Test Group 3', 'Test Group 4'] }
   let(:expected_profile_rids) { %w[profile-1 profile-2] }
   let(:expected_name) { 'Test Group 4' }
@@ -53,5 +53,5 @@ RSpec.describe Discord::SubteamService do
     end
   end
 
-  include_examples 'SubteamService'
+  include_examples 'SubteamSyncService'
 end

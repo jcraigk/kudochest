@@ -1,5 +1,5 @@
 # frozen_string_literal: true
-class Slack::SubteamService < Base::SubteamService
+class Slack::SubteamSyncService < Base::SubteamSyncService
   private
 
   def profile_rids_for(subteam)

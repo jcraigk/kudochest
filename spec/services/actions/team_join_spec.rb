@@ -8,12 +8,12 @@ RSpec.describe Actions::TeamJoin do
   let(:params) { { team_rid: team.rid } }
 
   before do
-    allow(ProfileWorker).to receive(:perform_async)
+    allow(TeamSyncWorker).to receive(:perform_async)
   end
 
-  it 'calls ProfileWorker' do
+  it 'calls TeamSyncWorker' do
     action
-    expect(ProfileWorker).to have_received(:perform_async).with(team.rid)
+    expect(TeamSyncWorker).to have_received(:perform_async).with(team.rid)
   end
 
   it 'responds silently' do

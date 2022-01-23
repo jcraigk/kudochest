@@ -1,5 +1,5 @@
 # frozen_string_literal: true
-class Slack::ProfileService < Base::ProfileService
+class Slack::TeamSyncService < Base::TeamSyncService
   private
 
   def fetch_team_members

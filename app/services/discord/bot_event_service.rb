@@ -27,49 +27,49 @@ class Discord::BotEventService < Base::Service
   def listen_for_channel_create
     bot.channel_create do |event|
       next unless (team_rid = event.server&.id&.to_s) # Appears when DMing a user (?!)
-      ChannelWorker.perform_async(team_rid)
+      ChannelSyncWorker.perform_async(team_rid)
     end
   end
 
   def listen_for_channel_delete
     bot.channel_delete do |event|
-      ChannelWorker.perform_async(event.server.id.to_s)
+      ChannelSyncWorker.perform_async(event.server.id.to_s)
     end
   end
 
   def listen_for_role_create
     bot.server_role_create do |event|
-      SubteamWorker.perform_async(event.server.id.to_s)
+      SubteamSyncWorker.perform_async(event.server.id.to_s)
     end
   end
 
   def listen_for_role_update
     bot.server_role_update do |event|
-      SubteamWorker.perform_async(event.server.id.to_s)
+      SubteamSyncWorker.perform_async(event.server.id.to_s)
     end
   end
 
   def listen_for_role_delete
     bot.server_role_delete do |event|
-      SubteamWorker.perform_async(event.server.id.to_s)
+      SubteamSyncWorker.perform_async(event.server.id.to_s)
     end
   end
 
   def listen_for_member_join
     bot.member_join do |event|
-      ProfileWorker.perform_async(event.server.id.to_s)
+      TeamSyncWorker.perform_async(event.server.id.to_s)
     end
   end
 
   def listen_for_member_leave
     bot.member_leave do |event|
-      ProfileWorker.perform_async(event.server.id.to_s)
+      TeamSyncWorker.perform_async(event.server.id.to_s)
     end
   end
 
   def listen_for_member_update
     bot.member_update do |event|
-      ProfileWorker.perform_async(event.server.id.to_s) # Profile attributes
+      TeamSyncWorker.perform_async(event.server.id.to_s) # Profile attributes
     end
   end
 

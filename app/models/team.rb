@@ -162,8 +162,8 @@ class Team < ApplicationRecord
 
   def sync_remote(first_run: false)
     return unless active?
-    ChannelWorker.perform_async(rid)
-    ProfileWorker.perform_async(rid, first_run)
+    ChannelSyncWorker.perform_async(rid)
+    TeamSyncWorker.perform_async(rid, first_run)
     EmojiInstallWorker.perform_async(rid) if first_run && platform.discord?
   end
 

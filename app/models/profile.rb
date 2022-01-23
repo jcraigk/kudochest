@@ -58,6 +58,7 @@ class Profile < ApplicationRecord
     where(rid: profile_rids)
       .joins(:team)
       .where('teams.rid' => team_rid)
+      .distinct
   end
 
   def self.find_with_team(team_rid, profile_rid)

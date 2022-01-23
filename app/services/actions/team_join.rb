@@ -7,6 +7,6 @@ class Actions::TeamJoin < Actions::Base
   private
 
   def sync_team_profiles
-    ProfileWorker.perform_async(params[:team_rid])
+    TeamSyncWorker.perform_async(params[:team_rid])
   end
 end

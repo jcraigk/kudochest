@@ -1,5 +1,5 @@
 # frozen_string_literal: true
-class Discord::SubteamService < Base::SubteamService
+class Discord::SubteamSyncService < Base::SubteamSyncService
   private
 
   def profile_rids_for(role)

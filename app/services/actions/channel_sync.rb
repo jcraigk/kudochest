@@ -7,7 +7,7 @@ class Actions::ChannelSync < Actions::Base
   private
 
   def sync_channels
-    ChannelWorker.perform_async(params[:team_rid], new_channel_rid)
+    ChannelSyncWorker.perform_async(params[:team_rid], new_channel_rid)
   end
 
   def new_channel_rid

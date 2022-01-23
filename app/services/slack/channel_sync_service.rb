@@ -1,5 +1,5 @@
 # frozen_string_literal: true
-class Slack::ChannelService < Base::ChannelService
+class Slack::ChannelSyncService < Base::ChannelSyncService
   def call
     super
     join_new_channel

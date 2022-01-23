@@ -1,5 +1,5 @@
 # frozen_string_literal: true
-class Discord::ChannelService < Base::ChannelService
+class Discord::ChannelSyncService < Base::ChannelSyncService
   def fetch_remote_channels
     JSON.parse(discord_response, symbolize_names: true)
         .select { |d| d[:type].zero? } # Text channels only
