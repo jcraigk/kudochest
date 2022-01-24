@@ -38,21 +38,22 @@ module EntityReferenceHelper
     TEXT
   end
 
+  # TODO: leave emoji str in here and bail out in mention parser if emoji disabled?
+  # that's how we handle jabs
   def tip_pattern(emoji_str, emoji: true)
     emoji ? plus_or_emojis_maybe_int(emoji_str) : plus_maybe_int
   end
 
-  # TODO: omit minus_minus altogether here if jabs disabled?
   def plus_or_emojis_maybe_int(emoji_str)
-    "#{quantity_prefix}(?:(#{text_triggers})|((?:(?::#{emoji_str}:\s*)+)))#{quantity_suffix}"
+    "#{quantity_prefix}(?:#{text_inlines}|((?:(?::#{emoji_str}:\s*)+)))#{quantity_suffix}"
   end
 
-  def text_triggers
-    "#{plus_plus}|#{minus_minus}"
+  def text_inlines
+    "(#{plus_plus}|#{minus_minus})"
   end
 
   def plus_maybe_int
-    quantity_prefix + point_trigger + quantity_suffix
+    quantity_prefix + text_inlines + quantity_suffix
   end
 
   def quantity_prefix
@@ -72,14 +73,14 @@ module EntityReferenceHelper
   end
 
   # "++" or "+="
-  def point_trigger
-    patterns = POINT_TRIGGERS.map { |str| Regexp.escape(str) }.join('|')
+  def point_inline
+    patterns = POINT_INLINES.map { |str| Regexp.escape(str) }.join('|')
     "(?:#{patterns})"
   end
 
   # "--" or "-="
-  def jab_trigger
-    patterns = JAB_TRIGGERS.map { |str| Regexp.escape(str) }.join('|')
+  def jab_inline
+    patterns = JAB_INLINES.map { |str| Regexp.escape(str) }.join('|')
     "(?:#{patterns})"
   end
 end

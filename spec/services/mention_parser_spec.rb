@@ -44,7 +44,7 @@ RSpec.describe MentionParser do
       profile: profile,
       mentions: mentions,
       note: note,
-      source: 'trigger',
+      source: 'inline',
       event_ts: ts,
       channel_rid: channel.rid,
       channel_name: channel_name

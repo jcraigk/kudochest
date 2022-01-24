@@ -5,7 +5,7 @@ class Tip < ApplicationRecord
 
   UNDOABLE_SOURCES = %w[
     modal
-    trigger
+    inline
     tip_reaction
     jab_reaction
     ditto_reaction
@@ -16,7 +16,7 @@ class Tip < ApplicationRecord
   enumerize :source, in: %w[
     auto
     modal
-    trigger
+    inline
     tip_reaction
     jab_reaction
     ditto_reaction

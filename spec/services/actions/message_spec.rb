@@ -33,7 +33,7 @@ RSpec.describe Actions::Message do
       profile: sender,
       mentions: mentions,
       note: note,
-      source: 'trigger',
+      source: 'inline',
       event_ts: ts,
       channel_rid: channel.rid,
       channel_name: channel.name

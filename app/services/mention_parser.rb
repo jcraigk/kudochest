@@ -19,7 +19,7 @@ class MentionParser < Base::Service
       profile:,
       mentions:,
       note:,
-      source: 'trigger',
+      source: 'inline',
       event_ts:,
       channel_rid:,
       channel_name:

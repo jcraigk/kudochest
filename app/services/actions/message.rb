@@ -97,7 +97,7 @@ class Actions::Message < Actions::Base
   def extract_last_match(last_match)
     last_match.end(6) ||   # quantity suffix ('++2')
       last_match.end(5) || # emojis
-      last_match.end(4) || # text trigger ('++', '--', etc)
+      last_match.end(4) || # inline text ('++', '--', etc)
       last_match.end(3) || # quantity prefix ('2++')
       last_match.end(2) || # 'everyone' or 'channel'
       last_match.end(1)    # dynamic entity by remote ID (subteam, user)
@@ -114,7 +114,7 @@ class Actions::Message < Actions::Base
   end
 
   def operation_for(str)
-    str.in?(POINT_TRIGGERS) ? 'add' : 'subtract'
+    str.in?(POINT_INLINES) ? 'add' : 'subtract'
   end
 
   def sanitized_text

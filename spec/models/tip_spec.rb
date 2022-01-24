@@ -44,7 +44,7 @@ RSpec.describe Tip do
 
   describe 'scope #undoable', :freeze_time do
     let!(:tip1) { create(:tip, source: 'modal', from_profile: profile) }
-    let!(:tip2) { create(:tip, source: 'trigger', from_profile: profile) }
+    let!(:tip2) { create(:tip, source: 'inline', from_profile: profile) }
     let!(:tip3) { create(:tip, source: 'reply', from_profile: profile) }
     let!(:tip4) { create(:tip, source: 'streak', from_profile: profile) }
     let(:profile) { create(:profile) }

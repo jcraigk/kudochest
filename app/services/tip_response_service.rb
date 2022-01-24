@@ -6,7 +6,7 @@ class TipResponseService < Base::Service
 
   # TODO: This needs to handle the kudonts language, including for groups
 
-  RELEVANT_SOURCES = %w[modal trigger tip_reaction jab_reaction ditto_reaction reply].freeze
+  RELEVANT_SOURCES = %w[modal inline tip_reaction jab_reaction ditto_reaction reply].freeze
   ANON_WORD = 'someone'
 
   option :tips

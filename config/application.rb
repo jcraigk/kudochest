@@ -187,8 +187,8 @@ GROUP_KEYWORD_PATTERN = {
 SLACK_DM_NAME = 'direct-message'
 SLACK_DM_PREFIX = 'mpdm-'
 SLACK_DM_PHRASE = 'a group chat'
-POINT_TRIGGERS = %w[++ +=].freeze
-JAB_TRIGGERS = %w[-- -=].freeze
+POINT_INLINES = %w[++ +=].freeze
+JAB_INLINES = %w[-- -=].freeze
 
 IMG_DELIM = '<COLOR>'
 

@@ -20,6 +20,9 @@
 
         - if @current_team.topics.any?
           .column = topic_select(@current_team, t('tips.any_topic'), params[:topic_id])
+        - # TODO: finish this filter
+        - if @current_team.enable_jabs?
+          .column = tip_type_select(@current_team, t('tips.any_type'), params[:type])
         .column
           p = pluralize(number_with_delimiter(@tips.total_count), 'item') + ' displayed'
         .column.has-text-right = search_button
