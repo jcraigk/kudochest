@@ -47,6 +47,8 @@ class Team < ApplicationRecord
   attribute :enable_loot,        :boolean, default: true
   attribute :enable_streaks,     :boolean, default: true
   attribute :enable_topics,      :boolean, default: false
+  attribute :enable_jabs,        :boolean, default: false
+  attribute :deduct_jabs,        :boolean, default: false
   attribute :installed,          :boolean, default: true
   attribute :throttle_tips,      :boolean, default: false
   attribute :notify_tokens,      :boolean, default: true

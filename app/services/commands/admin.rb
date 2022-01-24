@@ -14,6 +14,7 @@ class Commands::Admin < Commands::Base
     ChatResponse.new(mode: :private, text: response_text)
   end
 
+  # TODO: Add jabs
   def base_text
     <<~TEXT.chomp
       #{throttle_points_text}

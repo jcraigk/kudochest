@@ -40,6 +40,22 @@
 
     .field.is-horizontal
       .field-label.is-normal
+        = f.label :jab_emoji,
+                  t('teams.jab_emoji', jabs_title: App.jabs_term.titleize),
+                  class: 'label'
+      .field-body
+        - if @current_team.platform.slack?
+          .field
+            .control
+              = f.text_field :jab_emoji, class: 'input narrow2', required: true
+              = tooltip_btn('teams.jab_emoji_tooltip', nil, jabs: App.jabs_term)
+        - elsif @current_team.platform.discord?
+          = discord_jab_emoji('32x32')
+          | &nbsp;&nbsp;
+          strong = "(#{App.discord_jab_emoji})"
+
+    .field.is-horizontal
+      .field-label.is-normal
         = f.label :ditto_emoji, t('teams.ditto_emoji'), class: 'label'
       .field-body
         - if @current_team.platform.slack?

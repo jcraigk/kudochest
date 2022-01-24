@@ -130,6 +130,10 @@ module ProfileDecorator
     points_received - points_claimed
   end
 
+  def total_points
+    team.deduct_jabs? ? balance : points_received
+  end
+
   private
 
   def calculate_next_streak_date

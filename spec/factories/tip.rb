@@ -9,6 +9,6 @@ FactoryBot.define do
     sequence(:event_ts) { |n| "1572928377.#{203_000 + n}" }
     from_channel_rid { FactoryHelper.slack_rid('C') }
     sequence(:from_channel_name) { |n| "channel-#{n}" }
-    source { 'plusplus' }
+    source { 'trigger' }
   end
 end

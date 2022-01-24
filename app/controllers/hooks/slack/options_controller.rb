@@ -29,6 +29,7 @@ class Hooks::Slack::OptionsController < Hooks::Slack::BaseController
            .where('teams.rid' => team_rid)
            .where.not('profiles.rid' => profile_rid)
            .matching(user_input)
+           .distinct
            .map do |profile|
       generic_option("#{PROF_PREFIX}#{profile.display_name} (#{profile.real_name})", profile.rid)
     end
@@ -38,6 +39,7 @@ class Hooks::Slack::OptionsController < Hooks::Slack::BaseController
     Channel.joins(:team)
            .where('teams.rid' => team_rid)
            .matching(user_input)
+           .distinct
            .map do |channel|
       generic_option("#{CHAN_PREFIX} #{channel.name}", channel.rid)
     end
@@ -47,6 +49,7 @@ class Hooks::Slack::OptionsController < Hooks::Slack::BaseController
     Subteam.joins(:team)
            .where('teams.rid' => team_rid)
            .matching(user_input)
+           .distinct
            .map do |subteam|
       generic_option("#{PROF_PREFIX}#{subteam.handle} (#{subteam.name})", subteam.rid)
     end

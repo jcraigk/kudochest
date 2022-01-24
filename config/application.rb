@@ -28,6 +28,8 @@ module KudoChest
     config.from_email = ENV.fetch('FROM_EMAIL', "#{config.app_name} <noreply@#{ENV['WEB_DOMAIN']}>")
     config.point_term = ENV.fetch('POINT_TERM', 'kudo')
     config.points_term = ENV.fetch('POINTS_TERM', 'kudos')
+    config.jab_term = ENV.fetch('POINT_TERM', 'kudont')
+    config.jabs_term = ENV.fetch('POINTS_TERM', 'kudonts')
     config.singular_prefix = ENV.fetch('SINGULAR_PREFIX', 'a')
     config.help_url = "#{config.base_url}/help"
     config.issues_url = 'https://github.com/jcraigk/kudochest/issues'
@@ -48,14 +50,16 @@ module KudoChest
     config.slack_app_id = ENV['SLACK_APP_ID']
     config.base_command = ENV.fetch('BASE_COMMAND', 'kudos')
     config.default_tip_emoji = 'star'
+    config.default_jab_emoji = 'arrow_down'
     config.default_ditto_emoji = 'heavy_plus_sign'
 
     ## Discord
     config.discord_cdn_base = 'https://cdn.discordapp.com'
     config.discord_token = "Bot #{ENV['DISCORD_BOT_TOKEN']}"
     config.discord_command = "!#{config.base_command}"
-    config.discord_tip_emoji = 'plus_one'
-    config.discord_ditto_emoji = 'plus_plus'
+    config.discord_tip_emoji = 'plus_plus'
+    config.discord_jab_emoji = 'minus_minus'
+    config.discord_ditto_emoji = 'plus_one'
     config.discord_permission = '1073743872' # Manage Emojis, Send Messages
 
     ## Email
@@ -115,10 +119,10 @@ LeaderboardSnippet = Struct.new(:updated_at, :profiles)
 Mention = Struct.new(:rid, :topic_id, :quantity, keyword_init: true)
 TeamConfig = Struct.new \
   :active, :api_key, :app_profile_rid, :app_subteam_rid, :avatar_url, :enable_cheers,
-  :enable_fast_ack, :tip_emoji, :ditto_emoji, :enable_emoji, :emoji_quantity, :tip_increment,
-  :log_channel_rid, :hint_channel_rid, :max_points_per_tip, :platform, :response_mode,
-  :response_theme, :show_channel, :show_note, :time_zone, :tip_notes, :enable_topics,
-  :require_topic, :topics, keyword_init: true
+  :enable_fast_ack, :tip_emoji, :jab_emoji, :ditto_emoji, :enable_emoji, :emoji_quantity,
+  :tip_increment, :log_channel_rid, :hint_channel_rid, :max_points_per_tip, :platform,
+  :response_mode, :response_theme, :show_channel, :show_note, :time_zone, :tip_notes,
+  :enable_topics, :require_topic, :topics, keyword_init: true
 TopicData = Struct.new(:id, :name, :keyword, :emoji, keyword_init: true)
 
 # App constants, will rarely change
@@ -183,6 +187,8 @@ GROUP_KEYWORD_PATTERN = {
 SLACK_DM_NAME = 'direct-message'
 SLACK_DM_PREFIX = 'mpdm-'
 SLACK_DM_PHRASE = 'a group chat'
+POINT_TRIGGERS = %w[++ +=].freeze
+JAB_TRIGGERS = %w[-- -=].freeze
 
 IMG_DELIM = '<COLOR>'
 

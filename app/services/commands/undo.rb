@@ -47,8 +47,9 @@ class Commands::Undo < Commands::Base
   end
 
   def relevant_tips_by_quantity
+    # TODO: Double check that UNDOABLE_SOURCES is right to use here (even `streak`?)
     tips
-      .select { |tip| tip.source.in?(%w[modal plusplus reaction reply]) }
+      .select { |tip| tip.source.in?(Tip::UNDOABLE_SOURCES) }
       .group_by(&:quantity)
       .sort
       .reverse

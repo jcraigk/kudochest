@@ -23,7 +23,7 @@ RSpec.describe TipMentionService, :freeze_time do
       mentions: mentions,
       note: note,
       profile: profile,
-      source: 'plusplus',
+      source: 'trigger',
       timestamp: timestamp
     }
   end
@@ -130,7 +130,7 @@ RSpec.describe TipMentionService, :freeze_time do
         note: note,
         quantity: 1,
         topic_id: nil,
-        source: 'plusplus',
+        source: 'trigger',
         timestamp: timestamp
       }
     end

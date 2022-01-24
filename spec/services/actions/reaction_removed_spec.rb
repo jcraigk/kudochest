@@ -36,7 +36,7 @@ RSpec.describe Actions::ReactionRemoved do
 
   context 'when tip emoji' do
     let(:emoji) { team.tip_emoji }
-    let(:source) { 'reaction' }
+    let(:source) { 'tip_reaction' }
 
     before do
       create(:tip, event_ts:, from_profile: sender)
@@ -59,7 +59,7 @@ RSpec.describe Actions::ReactionRemoved do
 
   context 'when ditto emoji' do
     let(:emoji) { team.ditto_emoji }
-    let(:source) { 'ditto' }
+    let(:source) { 'ditto_reaction' }
 
     before do
       create(:tip, event_ts:, from_profile: sender)

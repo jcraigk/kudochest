@@ -8,9 +8,15 @@
     tr
       td style='text-align: right; vertical-align: top; font-weight: bold; width: 50%;' Received:
       td #{points_format(@profile_data.points_received, label: true)} from #{pluralize(@profile_data.num_givers, 'user')}
+      - # TODO ensure this works
+      - if @team_data.team.enable_jabs? && @profile_data.jabs_received.positive?
+        td #{points_format(@profile_data.jabs_received, label: true)} from #{pluralize(@profile_data.num_jabbers, 'user')}
     tr
       td style='text-align: right; vertical-align: top; font-weight: bold; width: 50%;' Given:
       td #{points_format(@profile_data.points_sent, label: true)} to #{pluralize(@profile_data.num_recipients, 'user')}
+      - # TODO ensure this works
+      - if @team_data.team.enable_jabs? && @profile_data.jabs_sent.positive?
+        td #{points_format(@profile_data.jabs_sent, label: true)} to #{pluralize(@profile_data.num_jabbees, 'user')}
     - if @profile_data.top_givers.any?
       tr
         td style='text-align: right; vertical-align: top; font-weight: bold; width: 50%;' Top Givers:

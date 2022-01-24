@@ -45,7 +45,7 @@ class Hooks::Slack::BaseController < Hooks::BaseController
   end
 
   def valid_emojis
-    (topic_emojis + [team_config.tip_emoji]).compact_blank
+    (topic_emojis + [team_config.tip_emoji, team_config.jab_emoji]).compact_blank
   end
 
   def topic_emojis
@@ -93,7 +93,7 @@ class Hooks::Slack::BaseController < Hooks::BaseController
     head :ok
   end
 
-  # If an action, a command, a "++"/emoji, or an app mention
+  # If an action, a command, a "++/--" mention, an emoji reaction, or an app mention
   def respondable_event?
     self.class.name.match?(/(ActionController|CommandsController)/) ||
       relevant_text?

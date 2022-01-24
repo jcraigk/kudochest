@@ -48,15 +48,29 @@ class Commands::Help < Commands::Base
     str =
       "* Type `#{PROF_PREFIX}user++`, `#{PROF_PREFIX}role++`, " \
       "`#{CHAN_PREFIX}channel++`, or `#{CHAN_PREFIX}everyone++` " \
-      'in a guild channel'
-    return str unless team.enable_emoji?
-    str +
+      'in a guild channel. Append a number to set quantity.'
+    if team.enable_jabs?
+      str =
+        "* Type `#{PROF_PREFIX}user--`, `#{PROF_PREFIX}role--`, " \
+        "`#{CHAN_PREFIX}channel--`, or `#{CHAN_PREFIX}everyone--` " \
+        'in a guild channel. Append a number to set quantity.'
+    end
+
+    return unless team.enable_emoji?
+    str +=
       "\n  * Type `#{PROF_PREFIX}user`#{team.tip_emoj}, " \
       "`#{PROF_PREFIX}role`#{team.tip_emoj}, " \
       "`#{CHAN_PREFIX}channel`#{team.tip_emoj}, " \
       "or `#{CHAN_PREFIX}everyone`#{team.tip_emoj} in a guild channel " \
-      "\n  * React with #{team.tip_emoj} (#{team.tip_emoji})" \
-      "\n  * React with #{team.ditto_emoj} (#{team.ditto_emoji})"
+      "\n  * React with #{team.tip_emoj} (#{team.tip_emoji})"
+    if team.enable_jabs?
+      str += "\n  * Type `#{PROF_PREFIX}user`#{team.jab_emoj}, " \
+      "`#{PROF_PREFIX}role`#{team.jab_emoj}, " \
+      "`#{CHAN_PREFIX}channel`#{team.jab_emoj}, " \
+      "or `#{CHAN_PREFIX}everyone`#{team.jab_emoj} in a guild channel " \
+      "\n  * React with #{team.tip_emoj} (#{team.tip_emoji})"
+    end
+    str + "\n  * React with #{team.ditto_emoj} (#{team.ditto_emoji})"
   end
 
   def slack_text
@@ -83,7 +97,13 @@ class Commands::Help < Commands::Base
       '_(tip: use Tab key to navigate input fields)_' \
       "\n  * Type `#{PROF_PREFIX}[user]++`, `#{PROF_PREFIX}[group]++`, " \
       "`#{CHAN_PREFIX}[channel]++`, `#{PROF_PREFIX}channel++`, " \
-      "or `#{PROF_PREFIX}everyone++` where bot can hear"
+      "or `#{PROF_PREFIX}everyone++` where bot can hear. Append a number to set quantity."
+    if team.enable_jabs?
+      str =
+        "* Type `#{PROF_PREFIX}[user]--`, `#{PROF_PREFIX}[group]--`, " \
+        "`#{CHAN_PREFIX}[channel]--`, `#{PROF_PREFIX}channel--`, " \
+        "or `#{PROF_PREFIX}everyone--` where bot can hear. Append a number to set quantity."
+    end
     str += slack_emoji_options if team.enable_emoji?
     "#{str}\n  * _User ++_ Action (\"...\" menu on a user message)"
   end
@@ -95,6 +115,14 @@ class Commands::Help < Commands::Base
       "`#{CHAN_PREFIX}[channel]`#{team.tip_emoj}, " \
       "`#{PROF_PREFIX}channel`#{team.tip_emoj}, or " \
       "`#{PROF_PREFIX}everyone`#{team.tip_emoj} where bot can hear"
+    if team.enable_jabs?
+      str =
+        "\n  * Type `#{PROF_PREFIX}[user]`#{team.jab_emoj}, " \
+        "`#{PROF_PREFIX}[group]`#{team.jab_emoj}, " \
+        "`#{CHAN_PREFIX}[channel]`#{team.jab_emoj}, " \
+        "`#{PROF_PREFIX}channel`#{team.jab_emoj}, or " \
+        "`#{PROF_PREFIX}everyone`#{team.jab_emoj} where bot can hear"
+    end
     str += "\n  * React with #{team.tip_emoj} to give to author of message"
     str + "\n  * React with #{team.ditto_emoj} to give more to recipient(s)"
   end

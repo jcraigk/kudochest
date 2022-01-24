@@ -186,7 +186,7 @@ class TipMentionService < Base::Service
         entity:,
         profiles: profiles_for_entity(entity),
         topic_id: mention.topic_id,
-        quantity: mention.quantity
+        quantity: mention.quantity # TODO: adjust jabs to negative here?
     end
   end
 

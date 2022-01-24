@@ -28,7 +28,6 @@ RSpec.describe Commands::Undo, :freeze_time do
       create \
         :tip,
         from_profile: profile,
-        source: 'plusplus',
         created_at: Time.current - App.undo_cutoff - 1.minute
     end
 
@@ -45,7 +44,6 @@ RSpec.describe Commands::Undo, :freeze_time do
         :tip,
         from_profile: profile,
         to_profile: recipient,
-        source: 'plusplus',
         created_at: Time.current - App.undo_cutoff + 1.minute
     end
 
@@ -70,14 +68,12 @@ RSpec.describe Commands::Undo, :freeze_time do
         :tip,
         from_profile: profile,
         to_profile: recipient1,
-        source: 'plusplus',
         created_at:,
         event_ts: ts
       create \
         :tip,
         from_profile: profile,
         to_profile: recipient2,
-        source: 'plusplus',
         quantity: 2,
         created_at:,
         event_ts: ts

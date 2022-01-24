@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_01_23_001427) do
+ActiveRecord::Schema.define(version: 2022_01_23_101329) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -79,6 +79,9 @@ ActiveRecord::Schema.define(version: 2022_01_23_001427) do
     t.boolean "announce_tip_sent", default: true, null: false
     t.boolean "announce_tip_received", default: true, null: false
     t.boolean "share_history", default: true, null: false
+    t.decimal "jabs_sent", precision: 9, scale: 2
+    t.decimal "jabs_received", precision: 9, scale: 2
+    t.decimal "balance", precision: 9, scale: 2
     t.index ["created_at"], name: "index_profiles_on_created_at"
     t.index ["display_name"], name: "index_profiles_on_display_name"
     t.index ["last_tip_received_at"], name: "index_profiles_on_last_tip_received_at"
@@ -183,6 +186,11 @@ ActiveRecord::Schema.define(version: 2022_01_23_001427) do
     t.string "hint_channel_rid"
     t.datetime "hint_posted_at"
     t.boolean "show_note", default: true, null: false
+    t.decimal "jabs_sent", precision: 9, scale: 2
+    t.decimal "balance", precision: 9, scale: 2
+    t.boolean "enable_jabs", default: false, null: false
+    t.boolean "deduct_jabs", default: false, null: false
+    t.string "jab_emoji", default: "arrow_down", null: false
     t.index ["action_hour"], name: "index_teams_on_action_hour"
     t.index ["api_key"], name: "index_teams_on_api_key", unique: true
     t.index ["name"], name: "index_teams_on_name"

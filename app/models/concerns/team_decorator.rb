@@ -20,6 +20,10 @@ module TeamDecorator
     ":#{tip_emoji}:"
   end
 
+  def jab_emoj
+    ":#{jab_emoji}:"
+  end
+
   def ditto_emoj
     ":#{ditto_emoji}:"
   end
@@ -59,6 +63,10 @@ module TeamDecorator
     when 'slack' then App.help_url
     when 'discord' then "#{App.help_url}/discord"
     end
+  end
+
+  def total_points
+    deduct_jabs? ? balance : points_sent
   end
 
   private

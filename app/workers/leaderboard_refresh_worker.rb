@@ -41,16 +41,16 @@ class LeaderboardRefreshWorker
   end
 
   def profile_data(prof, rank, timestamp) # rubocop:disable Metrics/MethodLength
-    points = prof.send("points_#{verb}")
+    points = prof.send(value_col)
     LeaderboardProfile.new \
       id: prof.id,
-      rank: rank,
-      previous_rank: rank, # TODO: Re-enable later
+      rank:,
+      previous_rank: rank, # TODO: Re-enable laterf
       slug: prof.slug,
       link: prof.profile_link,
       display_name: prof.display_name,
       real_name: prof.real_name,
-      points: points,
+      points:,
       percent_share: percent_share(prof, points),
       last_timestamp: timestamp.to_i,
       avatar_url: prof.avatar_url
@@ -62,8 +62,13 @@ class LeaderboardRefreshWorker
     value.round(4)
   end
 
-  def points_col
-    @points_col ||= "points_#{verb}"
+  def value_col
+    @value_col ||=
+      if givingboard
+        :points_sent # TODO: Extend to handle jabs_sent
+      else
+        team.deduct_jabs? ? :balance : :points_received
+      end
   end
 
   def verb
@@ -74,15 +79,11 @@ class LeaderboardRefreshWorker
     @last_timestamp_col ||= "last_tip_#{verb}_at"
   end
 
-  def profile_col
-    @profile_col = givingboard ? :from_profile_id : :to_profile_id
-  end
-
   def sorted_active_profiles
     team.profiles
         .active
-        .where("#{points_col} > ?", 0)
-        .order(points_col => :desc, last_timestamp_col => :desc)
+        .where.not(last_tip_received_at: nil)
+        .order(value_col => :desc, last_timestamp_col => :desc)
   end
 
   def last_timestamp_for(prof)

@@ -22,6 +22,8 @@ en:
     emoji: Emoji
     tip_emoji: "%{points_title} Emoji"
     tip_emoji_tooltip: Enter the name of the emoji icon (without the surrounding colons) you want to use for giving %{points} to the author of a message. For example, if Bob posted "I brought donuts," another user could react to Bob's message with this emoji to give him %{points}.
+    jab_emoji: "%{jabs_title} Emoji"
+    jab_emoji_tooltip: Enter the name of the emoji icon (without the surrounding colons) you want to use for giving %{jabs} to the author of a message. For example, if Bob posted "It's punday today," another user could react to Bob's message with this emoji to give him %{jabs}. This requires %{jabs} to be enabled.
     ditto_emoji: Ditto Emoji
     ditto_emoji_tooltip: Enter the name of the emoji icon (without the surrounding colons) you want to use for giving %{points} to recipients listed in a previous message. For example, if Bob posted "@Alice++", another user could react to Bob's message with the Ditto Emoji to give Alice more %{points}.
     max_points_per_tip: Maximum Quantity
@@ -99,6 +101,10 @@ en:
     emoji_quantity_tooltip: Specify the default amount of %{points} given when an emoji is used to give %{points}.
     split_group_points: Split Group %{points_title}
     split_group_points_tooltip: When %{points} are given to a user group or channel, the specified %{points} can either be split evenly among the members or, if this option is disabled, each member will receive the entire specified amount of %{points}.
+    enable_jabs: Enable %{jabs_title}
+    enable_jabs_tooltip: When %{jabs} are enabled, users can use "--" and the associated emoji for giving %{jabs} to each other.
+    deduct_jabs: Deduct %{jabs_title}
+    deduct_jabs_tooltip: Whether or not to deduct %{jabs} from user totals, affecting leaderboard ranking.
     response_mode_adaptive_html: In Adaptive mode, responses are posted in the context where %{points} are given. Similar to Conversational mode, but responses to emoji reactions are posted in a reply thread instead of the main channel.
     response_mode_convo_slack_html: In Conversational mode, responses are posted in the context where %{points} are given. Similar to Adaptive mode, but responses to emoji reactions are posted in the public channel.
     response_mode_convo_discord_html: In Conversational mode, responses are posted in the same channel where the %{points} was given.

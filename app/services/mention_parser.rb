@@ -19,7 +19,7 @@ class MentionParser < Base::Service
       profile:,
       mentions:,
       note:,
-      source: 'plusplus',
+      source: 'trigger',
       event_ts:,
       channel_rid:,
       channel_name:
@@ -31,6 +31,8 @@ class MentionParser < Base::Service
 
   # `@user++ @user++ @user++`
   #   => @user gets 1 Tip of quantity 3
+  # `@user-- @user-- @user--`
+  #   => @user gets 1 Tip of quantity -3
   # `@user :fire: @user :high_brightness: @user :fire:`
   #   => @user gets 2 Tips (1) :fire: x2 (2) :high_brightness: x1
   def stacked_mentions
@@ -71,14 +73,31 @@ class MentionParser < Base::Service
 
   # `<@UFOO> 3++2` => 3 is used
   def tip_quantity(match) # rubocop:disable Metrics/AbcSize
-    float = (match.prefix_digits.presence || match.suffix_digits.presence).to_f
-    return (float.zero? ? 1.0 : float) if match.emoji_string.blank?
-    return 0 unless team.enable_emoji?
-    num = num_inline_emoji(match.emoji_string)
-    # If single emoji, use prefix/suffix digit if present
-    return float if num == 1 && float.positive?
-    # Otherwise, multiply by emoji quantity
-    num * team.emoji_quantity
+    negative = match.operation == 'subtract'
+    explicit_quant = (match.prefix_digits.presence || match.suffix_digits.presence).to_f
+    if negative
+      return 0 unless team.enable_jabs?
+      explicit_quant = 0 - explicit_quant
+    end
+
+    # If no emoji found
+    if match.emoji_string.blank?
+      default_quant = negative ? -1.0 : 1.0
+      explicit_quant.zero? ? default_quant : explicit_quant
+    # Else if emoji found
+    else
+      # TODO: Check if there was a mixture of points/jabs and reject if so?
+      return 0 unless team.enable_emoji?
+      num_emojis = num_inline_emoji(match.emoji_string)
+      # If single emoji, use explicit prefix/suffix digits if provided
+      if num_emojis == 1 && !explicit_quant.zero?
+        explicit_quant
+      # Otherwise, multiply by emoji quantity
+      else
+        quantity = num_emojis * team.emoji_quantity
+        negative ? 0 - quantity : quantity
+      end
+    end
   end
 
   # `:high_brightness: :fire:` => first emoji is used for topic, but gets 2 quantity

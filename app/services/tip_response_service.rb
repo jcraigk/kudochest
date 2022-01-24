@@ -4,7 +4,9 @@ class TipResponseService < Base::Service
   include EntityReferenceHelper
   include PointsHelper
 
-  RELEVANT_SOURCES = %w[modal plusplus reaction ditto reply].freeze
+  # TODO: This needs to handle the kudonts language, including for groups
+
+  RELEVANT_SOURCES = %w[modal trigger tip_reaction jab_reaction ditto_reaction reply].freeze
   ANON_WORD = 'someone'
 
   option :tips
@@ -166,6 +168,7 @@ class TipResponseService < Base::Service
       event_ts: first_tip.event_ts
   end
 
+  # TODO: Add leveling loss if deducting jabs
   def levelup_fragment(platform)
     return unless team.enable_levels && levelups.any?
     if levelups.one?

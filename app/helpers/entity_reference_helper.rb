@@ -42,18 +42,17 @@ module EntityReferenceHelper
     emoji ? plus_or_emojis_maybe_int(emoji_str) : plus_maybe_int
   end
 
+  # TODO: omit minus_minus altogether here if jabs disabled?
   def plus_or_emojis_maybe_int(emoji_str)
-    quantity_prefix + # rubocop:disable Style/StringConcatenation
-      '(?:' +
-      plus_plus +
-      '|((?::' +
-      emoji_str +
-      ':\s*)+))' +
-      quantity_suffix
+    "#{quantity_prefix}(?:(#{text_triggers})|((?:(?::#{emoji_str}:\s*)+)))#{quantity_suffix}"
+  end
+
+  def text_triggers
+    "#{plus_plus}|#{minus_minus}"
   end
 
   def plus_maybe_int
-    quantity_prefix + plus_plus + quantity_suffix
+    quantity_prefix + point_trigger + quantity_suffix
   end
 
   def quantity_prefix
@@ -72,7 +71,15 @@ module EntityReferenceHelper
     '\s{0,2}'
   end
 
-  def plus_plus
-    '(?:\+\+|\+\=)'
+  # "++" or "+="
+  def point_trigger
+    patterns = POINT_TRIGGERS.map { |str| Regexp.escape(str) }.join('|')
+    "(?:#{patterns})"
+  end
+
+  # "--" or "-="
+  def jab_trigger
+    patterns = JAB_TRIGGERS.map { |str| Regexp.escape(str) }.join('|')
+    "(?:#{patterns})"
   end
 end

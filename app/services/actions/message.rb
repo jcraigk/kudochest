@@ -95,24 +95,30 @@ class Actions::Message < Actions::Base
   end
 
   def extract_last_match(last_match)
-    last_match.end(5) ||
-      last_match.end(4) ||
-      last_match.end(3) ||
-      last_match.end(2) ||
-      last_match.end(1)
-  end
-
-  def sanitized_text
-    text.tr("\u00A0", ' ') # Unicode space (from Slack)
+    last_match.end(6) ||   # quantity suffix ('++2')
+      last_match.end(5) || # emojis
+      last_match.end(4) || # text trigger ('++', '--', etc)
+      last_match.end(3) || # quantity prefix ('2++')
+      last_match.end(2) || # 'everyone' or 'channel'
+      last_match.end(1)    # dynamic entity by remote ID (subteam, user)
   end
 
   def mention_match_struct(match, last_match_end)
     MentionMatch.new \
-      profile_rid: match.second || match.first, # 'everyone' or entity RID match
-      prefix_digits: match.third,
-      suffix_digits: match.fifth,
-      emoji_string: match.fourth,
+      profile_rid: match[0] || match[1],
+      prefix_digits: match[2],
+      operation: operation_for(match[3]),
+      emoji_string: match[4],
+      suffix_digits: match[5],
       end: last_match_end
+  end
+
+  def operation_for(str)
+    str.in?(POINT_TRIGGERS) ? 'add' : 'subtract'
+  end
+
+  def sanitized_text
+    text.tr("\u00A0", ' ') # Unicode space (from Slack)
   end
 
   def command_key
@@ -166,5 +172,6 @@ class Actions::Message < Actions::Base
   end
 
   MentionMatch = Struct.new \
-    :profile_rid, :prefix_digits, :suffix_digits, :emoji_string, :end, keyword_init: true
+    :profile_rid, :prefix_digits, :operation, :emoji_string, :suffix_digits, :end,
+    keyword_init: true
 end

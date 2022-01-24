@@ -11,7 +11,12 @@ class Actions::ReactionBase < Actions::Base
   end
 
   def source
-    @source ||= (emoji == team.ditto_emoji ? 'ditto' : 'reaction')
+    @source ||=
+      case emoji
+      when team.tip_emoji then 'tip_reaction'
+      when team.jab_emoji then 'jab_reaction'
+      when team.ditto_emoji then 'ditto_reaction'
+      end
   end
 
   def topic_suffix
