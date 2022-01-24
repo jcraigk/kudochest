@@ -22,7 +22,7 @@ class WeeklyReport::RecurrentWorker
   def run_profile_report_workers
     Profile.where(weekly_report: true).find_each do |profile|
       next unless profile.active? && profile.team.active?
-      WeeklyReport::TeamSyncWorker.perform_async(profile.id)
+      WeeklyReport::ProfileWorker.perform_async(profile.id)
     end
   end
 end
