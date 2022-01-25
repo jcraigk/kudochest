@@ -17,7 +17,7 @@ class Slack::Modals::Tip < Base::Service
       title: title,
       submit: submit,
       close: close,
-      blocks: [quantity_select, rid_multiselect, topic_select, note_input].compact
+      blocks: [type_select, quantity_select, rid_multiselect, topic_select, note_input].compact
     }
   end
 
@@ -58,6 +58,45 @@ class Slack::Modals::Tip < Base::Service
           type: :plain_text,
           text: 'Users, groups, or channels'
         }
+      }
+    }
+  end
+
+  def type_select
+    return unless team_config.enable_jabs
+    {
+      type: :input,
+      label: {
+        type: :plain_text,
+        text: 'Type'
+      },
+      optional: false,
+      element: {
+        type: :static_select,
+        action_id: :tip_type,
+        initial_option: {
+          text: {
+            type: :plain_text,
+            text: App.points_term.titleize
+          },
+          value: App.points_term
+        },
+        options: [
+          {
+            text: {
+              type: :plain_text,
+              text: App.points_term.titleize
+            },
+            value: App.points_term
+          },
+          {
+            text: {
+              type: :plain_text,
+              text: App.jabs_term.titleize
+            },
+            value: App.jabs_term
+          }
+        ]
       }
     }
   end

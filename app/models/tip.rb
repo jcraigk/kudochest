@@ -61,6 +61,10 @@ class Tip < ApplicationRecord
     topic&.name || 'None'
   end
 
+  def jab?
+    quantity.negative?
+  end
+
   private
 
   def update_values(subtract: false)
@@ -139,9 +143,5 @@ class Tip < ApplicationRecord
 
   def require_topic?
     from_profile&.team&.require_topic?
-  end
-
-  def jab?
-    quantity.negative?
   end
 end

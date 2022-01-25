@@ -30,7 +30,8 @@ module KudoChest
     config.points_term = ENV.fetch('POINTS_TERM', 'kudos')
     config.jab_term = ENV.fetch('POINT_TERM', 'kudont')
     config.jabs_term = ENV.fetch('POINTS_TERM', 'kudonts')
-    config.singular_prefix = ENV.fetch('SINGULAR_PREFIX', 'a')
+    config.point_singular_prefix = ENV.fetch('POINT_SINGULAR_PREFIX', 'a')
+    config.jab_singular_prefix = ENV.fetch('JAB_SINGULAR_PREFIX', 'a')
     config.help_url = "#{config.base_url}/help"
     config.issues_url = 'https://github.com/jcraigk/kudochest/issues'
     config.asset_host = ENV['ASSET_HOST']

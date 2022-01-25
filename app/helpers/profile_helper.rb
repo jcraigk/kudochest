@@ -54,8 +54,7 @@ module ProfileHelper
   end
 
   def tip_type_with_icon(tip)
-    dir = tip.quantity.positive? ? :up : :down
-    tag.i(class: "fas sort-#{dir}")
+    fa_icon("thumbs-#{tip.jab? ? :down : :up}")
   end
 
   def level_badge(profile)

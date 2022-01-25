@@ -71,27 +71,39 @@ class MentionParser < Base::Service
     topic_id
   end
 
-  def tip_quantity(match) # rubocop:disable Metrics/AbcSize
-    # `<@UFOO> 3++2` => 3 is used
-    given_quant = (match.prefix_digits.presence || match.suffix_digits.presence).to_f
+  # Generate a quantity given a mention match
+  #
+  # Examples:
+  # "@user ++" => 1
+  # "@user 3++2" => 3
+  # "@user --4" => -4
+  # "@user :point::point:" => 2 * team.emoji_quantity
+  # "@user :point::jab:" => 0 (rejected for non-unique emoji)
+  # "@user :jab::jab::jab:" => -3
+  def tip_quantity(match)
+    given = (match.prefix_digits.presence || match.suffix_digits.presence).to_f
     if match.inline_emoji.present?
-      emojis = match.inline_emoji.split(':').compact_blank
-      # Do not allow different emojis - only multiple instances of same emoji
-      return 0 unless team.enable_emoji? && emojis.uniq.size == 1
-      emoji_quant =
-        if emojis.size == 1 && !given_quant.zero?
-          # If single emoji with prefix/suffix, use those digits
-          given_quant
-        else
-          # Otherwise, multiply by number of emoji instances
-          emojis.size * team.emoji_quantity
-        end
-      emojis.first == team.jab_emoji ? 0 - emoji_quant : emoji_quant
+      emoji_match_quantity(match)
     else
       negative = match.inline_text.in?(JAB_INLINES)
-      explicit, default = negative ? [0 - given_quant, -1.0] : [given_quant, 1.0]
-      given_quant.zero? ? default : explicit
+      explicit, default = negative ? [0 - given, -1.0] : [given, 1.0]
+      given.zero? ? default : explicit
     end
+  end
+
+  def emoji_match_quantity(match)
+    emojis = match.inline_emoji.split(':').compact_blank
+    # Do not allow different emojis - only multiple instances of same emoji
+    return 0 unless team.enable_emoji? && emojis.uniq.size == 1
+    emoji_quant = emojis_quantity(emojis)
+    emojis.first == team.jab_emoji ? 0 - emoji_quant : emoji_quant
+  end
+
+  def emojis_quantity(emojis)
+    # If single emoji with prefix/suffix, use those digits
+    return given_quant if emojis.size == 1 && !given_quant.zero?
+    # Otherwise, multiply by number of emoji instances
+    emojis.size * team.emoji_quantity
   end
 
   def team

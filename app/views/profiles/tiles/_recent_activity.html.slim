@@ -16,8 +16,6 @@
         thead
           tr
             th = t('tips.direction')
-            - if profile.team.enable_jabs? || tips.any? { |t| t.points.negative? }
-              th = t('tips.type')
             th = t('tips.user')
             th = t('tips.quantity')
             - if profile.team.enable_topics?
@@ -36,10 +34,8 @@
           - tips.each do |tip|
             tr
               td = tip_direction_with_icon(tip, profile)
-              - if profile.team.enable_jabs? || tips.any? { |t| t.points.negative? }
-                th = tip_type_with_icon(tip)
               td = profile_web_link(tip.from_profile == profile ? tip.to_profile : tip.from_profile)
-              td = points_format(tip.quantity)
+              td = points_format(tip.quantity, colorize: true, plus_prefix: true)
               - if profile.team.enable_topics?
                 td = tip.topic_name
               td = channel_ref(tip)

@@ -15,7 +15,6 @@ en:
     confirm_destroy: This is permanent. Are you sure?
     remove: Remove
     direction: Direction
-    type: Type
     user: User
     nothing_to_undo: Nothing to undo
     any_topic: Any Topic

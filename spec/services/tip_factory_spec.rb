@@ -27,7 +27,7 @@ RSpec.describe TipFactory do
       from_channel_rid: from_channel.rid,
       from_profile: from_profile,
       note: note,
-      quantity: 1
+      quantity: 1,
       source: 'seed',
       to_entity: to_entity,
       to_profiles: to_profiles,
