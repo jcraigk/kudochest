@@ -234,11 +234,10 @@ class TipResponseService < Base::Service
 
   def compose_str(platform, quantity, topic_id, similar_tips)
     recipient_sentence = profile_sentence(profile_refs_from(platform, similar_tips))
-    quant_str = points_format(quantity)
     topic = team.topics.find { |t| t.id == topic_id }
     emoji = emoji_sequence(platform, quantity, topic)
     topic_str = topic&.name ? "for #{topic.name}" : nil
-    "#{recipient_sentence} #{points_format(quant_str, label: true)} #{emoji} #{topic_str}".squish
+    "#{recipient_sentence} #{points_format(quantity, label: true, bold_jab: true)} #{emoji} #{topic_str}".squish
   end
 
   def profile_sentence(refs)

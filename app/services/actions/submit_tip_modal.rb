@@ -55,10 +55,6 @@ class Actions::SubmitTipModal < Actions::Base
   end
 
   def quantity
-    @quantity ||= tip_type == App.jabs_term ? 0 - raw_quantity : quantity
-  end
-
-  def raw_quantity
     BigDecimal \
       submission.find { |_k, v| v[:quantity].present? }
                 &.second

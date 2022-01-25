@@ -17,15 +17,21 @@ class Slack::Modals::Tip < Base::Service
       title: title,
       submit: submit,
       close: close,
-      blocks: [type_select, quantity_select, rid_multiselect, topic_select, note_input].compact
+      blocks: [quantity_select, rid_multiselect, topic_select, note_input].compact
     }
   end
 
   def title
     {
       type: :plain_text,
-      text: "Give #{App.points_term.titleize}"
+      text: raw_title
     }
+  end
+
+  def raw_title
+    str = "Give #{App.points_term.titleize}"
+    str += " or #{App.jabs_term.titleize}" if team_config.enable_jabs
+    str
   end
 
   def close
@@ -58,45 +64,6 @@ class Slack::Modals::Tip < Base::Service
           type: :plain_text,
           text: 'Users, groups, or channels'
         }
-      }
-    }
-  end
-
-  def type_select
-    return unless team_config.enable_jabs
-    {
-      type: :input,
-      label: {
-        type: :plain_text,
-        text: 'Type'
-      },
-      optional: false,
-      element: {
-        type: :static_select,
-        action_id: :tip_type,
-        initial_option: {
-          text: {
-            type: :plain_text,
-            text: App.points_term.titleize
-          },
-          value: App.points_term
-        },
-        options: [
-          {
-            text: {
-              type: :plain_text,
-              text: App.points_term.titleize
-            },
-            value: App.points_term
-          },
-          {
-            text: {
-              type: :plain_text,
-              text: App.jabs_term.titleize
-            },
-            value: App.jabs_term
-          }
-        ]
       }
     }
   end
@@ -190,7 +157,15 @@ class Slack::Modals::Tip < Base::Service
   end
 
   def quantity_options
-    (fractional_quantity_options + (1..team_config.max_points_per_tip).to_a).compact
+    return base_quantities unless team_config.enable_jabs
+    base_quantities.reverse.map { |q| 0 - q } + base_quantities
+  end
+
+  def base_quantities
+    (
+      fractional_quantity_options +
+      (1..team_config.max_points_per_tip).to_a
+    ).compact
   end
 
   def fractional_quantity_options

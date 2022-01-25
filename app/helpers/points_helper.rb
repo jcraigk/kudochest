@@ -3,7 +3,7 @@ module PointsHelper
   def points_format(points, opts = {})
     str =
       if opts[:label]
-        num, term = points_fragments(points)
+        num, term = points_fragments(points, opts)
         "#{num} #{term}"
       else
         formatted_points(points)
@@ -17,13 +17,15 @@ module PointsHelper
     "points-#{points.positive? ? 'positive' : 'negative'}"
   end
 
-  def points_fragments(points)
+  def points_fragments(points, opts)
     if points.to_i == 1
       [App.point_singular_prefix, App.point_term]
     elsif points.to_i == -1
-      [App.jab_singular_prefix, App.jab_term]
+      t = App.jab_term
+      [App.jab_singular_prefix, (opts[:bold_jab] ? "*#{t}*" : t)]
     elsif points.negative?
-      [formatted_points(points.abs), App.jabs_term]
+      t = App.jabs_term
+      [formatted_points(points.abs), (opts[:bold_jab] ? "*#{t}*" : t)]
     else
       [formatted_points(points), App.points_term]
     end
