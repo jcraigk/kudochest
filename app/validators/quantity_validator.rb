@@ -8,7 +8,7 @@ class QuantityValidator < ActiveModel::Validator
     @record = record
 
     return if valid_import?
-    return unless absent? || abs_exceeds_max? || invalid_increment?
+    return unless zero? || abs_exceeds_max? || invalid_increment?
     record.errors.add(:quantity, error_msg)
   end
 
@@ -36,13 +36,13 @@ class QuantityValidator < ActiveModel::Validator
     team&.max_points_per_tip || App.max_points_per_tip
   end
 
-  def absent?
-    !record.quantity.zero?
+  def zero?
+    record.quantity.zero?
   end
 
   # Imports are exempt from max/increment
   def valid_import?
-    record.source.import? && !absent?
+    record.source.import? && !zero?
   end
 
   def team

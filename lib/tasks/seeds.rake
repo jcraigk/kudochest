@@ -36,7 +36,7 @@ namespace :seeds do
           note: Faker::Lorem.sentence(word_count: 4),
           event_ts: Time.current.to_f.to_s,
           channel_rid: channel.rid,
-          source: 'auto',
+          source: 'seed',
           timestamp: Time.current
       end
     end

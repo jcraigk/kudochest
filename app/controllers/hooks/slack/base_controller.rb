@@ -16,7 +16,9 @@ class Hooks::Slack::BaseController < Hooks::BaseController
   protected
 
   def enqueue_slack_event_worker
-    EventWorker.perform_async(data.merge(fast_ack_data))
+    d = data.dup
+    d[:team_config] = d[:team_config].to_h
+    EventWorker.perform_async(d.merge(fast_ack_data))
   end
 
   def fast_ackable?
@@ -36,20 +38,7 @@ class Hooks::Slack::BaseController < Hooks::BaseController
   end
 
   def mentions_found?
-    @mentions_found ||=
-      text&.match? \
-        mention_regex \
-          :slack,
-          "(?:#{valid_emojis.join('|')})",
-          emoji: team_config.enable_emoji
-  end
-
-  def valid_emojis
-    (topic_emojis + [team_config.tip_emoji, team_config.jab_emoji]).compact_blank
-  end
-
-  def topic_emojis
-    team_config.topics.map(&:emoji)
+    @mentions_found ||= text&.match?(mention_regex(team_config))
   end
 
   def relevant_text?

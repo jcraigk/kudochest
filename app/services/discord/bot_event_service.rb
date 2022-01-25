@@ -174,7 +174,7 @@ class Discord::BotEventService < Base::Service
     {
       platform: 'discord',
       team_rid: team_rid,
-      team_config: team_config&.to_h,
+      team_config:,
       is_bot_dm: false,
       channel_name: event.channel.name,
       channel_rid: event.channel.id.to_s,

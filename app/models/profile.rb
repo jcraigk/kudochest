@@ -20,7 +20,7 @@ class Profile < ApplicationRecord
   has_many :subteams, through: :subteam_memberships, dependent: :destroy
   has_many :claims, dependent: :destroy
 
-  attribute :allow_dm, :boolean, default: true
+  attribute :allow_dm,            :boolean, default: true
   attribute :bot_user,            :boolean, default: false
   attribute :deleted,             :boolean, default: false
   attribute :weekly_report,       :boolean, default: true
@@ -28,6 +28,9 @@ class Profile < ApplicationRecord
   attribute :points_claimed,      :integer, default: 0
   attribute :points_received,     :decimal, default: 0.0
   attribute :points_sent,         :decimal, default: 0.0
+  attribute :jabs_received,       :decimal, default: 0.0
+  attribute :jabs_sent,           :decimal, default: 0.0
+  attribute :balance,             :decimal, default: 0.0
   attribute :streak_count,        :integer, default: 0
   attribute :tokens_accrued,      :integer, default: 0
   attribute :tokens_forfeited,    :decimal, default: 0.0

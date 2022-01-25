@@ -53,7 +53,7 @@ RSpec.describe Actions::ReactionAdded do
             topic_id: nil
           )
         ],
-        source: 'tip_reaction',
+        source: 'point_reaction',
         event_ts: "#{ts}-reaction-#{sender.id}",
         message_ts: ts,
         channel_rid: channel.rid,

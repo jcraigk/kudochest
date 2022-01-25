@@ -6,7 +6,7 @@ class Tip < ApplicationRecord
   UNDOABLE_SOURCES = %w[
     modal
     inline
-    tip_reaction
+    point_reaction
     jab_reaction
     ditto_reaction
     reply
@@ -14,10 +14,10 @@ class Tip < ApplicationRecord
   ].freeze
 
   enumerize :source, in: %w[
-    auto
+    seed
     modal
     inline
-    tip_reaction
+    point_reaction
     jab_reaction
     ditto_reaction
     reply

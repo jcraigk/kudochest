@@ -50,7 +50,7 @@ RSpec.describe Tip do
     let(:profile) { create(:profile) }
 
     before do
-      create(:tip, source: 'auto', from_profile: profile) # wrong source
+      create(:tip, source: 'seed', from_profile: profile) # wrong source
       create(:tip, source: 'modal', from_profile: profile, created_at: 1.year.ago) # old
     end
 

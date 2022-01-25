@@ -16,7 +16,12 @@ module EntityReferenceHelper
     helpers.tag.span(name, class: 'chat-ref')
   end
 
-  def mention_pattern(platform)
+  def mention_regex(config)
+    Regexp.new("#{mention_pattern(config)}#{maybe_spaces}#{inline_pattern(config)}")
+  end
+
+  def mention_pattern(config)
+    platform = config.platform
     <<~TEXT.gsub(/\s+/, '')
       (?:
         <
@@ -38,22 +43,17 @@ module EntityReferenceHelper
     TEXT
   end
 
-  # TODO: leave emoji str in here and bail out in mention parser if emoji disabled?
-  # that's how we handle jabs
-  def tip_pattern(emoji_str, emoji: true)
-    emoji ? plus_or_emojis_maybe_int(emoji_str) : plus_maybe_int
+  def inline_pattern(config)
+    "#{quantity_prefix}(?:(#{inlines})|((?:#{emojis(config)}\s*)+))#{quantity_suffix}"
   end
 
-  def plus_or_emojis_maybe_int(emoji_str)
-    "#{quantity_prefix}(?:#{text_inlines}|((?:(?::#{emoji_str}:\s*)+)))#{quantity_suffix}"
+  def inlines
+    "#{inline_point}|#{inline_jab}"
   end
 
-  def text_inlines
-    "(#{plus_plus}|#{minus_minus})"
-  end
-
-  def plus_maybe_int
-    quantity_prefix + text_inlines + quantity_suffix
+  def emojis(config)
+    str = valid_emojis(config).join('|').presence || 'no-emoji'
+    ":(?:#{str}):"
   end
 
   def quantity_prefix
@@ -64,23 +64,25 @@ module EntityReferenceHelper
     '\s?(\d*\.?\d*)'
   end
 
-  def mention_regex(platform, emoji_str, emoji: true)
-    Regexp.new("#{mention_pattern(platform)}#{maybe_spaces}#{tip_pattern(emoji_str, emoji:)}")
-  end
-
   def maybe_spaces
     '\s{0,2}'
   end
 
-  # "++" or "+="
-  def point_inline
+  def inline_point
     patterns = POINT_INLINES.map { |str| Regexp.escape(str) }.join('|')
     "(?:#{patterns})"
   end
 
-  # "--" or "-="
-  def jab_inline
+  def inline_jab
     patterns = JAB_INLINES.map { |str| Regexp.escape(str) }.join('|')
     "(?:#{patterns})"
+  end
+
+  def valid_emojis(config)
+    return [] unless config.enable_emoji
+    emojis = [config.tip_emoji]
+    emojis << config.jab_emoji if config.enable_jabs
+    emojis << config.topics.map(&:emoji) if config.enable_topics
+    emojis
   end
 end

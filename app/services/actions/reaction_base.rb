@@ -13,7 +13,7 @@ class Actions::ReactionBase < Actions::Base
   def source
     @source ||=
       case emoji
-      when team.tip_emoji then 'tip_reaction'
+      when team.tip_emoji then 'point_reaction'
       when team.jab_emoji then 'jab_reaction'
       when team.ditto_emoji then 'ditto_reaction'
       end

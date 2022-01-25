@@ -42,7 +42,7 @@ class Hooks::Slack::EventsController < Hooks::Slack::BaseController
 
   def data # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
     {
-      action: action,
+      action:,
       channel_rid: event.dig(:item, :channel) || event[:channel],
       event_ts: event[:event_ts],
       event: params[:event].to_json,
@@ -50,9 +50,9 @@ class Hooks::Slack::EventsController < Hooks::Slack::BaseController
       message_ts: event.dig(:item, :ts),
       origin: bot_dm? ? 'bot-dm' : 'channel',
       profile_rid: event[:user], # This can be a JSON object (`user_change`, for example)
-      team_config: team_config.to_h,
+      team_config:,
       team_rid: params[:team_id],
-      text: text,
+      text:,
       thread_ts: event[:thread_ts],
       event_params: params.to_unsafe_h
     }

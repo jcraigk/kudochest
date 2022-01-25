@@ -46,7 +46,7 @@ class ResponseImageService < Base::Service
 
   def params
     {
-      team_config: team_config,
+      team_config:,
       fragments: fragments,
       tips: tips,
       profile_data: profile_data,

@@ -8,7 +8,7 @@ RSpec.describe Discord::PostService do
   let(:opts) do
     {
       mode: mode,
-      team_config: team.config.to_h,
+      team_config: team.config,
       profile_rid: profile.rid,
       channel_rid: channel.rid,
       response: response,

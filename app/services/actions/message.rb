@@ -2,12 +2,11 @@
 class Actions::Message < Actions::Base
   include EntityReferenceHelper
 
-  attr_reader :app_profile_rid, :app_subteam_rid, :team_rid, :profile_rid,
-              :channel_rid, :text, :origin, :event_ts, :platform
+  attr_reader :team_rid, :team_config, :profile_rid, :channel_rid,
+              :text, :origin, :event_ts, :platform
 
   def call # rubocop:disable Metrics/AbcSize
-    @app_profile_rid = params[:team_config][:app_profile_rid]
-    @app_subteam_rid = params[:team_config][:app_subteam_rid]
+    @team_config = params[:team_config]
     @channel_rid = params[:channel_rid]
     @event_ts = params[:event_ts]
     @origin = params[:origin]
@@ -81,17 +80,14 @@ class Actions::Message < Actions::Base
     text[mention_matches.last.end..].strip
   end
 
-  def enable_emoji?
-    params.dig(:team_config, :enable_emoji)
-  end
-
   def mention_matches
     @mention_matches ||=
-      sanitized_text.scan(mention_regex(platform, '[a-z0-9_]+'))
-                    .map do |match|
-                      last_match = extract_last_match(Regexp.last_match)
-                      mention_match_struct(match, last_match)
-                    end
+      sanitized_text
+      .scan(mention_regex(team_config))
+      .map do |match|
+        last_match = extract_last_match(Regexp.last_match)
+        mention_match_struct(match, last_match)
+      end
   end
 
   def extract_last_match(last_match)
@@ -155,12 +151,12 @@ class Actions::Message < Actions::Base
   end
 
   def app_profile_ref
-    @app_profile_ref ||= "<#{PROFILE_PREFIX[platform]}#{app_profile_rid}>"
+    @app_profile_ref ||= "<#{PROFILE_PREFIX[platform]}#{team_config.app_profile_rid}>"
   end
 
   # Discord only
   def app_subteam_ref
-    @app_subteam_ref ||= "<#{SUBTEAM_PREFIX[platform]}#{app_subteam_rid}>"
+    @app_subteam_ref ||= "<#{SUBTEAM_PREFIX[platform]}#{team_config.app_subteam_rid}>"
   end
 
   def respond_bad_input(message = nil)

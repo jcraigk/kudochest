@@ -17,7 +17,6 @@ class Base::PostService < Base::Service
 
   def call
     @action = action&.to_sym
-    @team_config = TeamConfig.new(team_config)
     @log_channel_rid = team_config.log_channel_rid
     @response_mode = team_config.response_mode&.to_sym
 
