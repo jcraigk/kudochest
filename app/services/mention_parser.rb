@@ -71,40 +71,26 @@ class MentionParser < Base::Service
     topic_id
   end
 
-  # `<@UFOO> 3++2` => 3 is used
   def tip_quantity(match) # rubocop:disable Metrics/AbcSize
-    negative = match.operation == 'subtract'
-    explicit_quant = (match.prefix_digits.presence || match.suffix_digits.presence).to_f
-    if negative
-      return 0 unless team.enable_jabs?
-      explicit_quant = 0 - explicit_quant
-    end
-
-    # If no emoji found
-    if match.emoji_string.blank?
-      default_quant = negative ? -1.0 : 1.0
-      explicit_quant.zero? ? default_quant : explicit_quant
-    # Else if emoji found
+    # `<@UFOO> 3++2` => 3 is used
+    given_quant = (match.prefix_digits.presence || match.suffix_digits.presence).to_f
+    if match.inline_emoji.present?
+      emojis = match.inline_emoji.split(':').compact_blank
+      # Do not allow different emojis - only multiple instances of same emoji
+      return 0 unless team.enable_emoji? && emojis.uniq.size == 1
+      emoji_quant =
+        if emojis.size == 1 && !given_quant.zero?
+          # If single emoji with prefix/suffix, use those digits
+          given_quant
+        else
+          # Otherwise, multiply by number of emoji instances
+          emojis.size * team.emoji_quantity
+        end
+      emojis.first == team.jab_emoji ? 0 - emoji_quant : emoji_quant
     else
-      # TODO: Check if there was a mixture of points/jabs and reject if so?
-      return 0 unless team.enable_emoji?
-      num_emojis = num_inline_emoji(match.emoji_string)
-      # If single emoji, use explicit prefix/suffix digits if provided
-      if num_emojis == 1 && !explicit_quant.zero?
-        explicit_quant
-      # Otherwise, multiply by emoji quantity
-      else
-        quantity = num_emojis * team.emoji_quantity
-        negative ? 0 - quantity : quantity
-      end
-    end
-  end
-
-  # `:high_brightness: :fire:` => first emoji is used for topic, but gets 2 quantity
-  # TODO: Split this out into 2 Tips
-  def num_inline_emoji(emoji_string)
-    emoji_string.split(':').compact_blank.count do |emoji|
-      emoji == team.tip_emoji || emoji.in?(team.topics.active.map(&:emoji))
+      negative = match.inline_text.in?(JAB_INLINES)
+      explicit, default = negative ? [0 - given_quant, -1.0] : [given_quant, 1.0]
+      given_quant.zero? ? default : explicit
     end
   end
 

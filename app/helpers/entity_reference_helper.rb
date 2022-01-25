@@ -17,7 +17,7 @@ module EntityReferenceHelper
   end
 
   def mention_regex(config)
-    Regexp.new("#{mention_pattern(config)}#{maybe_spaces}#{inline_pattern(config)}")
+    Regexp.new("#{mention_pattern(config)}#{maybe_spaces}#{trigger_pattern(config)}")
   end
 
   def mention_pattern(config)
@@ -43,16 +43,20 @@ module EntityReferenceHelper
     TEXT
   end
 
-  def inline_pattern(config)
-    "#{quantity_prefix}(?:(#{inlines})|((?:#{emojis(config)}\s*)+))#{quantity_suffix}"
+  def trigger_pattern(config)
+    inline_capture = "(#{inlines(config)})"
+    emoji_capture = "((?:#{emojis(config)}\s*)+)"
+    "#{quantity_prefix}(?:#{inline_capture}|#{emoji_capture})#{quantity_suffix}"
   end
 
-  def inlines
-    "#{inline_point}|#{inline_jab}"
+  def inlines(config)
+    patterns = POINT_INLINES.map { |str| Regexp.escape(str) }
+    patterns << JAB_INLINES.map { |str| Regexp.escape(str) } if config.enable_jabs
+    patterns.join('|')
   end
 
   def emojis(config)
-    str = valid_emojis(config).join('|').presence || 'no-emoji'
+    str = emoji_patterns(config).join('|').presence || 'no-emoji'
     ":(?:#{str}):"
   end
 
@@ -68,17 +72,7 @@ module EntityReferenceHelper
     '\s{0,2}'
   end
 
-  def inline_point
-    patterns = POINT_INLINES.map { |str| Regexp.escape(str) }.join('|')
-    "(?:#{patterns})"
-  end
-
-  def inline_jab
-    patterns = JAB_INLINES.map { |str| Regexp.escape(str) }.join('|')
-    "(?:#{patterns})"
-  end
-
-  def valid_emojis(config)
+  def emoji_patterns(config)
     return [] unless config.enable_emoji
     emojis = [config.tip_emoji]
     emojis << config.jab_emoji if config.enable_jabs

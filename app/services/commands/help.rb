@@ -65,10 +65,10 @@ class Commands::Help < Commands::Base
       "\n  * React with #{team.tip_emoj} (#{team.tip_emoji})"
     if team.enable_jabs?
       str += "\n  * Type `#{PROF_PREFIX}user`#{team.jab_emoj}, " \
-      "`#{PROF_PREFIX}role`#{team.jab_emoj}, " \
-      "`#{CHAN_PREFIX}channel`#{team.jab_emoj}, " \
-      "or `#{CHAN_PREFIX}everyone`#{team.jab_emoj} in a guild channel " \
-      "\n  * React with #{team.tip_emoj} (#{team.tip_emoji})"
+        "`#{PROF_PREFIX}role`#{team.jab_emoj}, " \
+        "`#{CHAN_PREFIX}channel`#{team.jab_emoj}, " \
+        "or `#{CHAN_PREFIX}everyone`#{team.jab_emoj} in a guild channel " \
+        "\n  * React with #{team.tip_emoj} (#{team.tip_emoji})"
     end
     str + "\n  * React with #{team.ditto_emoj} (#{team.ditto_emoji})"
   end

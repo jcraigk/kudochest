@@ -103,14 +103,10 @@ class Actions::Message < Actions::Base
     MentionMatch.new \
       profile_rid: match[0] || match[1],
       prefix_digits: match[2],
-      operation: operation_for(match[3]),
-      emoji_string: match[4],
+      inline_text: match[3],
+      inline_emoji: match[4],
       suffix_digits: match[5],
       end: last_match_end
-  end
-
-  def operation_for(str)
-    str.in?(POINT_INLINES) ? 'add' : 'subtract'
   end
 
   def sanitized_text
@@ -168,6 +164,6 @@ class Actions::Message < Actions::Base
   end
 
   MentionMatch = Struct.new \
-    :profile_rid, :prefix_digits, :operation, :emoji_string, :suffix_digits, :end,
+    :profile_rid, :prefix_digits, :inline_text, :inline_emoji, :suffix_digits, :end,
     keyword_init: true
 end
