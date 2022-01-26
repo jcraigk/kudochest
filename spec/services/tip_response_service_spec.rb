@@ -28,7 +28,7 @@ RSpec.describe TipResponseService do
   let(:channel_frag) { nil }
   let(:image_lead_frag) { nil }
   let(:image_channel_frag) { nil }
-  let(:levelup_frag) { nil }
+  let(:leveling_frag) { nil }
   let(:image_levelup_frag) { nil }
   let(:streak_frag) { nil }
   let(:image_streak_frag) { nil }
@@ -207,7 +207,7 @@ RSpec.describe TipResponseService do
       TEXT
     end
     let(:channel_frag) { "in #{channel.link}" }
-    let(:levelup_frag) { "#{to_profile.link} is now at level #{to_profile.level}" }
+    let(:leveling_frag) { "#{to_profile.link} is now at level #{to_profile.level}" }
     let(:image_levelup_frag) do
       "#{IMG_DELIM}#{to_profile.display_name} #{IMG_DELIM} is now at level #{to_profile.level}"
     end

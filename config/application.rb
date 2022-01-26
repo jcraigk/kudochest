@@ -32,7 +32,7 @@ module KudoChest
     config.jabs_term = ENV.fetch('POINTS_TERM', 'kudonts')
     config.point_singular_prefix = ENV.fetch('POINT_SINGULAR_PREFIX', 'a')
     config.jab_singular_prefix = ENV.fetch('JAB_SINGULAR_PREFIX', 'a')
-    config.help_url = "#{config.base_url}/help"
+    config.help_url = 'https://github.com/jcraigk/kudochest/wiki'
     config.issues_url = 'https://github.com/jcraigk/kudochest/issues'
     config.asset_host = ENV['ASSET_HOST']
 

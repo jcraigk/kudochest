@@ -21,7 +21,7 @@ class Actions::AppHomeOpened < Actions::Base
     I18n.t \
       'profiles.app_home_opened',
       app: App.app_name,
-      url: team.help_url,
+      url: App.help_url,
       points: App.points_term
   end
 end

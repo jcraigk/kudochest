@@ -17,7 +17,7 @@ class Reports::TeamDigestService < Reports::BaseDigestService
       num_givers:,
       num_recipients:,
       points_from_streak:,
-      levelup_sentence:,
+      leveling_sentence:,
       top_recipients:,
       top_givers:,
       loot_claims_sentence:
@@ -67,17 +67,24 @@ class Reports::TeamDigestService < Reports::BaseDigestService
     tips.where(source: 'streak').sum(:quantity)
   end
 
-  def levelup_sentence
+  def leveling_sentence
     return unless team.enable_levels?
-    return 'No users leveled up' if num_levelups.zero?
-    "#{pluralize(num_levelups, 'user')} leveled up"
+    return 'No users changed levels' if num_levelups.zero? && num_leveldowns.zero?
+    parts = []
+    parts << "#{pluralize(num_levelups, 'user')} leveled up" if num_levelups.positive?
+    parts << "#{pluralize(num_leveldowns, 'user')} lost a level" if num_leveldowns.positive?
+    parts.join(' and ')
   end
 
   def num_levelups
-    @num_levelups ||= profile_levelups.count { |stat| stat.delta.positive? }
+    @num_levelups ||= profile_levelings.count { |stat| stat.delta.positive? }
   end
 
-  def profile_levelups
+  def num_leveldowns
+    @num_leveldowns ||= profile_levelings.count { |stat| stat.delta.negative? }
+  end
+
+  def profile_levelings
     profiles.map do |profile|
       previous_level =
         PointsToLevelService.call \
@@ -104,7 +111,7 @@ class Reports::TeamDigestService < Reports::BaseDigestService
   end
 
   TeamData = Struct.new \
-    :team, :points_sent, :num_givers, :num_recipients, :points_from_streak, :levelup_sentence,
+    :team, :points_sent, :num_givers, :num_recipients, :points_from_streak, :leveling_sentence,
     :top_recipients, :top_givers, :loot_claims_sentence, keyword_init: true
   ProfileDelta = Struct.new(:name, :delta)
   ProfileQuantity = Struct.new(:profile, :quantity)

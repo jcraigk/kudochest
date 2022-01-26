@@ -184,7 +184,7 @@ class Image::TipService < Base::ImageService
   end
 
   def cheer_fragments
-    @cheer_fragments ||= fragments.slice(:levelup, :streak).values.compact_blank
+    @cheer_fragments ||= fragments.slice(:leveling, :streak).values.compact_blank
   end
 
   def main_fragments

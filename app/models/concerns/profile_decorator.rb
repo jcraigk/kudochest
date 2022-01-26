@@ -61,7 +61,7 @@ module ProfileDecorator
   end
 
   def level
-    PointsToLevelService.call(team:, points: points_received)
+    PointsToLevelService.call(team:, points: total_points)
   end
 
   def next_level

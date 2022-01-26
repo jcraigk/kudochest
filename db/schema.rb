@@ -188,8 +188,8 @@ ActiveRecord::Schema.define(version: 2022_01_24_074414) do
     t.boolean "show_note", default: true, null: false
     t.decimal "jabs_sent", precision: 9, scale: 2, default: "0.0"
     t.decimal "balance", precision: 9, scale: 2, default: "0.0"
-    t.boolean "enable_jabs", default: false, null: false
-    t.boolean "deduct_jabs", default: false, null: false
+    t.boolean "enable_jabs", default: false
+    t.boolean "deduct_jabs", default: false
     t.string "jab_emoji", default: "arrow_down", null: false
     t.index ["action_hour"], name: "index_teams_on_action_hour"
     t.index ["api_key"], name: "index_teams_on_api_key", unique: true

@@ -36,6 +36,7 @@ class Profile < ApplicationRecord
   attribute :tokens_forfeited,    :decimal, default: 0.0
 
   alias_attribute :points, :points_received
+  alias_attribute :jabs, :jabs_received
 
   validates :rid, uniqueness: { scope: :team_id }
   validates :avatar_url, presence: true

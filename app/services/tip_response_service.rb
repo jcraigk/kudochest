@@ -53,7 +53,7 @@ class TipResponseService < Base::Service
       main: main_fragment(platform),
       channel: channel_fragment(platform),
       note: note_fragment(platform),
-      levelup: levelup_fragment(platform),
+      leveling: leveling_fragment(platform),
       streak: streak_fragment(platform)
     }
   end
@@ -129,7 +129,7 @@ class TipResponseService < Base::Service
   def profile_ref(platform, profile, new_points = nil)
     return ANON_WORD unless profile.announce_tip_received?
 
-    profile.points_received = new_points if new_points
+    profile.points_received = new_points if new_points # TODO: Use balance here?
     case platform
     when :slack, :discord then chat_profile_link(profile)
     when :image then "#{IMG_DELIM}#{profile.display_name} #{IMG_DELIM}"
@@ -162,50 +162,82 @@ class TipResponseService < Base::Service
   end
 
   def streak_rewarded?
+    return false unless tips.any? { |tip| tip.quantity.positive? } # Do not reward jabs
     return @streak_rewarded unless @streak_rewarded.nil?
     @streak_rewarded = StreakRewardService.call \
       profile: from_profile,
       event_ts: first_tip.event_ts
   end
 
-  # TODO: Add leveling loss if deducting jabs
-  def levelup_fragment(platform)
-    return unless team.enable_levels && levelups.any?
-    if levelups.one?
-      profile = levelups.first.profile
-      return "#{profile_ref(platform, profile)} is now at level #{profile.level}"
-    end
-    "#{levelup_sentence(platform)} leveled up"
-  end
-
-  def sender_profile_levelup
-    return unless streak_rewarded?
-
-    old_points = from_profile.points_received
-    new_points = old_points + team.streak_reward
-    return unless level_for(new_points) > level_for(old_points)
-
-    ProfilePoints.new(from_profile, new_points)
+  def leveling_fragment(platform)
+    return unless team.enable_levels? && levelings.any?
+    parts = []
+    parts <<
+      if levelups.one?
+        profile = levelups.first.profile
+        "#{profile_ref(platform, profile)} leveled up to #{profile.level}"
+      elsif levelups.any?
+        "#{leveling_profiles(platform, levelups)} leveled up"
+      end
+    parts <<
+      if leveldowns.one?
+        profile = leveldowns.first.profile
+        "#{profile_ref(platform, profile)} leveled down to #{profile.level}"
+      elsif leveldowns.any?
+        "#{leveling_profiles(platform, levelups)} leveled down"
+      end
+    parts.compact
   end
 
   def levelups
-    @levelups ||= (
-      tips.group_by(&:to_profile).map do |profile, profile_tips|
-        new_points = profile.points_received
-        old_points = new_points - profile_tips.sum(&:quantity)
-        next unless level_for(new_points) > level_for(old_points)
-        ProfilePoints.new(profile, new_points)
-      end + [sender_profile_levelup]
-    ).flatten.compact
+    @levelups ||= levelings.select { |l| l.delta.positive? }
+  end
+
+  def leveldowns
+    @leveldowns ||= levelings.select { |l| l.delta.negative? }
+  end
+
+  # TODO: Code duplication here/below...combine into one method
+  def sender_leveling
+    return unless streak_rewarded?
+    points = from_profile.send(value_col)
+    new_points = points + team.streak_reward
+    delta = level_for(new_points) - level_for(points)
+    ProfileLeveling.new(from_profile, new_points, delta) unless delta.zero?
+  end
+
+  def recipient_levelings
+    tips_by_recipient.map do |prof, prof_tips|
+      points = prof.send(value_col)
+      prof_tips = select_positive_tips(prof_tips) unless team.deduct_jabs?
+      delta = level_for(points) - level_for(points - prof_tips.sum(&:quantity))
+      ProfileLeveling.new(prof, points, delta) unless delta.zero?
+    end
+  end
+
+  def value_col
+    @value_col ||= team.deduct_jabs? ? :balance : :points_received
+  end
+
+  def levelings
+    @levelings ||= (recipient_levelings + [sender_leveling]).compact
+  end
+
+  def select_positive_tips(prof_tips)
+    prof_tips.select { |tip| tip.quantity.positive? }
+  end
+
+  def tips_by_recipient
+    tips.group_by(&:to_profile)
   end
 
   def level_for(points)
     PointsToLevelService.call(team:, points:)
   end
 
-  def levelup_sentence(platform)
-    return "#{levelups.size} users" if levelups.size > 3
-    levelups.map { |levelup| profile_ref(platform, levelup.profile) }.to_sentence
+  def leveling_profiles(platform, levelings)
+    return "#{levelings.size} users" if levelings.size > 3
+    levelings.map { |leveling| profile_ref(platform, leveling.profile) }.to_sentence
   end
 
   def points_fragment(platform)
@@ -237,7 +269,8 @@ class TipResponseService < Base::Service
     topic = team.topics.find { |t| t.id == topic_id }
     emoji = emoji_sequence(platform, quantity, topic)
     topic_str = topic&.name ? "for #{topic.name}" : nil
-    "#{recipient_sentence} #{points_format(quantity, label: true, bold_jab: true)} #{emoji} #{topic_str}".squish
+    "#{recipient_sentence} #{points_format(quantity, label: true, bold_jab: true)} " \
+    "#{emoji} #{topic_str}".squish
   end
 
   def profile_sentence(refs)
@@ -253,7 +286,7 @@ class TipResponseService < Base::Service
 
   def profile_refs_from(platform, quantity_tips)
     quantity_tips.map do |tip|
-      new_points = levelups.find { |levelup| levelup.profile == tip.to_profile }&.new_points
+      new_points = levelings.find { |leveling| leveling.profile == tip.to_profile }&.new_points
       profile_ref(platform, tip.to_profile, new_points)
     end
   end
@@ -287,7 +320,7 @@ class TipResponseService < Base::Service
     @note ||= first_tip.note
   end
 
-  ProfilePoints = Struct.new(:profile, :new_points)
+  ProfileLeveling = Struct.new(:profile, :new_points, :delta)
   SubteamData = Struct.new(:rid, :handle)
   TipResponse = Struct.new(:chat_fragments, :image_fragments, :web, keyword_init: true)
 end

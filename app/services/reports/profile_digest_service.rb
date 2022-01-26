@@ -18,7 +18,7 @@ class Reports::ProfileDigestService < Reports::BaseDigestService
       points_sent:,
       num_recipients:,
       points_from_streak:,
-      levelup_sentence:,
+      leveling_sentence:,
       rank_sentence:,
       top_recipients:,
       top_givers:
@@ -92,14 +92,16 @@ class Reports::ProfileDigestService < Reports::BaseDigestService
     tips_received.where(source: 'streak').sum(:quantity)
   end
 
-  def levelup_sentence
+  def leveling_sentence
     return unless team.enable_levels?
 
     delta = profile.level - previous_level
     case delta
     when 0 then "You held steady at level #{profile.level}"
     when 1 then "You gained a level! #{level_snippet}"
-    else "You gained #{pluralize(delta, 'level')}! #{level_snippet}"
+    when -1 then "You lost a level! #{level_snippet}"
+    when 1..1_000 then "You gained #{pluralize(delta, 'level')}! #{level_snippet}"
+    when -1..-1_000 then "You lost #{pluralize(delta.abs, 'level')}! #{level_snippet}"
     end
   end
 
@@ -145,7 +147,7 @@ class Reports::ProfileDigestService < Reports::BaseDigestService
 
   DigestData = Struct.new \
     :profile, :points_received, :num_givers, :points_sent, :num_recipients,
-    :points_from_streak, :levelup_sentence, :rank_sentence, :top_recipients, :top_givers,
+    :points_from_streak, :leveling_sentence, :rank_sentence, :top_recipients, :top_givers,
     keyword_init: true
   ProfileQuantity = Struct.new(:profile, :quantity)
 end

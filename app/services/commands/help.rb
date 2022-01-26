@@ -40,7 +40,7 @@ class Commands::Help < Commands::Base
         #{keyword_list}
         #{shop_keywords}
 
-      :question: <#{team.help_url}> :bug: <#{App.issues_url}>
+      #{footer}
     TEXT
   end
 
@@ -112,8 +112,12 @@ class Commands::Help < Commands::Base
         #{keyword_list}
         #{shop_keywords}
 
-      :question: <#{team.help_url}|More help> :bug: <#{App.issues_url}|Submit bugs> :bulb: <#{App.issues_url}|Feature ideas>
+      #{footer}
     TEXT
+  end
+
+  def footer
+    ":question: <#{App.help_url}|More help> :bug: <#{App.issues_url}|Submit bugs/ideas>"
   end
 
   def slack_giving_points

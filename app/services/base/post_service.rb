@@ -91,7 +91,7 @@ class Base::PostService < Base::Service
 
   def cheer_text
     return unless team_config.enable_cheers
-    [chat_fragments[:levelup], chat_fragments[:streak]].compact_blank.join("\n")
+    [chat_fragments[:leveling], chat_fragments[:streak]].compact_blank.join("\n")
   end
 
   def primary_text(contextual)

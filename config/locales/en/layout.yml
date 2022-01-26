@@ -15,7 +15,6 @@ en:
     danger_zone: Danger Zone
     dashboard: Dashboard
     features: Features
-    help: Help
     support: Support
     profile_settings: Profile Settings
     user_settings: User Settings
@@ -30,7 +29,6 @@ en:
     shop: Shop
     topics: Topics
   meta:
-    help: The Help page provides useful video tutorials, documentation, and links to assist users
     signup: Sign up on the website using email or choice of auth provider to install the service and connect your chat profile
     login: Sign in to the website to manage service settings or view your web profile
     forgot_password: Enter your email address to reset a forgotten password

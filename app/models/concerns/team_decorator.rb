@@ -58,13 +58,6 @@ module TeamDecorator
     Cache::TeamConfig.call(rid)
   end
 
-  def help_url
-    case platform
-    when 'slack' then App.help_url
-    when 'discord' then "#{App.help_url}/discord"
-    end
-  end
-
   def total_points
     deduct_jabs? ? balance : points_sent
   end
