@@ -13,23 +13,20 @@
  // streaks only be for giving kudos
  // ensure leveling down works
  // ensure negative profile/team totals work
- * specs
- * smoke test discord
- * ensure sensible digest output
- * Minus minus emoji
+ // Remove % share from leaderboard
+ // Migration needs to create balances
+ // Add kudonts to seeds
+ // Tokens required to send
+ // Add kudonts to profile (web/chat)
+ // You can't give yourself kudonts, why you hate yourself?
+ // /kudos admin
+ // check digest output
  * Check image responses
- * Migration needs to create balances
- * Check leaderboards (web/chat)
- * Remove % share from leaderboard
- * Add kudonts to seeds
- * Enabled by default but not deduct?
- * Tokens required to send?
- * Add kudonts to profile (web/chat)
- * You can't give yourself kudonts, why you hate yourself?
- * Kudonts settings in /kudos admin
- * modal dropdown: "-5 (5 kudonts)"
- * should topics only apply to kudos or how to handle that?
- * update wiki
+ * Ensure topics only apply to kudos
+ * Specs
+ * Smoke test discord
+ * Create "--" emoji
+ * Update wiki
 
 **KudoChest** is a team engagement tool for **Slack** and **Discord**. It allows users within a workspace to give each other points that accrue over time. A point represents a token of appreciation or recognition for a job well done. Users can view their profile, browse history, and access leaderboards on the web or within the chat client. App settings and moderation tools are provided via web UI.
 

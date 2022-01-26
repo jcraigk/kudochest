@@ -17,7 +17,7 @@ class Commands::Stats < Commands::Base
     ary << points_received_fragment
     if team.enable_jabs?
       ary << jabs_received_fragment
-      ary << balance_fragment
+      ary << balance_fragment if team.deduct_jabs?
     end
     ary << points_given_fragment
     ary << jabs_given_fragment if team.enable_jabs?

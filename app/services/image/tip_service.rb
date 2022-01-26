@@ -43,8 +43,8 @@ class Image::TipService < Base::ImageService
     cheer_fragments.each do |text|
       x = BODY_PAD
       text.split(IMG_DELIM).compact_blank.each_with_index do |chunk, idx|
-        draw.annotate(comp, 0, 0, x, y, chunk) do
-          self.fill = colors[idx % 2]
+        draw.annotate(comp, 0, 0, x, y, chunk) do |m|
+          m.fill = colors[idx % 2]
         end
         x += draw.get_type_metrics(chunk).width.to_i
       end
@@ -70,13 +70,13 @@ class Image::TipService < Base::ImageService
       badge_height = 20
       bg_color = BG_COLOR[theme]
 
-      badge = Magick::Image.new(badge_width, badge_height) { self.background_color = bg_color }
+      badge = Magick::Image.new(badge_width, badge_height) { |m| m.background_color = bg_color }
       badge = resize_and_round(badge, "#{badge_width}x#{badge_height}", 5)
       comp = comp.composite(badge, Magick::NorthEastGravity, x, y, Magick::OverCompositeOp)
 
       color = BODY_COLORS[theme].second
-      draw.annotate(comp, 0, 0, x + 2, y - 1, channel_name) do
-        self.fill = color
+      draw.annotate(comp, 0, 0, x + 2, y - 1, channel_name) do |m|
+        m.fill = color
       end
     else
       # "from"
@@ -85,8 +85,8 @@ class Image::TipService < Base::ImageService
       draw.pointsize = 16
       draw.gravity = Magick::NorthEastGravity
       color = BODY_COLORS[theme].first
-      draw.annotate(comp, 0, 0, 45, 24, 'from') do
-        self.fill = color
+      draw.annotate(comp, 0, 0, 45, 24, 'from') do |m|
+        m.fill = color
       end
     end
 
@@ -138,8 +138,8 @@ class Image::TipService < Base::ImageService
         end
         draw.pointsize = fontsize
         draw.gravity = Magick::NorthWestGravity
-        draw.annotate(comp, 0, 0, x, y, chunk) do
-          self.fill = colors[idx % 2]
+        draw.annotate(comp, 0, 0, x, y, chunk) do |m|
+          m.fill = colors[idx % 2]
         end
 
         x += draw.get_type_metrics(chunk).width.to_i
@@ -242,8 +242,8 @@ class Image::TipService < Base::ImageService
     x = avatar_stack_right + 44
     y = 3
     text = "+#{points_format(first_tip.quantity)}"
-    draw.annotate(comp, 0, 0, x, y, text) { self.fill = '#3b1b20' }
-    draw.annotate(comp, 0, 0, x - 2, y - 2, text) { self.fill = '#f0cf28' }
+    draw.annotate(comp, 0, 0, x, y, text) { |m| m.fill = '#3b1b20' }
+    draw.annotate(comp, 0, 0, x - 2, y - 2, text) { |m| m.fill = '#f0cf28' }
 
     comp
   end

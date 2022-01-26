@@ -25,6 +25,7 @@ namespace :seeds do
       num.times do
         channel = team.channels.sample
         topic_id = rand(3).zero? ? nil : team.topics.sample.id
+        quantity = team.enable_jabs? ? (-5..5).to_a.reject(&:zero?).sample : rand(1..5)
         TipFactory.call \
           topic_id:,
           from_profile: profile,
@@ -32,7 +33,7 @@ namespace :seeds do
           to_profiles: [(profiles - [profile]).sample],
           from_channel_rid: channel.rid,
           from_channel_name: channel.name,
-          quantity: rand(1..3),
+          quantity:,
           note: Faker::Lorem.sentence(word_count: 4),
           event_ts: Time.current.to_f.to_s,
           channel_rid: channel.rid,

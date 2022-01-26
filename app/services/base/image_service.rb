@@ -78,7 +78,7 @@ class Base::ImageService < Base::Service
 
   def solid_color_background(width, height)
     color = BG_COLOR[theme]
-    Magick::Image.new(width, height) { self.background_color = color }
+    Magick::Image.new(width, height) { |m| m.background_color = color }
   end
 
   def add_header_bg(comp)
@@ -92,7 +92,7 @@ class Base::ImageService < Base::Service
       thumb = img.resize(width, height)
 
       # Create a transparency mask for border radius
-      mask = Magick::Image.new(width, height) { self.background_color = 'transparent' }
+      mask = Magick::Image.new(width, height) { |m| m.background_color = 'transparent' }
       Magick::Draw.new.stroke('none').stroke_width(0).fill('white')
                   .roundrectangle(0, 0, width, height, radius, radius).draw(mask)
 

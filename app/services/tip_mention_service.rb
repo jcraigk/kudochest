@@ -186,12 +186,15 @@ class TipMentionService < Base::Service
         entity:,
         profiles: profiles_for_entity(entity),
         topic_id: mention.topic_id,
-        quantity: mention.quantity # TODO: adjust jabs to negative here?
+        quantity: mention.quantity
     end
   end
 
   def need_tokens?
-    quantity = entity_mentions.sum { |m| mention_quantity(m) }
+    quantity =
+      entity_mentions
+      .reject { |m| m.quantity.negative? }
+      .sum { |m| mention_quantity(m) }
     @need_tokens = TokenLimitService.call(profile:, quantity:)
   end
 

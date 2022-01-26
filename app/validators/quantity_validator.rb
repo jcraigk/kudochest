@@ -9,6 +9,7 @@ class QuantityValidator < ActiveModel::Validator
 
     return if valid_import?
     return unless zero? || abs_exceeds_max? || invalid_increment?
+
     record.errors.add(:quantity, error_msg)
   end
 

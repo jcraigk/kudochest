@@ -1,8 +1,14 @@
 <% if @profile_data.top_givers.none? && @profile_data.top_recipients.none? %>
 No activity this week. If you're having trouble using the app, please see #{App.help_url}.
 <% else %>
-Received: <%= points_format(@profile_data.points_received, label: true) %> from <%= pluralize(@profile_data.num_givers, 'user') %>
-Given: <%= points_format(@profile_data.points_sent, label: true) %> to <%= pluralize(@profile_data.num_recipients, 'user') %>
+<%= App.points_term.titleize %> Received: <%= points_format(@profile_data.points_received) %> from <%= pluralize(@profile_data.point_givers.size, 'user') %>
+<%= App.points_term.titleize %> Given: <%= points_format(@profile_data.points_given) %> to <%= pluralize(@profile_data.point_recipients.size, 'user') %>
+<% if @profile_data.jabs_received.positive? %>
+<%= App.jabs_term.titleize %> Received: <%= points_format(@profile_data.jabs_received) %> from <%= pluralize(@profile_data.jab_givers.size, 'user') %>
+<% end %>
+<% if @profile_data.jabs_given.positive? %>
+<%= App.jabs_term.titleize %> Given: <%= points_format(@profile_data.jabs_given) %> to <%= pluralize(@profile_data.jab_recipients.size, 'user') %>
+<% end %>
 <% if @profile_data.top_givers.any? %>
 Top Givers: <%= @profile_data.top_givers.map { |data| data.profile.display_name }.to_sentence %>
 <% end %>
@@ -12,8 +18,8 @@ Top Recipients: <%= @profile_data.top_recipients.map { |data| data.profile.displ
 <% if @profile_data.points_from_streak.present? %>
 Giving Streak Rewards: <%= points_format(@profile_data.points_from_streak, label: true) %>
 <% end %>
-<% if @profile_data.levelup_sentence.present? %>
-Level: <%= @profile_data.levelup_sentence %>
+<% if @profile_data.leveling_sentence.present? %>
+Level: <%= @profile_data.leveling_sentence %>
 <% end %>
 <% if @profile_data.rank_sentence.present? %>
 Leaderboard Rank: <%= @profile_data.rank_sentence %>

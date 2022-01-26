@@ -10,17 +10,36 @@ class Reports::TeamDigestService < Reports::BaseDigestService
 
   private
 
-  def team_data
+  def team_data # rubocop:disable Metrics/MethodLength
     TeamData.new \
       team:,
-      points_sent:,
-      num_givers:,
-      num_recipients:,
+      points_given:,
+      jabs_given:,
+      jab_givers:,
+      jab_recipients:,
+      point_givers:,
+      point_recipients:,
       points_from_streak:,
       leveling_sentence:,
       top_recipients:,
       top_givers:,
       loot_claims_sentence:
+  end
+
+  def point_givers
+    @point_givers ||= tips.reject(&:jab?).map(&:from_profile).uniq
+  end
+
+  def jab_givers
+    @jab_givers ||= tips.select(&:jab?).map(&:from_profile).uniq
+  end
+
+  def point_recipients
+    @point_recipients ||= tips.reject(&:jab?).map(&:to_profile).uniq
+  end
+
+  def jab_recipients
+    @jab_recipients ||= tips.select(&:jab?).map(&:to_profile).uniq
   end
 
   def num_recipients
@@ -33,22 +52,26 @@ class Reports::TeamDigestService < Reports::BaseDigestService
 
   def recipient_quantities
     profiles.map do |profile|
-      ProfileQuantity.new(profile, quantity_to(profile))
+      ProfileQuantity.new(profile, points_to(profile))
     end
   end
 
   def giver_quantities
     profiles.map do |profile|
-      ProfileQuantity.new(profile, quantity_from(profile))
+      ProfileQuantity.new(profile, points_from(profile))
     end
   end
 
-  def quantity_to(profile)
-    tips.select { |tip| tip.to_profile_id == profile.id }.sum(&:quantity)
+  def points_to(profile)
+    tips.select do |tip|
+      tip.to_profile_id == profile.id && tip.quantity.positive?
+    end.sum(&:quantity)
   end
 
-  def quantity_from(profile)
-    tips.select { |tip| tip.from_profile_id == profile.id }.sum(&:quantity)
+  def points_from(profile)
+    tips.select do |tip|
+      tip.from_profile_id == profile.id && tip.quantity.positive?
+    end.sum(&:quantity)
   end
 
   def tips
@@ -59,12 +82,16 @@ class Reports::TeamDigestService < Reports::BaseDigestService
          .order(quantity: :desc)
   end
 
-  def points_sent
-    @points_sent ||= tips.sum(:quantity)
+  def points_given
+    @points_given ||= tips.reject(&:jab?).sum(&:quantity)
+  end
+
+  def jabs_given
+    @jabs_given ||= tips.select(&:jab?).sum(&:quantity).abs
   end
 
   def points_from_streak
-    tips.where(source: 'streak').sum(:quantity)
+    tips.where(source: 'streak').sum(&:quantity)
   end
 
   def leveling_sentence
@@ -89,9 +116,15 @@ class Reports::TeamDigestService < Reports::BaseDigestService
       previous_level =
         PointsToLevelService.call \
           team:,
-          points: profile.points - quantity_to(profile)
+          points: profile.total_points - balance_to(profile)
       ProfileDelta.new(profile.display_name, profile.level - previous_level)
     end
+  end
+
+  def balance_to(profile)
+    selected_tips = tips.select { |tip| tip.to_profile_id == profile.id }
+    selected_tips = selected_tips.reject(&:jab?) unless team.deduct_jabs?
+    selected_tips.sum(&:quantity)
   end
 
   def loot_claims_sentence
@@ -111,8 +144,9 @@ class Reports::TeamDigestService < Reports::BaseDigestService
   end
 
   TeamData = Struct.new \
-    :team, :points_sent, :num_givers, :num_recipients, :points_from_streak, :leveling_sentence,
-    :top_recipients, :top_givers, :loot_claims_sentence, keyword_init: true
+    :team, :points_given, :jabs_given, :num_givers, :num_recipients, :points_from_streak,
+    :point_givers, :jab_givers, :point_recipients, :jab_recipients,
+    :leveling_sentence, :top_recipients, :top_givers, :loot_claims_sentence, keyword_init: true
   ProfileDelta = Struct.new(:name, :delta)
   ProfileQuantity = Struct.new(:profile, :quantity)
 end

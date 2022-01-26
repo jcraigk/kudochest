@@ -21,12 +21,19 @@ class Commands::Admin < Commands::Base
       #{increment_text}
       #{topic_text}
       #{notes_text}
+      #{jab_text}
       #{emoji_text}
       #{level_text}
       #{streak_text}
       #{time_text}
       *Administrator:* #{team_admin}
     TEXT
+  end
+
+  def jab_text
+    str = "*#{App.jabs_term.titleize} Enabled:* #{boolean_str(team.enable_jabs?)}"
+    return str unless team.enable_jabs?
+    str + "\n*Deduct #{App.jabs_term.titleize}:* #{boolean_str(team.deduct_jabs?)}"
   end
 
   def topic_text
@@ -55,10 +62,15 @@ class Commands::Admin < Commands::Base
   end
 
   def emoji_text
-    txt = "*Emoji Enabled:* #{boolean_str(team.enable_emoji?)}"
-    return txt unless team.enable_emoji?
+    str = "*Emoji Enabled:* #{boolean_str(team.enable_emoji?)}"
+    return str unless team.enable_emoji?
+    str += standard_emoji
+    str += "\n*#{App.jabs_term.titleize} Emoji:* #{team.jab_emoj}" if team.enable_jabs?
+    str
+  end
 
-    "#{txt}\n*Emoji Value:* #{points_format(team.emoji_quantity, label: true)}" \
+  def standard_emoji
+    "\n*Emoji Value:* #{points_format(team.emoji_quantity, label: true)}" \
       "\n*#{App.points_term.titleize} Emoji:* #{team.tip_emoj}" \
       "\n*Ditto Emoji:* #{team.ditto_emoj}"
   end

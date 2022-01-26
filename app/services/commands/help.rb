@@ -67,7 +67,7 @@ class Commands::Help < Commands::Base
 
   def discord_ditto
     "\n  * React to #{giving_terms} message with #{team.ditto_emoj}" \
-      " (#{team.ditto_emoji}) to duplicate it"
+      " (#{team.ditto_emoji}) to \"ditto\" it"
   end
 
   def discord_point_inlines
@@ -142,21 +142,24 @@ class Commands::Help < Commands::Base
   end
 
   def slack_emojis
-    str = slack_point_emojis
-    str += slack_jab_emojis if team.enable_jabs?
-    str += "\n  * React with #{team.tip_emoj} to give to the author of a message"
+    str = slack_inline_point_emojis
+    str += slack_inline_jab_emojis if team.enable_jabs?
+    reaction_emojis = [team.tip_emoj]
+    reaction_emojis << team.jab_emoj if team.enable_jabs?
+    str += "\n  * React with #{reaction_emojis.join(' or ')} to give to the author of a message"
     str + "\n  * React to #{giving_terms} message with #{team.ditto_emoj} to duplicate it"
   end
 
-  def slack_point_emojis
+  def slack_inline_point_emojis
     "\n  * Type `#{PROF_PREFIX}[user]`#{team.tip_emoj}, " \
       "`#{PROF_PREFIX}[group]`#{team.tip_emoj}, " \
       "`#{CHAN_PREFIX}[channel]`#{team.tip_emoj}, " \
       "`#{PROF_PREFIX}channel`#{team.tip_emoj}, or " \
-      "`#{PROF_PREFIX}everyone`#{team.tip_emoj}"
+      "`#{PROF_PREFIX}everyone`#{team.tip_emoj} _(tip: try " \
+      "#{team.tip_emoj}#{team.tip_emoj}#{team.tip_emoj})_"
   end
 
-  def slack_jab_emojis
+  def slack_inline_jab_emojis
     "\n  * Type `#{PROF_PREFIX}[user]`#{team.jab_emoj}, " \
       "`#{PROF_PREFIX}[group]`#{team.jab_emoj}, " \
       "`#{CHAN_PREFIX}[channel]`#{team.jab_emoj}, " \

@@ -41,7 +41,7 @@ module ProfileDecorator
   end
 
   def webref_with_points
-    "#{webref} (#{points_format(points_received, label: true)})"
+    "#{webref} (#{points_format(total_points, label: true)})"
   end
 
   def long_name
@@ -57,7 +57,7 @@ module ProfileDecorator
 
   def points_required_for_next_level
     return 0 if max_level?
-    LevelToPointsService.call(team:, level: next_level) - points_received
+    LevelToPointsService.call(team:, level: next_level) - total_points
   end
 
   def level
@@ -113,8 +113,8 @@ module ProfileDecorator
 
   def profile_link_with_stat
     case team.platform.to_sym
-    when :slack then "<#{web_url}|#{display_name} (#{points_format(points_received)})>"
-    when :discord then "**#{display_name} (#{points_format(points_received)})**"
+    when :slack then "<#{web_url}|#{display_name} (#{points_format(total_points)})>"
+    when :discord then "**#{display_name} (#{points_format(total_points)})**"
     when :web then web_profile_link
     end
   end
