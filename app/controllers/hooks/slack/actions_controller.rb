@@ -22,7 +22,7 @@ class Hooks::Slack::ActionsController < Hooks::Slack::BaseController
       message_profile_rid: payload.dig(:message, :user),
       message_ts: payload.dig(:message, :ts),
       profile_rid:,
-      team_config:,
+      config: team_config,
       team_rid:
   end
 

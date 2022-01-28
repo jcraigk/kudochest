@@ -27,7 +27,7 @@ class Commands::Leaderboard < Commands::Base
   def response_image
     ResponseImageService.call \
       type: 'leaderboard',
-      team_config: team.config,
+      config: team.config,
       profile_data:,
       title:
   end
@@ -93,7 +93,7 @@ class Commands::Leaderboard < Commands::Base
   # `top :fire:`
   def topic_id
     word = givingboard? ? words[-1] : words.last
-    team.config.topics.find { |t| word.in?([t.keyword, ":#{t.emoji}:"]) }&.id
+    team.config[:topics].find { |t| word.in?([t[:keyword], ":#{t[:emoji]}:"]) }&.dig(:id)
   end
 
   def givingboard?

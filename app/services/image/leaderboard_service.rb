@@ -39,7 +39,7 @@ class Image::LeaderboardService < Base::ImageService
 
   def add_team_avatar(comp)
     comp.composite \
-      avatar_image(team_config.avatar_url),
+      avatar_image(config[:avatar_url]),
       Magick::NorthWestGravity,
       HEADER_PAD,
       HEADER_PAD,
@@ -131,7 +131,7 @@ class Image::LeaderboardService < Base::ImageService
       # Timestamp
       draw.pointsize = 13
       value = time_ago_in_words \
-        Time.use_zone(team_config.time_zone) { Time.at(data.last_timestamp).utc }
+        Time.use_zone(config[:time_zone]) { Time.at(data.last_timestamp).utc }
       value = (value == 'less than a minute' ? 'just now' : "#{value} ago")
       draw.annotate(comp, 0, 0, x + 15, y + 4, value) do
         self.fill = color1

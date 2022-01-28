@@ -16,16 +16,12 @@ class Hooks::Slack::BaseController < Hooks::BaseController
   protected
 
   def enqueue_slack_event_worker
-    # TODO Cleanup (refactor TeamConfig to not use structs?)
-    d = data.dup
-    d[:team_config].topics = d[:team_config].topics.map(&:to_h)
-    d[:team_config] = d[:team_config].to_h
-    EventWorker.perform_async(d.merge(fast_ack_data))
+    EventWorker.perform_async(data.merge(fast_ack_data))
   end
 
   def fast_ackable?
-    team_config.enable_fast_ack &&
-      !team_config.response_mode.in?(%w[silent direct]) &&
+    team_config[:enable_fast_ack] &&
+      !team_config[:response_mode].in?(%w[silent direct]) &&
       !private_command? &&
       !prefs_submission?
   end
@@ -45,7 +41,7 @@ class Hooks::Slack::BaseController < Hooks::BaseController
 
   def relevant_text?
     @relevant_text ||=
-      text&.start_with?("<#{PROF_PREFIX}#{team_config.app_profile_rid}>") || mentions_found?
+      text&.start_with?("<#{PROF_PREFIX}#{team_config[:app_profile_rid]}>") || mentions_found?
   end
 
   def fast_ack_data
@@ -80,7 +76,7 @@ class Hooks::Slack::BaseController < Hooks::BaseController
   end
 
   def verify_team_active!
-    return if team_config.active
+    return if team_config[:active]
     head :ok
   end
 
@@ -94,8 +90,9 @@ class Hooks::Slack::BaseController < Hooks::BaseController
     @text ||= params.dig(:event, :text) || ''
   end
 
+  # Naming this `config` messes with Rails logger :shrug:
   def team_config
-    Cache::TeamConfig.call(team_rid)
+    @team_config ||= Cache::TeamConfig.call(team_rid)
   end
 
   def team_rid

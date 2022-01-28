@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 class Base::PostService < Base::Service
   option :mode
-  option :team_config
+  option :config
   option :action,           default: proc {}
   option :channel_rid,      default: proc {}
   option :event_ts,         default: proc {}
@@ -17,8 +17,8 @@ class Base::PostService < Base::Service
 
   def call
     @action = action&.to_sym
-    @log_channel_rid = team_config.log_channel_rid
-    @response_mode = team_config.response_mode&.to_sym
+    @log_channel_rid = config[:log_channel_rid]
+    @response_mode = config[:response_mode]&.to_sym
 
     handle_responses
   end
@@ -40,7 +40,7 @@ class Base::PostService < Base::Service
   end
 
   def post_hint
-    respond_in_convo(team_config.hint_channel_rid)
+    respond_in_convo(config[:hint_channel_rid])
   end
 
   def post_log_message
@@ -90,7 +90,7 @@ class Base::PostService < Base::Service
   end
 
   def cheer_text
-    return unless team_config.enable_cheers
+    return unless config[:enable_cheers]
     [chat_fragments[:leveling], chat_fragments[:streak]].compact_blank.join("\n")
   end
 
@@ -109,11 +109,11 @@ class Base::PostService < Base::Service
     parts = chat_fragments.slice(:main)
     note = chat_fragments[:note]
     channel = chat_fragments[:channel]
-    if team_config.show_channel || tips&.any? { |tip| tip.to_channel_rid.present? }
+    if config[:show_channel] || tips&.any? { |tip| tip.to_channel_rid.present? }
       parts[:lead] = chat_fragments[:lead]
     end
-    parts[:main] += " #{channel}" if team_config.show_channel && channel.present?
-    parts[:main] += ". #{note}" if team_config.show_note && note.present?
+    parts[:main] += " #{channel}" if config[:show_channel] && channel.present?
+    parts[:main] += ". #{note}" if config[:show_note] && note.present?
     parts.values.compact_blank.join("\n")
   end
 

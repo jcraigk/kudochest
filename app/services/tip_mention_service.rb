@@ -67,7 +67,7 @@ class TipMentionService < Base::Service
     return unless team.response_theme.start_with?('gif') && tips.any?
     ResponseImageService.call \
       type: 'tip',
-      team_config: team.config,
+      config: team.config,
       fragments: response.image_fragments,
       tips:
   end

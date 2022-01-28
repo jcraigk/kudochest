@@ -198,7 +198,7 @@ class TipResponseService < Base::Service
     @leveldowns ||= levelings.select { |l| l.delta.negative? }
   end
 
-  # TODO: Code duplication here/below...combine into one method
+  # TODO: Code duplication here/below...combine into one method/service
   def sender_leveling
     return unless streak_rewarded?
     points = from_profile.send(value_col)

@@ -16,7 +16,7 @@ RSpec.describe Actions::Message do
     {
       platform: platform,
       team_rid: team.rid,
-      team_config: TeamConfig.new(
+      config: TeamConfig.new(
         app_profile_rid: team.app_profile_rid,
         app_subteam_rid: team.app_subteam_rid
       ),

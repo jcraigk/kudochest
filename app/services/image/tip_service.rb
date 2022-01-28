@@ -56,7 +56,7 @@ class Image::TipService < Base::ImageService
 
   def add_from_or_channel_text(comp)
     # Channel
-    if team_config.show_channel
+    if config[:show_channel]
       channel_name = "#{CHAN_PREFIX}#{first_tip.from_channel_name}"
 
       draw = Magick::Draw.new
@@ -180,7 +180,7 @@ class Image::TipService < Base::ImageService
   end
 
   def any_cheers?
-    team_config.enable_cheers && cheer_fragments.any?
+    config[:enable_cheers] && cheer_fragments.any?
   end
 
   def cheer_fragments
@@ -192,7 +192,7 @@ class Image::TipService < Base::ImageService
   end
 
   def timestamp
-    @timestamp ||= Time.use_zone(team_config.time_zone) { first_tip.created_at }
+    @timestamp ||= Time.use_zone(config[:time_zone]) { first_tip.created_at }
   end
 
   def profile_avatar(profile)

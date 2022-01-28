@@ -118,13 +118,6 @@ LeaderboardProfile = Struct.new \
   :points, :percent_share, :last_timestamp, :avatar_url, keyword_init: true
 LeaderboardSnippet = Struct.new(:updated_at, :profiles)
 Mention = Struct.new(:rid, :topic_id, :quantity, keyword_init: true)
-TeamConfig = Struct.new \
-  :active, :api_key, :app_profile_rid, :app_subteam_rid, :avatar_url, :enable_cheers,
-  :enable_fast_ack, :tip_emoji, :jab_emoji, :ditto_emoji, :enable_emoji, :enable_jabs,
-  :emoji_quantity, :tip_increment, :log_channel_rid, :hint_channel_rid, :max_points_per_tip,
-  :platform, :response_mode, :response_theme, :show_channel, :show_note, :time_zone,
-  :tip_notes, :enable_topics, :require_topic, :topics, keyword_init: true
-TopicData = Struct.new(:id, :name, :keyword, :emoji, keyword_init: true)
 
 # App constants, will rarely change
 STORAGE_PATH =

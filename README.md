@@ -8,24 +8,6 @@
 &nbsp;  
 &nbsp;  
 
-# TODO
- * If multiple inline emoji types, give warning to user
- // streaks only be for giving kudos
- // ensure leveling down works
- // ensure negative profile/team totals work
- // Remove % share from leaderboard
- // Migration needs to create balances
- // Add kudonts to seeds
- // Tokens required to send
- // Add kudonts to profile (web/chat)
- // You can't give yourself kudonts, why you hate yourself?
- // /kudos admin
- // check digest output
- // Handle kudonts in image responses
- * Ensure discord emoji gets published
- * Specs
- * Smoke test discord
- * Update wiki
 
 **KudoChest** is a team engagement tool for **Slack** and **Discord**. It allows users within a workspace to give each other points that accrue over time. A point represents a token of appreciation or recognition for a job well done. Users can view their profile, browse history, and access leaderboards on the web or within the chat client. App settings and moderation tools are provided via web UI.
 

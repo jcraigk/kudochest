@@ -49,7 +49,7 @@ class TokenDispersalService < Base::Service
 
   def send_direct_message(profile)
     "#{team.plat}::PostService".constantize.call \
-      team_config: team.config,
+      config: team.config,
       team_rid: team.rid,
       profile_rid: profile.rid,
       mode: :direct,

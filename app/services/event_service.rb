@@ -14,13 +14,13 @@ class EventService < Base::Service
 
   def delete_slack_ack_message
     Slack::Web::Client
-      .new(token: params[:team_config][:api_key])
+      .new(token: params[:config][:api_key])
       .chat_delete(channel: params[:replace_channel_rid], ts: params[:replace_ts])
   end
 
   def slack_fast_acked?
     params[:platform] == 'slack' &&
-      params.dig(:team_config, :enable_fast_ack?) &&
+      params.dig(:config, :enable_fast_ack?) &&
       params[:replace_channel_rid].present? &&
       params[:replace_ts].present?
   end

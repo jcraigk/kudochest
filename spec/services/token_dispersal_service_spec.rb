@@ -22,7 +22,7 @@ RSpec.describe TokenDispersalService do
   context 'when `notify` option is true' do
     let(:response_base) do
       {
-        team_config: team.config,
+        config: team.config,
         team_rid: team.rid,
         mode: :direct,
         text: text

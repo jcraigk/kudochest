@@ -22,12 +22,12 @@ describe Hooks::Slack::BaseController do
       }
     end
     let(:result) { ChatResponse.new(mode: :foo, text: 'bar') }
-    let(:team_config) { TeamConfig.new(active: true, topics: []) }
+    let(:config) { TeamConfig.new(active: true, topics: []) }
 
     before do
       allow(EventWorker).to receive(:perform_async)
       allow(Slack::Events::Request).to receive(:new).and_return(slack_request)
-      allow(Cache::TeamConfig).to receive(:call).and_return(team_config)
+      allow(Cache::TeamConfig).to receive(:call).and_return(config)
     end
 
     describe 'verifies the Slack request is authentic' do
@@ -42,7 +42,7 @@ describe Hooks::Slack::BaseController do
     end
 
     shared_examples 'ignores irrelevant messages' do
-      let(:team_config) { TeamConfig.new(active: true) }
+      let(:config) { TeamConfig.new(active: true) }
 
       before do
         allow(slack_request).to receive(:verify!).and_return(true)

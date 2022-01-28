@@ -16,12 +16,13 @@ module EntityReferenceHelper
     helpers.tag.span(name, class: 'chat-ref')
   end
 
+  # TODO: Move this to a service, it doesn't belong in this helper
   def mention_regex(config)
     Regexp.new("#{mention_pattern(config)}#{maybe_spaces}#{trigger_pattern(config)}")
   end
 
   def mention_pattern(config)
-    platform = config.platform
+    platform = config[:platform]
     <<~TEXT.gsub(/\s+/, '')
       (?:
         <
@@ -51,7 +52,7 @@ module EntityReferenceHelper
 
   def inlines(config)
     patterns = POINT_INLINES.map { |str| Regexp.escape(str) }
-    patterns << JAB_INLINES.map { |str| Regexp.escape(str) } if config.enable_jabs
+    patterns << JAB_INLINES.map { |str| Regexp.escape(str) } if config[:enable_jabs]
     patterns.join('|')
   end
 
@@ -73,10 +74,10 @@ module EntityReferenceHelper
   end
 
   def emoji_patterns(config)
-    return [] unless config.enable_emoji
-    emojis = [config.tip_emoji]
-    emojis << config.jab_emoji if config.enable_jabs
-    emojis << config.topics.map(&:emoji) if config.enable_topics
+    return [] unless config[:enable_emoji]
+    emojis = [config[:tip_emoji]]
+    emojis << config[:jab_emoji] if config[:enable_jabs]
+    emojis << config[:topics].map(&:emoji) if config[:enable_topics]
     emojis
   end
 end

@@ -3,14 +3,14 @@ require 'rmagick'
 
 class ResponseImageService < Base::Service
   option :type
-  option :team_config
+  option :config
   option :fragments,    default: proc { {} }
   option :tips,         default: proc { [] }
   option :profile_data, default: proc { [] }
   option :title,        default: proc { '' }
 
   def call
-    if team_config.platform.to_sym == :slack
+    if config[:platform].to_sym == :slack
       store_image
       assign_image_acl
       image_url
@@ -46,7 +46,7 @@ class ResponseImageService < Base::Service
 
   def params
     {
-      team_config:,
+      config:,
       fragments: fragments,
       tips: tips,
       profile_data: profile_data,

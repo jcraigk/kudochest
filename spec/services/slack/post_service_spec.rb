@@ -8,7 +8,7 @@ RSpec.describe Slack::PostService do
     {
       team_rid: team.rid,
       mode: mode,
-      team_config: {
+      config: {
         log_channel_rid: team.log_channel_rid,
         response_mode:
       },

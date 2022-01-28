@@ -15,7 +15,7 @@ class Hooks::Slack::CommandsController < Hooks::Slack::BaseController
       event_ts: Time.current.to_f.to_s,
       origin: 'command',
       profile_rid: params[:user_id],
-      team_config:,
+      config: team_config,
       team_rid: params[:team_id],
       text: text,
       trigger_id: params[:trigger_id]

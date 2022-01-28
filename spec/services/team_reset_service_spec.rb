@@ -15,7 +15,7 @@ RSpec.describe TeamResetService do
       profile_rid: profile.rid,
       mode: :direct,
       text: I18n.t('teams.stats_reset'),
-      team_config: team.config
+      config: team.config
     }
   end
 

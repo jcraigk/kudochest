@@ -16,7 +16,7 @@ class HintService < Base::Service
   def post_random_hint
     responder.call \
       team_rid: team.rid,
-      team_config: team.config,
+      config: team.config,
       mode: :hint,
       text:,
       channel_rid: team.hint_channel_rid
