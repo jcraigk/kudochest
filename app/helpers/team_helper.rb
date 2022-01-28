@@ -166,11 +166,15 @@ module TeamHelper
   end
 
   def discord_tip_emoji(size = nil)
-    image_pack_tag('media/images/emoji/plus_one_v1.png', size:, alt: 'Plus One emoji')
+    image_pack_tag('media/images/emoji/plus_plus.png', size:, alt: 'Plus Plus emoji')
+  end
+
+  def discord_jab_emoji(size = nil)
+    image_pack_tag('media/images/emoji/minus_minus.png', size:, alt: 'Minus One emoji')
   end
 
   def discord_ditto_emoji(size = nil)
-    image_pack_tag('media/images/emoji/plus_plus.png', size:, alt: 'Plus Plus emoji')
+    image_pack_tag('media/images/emoji/plus_one_v1.png', size:, alt: 'Plus One emoji')
   end
 
   def max_allowed_teams?

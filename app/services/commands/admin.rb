@@ -2,6 +2,7 @@
 class Commands::Admin < Commands::Base
   include ActionView::Helpers::TextHelper
   include ApplicationHelper
+  include EntityReferenceHelper
   include PointsHelper
 
   def call
@@ -14,7 +15,6 @@ class Commands::Admin < Commands::Base
     ChatResponse.new(mode: :private, text: response_text)
   end
 
-  # TODO: Add jabs
   def base_text
     <<~TEXT.chomp
       #{throttle_points_text}
@@ -26,8 +26,14 @@ class Commands::Admin < Commands::Base
       #{level_text}
       #{streak_text}
       #{time_text}
-      *Administrator:* #{team_admin}
+      #{footer_text}
     TEXT
+  end
+
+  def footer_text
+    str = ''
+    str += "*Log Channel:* #{channel_link(team.log_channel_rid)}\n" if team.log_channel_rid.present?
+    str + "*Administrator:* #{team_admin}"
   end
 
   def jab_text

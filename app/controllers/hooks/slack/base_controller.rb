@@ -16,7 +16,9 @@ class Hooks::Slack::BaseController < Hooks::BaseController
   protected
 
   def enqueue_slack_event_worker
+    # TODO Cleanup (refactor TeamConfig to not use structs?)
     d = data.dup
+    d[:team_config].topics = d[:team_config].topics.map(&:to_h)
     d[:team_config] = d[:team_config].to_h
     EventWorker.perform_async(d.merge(fast_ack_data))
   end

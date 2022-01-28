@@ -4,8 +4,6 @@ class TipResponseService < Base::Service
   include EntityReferenceHelper
   include PointsHelper
 
-  # TODO: This needs to handle the kudonts language, including for groups
-
   RELEVANT_SOURCES = %w[modal inline point_reaction jab_reaction ditto_reaction reply].freeze
   ANON_WORD = 'someone'
 
@@ -129,7 +127,10 @@ class TipResponseService < Base::Service
   def profile_ref(platform, profile, new_points = nil)
     return ANON_WORD unless profile.announce_tip_received?
 
-    profile.points_received = new_points if new_points # TODO: Use balance here?
+    if new_points
+      value_col = profile.team.enable_jabs? ? :balance : :points_received
+      profile.send("#{value_col}=", new_points)
+    end
     case platform
     when :slack, :discord then chat_profile_link(profile)
     when :image then "#{IMG_DELIM}#{profile.display_name} #{IMG_DELIM}"

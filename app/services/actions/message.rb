@@ -36,7 +36,7 @@ class Actions::Message < Actions::Base
   def process_message
     return open_tip_modal if slash_command_without_keyword?
     return call_command if keyword_detected?
-    return handle_mentions if mention_matches.any?
+    return handle_mentions if matches.any?
     respond_bad_input if text_directed_at_app?
   end
 
@@ -68,7 +68,7 @@ class Actions::Message < Actions::Base
       event_ts:,
       channel_rid:,
       channel_name:,
-      matches: mention_matches,
+      matches:,
       note:
   end
 
@@ -77,20 +77,20 @@ class Actions::Message < Actions::Base
   end
 
   def raw_note
-    text[mention_matches.last.end..].strip
+    text[matches.last.end..].strip
   end
 
-  def mention_matches
-    @mention_matches ||=
+  def matches
+    @matches ||=
       sanitized_text
       .scan(mention_regex(team_config))
       .map do |match|
-        last_match = extract_last_match(Regexp.last_match)
-        mention_match_struct(match, last_match)
+        last_match_end = extract_last_match_end(Regexp.last_match)
+        mention_match_struct(match, last_match_end)
       end
   end
 
-  def extract_last_match(last_match)
+  def extract_last_match_end(last_match)
     last_match.end(6) ||   # quantity suffix ('++2')
       last_match.end(5) || # emojis
       last_match.end(4) || # inline text ('++', '--', etc)

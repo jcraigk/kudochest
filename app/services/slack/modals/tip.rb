@@ -8,8 +8,6 @@ class Slack::Modals::Tip < Base::Service
 
   private
 
-  # TODO: add jabs
-
   def modal_block
     {
       type: :modal,

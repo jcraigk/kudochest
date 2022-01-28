@@ -229,7 +229,9 @@ class Image::TipService < Base::ImageService
   end
 
   def add_graphical_quantity(comp)
-    img = Magick::ImageList.new("#{BASE_PATH}/quantities/#{first_tip.quantity.to_i}.png").first
+    prefix = first_tip.jab? ? :minus : :plus # TODO: Add -5 to -1
+    path = "#{BASE_PATH}/quantities/#{prefix}-#{first_tip.quantity.to_i.abs}.png"
+    img = Magick::ImageList.new(path).first
     x = avatar_stack_right + 44
     comp.composite(img, Magick::NorthWestGravity, x, 6, Magick::OverCompositeOp)
   end
@@ -241,9 +243,10 @@ class Image::TipService < Base::ImageService
     draw.gravity = Magick::NorthWestGravity
     x = avatar_stack_right + 44
     y = 3
-    text = "+#{points_format(first_tip.quantity)}"
+    prefix, color = first_tip.jab? ? ['-', '#d43808'] : ['+', '#f0cf28']
+    text = "#{prefix}#{points_format(first_tip.quantity.abs)}"
     draw.annotate(comp, 0, 0, x, y, text) { |m| m.fill = '#3b1b20' }
-    draw.annotate(comp, 0, 0, x - 2, y - 2, text) { |m| m.fill = '#f0cf28' }
+    draw.annotate(comp, 0, 0, x - 2, y - 2, text) { |m| m.fill = color }
 
     comp
   end

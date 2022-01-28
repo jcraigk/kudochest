@@ -21,11 +21,10 @@
  // You can't give yourself kudonts, why you hate yourself?
  // /kudos admin
  // check digest output
- * Check image responses
- * Ensure topics only apply to kudos
+ // Handle kudonts in image responses
+ * Ensure discord emoji gets published
  * Specs
  * Smoke test discord
- * Create "--" emoji
  * Update wiki
 
 **KudoChest** is a team engagement tool for **Slack** and **Discord**. It allows users within a workspace to give each other points that accrue over time. A point represents a token of appreciation or recognition for a job well done. Users can view their profile, browse history, and access leaderboards on the web or within the chat client. App settings and moderation tools are provided via web UI.
