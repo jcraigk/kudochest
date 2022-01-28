@@ -46,7 +46,7 @@ module EntityReferenceHelper
 
   def trigger_pattern(config)
     inline_capture = "(#{inlines(config)})"
-    emoji_capture = "((?:#{emojis(config)}\s*)+)"
+    emoji_capture = "((?:(?:#{emojis(config)})\\s*)+)"
     "#{quantity_prefix}(?:#{inline_capture}|#{emoji_capture})#{quantity_suffix}"
   end
 
@@ -57,8 +57,9 @@ module EntityReferenceHelper
   end
 
   def emojis(config)
-    str = emoji_patterns(config).join('|').presence || 'no-emoji'
-    ":(?:#{str}):"
+    strings = emoji_patterns(config).map { |str| ":#{str}:" }
+    strings.map! { |str| "<#{str}\\d+>" } if config[:platform] == 'discord'
+    strings.join('|').presence || 'no-emoji'
   end
 
   def quantity_prefix
@@ -75,7 +76,7 @@ module EntityReferenceHelper
 
   def emoji_patterns(config)
     return [] unless config[:enable_emoji]
-    emojis = [config[:tip_emoji]]
+    emojis = [config[:point_emoji]]
     emojis << config[:jab_emoji] if config[:enable_jabs]
     emojis << config[:topics].map(&:emoji) if config[:enable_topics]
     emojis

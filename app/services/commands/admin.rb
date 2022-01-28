@@ -77,7 +77,7 @@ class Commands::Admin < Commands::Base
 
   def standard_emoji
     "\n*Emoji Value:* #{points_format(team.emoji_quantity, label: true)}" \
-      "\n*#{App.points_term.titleize} Emoji:* #{team.tip_emoj}" \
+      "\n*#{App.points_term.titleize} Emoji:* #{team.point_emoj}" \
       "\n*Ditto Emoji:* #{team.ditto_emoj}"
   end
 

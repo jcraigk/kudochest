@@ -13,7 +13,7 @@ class Actions::ReactionBase < Actions::Base
   def source
     @source ||=
       case emoji
-      when team.tip_emoji then 'point_reaction'
+      when team.point_emoji then 'point_reaction'
       when team.jab_emoji then 'jab_reaction'
       when team.ditto_emoji then 'ditto_reaction'
       end
@@ -25,7 +25,7 @@ class Actions::ReactionBase < Actions::Base
   end
 
   def topic
-    @topic ||= team&.config&.topics&.find { |topic| topic.emoji == emoji }
+    @topic ||= team&.config&.dig(:topics)&.find { |topic| topic.emoji == emoji }
   end
 
   def topic_id
@@ -37,7 +37,7 @@ class Actions::ReactionBase < Actions::Base
   end
 
   def relevant_emoji?
-    emoji.in?([team.tip_emoji, team.ditto_emoji]) || topic_emoji?
+    emoji.in?([team.point_emoji, team.jab_emoji, team.ditto_emoji]) || topic_emoji?
   end
 
   def topic_emoji?

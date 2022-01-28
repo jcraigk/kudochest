@@ -16,8 +16,8 @@ module TeamDecorator
     (levels_table_titles + rows).join("\n")
   end
 
-  def tip_emoj
-    ":#{tip_emoji}:"
+  def point_emoj
+    ":#{point_emoji}:"
   end
 
   def jab_emoj

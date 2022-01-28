@@ -2,7 +2,7 @@
 class Discord::EmojiInstallService < Base::Service
   option :team
 
-  EMOJI_TYPES = %i[tip].freeze
+  EMOJI_TYPES = %i[point jab ditto].freeze
   EMOJI_DIR = 'lib/emoji/discord'
 
   def call
@@ -26,7 +26,7 @@ class Discord::EmojiInstallService < Base::Service
   def existing_emoji_id(type)
     fetch(
       Discordrb::API::Server.resolve(App.discord_token, team.rid)
-    )[:emojis].find { |emoji| emoji[:name] == App.send("discord_#{type}_emoji") }[:id]
+    )[:emojis].find { |emoji| emoji[:name] == App.send("discord_#{type}_emoji") }&.dig(:id)
   end
 
   def create_new_emoji(type)

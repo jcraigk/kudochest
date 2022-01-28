@@ -49,7 +49,7 @@ class Hooks::Slack::EventsController < Hooks::Slack::BaseController
       is_bot_dm: bot_dm?,
       message_ts: event.dig(:item, :ts),
       origin: bot_dm? ? 'bot-dm' : 'channel',
-      profile_rid: event[:user], # This can be a JSON object (`user_change`, for example)
+      profile_rid: event[:user], # Might be JSON (e.g. `user_change`)
       config: team_config,
       team_rid: params[:team_id],
       text:,

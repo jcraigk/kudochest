@@ -130,7 +130,7 @@ RSpec.describe Actions::Message do
     end
 
     context 'when text includes single valid inline emoji with valid user' do
-      let(:text) { "hello <#{user_mention}> :#{team.tip_emoji}: #{note}" }
+      let(:text) { "hello <#{user_mention}> :#{team.point_emoji}: #{note}" }
       let(:mentions) do
         [Mention.new(rid: user_mention, quantity: 1, topic_id: nil)]
       end
@@ -139,7 +139,7 @@ RSpec.describe Actions::Message do
     end
 
     context 'when text includes single valid inline emoji with int suffix' do
-      let(:text) { "hello <#{user_mention}> :#{team.tip_emoji}: 2 #{note}" }
+      let(:text) { "hello <#{user_mention}> :#{team.point_emoji}: 2 #{note}" }
       let(:mentions) do
         [Mention.new(rid: user_mention, quantity: 2, topic_id: nil)]
       end
@@ -148,7 +148,7 @@ RSpec.describe Actions::Message do
     end
 
     context 'when text includes single valid inline emoji with int prefix' do
-      let(:text) { "hello <#{user_mention}> 2 :#{team.tip_emoji}: #{note}" }
+      let(:text) { "hello <#{user_mention}> 2 :#{team.point_emoji}: #{note}" }
       let(:mentions) do
         [Mention.new(rid: user_mention, quantity: 2, topic_id: nil)]
       end
@@ -159,7 +159,7 @@ RSpec.describe Actions::Message do
     context 'when text includes multiple valid inline emoji with int suffix' do
       let(:text) do
         <<~TEXT.chomp
-          hello <#{user_mention}> :#{team.tip_emoji}: :#{team.tip_emoji}: :#{team.tip_emoji}: 2 #{note}
+          hello <#{user_mention}> :#{team.point_emoji}: :#{team.point_emoji}: :#{team.point_emoji}: 2 #{note}
         TEXT
       end
       let(:mentions) do
@@ -171,7 +171,7 @@ RSpec.describe Actions::Message do
 
     context 'when text includes multiple mixed inline emoji with valid user' do
       let(:text) do
-        "hello <#{user_mention}> :#{team.tip_emoji}: :invalid_emoji::#{team.tip_emoji}: #{note}"
+        "hello <#{user_mention}> :#{team.point_emoji}: :invalid_emoji::#{team.point_emoji}: #{note}"
       end
       let(:mentions) do
         [Mention.new(rid: user_mention, quantity: 2, topic_id: nil)]

@@ -50,7 +50,7 @@ module KudoChest
     ## Slack
     config.slack_app_id = ENV['SLACK_APP_ID']
     config.base_command = ENV.fetch('BASE_COMMAND', 'kudos')
-    config.default_tip_emoji = 'star'
+    config.default_point_emoji = 'star'
     config.default_jab_emoji = 'arrow_down'
     config.default_ditto_emoji = 'heavy_plus_sign'
 
@@ -58,7 +58,7 @@ module KudoChest
     config.discord_cdn_base = 'https://cdn.discordapp.com'
     config.discord_token = "Bot #{ENV['DISCORD_BOT_TOKEN']}"
     config.discord_command = "!#{config.base_command}"
-    config.discord_tip_emoji = 'plus_plus'
+    config.discord_point_emoji = 'plus_plus'
     config.discord_jab_emoji = 'minus_minus'
     config.discord_ditto_emoji = 'plus_one'
     config.discord_permission = '1073743872' # Manage Emojis, Send Messages

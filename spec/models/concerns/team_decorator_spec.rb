@@ -77,9 +77,9 @@ RSpec.describe TeamDecorator do
     end
   end
 
-  describe 'tip_emoj' do
+  describe 'point_emoj' do
     it 'is the default tip emoji' do
-      expect(team.tip_emoj).to eq(":#{App.default_tip_emoji}:")
+      expect(team.point_emoj).to eq(":#{App.default_point_emoji}:")
     end
   end
 

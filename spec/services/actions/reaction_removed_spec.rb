@@ -35,7 +35,7 @@ RSpec.describe Actions::ReactionRemoved do
   end
 
   context 'when tip emoji' do
-    let(:emoji) { team.tip_emoji }
+    let(:emoji) { team.point_emoji }
     let(:source) { 'point_reaction' }
 
     before do

@@ -54,9 +54,9 @@
         ' (#{points_format(3,245, label: true)})
       ' #{points_format(1, label: true)}
       - if @current_team.platform.slack?
-        | #{emojify(':' + @current_team.tip_emoji + ':', size: 20)}
+        | #{emojify(':' + @current_team.point_emoji + ':', size: 20)}
       - elsif @current_team.platform.discord?
-        = discord_tip_emoji('16x16')
+        = discord_point_emoji('16x16')
       |!
     p The Fancy theme mention recipients, displays user stats (level or #{App.points_term}), and includes emoji.
 

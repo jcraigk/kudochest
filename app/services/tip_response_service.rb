@@ -282,7 +282,7 @@ class TipResponseService < Base::Service
   def emoji_sequence(platform, quantity, topic)
     return if platform == :image || !team.response_theme.fancy?
     return ":#{topic.emoji}:" * quantity if topic&.emoji
-    team.tip_emoj * quantity
+    team.point_emoj * quantity
   end
 
   def profile_refs_from(platform, quantity_tips)

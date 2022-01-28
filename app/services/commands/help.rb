@@ -83,11 +83,11 @@ class Commands::Help < Commands::Base
   end
 
   def discord_point_emojis
-    "\n  * Type `#{PROF_PREFIX}user`#{team.tip_emoj}, " \
-      "`#{PROF_PREFIX}role`#{team.tip_emoj}, " \
-      "`#{CHAN_PREFIX}channel`#{team.tip_emoj}, " \
-      "or `#{CHAN_PREFIX}everyone`#{team.tip_emoj} in a guild channel " \
-      "\n  * React with #{team.tip_emoj} (#{team.tip_emoji})"
+    "\n  * Type `#{PROF_PREFIX}user`#{team.point_emoj}, " \
+      "`#{PROF_PREFIX}role`#{team.point_emoj}, " \
+      "`#{CHAN_PREFIX}channel`#{team.point_emoj}, " \
+      "or `#{CHAN_PREFIX}everyone`#{team.point_emoj} in a guild channel " \
+      "\n  * React with #{team.point_emoj} (#{team.point_emoji})"
   end
 
   def discord_jab_emojis
@@ -95,7 +95,7 @@ class Commands::Help < Commands::Base
       "`#{PROF_PREFIX}role`#{team.jab_emoj}, " \
       "`#{CHAN_PREFIX}channel`#{team.jab_emoj}, " \
       "or `#{CHAN_PREFIX}everyone`#{team.jab_emoj} in a guild channel " \
-      "\n  * React with #{team.tip_emoj} (#{team.tip_emoji})"
+      "\n  * React with #{team.point_emoj} (#{team.point_emoji})"
   end
 
   def slack_text
@@ -144,19 +144,19 @@ class Commands::Help < Commands::Base
   def slack_emojis
     str = slack_inline_point_emojis
     str += slack_inline_jab_emojis if team.enable_jabs?
-    reaction_emojis = [team.tip_emoj]
+    reaction_emojis = [team.point_emoj]
     reaction_emojis << team.jab_emoj if team.enable_jabs?
     str += "\n  * React with #{reaction_emojis.join(' or ')} to give to the author of a message"
     str + "\n  * React to #{giving_terms} message with #{team.ditto_emoj} to duplicate it"
   end
 
   def slack_inline_point_emojis
-    "\n  * Type `#{PROF_PREFIX}[user]`#{team.tip_emoj}, " \
-      "`#{PROF_PREFIX}[group]`#{team.tip_emoj}, " \
-      "`#{CHAN_PREFIX}[channel]`#{team.tip_emoj}, " \
-      "`#{PROF_PREFIX}channel`#{team.tip_emoj}, or " \
-      "`#{PROF_PREFIX}everyone`#{team.tip_emoj} _(tip: try " \
-      "#{team.tip_emoj}#{team.tip_emoj}#{team.tip_emoj})_"
+    "\n  * Type `#{PROF_PREFIX}[user]`#{team.point_emoj}, " \
+      "`#{PROF_PREFIX}[group]`#{team.point_emoj}, " \
+      "`#{CHAN_PREFIX}[channel]`#{team.point_emoj}, " \
+      "`#{PROF_PREFIX}channel`#{team.point_emoj}, or " \
+      "`#{PROF_PREFIX}everyone`#{team.point_emoj} _(tip: try " \
+      "#{team.point_emoj}#{team.point_emoj}#{team.point_emoj})_"
   end
 
   def slack_inline_jab_emojis

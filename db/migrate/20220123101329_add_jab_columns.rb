@@ -9,5 +9,6 @@ class AddJabColumns < ActiveRecord::Migration[7.0]
     add_column :profiles, :jabs_sent, :decimal, precision: 9, scale: 2, index: true, default: 0.0
     add_column :profiles, :jabs_received, :decimal, precision: 9, scale: 2, index: true, default: 0.0
     add_column :profiles, :balance, :decimal, precision: 9, scale: 2, index: true, default: 0.0
+    rename_column :teams, :tip_emoji, :point_emoji
   end
 end

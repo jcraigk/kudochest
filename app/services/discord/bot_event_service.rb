@@ -189,7 +189,11 @@ class Discord::BotEventService < Base::Service
   end
 
   def relevant_emoji?(emoji)
-    emoji.in?([App.discord_tip_emoji, App.discord_ditto_emoji]) || topic_emoji?(emoji)
+    emoji.in?(standard_emojis) || topic_emoji?(emoji)
+  end
+
+  def standard_emojis
+    [App.discord_point_emoji, App.discord_jab_emoji, App.discord_ditto_emoji]
   end
 
   def topic_emoji?(emoji)

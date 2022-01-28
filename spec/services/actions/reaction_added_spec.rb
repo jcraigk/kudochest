@@ -42,7 +42,7 @@ RSpec.describe Actions::ReactionAdded do
   end
 
   context 'when reaction is kudos emoji' do
-    let(:reaction) { team.tip_emoji }
+    let(:reaction) { team.point_emoji }
     let(:args) do
       {
         profile: sender,
@@ -141,8 +141,8 @@ RSpec.describe Actions::ReactionAdded do
   end
 
   context 'when discord' do
-    let(:reaction) { App.default_tip_emoji }
-    let(:params) { curated_params.merge(emoji: App.default_tip_emoji) }
+    let(:reaction) { App.default_point_emoji }
+    let(:params) { curated_params.merge(emoji: App.default_point_emoji) }
 
     before do
       team.update(platform: :discord)

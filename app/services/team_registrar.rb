@@ -34,7 +34,8 @@ class TeamRegistrar < Base::Service
   def discord_attrs
     return {} unless platform == :discord
     {
-      tip_emoji: App.discord_tip_emoji,
+      point_emoji: App.discord_point_emoji,
+      jab_emoji: App.discord_jab_emoji,
       ditto_emoji: App.discord_ditto_emoji
     }
   end

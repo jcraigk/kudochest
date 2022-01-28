@@ -85,12 +85,11 @@ class Actions::Message < Actions::Base
       sanitized_text
       .scan(mention_regex(config))
       .map do |match|
-        last_match_end = extract_last_match_end(Regexp.last_match)
-        mention_match_struct(match, last_match_end)
+        mention_match_struct(match, last_match_end(Regexp.last_match))
       end
   end
 
-  def extract_last_match_end(last_match)
+  def last_match_end(last_match)
     last_match.end(6) ||   # quantity suffix ('++2')
       last_match.end(5) || # emojis
       last_match.end(4) || # inline text ('++', '--', etc)
@@ -99,14 +98,15 @@ class Actions::Message < Actions::Base
       last_match.end(1)    # dynamic entity by remote ID (subteam, user)
   end
 
-  def mention_match_struct(match, last_match_end)
+  def mention_match_struct(match, match_end)
+    # binding.pry
     MentionMatch.new \
       profile_rid: match[0] || match[1],
       prefix_digits: match[2],
       inline_text: match[3],
-      inline_emoji: match[4],
+      inline_emoji: match[4]&.gsub(/[^a-z_:]/, ''),
       suffix_digits: match[5],
-      end: last_match_end
+      end: match_end
   end
 
   def sanitized_text
