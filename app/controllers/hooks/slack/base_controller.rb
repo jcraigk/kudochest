@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 class Hooks::Slack::BaseController < Hooks::BaseController
   include ActionView::Helpers::NumberHelper
-  include EntityReferenceHelper
 
   before_action :verify_challenge_param
   before_action :ignore_irrelevant_messages!
@@ -16,7 +15,8 @@ class Hooks::Slack::BaseController < Hooks::BaseController
   protected
 
   def enqueue_slack_event_worker
-    EventWorker.perform_async(data.merge(fast_ack_data))
+    payload = data.merge(fast_ack_data).merge(matches: matches.map(&:to_h))
+    EventWorker.perform_async(payload)
   end
 
   def fast_ackable?
@@ -36,7 +36,11 @@ class Hooks::Slack::BaseController < Hooks::BaseController
   end
 
   def mentions_found?
-    @mentions_found ||= text&.match?(mention_regex(team_config))
+    @mentions_found ||= matches.any?
+  end
+
+  def matches
+    @matches ||= MessageScanner.call(text, team_config)
   end
 
   def relevant_text?
@@ -78,12 +82,6 @@ class Hooks::Slack::BaseController < Hooks::BaseController
   def verify_team_active!
     return if team_config[:active]
     head :ok
-  end
-
-  # If an action, a command, a "++/--" mention, an emoji reaction, or an app mention
-  def respondable_event?
-    self.class.name.match?(/(ActionController|CommandsController)/) ||
-      relevant_text?
   end
 
   def text

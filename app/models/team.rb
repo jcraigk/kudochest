@@ -12,7 +12,7 @@ class Team < ApplicationRecord
     enable_fast_ack point_emoji jab_emoji ditto_emoji enable_emoji enable_jabs
     emoji_quantity tip_increment log_channel_rid hint_channel_rid max_points_per_tip
     platform response_mode response_theme show_channel show_note time_zone
-    tip_notes enable_topics require_topic topics
+    tip_notes enable_topics require_topic topics rid
   ].freeze
 
   has_many :channels, dependent: :destroy

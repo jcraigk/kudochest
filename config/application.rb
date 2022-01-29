@@ -112,12 +112,15 @@ App = Rails.configuration
 # Common structs
 ChannelData = Struct.new(:rid, :name)
 ChatResponse = Struct.new(:mode, :text, :image, :response, :tips, keyword_init: true)
-EntityMention = Struct.new(:entity, :profiles, :topic_id, :quantity, keyword_init: true)
+EntityMention = Struct.new(:entity, :profiles, :topic_id, :quantity, :note, keyword_init: true)
+Mention = Struct.new(:rid, :topic_id, :quantity, :note, keyword_init: true)
 LeaderboardProfile = Struct.new \
   :id, :rank, :previous_rank, :slug, :link, :display_name, :real_name,
   :points, :percent_share, :last_timestamp, :avatar_url, keyword_init: true
 LeaderboardSnippet = Struct.new(:updated_at, :profiles)
-Mention = Struct.new(:rid, :topic_id, :quantity, keyword_init: true)
+ScanMatch = Struct.new \
+  :profile_rid, :prefix_digits, :inline_text, :inline_emoji, :suffix_digits, :topic_keyword,
+  :note, keyword_init: true
 
 # App constants, will rarely change
 STORAGE_PATH =
@@ -161,7 +164,6 @@ SUBTEAM_PREFIX = {
   slack: '!subteam^',
   discord: '@&'
 }.with_indifferent_access.freeze
-
 PROFILE_REGEX = {
   slack: /<@([A-Z0-9]+)(\|([^>]+))?>/,
   discord: /<@!(\d+)>/
@@ -169,15 +171,15 @@ PROFILE_REGEX = {
 CHANNEL_REGEX = {
   slack: /<#([A-Z0-9]+)(\|([^>]+))?>/,
   discord: /<#(\d+)>/
-}.with_indifferent_access.freeze
+}.freeze
 SUBTEAM_REGEX = {
   slack: /<!subteam\^([^>]+)>/,
   discord: /<@&(\d+)>/
-}.with_indifferent_access.freeze
+}.freeze
 GROUP_KEYWORD_PATTERN = {
-  slack: '<!(everyone|channel)>',
-  discord: '@(everyone|channel)'
-}.with_indifferent_access.freeze
+  slack: '<!(?<group_keyword>everyone|channel)>',
+  discord: '@(?<group_keyword>everyone|channel)'
+}.freeze
 SLACK_DM_NAME = 'direct-message'
 SLACK_DM_PREFIX = 'mpdm-'
 SLACK_DM_PHRASE = 'a group chat'

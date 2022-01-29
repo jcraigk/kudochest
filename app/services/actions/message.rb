@@ -1,9 +1,7 @@
 # frozen_string_literal: true
 class Actions::Message < Actions::Base
-  include EntityReferenceHelper
-
-  attr_reader :team_rid, :config, :profile_rid, :channel_rid,
-              :text, :origin, :event_ts, :platform
+  attr_reader :team_rid, :config, :profile_rid, :channel_rid, :text,
+              :origin, :event_ts, :platform, :matches
 
   def call # rubocop:disable Metrics/AbcSize
     @config = params[:config]
@@ -14,11 +12,19 @@ class Actions::Message < Actions::Base
     @team_rid = params[:team_rid]
     @text = params[:text]
     @platform = params[:platform].to_sym
+    @matches = params[:matches]
 
     process_message
   end
 
   private
+
+  def process_message
+    return open_tip_modal if slash_command_without_keyword?
+    return call_command if keyword_detected?
+    return handle_mentions if matches.any?
+    respond_bad_input if text_directed_at_app?
+  end
 
   def channel_name
     @channel_name ||= given_channel_name || fetch_channel_name
@@ -31,13 +37,6 @@ class Actions::Message < Actions::Base
   def fetch_channel_name
     return unless platform == :slack
     Slack::ChannelNameService.call(team:, channel_rid:).presence
-  end
-
-  def process_message
-    return open_tip_modal if slash_command_without_keyword?
-    return call_command if keyword_detected?
-    return handle_mentions if matches.any?
-    respond_bad_input if text_directed_at_app?
   end
 
   def text_directed_at_app?
@@ -68,49 +67,7 @@ class Actions::Message < Actions::Base
       event_ts:,
       channel_rid:,
       channel_name:,
-      matches:,
-      note:
-  end
-
-  def note
-    NoteSanitizer.call(platform:, team_rid:, text: raw_note)
-  end
-
-  def raw_note
-    text[matches.last.end..].strip
-  end
-
-  def matches
-    @matches ||=
-      sanitized_text
-      .scan(mention_regex(config))
-      .map do |match|
-        mention_match_struct(match, last_match_end(Regexp.last_match))
-      end
-  end
-
-  def last_match_end(last_match)
-    last_match.end(6) ||   # quantity suffix ('++2')
-      last_match.end(5) || # emojis
-      last_match.end(4) || # inline text ('++', '--', etc)
-      last_match.end(3) || # quantity prefix ('2++')
-      last_match.end(2) || # 'everyone' or 'channel'
-      last_match.end(1)    # dynamic entity by remote ID (subteam, user)
-  end
-
-  def mention_match_struct(match, match_end)
-    # binding.pry
-    MentionMatch.new \
-      profile_rid: match[0] || match[1],
-      prefix_digits: match[2],
-      inline_text: match[3],
-      inline_emoji: match[4]&.gsub(/[^a-z_:]/, ''),
-      suffix_digits: match[5],
-      end: match_end
-  end
-
-  def sanitized_text
-    text.tr("\u00A0", ' ') # Unicode space (from Slack)
+      matches:
   end
 
   def command_key
@@ -162,8 +119,4 @@ class Actions::Message < Actions::Base
   def bad_input_text
     ":#{App.error_emoji}: #{I18n.t('errors.bad_command', text: user_text)}"
   end
-
-  MentionMatch = Struct.new \
-    :profile_rid, :prefix_digits, :inline_text, :inline_emoji, :suffix_digits, :end,
-    keyword_init: true
 end

@@ -7,7 +7,6 @@ class TipMentionService < Base::Service
   option :mentions
   option :profile
   option :source
-  option :note, default: proc {}
 
   def call
     return respond_need_tokens if need_tokens?
@@ -51,7 +50,7 @@ class TipMentionService < Base::Service
       from_channel_name: channel_name,
       from_channel_rid: channel_rid,
       from_profile: profile,
-      note:,
+      note: mention.note,
       quantity: mention.quantity,
       source:,
       to_entity: mention.entity,
@@ -186,7 +185,8 @@ class TipMentionService < Base::Service
         entity:,
         profiles: profiles_for_entity(entity),
         topic_id: mention.topic_id,
-        quantity: mention.quantity
+        quantity: mention.quantity,
+        note: mention.note
     end
   end
 
@@ -209,7 +209,7 @@ class TipMentionService < Base::Service
   end
 
   def note_missing?
-    team.tip_notes.required? && note.blank?
+    team.tip_notes.required? && mentions.pluck(:note).compact_blank.none?
   end
 
   def team

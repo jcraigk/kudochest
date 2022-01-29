@@ -6,7 +6,6 @@ class MentionParser < Base::Service
   option :channel_rid
   option :channel_name
   option :matches
-  option :note
 
   def call
     process_tip_mentions
@@ -18,7 +17,6 @@ class MentionParser < Base::Service
     TipMentionService.call \
       profile:,
       mentions:,
-      note:,
       source: 'inline',
       event_ts:,
       channel_rid:,
@@ -35,23 +33,30 @@ class MentionParser < Base::Service
   #   => @user gets 1 Tip of quantity -3
   # `@user :fire: @user :high_brightness: @user :fire:`
   #   => @user gets 2 Tips (1) :fire: x2 (2) :high_brightness: x1
+  # `@user++ great @user++ work!`
+  #   => @user gets 1 Tip of quantity 2 with note "great work!"
   def stacked_mentions
-    parsed_mentions.group_by(&:rid).map do |rid, mentions_by_rid|
+    rich_mentions.group_by(&:rid).map do |rid, mentions_by_rid|
       mentions_by_rid.group_by(&:topic_id).map do |topic_id, mentions|
-        Mention.new(rid:, topic_id:, quantity: mentions.sum(&:quantity))
+        note = mentions.pluck(:note).join(' ')
+        Mention.new(rid:, topic_id:, quantity: mentions.sum(&:quantity), note:)
       end
     end.flatten
   end
 
-  def parsed_mentions
+  def rich_mentions
     matches.map do |m|
-      Mention.new(rid: m.profile_rid, topic_id: tip_topic_id(m), quantity: tip_quantity(m))
+      Mention.new \
+        rid: m.profile_rid,
+        topic_id: tip_topic_id(m),
+        quantity: tip_quantity(m),
+        note: m.note
     end
   end
 
   def tip_topic_id(match)
     return unless team.enable_topics?
-    topic_id_from_emoji(match) || topic_id_from_note
+    topic_id_from_emoji(match) || topic_id_from_match(match)
   end
 
   # `<@UFOO> :fire: :star: :up:` => `fire` topic is used (first in sequence)
@@ -61,14 +66,9 @@ class MentionParser < Base::Service
     team.topics.active.find { |topic| first_emoji == topic.emoji }&.id
   end
 
-  # `LeaderShip great job!` => "leadership" topic is used, note becomes "great job!"
-  def topic_id_from_note
-    return if note.blank?
-
-    words = note.split(/\s+/)
-    topic_id = team.topics.active.find { |topic| words.first.downcase == topic.keyword }&.id
-    @note = words.drop(1).join(' ') if topic_id
-    topic_id
+  def topic_id_from_match(match)
+    return if (keyword = match.topic_keyword).blank?
+    team.topics.active.find { |topic| keyword == topic.keyword }&.id
   end
 
   # Generate a quantity given a mention match

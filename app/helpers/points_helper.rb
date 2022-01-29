@@ -19,17 +19,30 @@ module PointsHelper
 
   def points_fragments(points, opts)
     balance = points.to_i
-    if balance == 1
-      [App.point_singular_prefix, App.point_term]
-    elsif balance == -1
-      t = App.jab_term
-      [App.jab_singular_prefix, (opts[:bold_jab] ? "*#{t}*" : t)]
-    elsif balance.negative?
-      t = App.jabs_term
-      [formatted_points(points.abs), (opts[:bold_jab] ? "*#{t}*" : t)]
+    if balance == 1 then one_point_fragments
+    elsif balance == -1 then minus_one_point_fragments(opts)
+    elsif balance.negative? then minus_points_fragments(points, opts)
     else
-      [formatted_points(points), App.points_term]
+      positive_points_fragments(points)
     end
+  end
+
+  def one_point_fragments
+    [App.point_singular_prefix, App.point_term]
+  end
+
+  def minus_one_point_fragments(opts)
+    t = App.jab_term
+    [App.jab_singular_prefix, (opts[:bold_jab] ? "*#{t}*" : t)]
+  end
+
+  def minus_points_fragments(points, opts)
+    t = App.jabs_term
+    [formatted_points(points.abs), (opts[:bold_jab] ? "*#{t}*" : t)]
+  end
+
+  def positive_points_fragments(points)
+    [formatted_points(points), App.points_term]
   end
 
   def formatted_points(points)

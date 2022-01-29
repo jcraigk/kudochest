@@ -4,6 +4,8 @@ class EventWorker
   sidekiq_options queue: :chat_events
 
   def perform(params)
-    EventService.call(params: params.deep_symbolize_keys)
+    params.deep_symbolize_keys!
+    params[:matches] = params[:matches].map { |m| ScanMatch.new(m) }
+    EventService.call(params:)
   end
 end
