@@ -22,7 +22,7 @@ class Cache::TeamConfig < Base::Service
 
   def topic_data
     team.topics.active.order(name: :asc).map do |topic|
-      topic.attributes.slice(:id, :name, :keyword, :emoji)
+      topic.attributes.slice('id', 'name', 'keyword', 'emoji').symbolize_keys
     end
   end
 

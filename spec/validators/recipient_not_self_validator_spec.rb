@@ -17,7 +17,7 @@ RSpec.describe RecipientNotSelfValidator do
     let(:to_profile) { from_profile }
     let(:expected) do
       I18n.t \
-        'activerecord.errors.models.tip.attributes.base.cannot_tip_self',
+        'activerecord.errors.models.tip.attributes.base.cannot_point_self',
         user: from_profile.link,
         points: App.points_term
     end

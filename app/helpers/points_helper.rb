@@ -1,13 +1,7 @@
 # frozen_string_literal: true
 module PointsHelper
   def points_format(points, opts = {})
-    str =
-      if opts[:label]
-        num, term = points_fragments(points, opts)
-        "#{num} #{term}"
-      else
-        formatted_points(points)
-      end
+    str = opts[:label] ? point_label_fragments(points, opts).join(' ') : formatted_points(points)
     str = "+#{str}" if opts[:plus_prefix] && points.positive?
     str = tag.span(str, class: points_class(points)) if opts[:colorize]
     str
@@ -17,7 +11,7 @@ module PointsHelper
     "points-#{points.positive? ? 'positive' : 'negative'}"
   end
 
-  def points_fragments(points, opts)
+  def point_label_fragments(points, opts)
     balance = points.to_i
     if balance == 1 then one_point_fragments
     elsif balance == -1 then minus_one_point_fragments(opts)

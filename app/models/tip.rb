@@ -3,26 +3,8 @@ class Tip < ApplicationRecord
   extend Enumerize
   include TipDecorator
 
-  UNDOABLE_SOURCES = %w[
-    modal
-    inline
-    point_reaction
-    jab_reaction
-    ditto_reaction
-    reply
-    streak
-  ].freeze
-
   enumerize :source, in: %w[
-    seed
-    modal
-    inline
-    point_reaction
-    jab_reaction
-    ditto_reaction
-    reply
-    streak
-    import
+    seed modal inline point_reaction jab_reaction ditto_reaction topic_reaction reply streak import
   ]
 
   belongs_to :from_profile,
@@ -44,13 +26,12 @@ class Tip < ApplicationRecord
   validates_with RecipientNotDeletedValidator
   validates_with RecipientNotSelfValidator
 
-  after_create_commit :update_values
+  after_create_commit :update_point_totals
   after_destroy_commit :after_destroy
   after_commit :refresh_leaderboards
 
   scope :undoable, lambda {
-    where(source: UNDOABLE_SOURCES)
-      .where('created_at > ?', Time.current - App.undo_cutoff)
+    where('created_at > ?', Time.current - App.undo_cutoff)
       .order(created_at: :desc)
   }
   scope :search_notes, lambda { |term|
@@ -67,7 +48,7 @@ class Tip < ApplicationRecord
 
   private
 
-  def update_values(subtract: false)
+  def update_point_totals(subtract: false)
     plus_or_minus, timestamp = subtract ? ['-', nil] : ['+', created_at]
     transaction do
       update_from_profile_values(plus_or_minus, timestamp)

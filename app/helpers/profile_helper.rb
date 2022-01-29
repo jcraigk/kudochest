@@ -53,10 +53,6 @@ module ProfileHelper
     end
   end
 
-  def tip_type_with_icon(tip)
-    fa_icon("thumbs-#{tip.jab? ? :down : :up}")
-  end
-
   def level_badge(profile)
     tag.div(
       class: "level-badge #{level_background_class(profile)}"

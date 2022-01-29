@@ -103,10 +103,7 @@ class Discord::BotEventService < Base::Service
     bot.message do |event|
       team_rid = event.server&.id.to_s
       next event.respond(no_dm_support) if team_rid.blank?
-
-      config = Cache::TeamConfig.call(team_rid)
-      next unless config[:active]
-
+      next unless (config = Cache::TeamConfig.call(team_rid))[:active]
       EventWorker.perform_async(message_payload(team_rid, config, event))
     end
   end
@@ -142,11 +139,8 @@ class Discord::BotEventService < Base::Service
 
   def handle_emoji_event(event, verb)
     return unless relevant_emoji?(event.emoji.name)
-
     team_rid = event.server&.id.to_s
-    config = Cache::TeamConfig.call(team_rid)
-    return unless config[:active]
-
+    return unless (config = Cache::TeamConfig.call(team_rid))[:active]
     EventWorker.perform_async(emoji_payload(team_rid, config, event, verb))
   end
 

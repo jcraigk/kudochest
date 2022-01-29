@@ -21,7 +21,7 @@ class Actions::ReactionAdded < Actions::ReactionBase
   def mentions
     case source
     when 'ditto_reaction' then ditto_mentions
-    when 'point_reaction', 'jab_reaction' then [author_mention]
+    when 'point_reaction', 'jab_reaction', 'topic_reaction' then [author_mention]
     end
   end
 

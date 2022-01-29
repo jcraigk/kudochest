@@ -131,7 +131,7 @@ module ProfileDecorator
   end
 
   def total_points
-    team.deduct_jabs? ? balance : points_received
+    team.deduct_jabs? ? balance : points
   end
 
   private

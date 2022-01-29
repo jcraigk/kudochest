@@ -1,38 +1,38 @@
 # frozen_string_literal: true
 class MessageScanner < Base::Service
-  param :str
+  param :text
   param :config
 
   attr_reader :platform
 
   def call
     @platform = config[:platform].to_sym
-
-    matches_on_str
+    return [] if text.blank?
+    matches_on_text
   end
 
   private
 
-  def matches_on_str # rubocop:disable Metrics/MethodLength
-    sanitized_str.scan(regex).map do |match|
+  def matches_on_text # rubocop:disable Metrics/MethodLength
+    sanitized_text.scan(regex).map do |match|
       {
         profile_rid: match[0] || match[1], # entity_rid || group_keyword
         prefix_digits: match[2],
         inline_text: match[3],
         inline_emoji: sanitized_emoji(match[4]),
         suffix_digits: match[5],
-        topic_keyword: match[6].strip,
+        topic_keyword: match[6]&.strip,
         note: sanitized_note(match[7])
       }
-    end
+    end || []
   end
 
   def sanitized_emoji(str)
     str&.gsub(/[^a-z_:]/, '')
   end
 
-  def sanitized_note(text)
-    NoteSanitizer.call(platform:, team_rid: config[:rid], text: text.strip)
+  def sanitized_note(str)
+    NoteSanitizer.call(platform:, team_rid: config[:rid], text: str)
   end
 
   def note
@@ -41,11 +41,11 @@ class MessageScanner < Base::Service
 
   def topic_keywords
     str = config[:topics].pluck(:keyword).join('|')
-    "(?<topic_keywords>#{str})"
+    "(?<topic_keywords>#{str})?"
   end
 
-  def sanitized_str
-    str.tr("\u00A0", ' ') # Unicode space (from Slack)
+  def sanitized_text
+    text.strip.tr("\u00A0", ' ') # Unicode space (from Slack)
   end
 
   def regex
@@ -95,7 +95,7 @@ class MessageScanner < Base::Service
     return [] unless config[:enable_emoji]
     emojis = [config[:point_emoji]]
     emojis << config[:jab_emoji] if config[:enable_jabs]
-    emojis << config[:topics].pluck(:emoji) if config[:enable_topics]
+    emojis += config[:topics].pluck(:emoji) if config[:enable_topics]
     emojis
   end
 

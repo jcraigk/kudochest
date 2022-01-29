@@ -47,10 +47,6 @@ class Commands::Undo < Commands::Base
   end
 
   def relevant_tips_by_quantity
-    tips
-      .select { |tip| tip.source.in?(Tip::UNDOABLE_SOURCES) }
-      .group_by(&:quantity)
-      .sort
-      .reverse
+    tips.group_by(&:quantity).sort.reverse
   end
 end

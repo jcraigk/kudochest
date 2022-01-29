@@ -59,6 +59,7 @@ class MentionParser < Base::Service
     topic_id_from_emoji(match) || topic_id_from_match(match)
   end
 
+  # TODO: Pass in team config and use that to get topic ids (save a db query)
   # `<@UFOO> :fire: :star: :up:` => `fire` topic is used (first in sequence)
   def topic_id_from_emoji(match)
     return if match[:inline_emoji].blank?
@@ -82,13 +83,10 @@ class MentionParser < Base::Service
   # "@user :jab::jab::jab:" => -3
   def tip_quantity(match)
     given = (match[:prefix_digits].presence || match[:suffix_digits].presence).to_f
-    if match[:inline_emoji].present?
-      emoji_match_quantity(match, given)
-    else
-      negative = match[:inline_text].in?(JAB_INLINES)
-      given, default = negative ? [0 - given, -1.0] : [given, 1.0]
-      given.zero? ? default : given
-    end
+    return emoji_match_quantity(match, given) if match[:inline_emoji].present?
+    negative = match[:inline_text].in?(JAB_INLINES)
+    given, default = negative ? [0 - given, -1.0] : [given, 1.0]
+    given.zero? ? default : given
   end
 
   def emoji_match_quantity(match, quantity)
