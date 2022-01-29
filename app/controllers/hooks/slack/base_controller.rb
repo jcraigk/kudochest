@@ -15,8 +15,7 @@ class Hooks::Slack::BaseController < Hooks::BaseController
   protected
 
   def enqueue_slack_event_worker
-    payload = data.merge(fast_ack_data).merge(matches: matches.map(&:to_h))
-    EventWorker.perform_async(payload)
+    EventWorker.perform_async(data.merge(fast_ack_data).merge(matches:))
   end
 
   def fast_ackable?

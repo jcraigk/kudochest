@@ -1,5 +1,7 @@
 # frozen_string_literal: true
-class TipResponseService < Base::Service
+
+# TODO: Break this into multiple services
+class TipResponseService < Base::Service # rubocop:disable Metrics/ClassLength
   include EmojiHelper
   include EntityReferenceHelper
   include PointsHelper
@@ -173,21 +175,27 @@ class TipResponseService < Base::Service
   def leveling_fragment(platform)
     return unless team.enable_levels? && levelings.any?
     parts = []
-    parts <<
-      if levelups.one?
-        profile = levelups.first.profile
-        "#{profile_ref(platform, profile)} leveled up to #{profile.level}"
-      elsif levelups.any?
-        "#{leveling_profiles(platform, levelups)} leveled up"
-      end
-    parts <<
-      if leveldowns.one?
-        profile = leveldowns.first.profile
-        "#{profile_ref(platform, profile)} leveled down to #{profile.level}"
-      elsif leveldowns.any?
-        "#{leveling_profiles(platform, levelups)} leveled down"
-      end
+    parts << levelup_fragment(platform)
+    parts << leveldown_fragment(platform)
     parts.compact
+  end
+
+  def levelup_fragment(platform)
+    if levelups.one?
+      profile = levelups.first.profile
+      "#{profile_ref(platform, profile)} leveled up to #{profile.level}"
+    elsif levelups.any?
+      "#{leveling_profiles(platform, levelups)} leveled up"
+    end
+  end
+
+  def leveldown_fragment(platform)
+    if leveldowns.one?
+      profile = leveldowns.first.profile
+      "#{profile_ref(platform, profile)} leveled down to #{profile.level}"
+    elsif leveldowns.any?
+      "#{leveling_profiles(platform, levelups)} leveled down"
+    end
   end
 
   def levelups
@@ -258,10 +266,8 @@ class TipResponseService < Base::Service
 
   def channel_fragment(platform)
     case platform
-    when :slack, :discord
-      "in <#{CHAN_PREFIX}#{first_tip.from_channel_rid}>"
-    when :web
-      "in #{channel_webref(first_tip.from_channel_name)}"
+    when :slack, :discord then "in <#{CHAN_PREFIX}#{first_tip.from_channel_rid}>"
+    when :web then "in #{channel_webref(first_tip.from_channel_name)}"
     end
   end
 

@@ -98,9 +98,17 @@ class Reports::TeamDigestService < Reports::BaseDigestService
     return unless team.enable_levels?
     return 'No users changed levels' if num_levelups.zero? && num_leveldowns.zero?
     parts = []
-    parts << "#{pluralize(num_levelups, 'user')} leveled up" if num_levelups.positive?
-    parts << "#{pluralize(num_leveldowns, 'user')} lost a level" if num_leveldowns.positive?
+    parts << num_levelups_sentence if num_levelups.positive?
+    parts << num_leveldowns_sentence if num_leveldowns.positive?
     parts.join(' and ')
+  end
+
+  def num_levelups_sentence
+    "#{pluralize(num_levelups, 'user')} leveled up"
+  end
+
+  def num_leveldowns_sentence
+    "#{pluralize(num_leveldowns, 'user')} lost a level"
   end
 
   def num_levelups

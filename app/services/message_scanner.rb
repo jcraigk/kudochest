@@ -13,9 +13,9 @@ class MessageScanner < Base::Service
 
   private
 
-  def matches_on_str
+  def matches_on_str # rubocop:disable Metrics/MethodLength
     sanitized_str.scan(regex).map do |match|
-      ScanMatch.new \
+      {
         profile_rid: match[0] || match[1], # entity_rid || group_keyword
         prefix_digits: match[2],
         inline_text: match[3],
@@ -23,6 +23,7 @@ class MessageScanner < Base::Service
         suffix_digits: match[5],
         topic_keyword: match[6].strip,
         note: sanitized_note(match[7])
+      }
     end
   end
 

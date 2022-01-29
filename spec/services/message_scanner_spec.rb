@@ -33,9 +33,7 @@ RSpec.describe MessageScanner do
     end
   end
 
-
   xcontext 'when emoji are enabled' do
-
     before { team.update(enable_emoji: true) }
 
     context 'without topics' do

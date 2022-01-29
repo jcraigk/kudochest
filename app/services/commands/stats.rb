@@ -10,7 +10,7 @@ class Commands::Stats < Commands::Base
     ChatResponse.new(mode: :public, text: response_text)
   end
 
-  def base_text # rubocop:disable Metrics/AbcSize
+  def base_text # rubocop:disable Metrics/AbcSize, Metrics/CyclomaticComplexity, Metrics/MethodLength
     ary = [stats_title]
     ary << rank_fragment
     ary << level_fragment if team.enable_levels?

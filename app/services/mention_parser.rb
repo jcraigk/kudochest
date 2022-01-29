@@ -45,12 +45,12 @@ class MentionParser < Base::Service
   end
 
   def rich_mentions
-    matches.map do |m|
+    matches.map do |match|
       Mention.new \
-        rid: m.profile_rid,
-        topic_id: tip_topic_id(m),
-        quantity: tip_quantity(m),
-        note: m.note
+        rid: match[:profile_rid],
+        topic_id: tip_topic_id(match),
+        quantity: tip_quantity(match),
+        note: match[:note]
     end
   end
 
@@ -61,13 +61,13 @@ class MentionParser < Base::Service
 
   # `<@UFOO> :fire: :star: :up:` => `fire` topic is used (first in sequence)
   def topic_id_from_emoji(match)
-    return if match.inline_emoji.blank?
-    first_emoji = match.inline_emoji.split(':').compact_blank.first
+    return if match[:inline_emoji].blank?
+    first_emoji = match[:inline_emoji].split(':').compact_blank.first
     team.topics.active.find { |topic| first_emoji == topic.emoji }&.id
   end
 
   def topic_id_from_match(match)
-    return if (keyword = match.topic_keyword).blank?
+    return if (keyword = match[:topic_keyword]).blank?
     team.topics.active.find { |topic| keyword == topic.keyword }&.id
   end
 
@@ -81,18 +81,18 @@ class MentionParser < Base::Service
   # "@user :point::jab:" => 0 (rejected for non-unique emoji)
   # "@user :jab::jab::jab:" => -3
   def tip_quantity(match)
-    given = (match.prefix_digits.presence || match.suffix_digits.presence).to_f
-    if match.inline_emoji.present?
+    given = (match[:prefix_digits].presence || match[:suffix_digits].presence).to_f
+    if match[:inline_emoji].present?
       emoji_match_quantity(match, given)
     else
-      negative = match.inline_text.in?(JAB_INLINES)
+      negative = match[:inline_text].in?(JAB_INLINES)
       given, default = negative ? [0 - given, -1.0] : [given, 1.0]
       given.zero? ? default : given
     end
   end
 
   def emoji_match_quantity(match, quantity)
-    emojis = match.inline_emoji.split(':').compact_blank
+    emojis = match[:inline_emoji].split(':').compact_blank
     # Do not allow different emojis - only multiple instances of same emoji
     return 0 unless team.enable_emoji? && emojis.uniq.size == 1
     emoji_quant = emojis_quantity(emojis, quantity)

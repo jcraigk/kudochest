@@ -118,9 +118,6 @@ LeaderboardProfile = Struct.new \
   :id, :rank, :previous_rank, :slug, :link, :display_name, :real_name,
   :points, :percent_share, :last_timestamp, :avatar_url, keyword_init: true
 LeaderboardSnippet = Struct.new(:updated_at, :profiles)
-ScanMatch = Struct.new \
-  :profile_rid, :prefix_digits, :inline_text, :inline_emoji, :suffix_digits, :topic_keyword,
-  :note, keyword_init: true
 
 # App constants, will rarely change
 STORAGE_PATH =

@@ -64,7 +64,7 @@ class Team < ApplicationRecord
   attribute :show_note,          :boolean, default: true
   attribute :split_tip,          :boolean, default: false
   attribute :weekly_report,      :boolean, default: true
-  attribute :point_emoji,          :string,  default: App.default_point_emoji
+  attribute :point_emoji,        :string,  default: App.default_point_emoji
   attribute :ditto_emoji,        :string,  default: App.default_ditto_emoji
   attribute :time_zone,          :string,  default: App.default_time_zone
   attribute :streak_duration,    :integer, default: App.default_streak_duration

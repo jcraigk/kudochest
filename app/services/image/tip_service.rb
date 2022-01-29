@@ -236,7 +236,7 @@ class Image::TipService < Base::ImageService
     comp.composite(img, Magick::NorthWestGravity, x, 6, Magick::OverCompositeOp)
   end
 
-  def add_text_quantity(comp) # rubocop:disable Metrics/AbcSize
+  def add_text_quantity(comp) # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
     draw = Magick::Draw.new
     draw.font = FONT_FILE
     draw.pointsize = 34
