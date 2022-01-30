@@ -22,7 +22,7 @@ class Actions::Message < Actions::Base
   def process_message
     return open_tip_modal if slash_command_without_keyword?
     return call_command if keyword_detected?
-    return handle_mentions if matches.any?
+    return handle_mentions if matches&.any?
     respond_bad_input if text_directed_at_app?
   end
 

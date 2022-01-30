@@ -23,17 +23,20 @@ RSpec.describe Commands::Admin do
       *Topic Required:* No
       *Active Topics:* 0
       *Notes:* Optional
+      *#{App.jabs_term.titleize} Enabled:* Yes
+      *Deduct #{App.jabs_term.titleize}:* Yes
       *Emoji Enabled:* Yes
       *Emoji Value:* #{points_format(team.emoji_quantity, label: true)}
       *#{App.points_term.titleize} Emoji:* #{team.point_emoj}
+      *#{App.jabs_term.titleize} Emoji:* #{team.jab_emoj}
       *Ditto Emoji:* #{team.ditto_emoj}
       *Leveling Enabled:* Yes
       *Maximum Level:* #{team.max_level}
       *Required for Max Level:* #{points_format(team.max_level_points, label: true)}
       *Progression Curve:* Gentle
-      *Streaks Enabled:* Yes
-      *Streak Duration:* #{team.streak_duration} days
-      *Streak Reward:* #{points_format(team.streak_reward, label: true)}
+      *Giving Streaks Enabled:* Yes
+      *Giving Streak Duration:* #{team.streak_duration} days
+      *Giving Streak Reward:* #{points_format(team.streak_reward, label: true)}
       *Time Zone:* (GMT+00:00) UTC
       *Work Days:* Monday, Tuesday, Wednesday, Thursday, Friday
       *Work Start Day:* Monday

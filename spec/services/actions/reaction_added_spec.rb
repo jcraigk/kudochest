@@ -41,7 +41,7 @@ RSpec.describe Actions::ReactionAdded do
     end
   end
 
-  context 'when reaction is kudos emoji' do
+  context 'when reaction is point emoji' do
     let(:reaction) { team.point_emoji }
     let(:args) do
       {
@@ -54,7 +54,7 @@ RSpec.describe Actions::ReactionAdded do
           )
         ],
         source: 'point_reaction',
-        event_ts: "#{ts}-reaction-#{sender.id}",
+        event_ts: "#{ts}-point_reaction-#{sender.id}",
         message_ts: ts,
         channel_rid: channel.rid,
         channel_name: channel.name
@@ -92,7 +92,7 @@ RSpec.describe Actions::ReactionAdded do
           )
         ],
         source: 'ditto_reaction',
-        event_ts: "#{ts}-ditto-#{sender.id}",
+        event_ts: "#{ts}-ditto_reaction-#{sender.id}",
         message_ts: ts,
         channel_rid: channel.rid,
         channel_name: channel.name
