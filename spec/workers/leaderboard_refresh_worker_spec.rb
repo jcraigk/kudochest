@@ -58,10 +58,9 @@ RSpec.describe LeaderboardRefreshWorker, :freeze_time do
   let(:all_profiles) { [profile1, profile2, profile3, profile4, profile5] }
 
   before do
-    all_profiles
-    expected_profile_data
     allow(Cache::Leaderboard).to receive(:new).and_return(mock_cache)
     allow(mock_cache).to receive(:set)
+    all_profiles
     perform
   end
 
@@ -90,9 +89,9 @@ RSpec.describe LeaderboardRefreshWorker, :freeze_time do
     let(:givingboard) { true }
     let(:expected_profile_data) do
       [
-        profile_data(profile1, 1, true),
-        profile_data(profile2, 2, true),
-        profile_data(profile3, 3, true)
+        profile_data(profile1, 1, givingboard),
+        profile_data(profile2, 2, givingboard),
+        profile_data(profile3, 3, givingboard)
       ]
     end
 

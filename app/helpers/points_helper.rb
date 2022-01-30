@@ -12,10 +12,9 @@ module PointsHelper
   end
 
   def point_label_fragments(points, opts)
-    balance = points.to_i
-    if balance == 1 then one_point_fragments
-    elsif balance == -1 then minus_one_point_fragments(opts)
-    elsif balance.negative? then minus_points_fragments(points, opts)
+    if points == 1 then one_point_fragments
+    elsif points == -1 then minus_one_point_fragments(opts)
+    elsif points.negative? then minus_points_fragments(points, opts)
     else
       positive_points_fragments(points)
     end
