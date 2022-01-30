@@ -315,7 +315,7 @@ class TipResponseService < Base::Service # rubocop:disable Metrics/ClassLength
 
   def formatted_note(medium)
     case medium
-    when :image then note # TODO: handle emojis?
+    when :image then note
     when :slack then "_#{note}_"
     when :discord then "*#{note}*"
     when :web then "<i>#{note}</i>"

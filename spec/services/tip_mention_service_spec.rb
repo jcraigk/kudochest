@@ -141,15 +141,15 @@ RSpec.describe TipMentionService, :freeze_time do
       allow(TipResponseService).to receive(:call).and_return(tip_response)
       allow(Slack::ChannelMemberService)
         .to receive(:call).and_return([channel_profile, other_profile])
+      service
     end
 
-    # TODO: Not sure what's broken here, looks like balance is 1 on the profiles being passed in
-    # but we are expecting that to be 0 based on the factories. Reloading  somewhere might fix?
-    # We did not change this behavior, so just adding the balance col broke this one i think
-    xit 'calls TipFactory for each unique profile, favoring direct, then subteam, then channel' do
-      service
+    it 'calls TipFactory for each unique profile, favoring direct, then subteam, then channel' do # rubocop:disable RSpec/ExampleLength
       mention_entities.each do |m|
-        args = base_tip_attrs.merge(to_entity: m.entity, to_profiles: m.profiles)
+        args = base_tip_attrs.merge \
+          to_entity: m.entity.reload,
+          to_profiles: m.profiles.map(&:reload),
+          note: m.noteb
         expect(TipFactory).to have_received(:call).with(**args)
       end
     end

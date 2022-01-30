@@ -45,7 +45,7 @@ class LeaderboardRefreshWorker
     LeaderboardProfile.new \
       id: prof.id,
       rank:,
-      previous_rank: rank, # TODO: Re-enable laterf
+      previous_rank: rank, # TODO: Re-enable later
       slug: prof.slug,
       link: prof.dashboard_link,
       display_name: prof.display_name,
