@@ -83,7 +83,8 @@ class Discord::BotEventService < Base::Service
 
   def listen_for_server_delete
     bot.server_delete do |event|
-      EventWorker.perform_async(team_rid: event.server&.to_s, action: 'app_uninstalled')
+      payload = { team_rid: event.server&.to_s, action: 'app_uninstalled' }.to_json
+      EventWorker.perform_async(payload)
     end
   end
 
@@ -99,12 +100,13 @@ class Discord::BotEventService < Base::Service
     end
   end
 
-  def listen_for_message
+  def listen_for_message # rubocop:disable Metrics/AbcSize
     bot.message do |event|
       next event.respond(no_dm_support) if (team_rid = event.server&.id.to_s).blank?
       next unless (config = Cache::TeamConfig.call(team_rid))[:active]
       matches = MessageScanner.call(event.message.content, config)
-      EventWorker.perform_async(message_payload(team_rid, config, event).merge(matches:))
+      payload = message_payload(team_rid, config, event).merge(matches:).to_json
+      EventWorker.perform_async(payload)
     end
   end
 
@@ -141,7 +143,8 @@ class Discord::BotEventService < Base::Service
     return unless relevant_emoji?(event.emoji.name)
     team_rid = event.server&.id.to_s
     return unless (config = Cache::TeamConfig.call(team_rid))[:active]
-    EventWorker.perform_async(emoji_payload(team_rid, config, event, verb))
+    payload = emoji_payload(team_rid, config, event, verb).to_json
+    EventWorker.perform_async(payload)
   end
 
   def emoji_payload(team_rid, config, event, verb)

@@ -2,7 +2,7 @@
 require 'rails_helper'
 
 RSpec.describe EventWorker do
-  subject(:perform) { described_class.new.perform(params) }
+  subject(:perform) { described_class.new.perform(params.to_json) }
 
   let(:team) { create(:team) }
   let(:params) { { 'foo' => 'bar' } }

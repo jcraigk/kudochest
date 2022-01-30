@@ -15,6 +15,8 @@ FactoryBot.define do
     token_max { App.default_token_max }
     time_zone { 'UTC' }
     action_hour { 7 }
+    enable_jabs { true }
+    deduct_jabs { true }
 
     trait :with_profiles do
       after(:create) do |team|
