@@ -4,6 +4,6 @@ class EventWorker
   sidekiq_options queue: :chat_events
 
   def perform(params)
-    EventService.call(params: params.deep_symbolize_keys)
+    EventService.call(params: JSON.parse(params, symbolize_names: true))
   end
 end
