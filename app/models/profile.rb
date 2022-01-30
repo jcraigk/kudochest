@@ -72,7 +72,9 @@ class Profile < ApplicationRecord
   end
 
   def token_balance
-    tokens_accrued - points_sent
+    balance = tokens_accrued - points_sent
+    balance -= jabs_sent if team.deduct_jabs?
+    balance
   end
 
   private

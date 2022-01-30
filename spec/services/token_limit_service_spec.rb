@@ -32,7 +32,7 @@ RSpec.describe TokenLimitService do
     context 'when profile.accrued_tokens is not sufficient' do
       let(:text) do
         <<~TEXT.chomp
-          :#{App.error_emoji}: Giving #{points_format(2, label: true)} would exceed your token balance of 1.
+          :#{App.error_emoji}: Sorry #{profile.link}, your token balance of 1 is not sufficient.
         TEXT
       end
 

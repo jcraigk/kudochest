@@ -191,11 +191,21 @@ class TipMentionService < Base::Service
   end
 
   def need_tokens?
-    quantity =
-      entity_mentions
-      .reject { |m| m.quantity.negative? }
-      .sum { |m| mention_quantity(m) }
+    return @need_tokens unless @need_tokens.nil?
+    quantity = mention_point_sum
+    quantity += mention_jab_sum if team.deduct_jabs?
     @need_tokens = TokenLimitService.call(profile:, quantity:)
+  end
+
+  def mention_point_sum
+    entity_mentions.select { |m| m.quantity.positive? }
+                   .sum { |m| mention_quantity(m) }
+  end
+
+  def mention_jab_sum
+    entity_mentions.select { |m| m.quantity.negative? }
+                   .sum { |m| mention_quantity(m) }
+                   .abs
   end
 
   def mention_quantity(mention)

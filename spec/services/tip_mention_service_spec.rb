@@ -54,7 +54,7 @@ RSpec.describe TipMentionService, :freeze_time do
   context 'when sender requires more tokens' do
     let(:text) do
       <<~TEXT.squish
-        :#{App.error_emoji}: Giving #{points_format(1, label: true)} would exceed your token balance of 0. The next dispersal of #{team.token_quantity} tokens will occur in about 10 hours.
+        :#{App.error_emoji}: Sorry #{profile.link}, your token balance of 0 is not sufficient. The next dispersal of #{team.token_quantity} tokens will occur in about 10 hours.
       TEXT
     end
     let(:result) { ChatResponse.new(mode: :error, text:) }
@@ -149,7 +149,7 @@ RSpec.describe TipMentionService, :freeze_time do
         args = base_tip_attrs.merge \
           to_entity: m.entity.reload,
           to_profiles: m.profiles.map(&:reload),
-          note: m.noteb
+          note: m.note
         expect(TipFactory).to have_received(:call).with(**args)
       end
     end

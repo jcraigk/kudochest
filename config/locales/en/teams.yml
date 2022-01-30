@@ -104,7 +104,7 @@ en:
     enable_jabs: Enable %{jabs_title}
     enable_jabs_tooltip: When %{jabs} are enabled, users can use "--" and the associated emoji for giving %{jabs} to each other.
     deduct_jabs: Deduct %{jabs_title}
-    deduct_jabs_tooltip: Whether or not to deduct %{jabs} from user totals, affecting ranking and leveling.
+    deduct_jabs_tooltip: Whether or not to deduct %{jabs} from user totals, affecting ranking, leveling, and throttling.
     response_mode_adaptive_html: In Adaptive mode, responses are posted in the context where %{points} are given. Similar to Conversational mode, but responses to emoji reactions are posted in a reply thread instead of the main channel.
     response_mode_convo_slack_html: In Conversational mode, responses are posted in the context where %{points} are given. Similar to Adaptive mode, but responses to emoji reactions are posted in the public channel.
     response_mode_convo_discord_html: In Conversational mode, responses are posted in the same channel where the %{points} was given.
