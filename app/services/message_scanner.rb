@@ -1,4 +1,8 @@
 # frozen_string_literal: true
+
+# Scan a message from the chat client to find triggrs that could result in Tip creation.
+# Because this is called on every message sent from chat, it should be efficient.
+
 class MessageScanner < Base::Service
   param :text
   param :config
@@ -15,26 +19,51 @@ class MessageScanner < Base::Service
   def matches_on_text # rubocop:disable Metrics/MethodLength
     sanitized_text.presence&.scan(regex)&.map do |match|
       {
-        rid: match[0] || match[1], # entity_rid || group_keyword
-        prefix_digits: match[2],
-        inline_text: match[3],
-        inline_emoji: sanitized_emoji(match[4]),
-        suffix_digits: match[5],
-        topic_keyword: match[6]&.strip,
-        note: sanitized_note(match[7])
+        rid: rid(match),
+        prefix_digits: prefix_digits(match),
+        inline_text: inline_text(match),
+        inline_emoji: sanitized_emoji(match),
+        suffix_digits: suffix_digits(match),
+        topic_keyword: topic_keyword(match),
+        note: note(match)
       }
     end
   end
 
-  def sanitized_emoji(str)
-    str&.gsub(/[^a-z_:]/, '')
+  def topic_keyword(match)
+    match[6].presence
   end
 
-  def sanitized_note(str)
-    NoteSanitizer.call(platform:, team_rid: config[:rid], text: str)
+  def inline_text(match)
+    match[3].presence
   end
 
-  def note
+  def prefix_digits(match)
+    digits_or_nil(match[2])
+  end
+
+  def suffix_digits(match)
+    digits_or_nil(match[5])
+  end
+
+  def rid(match)
+    match[0] || match[1] # entity_rid || group_keyword
+  end
+
+  def digits_or_nil(str)
+    str.presence&.to_i
+  end
+
+  def sanitized_emoji(match)
+    match[4]&.gsub(/[^a-z_:]/, '')
+  end
+
+  def note(match)
+    text = match[7]&.strip
+    NoteSanitizer.call(platform:, team_rid: config[:rid], text:)
+  end
+
+  def maybe_note
     '(?<note>[^<>]*)'
   end
 
@@ -48,7 +77,7 @@ class MessageScanner < Base::Service
   end
 
   def regex
-    Regexp.new("#{mention}#{space}#{triggers}#{space}#{topic_keywords}#{note}")
+    Regexp.new("#{mention}#{space}#{triggers}#{space}#{topic_keywords}#{maybe_note}")
   end
 
   def mention
