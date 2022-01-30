@@ -3,7 +3,7 @@ class Cache::TeamConfig < Base::Service
   param :team_rid
 
   def call
-    JSON.parse(cached_json, symbolize_names: true)
+    cached_data
   end
 
   def delete
@@ -11,6 +11,18 @@ class Cache::TeamConfig < Base::Service
   end
 
   private
+
+  def cached_data
+    JSON.parse(cached_json, symbolize_names: true)
+        .each_with_object({}) { |(k, v), h| h[k] = coerce_value(k, v) }
+  end
+
+  def coerce_value(attr, value)
+    case Team.columns_hash[attr.to_s]&.type
+    when :integer then value.to_i
+    when :decimal then BigDecimal(value.presence || '0')
+    else value; end
+  end
 
   def cached_json
     Rails.cache.fetch(cache_key) { json_data }

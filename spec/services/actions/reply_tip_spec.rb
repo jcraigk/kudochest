@@ -18,7 +18,7 @@ RSpec.describe Actions::ReplyTip do
       message_profile_rid: recipient.rid,
       message_ts: ts,
       profile_rid: sender.rid,
-      config: TeamConfig.new,
+      config: {},
       team_rid: team.rid
     }
   end

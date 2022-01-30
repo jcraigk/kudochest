@@ -38,7 +38,7 @@ class MentionParser < Base::Service
   def stacked_mentions
     processed_mentions.group_by(&:rid).map do |rid, mentions_by_rid|
       mentions_by_rid.group_by(&:topic_id).map do |topic_id, mentions|
-        note = mentions.pluck(:note).join(' ')
+        note = mentions.pluck(:note).join(' ').presence
         Mention.new(rid:, topic_id:, quantity: mentions.sum(&:quantity), note:)
       end
     end.flatten
@@ -82,7 +82,7 @@ class MentionParser < Base::Service
   # "@user :point::jab:" => 0 (rejected for non-unique emoji)
   # "@user :jab::jab::jab:" => -3
   def tip_quantity(match)
-    given = (match[:prefix_digits].presence || match[:suffix_digits].presence).to_f
+    given = (match[:prefix_quantity].presence || match[:suffix_quantity].presence).to_f
     return emoji_match_quantity(match, given) if match[:inline_emoji].present?
     negative = match[:inline_text].in?(JAB_INLINES)
     given, default = negative ? [0 - given, -1.0] : [given, 1.0]

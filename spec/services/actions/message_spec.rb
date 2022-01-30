@@ -104,7 +104,7 @@ RSpec.describe Actions::Message do
     context 'when text includes `++2` with user mention' do
       let(:text) { "hello <#{user_mention}> ++2 #{note}" }
       let(:matches) do
-        [{ rid: user_mention, inline: '++', suffix_digits: 2, note: }]
+        [{ rid: user_mention, inline: '++', suffix_quantity: 2, note: }]
       end
 
       include_examples 'success'
@@ -134,7 +134,7 @@ RSpec.describe Actions::Message do
     context 'when text includes single valid inline emoji with int suffix' do
       let(:text) { "hello <#{user_mention}> #{team.point_emoj} 2 #{note}" }
       let(:matches) do
-        [{ rid: user_mention, inline_emoji: team.point_emoj, suffix_digits: 2, note: }]
+        [{ rid: user_mention, inline_emoji: team.point_emoj, suffix_quantity: 2, note: }]
       end
 
       include_examples 'success'
@@ -143,7 +143,7 @@ RSpec.describe Actions::Message do
     context 'when text includes single valid inline emoji with int prefix' do
       let(:text) { "hello <#{user_mention}> 2 #{team.point_emoj} #{note}" }
       let(:matches) do
-        [{ rid: user_mention, prefix_digits: 2, inline_emoji: team.point_emoj, note: }]
+        [{ rid: user_mention, prefix_quantity: 2, inline_emoji: team.point_emoj, note: }]
       end
 
       include_examples 'success'
@@ -159,7 +159,7 @@ RSpec.describe Actions::Message do
         [{
           rid: user_mention,
           inline_emoji: "#{team.point_emoj} #{team.point_emoj} #{team.point_emoj}",
-          suffix_digits: 2,
+          suffix_quantity: 2,
           note:
         }]
       end
@@ -196,14 +196,14 @@ RSpec.describe Actions::Message do
           },
           {
             rid: "#{SUBTEAM_PREFIX[platform]}#{subteam.rid}",
-            prefix_digits: 2,
+            prefix_quantity: 2,
             inline: '+=',
-            suffix_digits: 5
+            suffix_quantity: 5
           },
           {
             rid: "#{CHAN_PREFIX}#{channel.rid}",
             inline: '++',
-            suffix_digits: 3
+            suffix_quantity: 3
           }
         ]
       end

@@ -25,7 +25,22 @@ module ProfileDecorator
   end
 
   def link_with_points
-    "#{link} (#{points_format(points, label: true)})"
+    "#{link} (#{points_format(total_points, label: true)})"
+  end
+
+  def dashboard_link
+    case team.platform.to_sym
+    when :slack then "<#{web_url}|#{display_name}>"
+    when :discord then "**#{display_name}**"
+    end
+  end
+
+  def dashboard_link_with_stat
+    case team.platform.to_sym
+    when :slack then "<#{web_url}|#{display_name} (#{points_format(total_points)})>"
+    when :discord then "**#{display_name} (#{points_format(total_points)})**"
+    when :web then web_profile_link
+    end
   end
 
   def webref
@@ -102,21 +117,6 @@ module ProfileDecorator
 
   def web_url
     "#{App.base_url}/profiles/#{slug}"
-  end
-
-  def profile_link
-    case team.platform.to_sym
-    when :slack then "<#{web_url}|#{display_name}>"
-    when :discord then "**#{display_name}**"
-    end
-  end
-
-  def profile_link_with_stat
-    case team.platform.to_sym
-    when :slack then "<#{web_url}|#{display_name} (#{points_format(total_points)})>"
-    when :discord then "**#{display_name} (#{points_format(total_points)})**"
-    when :web then web_profile_link
-    end
   end
 
   def web_profile_link

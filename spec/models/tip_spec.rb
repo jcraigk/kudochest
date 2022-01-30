@@ -50,7 +50,6 @@ RSpec.describe Tip do
     let(:profile) { create(:profile) }
 
     before do
-      create(:tip, source: 'seed', from_profile: profile) # wrong source
       create(:tip, source: 'modal', from_profile: profile, created_at: 1.year.ago) # old
     end
 
@@ -83,6 +82,24 @@ RSpec.describe Tip do
 
     it 'validates with expected validators' do
       expect(validators).to include(*expected_validators)
+    end
+  end
+
+  describe '#jab?' do
+    context 'when quantity is negative' do
+      before { tip.quantity = -1 }
+
+      it 'is true' do
+        expect(tip.jab?).to eq(true)
+      end
+    end
+
+    context 'when quantity is positive' do
+      before { tip.quantity = 1 }
+
+      it 'is true' do
+        expect(tip.jab?).to eq(false)
+      end
     end
   end
 

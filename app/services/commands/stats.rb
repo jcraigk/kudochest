@@ -34,7 +34,7 @@ class Commands::Stats < Commands::Base
   end
 
   def streak_fragment
-    "*#{App.points_term.titleize} Giving Streak:* #{requested_profile.active_streak_sentence}"
+    "*Giving Streak:* #{requested_profile.active_streak_sentence}"
   end
 
   def next_token_dispersal
@@ -45,7 +45,7 @@ class Commands::Stats < Commands::Base
 
   def stats_title
     <<~TEXT.chomp
-      *Stats for #{requested_profile.profile_link}*
+      *Stats for #{requested_profile.dashboard_link}*
     TEXT
   end
 

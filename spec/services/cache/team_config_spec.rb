@@ -8,15 +8,15 @@ RSpec.describe Cache::TeamConfig do
   let(:team) { create(:team, log_channel_rid: channel_rid) }
   let(:cache_key) { "team_response_config/#{team.rid}" }
   let!(:topics) { create_list(:topic, 2, team:) }
-  let(:team_attrs) { team.attributes.slice(*TeamConfig.members.map(&:to_s)) }
+  let(:team_attrs) { team.attributes.slice(*Team::CONFIG_ATTRS) }
   let(:topic_attrs) do
     {
       topics: topics.map do |topic|
-        TopicData.new(topic.attributes.slice(*TopicData.members.map(&:to_s)))
+        topic.attributes.slice('id', 'name', 'keyword', 'emoji').symbolize_keys
       end
     }
   end
-  let(:expected) { TeamConfig.new(team_attrs.merge(topic_attrs)) }
+  let(:expected) { team_attrs.merge(topic_attrs).deep_symbolize_keys }
 
   it 'returns expected data' do
     expect(cache.call).to eq(expected)

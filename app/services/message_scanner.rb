@@ -20,13 +20,13 @@ class MessageScanner < Base::Service
     sanitized_text.presence&.scan(regex)&.map do |match|
       {
         rid: rid(match),
-        prefix_digits: prefix_digits(match),
+        prefix_quantity: prefix_quantity(match),
         inline_text: inline_text(match),
         inline_emoji: sanitized_emoji(match),
-        suffix_digits: suffix_digits(match),
+        suffix_quantity: suffix_quantity(match),
         topic_keyword: topic_keyword(match),
         note: note(match)
-      }
+      }.compact
     end
   end
 
@@ -38,20 +38,21 @@ class MessageScanner < Base::Service
     match[3].presence
   end
 
-  def prefix_digits(match)
-    digits_or_nil(match[2])
+  def prefix_quantity(match)
+    quantity_or_nil(match[2])
   end
 
-  def suffix_digits(match)
-    digits_or_nil(match[5])
+  def suffix_quantity(match)
+    quantity_or_nil(match[5])
   end
 
   def rid(match)
     match[0] || match[1] # entity_rid || group_keyword
   end
 
-  def digits_or_nil(str)
-    str.presence&.to_i
+  def quantity_or_nil(str)
+    return if str.blank?
+    BigDecimal(str)
   end
 
   def sanitized_emoji(match)
@@ -73,7 +74,7 @@ class MessageScanner < Base::Service
   end
 
   def sanitized_text
-    text.strip.tr("\u00A0", ' ') # Unicode space (from Slack)
+    text&.strip&.tr("\u00A0", ' ') # Unicode space (from Slack)
   end
 
   def regex
@@ -128,11 +129,11 @@ class MessageScanner < Base::Service
   end
 
   def quantity_prefix
-    '(?<prefix_digits>\d*\.?\d*)\s?'
+    '(?<prefix_quantity>\d*\.?\d*)\s?'
   end
 
   def quantity_suffix
-    '\s?(?<suffix_digits>\d*\.?\d*)'
+    '\s?(?<suffix_quantity>\d*\.?\d*)'
   end
 
   def space

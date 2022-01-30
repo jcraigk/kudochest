@@ -16,7 +16,7 @@ RSpec.describe Slack::SlackApi do
 
   context 'when team_rid is provided' do
     let(:team_rid) { FactoryHelper.slack_rid('T') }
-    let(:cache_data) { TeamConfig.new(api_key:) }
+    let(:cache_data) { { api_key: } }
 
     before do
       allow(Cache::TeamConfig).to receive(:call).with(team_rid).and_return(cache_data)

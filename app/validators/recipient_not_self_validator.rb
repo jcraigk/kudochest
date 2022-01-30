@@ -2,7 +2,7 @@
 class RecipientNotSelfValidator < ActiveModel::Validator
   def validate(record)
     return if record.to_profile_id != record.from_profile_id
-    key, points = record.quantity.negative? ? [:jab, App.jabs_term] : [:tip, App.points_term]
+    key, points = record.quantity.negative? ? [:jab, App.jabs_term] : [:point, App.points_term]
     record.errors.add \
       :base,
       I18n.t(

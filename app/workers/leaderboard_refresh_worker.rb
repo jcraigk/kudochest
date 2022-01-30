@@ -47,7 +47,7 @@ class LeaderboardRefreshWorker
       rank:,
       previous_rank: rank, # TODO: Re-enable laterf
       slug: prof.slug,
-      link: prof.profile_link,
+      link: prof.dashboard_link,
       display_name: prof.display_name,
       real_name: prof.real_name,
       points:,

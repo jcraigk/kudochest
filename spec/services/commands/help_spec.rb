@@ -7,9 +7,13 @@ RSpec.describe Commands::Help do
   let(:team) { create(:team, :with_app_profile) }
   let(:profile) { create(:profile, team:) }
 
-  it 'returns help text' do
+  it 'returns help title' do
     result = command
+    text = "Giving #{App.points_term.titleize} and #{App.jabs_term.titleize}:"
     expect(result.mode).to eq(:private)
-    expect(result.text).to include("Giving #{App.points_term}:")
+    expect(result.text).to include(text)
+  end
+
+  xit 'returns specific help sections...' do
   end
 end

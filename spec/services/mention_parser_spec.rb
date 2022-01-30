@@ -10,22 +10,23 @@ RSpec.describe MentionParser do
   let(:to_profile2) { create(:profile, team:) }
   let(:channel) { create(:channel, team:) }
   let(:channel_name) { channel.name }
-  let(:quantity) { '2' }
-  let(:quantity2) { '2' }
+  let(:quantity) { 2 }
+  let(:quantity2) { 2 }
   let(:note) { 'and here is a note' }
   let(:ts) { Time.current.to_f.to_s }
   let(:matches) do
     [
-      Actions::Message::MentionMatch.new(
-        profile_rid: to_profile.rid,
-        prefix_digits: '',
-        suffix_digits: 2
-      ),
-      Actions::Message::MentionMatch.new(
-        profile_rid: to_profile2.rid,
-        prefix_digits: quantity2,
-        suffix_digits: ''
-      )
+      {
+        rid: to_profile.rid,
+        inline: '++',
+        suffix_quantity: 2,
+        note:
+      },
+      {
+        rid: to_profile2.rid,
+        inline: '++',
+        prefix_quantity: quantity2
+      }
     ]
   end
   let(:opts) do
@@ -35,15 +36,13 @@ RSpec.describe MentionParser do
       event_ts: ts,
       channel_rid: channel.rid,
       channel_name: channel_name,
-      matches: matches,
-      note: note
+      matches: matches
     }
   end
   let(:tip_mention_args) do
     {
       profile: profile,
       mentions: mentions,
-      note: note,
       source: 'inline',
       event_ts: ts,
       channel_rid: channel.rid,
@@ -54,13 +53,12 @@ RSpec.describe MentionParser do
     [
       Mention.new(
         rid: to_profile.rid,
-        quantity: quantity.to_i,
-        topic_id: nil
+        quantity:,
+        note:
       ),
       Mention.new(
         rid: to_profile2.rid,
-        quantity: quantity2.to_i,
-        topic_id: nil
+        quantity: quantity2
       )
     ]
   end

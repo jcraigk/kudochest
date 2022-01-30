@@ -22,7 +22,7 @@ describe Hooks::Slack::BaseController do
       }
     end
     let(:result) { ChatResponse.new(mode: :foo, text: 'bar') }
-    let(:config) { TeamConfig.new(active: true, topics: []) }
+    let(:config) { { platform: team.platform, active: true, topics: [] } }
 
     before do
       allow(EventWorker).to receive(:perform_async)
@@ -42,7 +42,7 @@ describe Hooks::Slack::BaseController do
     end
 
     shared_examples 'ignores irrelevant messages' do
-      let(:config) { TeamConfig.new(active: true) }
+      let(:config) { { active: true } }
 
       before do
         allow(slack_request).to receive(:verify!).and_return(true)

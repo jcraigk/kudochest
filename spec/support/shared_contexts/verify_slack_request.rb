@@ -7,9 +7,12 @@ RSpec.shared_context 'with Slack request verification and active team' do
   before do
     allow(Slack::Events::Request).to receive(:new).and_return(slack_request)
     allow(slack_request).to receive(:verify!).and_return(true)
-    allow(Cache::TeamConfig).to receive(:call).and_return \
-      TeamConfig.new \
+    allow(Cache::TeamConfig).to receive(:call).and_return(
+      {
         active: true,
-        app_profile_rid: team.app_profile_rid
+        app_profile_rid: team.app_profile_rid,
+        platform: 'slack'
+      }
+    )
   end
 end

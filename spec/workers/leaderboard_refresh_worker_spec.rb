@@ -107,7 +107,7 @@ RSpec.describe LeaderboardRefreshWorker, :freeze_time do
       rank: rank,
       previous_rank: rank,
       slug: profile.slug,
-      link: profile.profile_link,
+      link: profile.dashboard_link,
       display_name: profile.display_name,
       real_name: profile.real_name,
       points: profile.send(points_col),

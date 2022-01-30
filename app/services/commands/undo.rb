@@ -3,10 +3,10 @@ class Commands::Undo < Commands::Base
   attr_reader :text
 
   def call
-    return respond_failure(I18n.t('tips.nothing_to_undo')) if tips.none?
+    return respond_failure(I18n.t('tips.nothing_to_undo')) if recent_tips.none?
 
     prepare_response
-    tips.destroy_all
+    recent_tips.destroy_all
     respond
   end
 
@@ -22,19 +22,19 @@ class Commands::Undo < Commands::Base
     @text = "You revoked #{points_clause}"
   end
 
-  def tips
-    @tips ||= Tip.where(event_ts: undoable_event_ts)
+  def recent_tips
+    @recent_tips ||= Tip.where(event_ts: undoable_event_ts)
   end
 
   def undoable_event_ts
     Tip.undoable
        .where(from_profile: profile)
-       .select(:event_ts)
-       .limit(1)
+       .order(created_at: :desc)
+       .pick(:event_ts)
   end
 
   def points_clause
-    relevant_tips_by_quantity.map do |quantity, quant_tips|
+    noticible_tips_by_quantity.map do |quantity, quant_tips|
       str = "#{points_format(quantity, label: true)} from #{frag_sentence(quant_tips)}"
       str += ' each' if quant_tips.size.between?(2, App.max_response_mentions)
       str
@@ -46,7 +46,7 @@ class Commands::Undo < Commands::Base
     tips.map { |t| t.to_profile.link }.to_sentence
   end
 
-  def relevant_tips_by_quantity
-    tips.group_by(&:quantity).sort.reverse
+  def noticible_tips_by_quantity
+    recent_tips.reject { |t| t.source == 'streak' }.group_by(&:quantity).sort.reverse
   end
 end

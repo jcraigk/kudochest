@@ -21,24 +21,19 @@ RSpec.describe MessageScanner do
   context 'with topic keywords' do
     let!(:topic1) { create(:topic, team:) }
     let!(:topic2) { create(:topic, team:) }
-    let(:text) { "<#{rid1}>++2 #{topic1.keyword} <#{rid2}> 3-- #{topic2.keyword} #{note}" }
+    let(:text) { "<#{rid1}>++2.5 #{topic1.keyword} <#{rid2}> 3-- #{topic2.keyword} #{note}" }
     let(:matches) do
       [
         {
           rid: rid1,
-          prefix_digits: nil,
           inline_text: '++',
-          inline_emoji: nil,
-          suffix_digits: 2,
-          topic_keyword: topic1.keyword,
-          note: nil
+          suffix_quantity: 2.5,
+          topic_keyword: topic1.keyword
         },
         {
           rid: rid2,
-          prefix_digits: 3,
+          prefix_quantity: 3,
           inline_text: '--',
-          inline_emoji: nil,
-          suffix_digits: nil,
           topic_keyword: topic2.keyword,
           note:
         }
@@ -57,20 +52,12 @@ RSpec.describe MessageScanner do
       [
         {
           rid: rid1,
-          prefix_digits: nil,
-          inline_text: nil,
           inline_emoji: "#{team.point_emoj}#{team.point_emoj}",
-          suffix_digits: nil,
-          topic_keyword: nil,
           note:
         },
         {
           rid: rid2,
-          prefix_digits: nil,
-          inline_text: nil,
           inline_emoji: team.jab_emoj,
-          suffix_digits: nil,
-          topic_keyword: nil,
           note: note2
         }
       ]

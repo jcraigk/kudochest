@@ -7,8 +7,9 @@ RSpec.describe Reports::TeamDigestService do
   let(:team) { create(:team) }
   let(:keys) do
     %i[
-      team points_sent num_givers num_recipients points_from_streak
-      levelup_sentence top_recipients top_givers loot_claims_sentence
+      team points_given jabs_given num_givers num_recipients points_from_streak
+      point_givers jab_givers point_recipients jab_recipients
+      leveling_sentence top_recipients top_givers loot_claims_sentence
     ]
   end
 

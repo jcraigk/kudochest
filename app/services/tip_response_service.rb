@@ -144,8 +144,8 @@ class TipResponseService < Base::Service # rubocop:disable Metrics/ClassLength
 
   def chat_profile_link(profile)
     case team.response_theme
-    when 'quiet' then profile.profile_link
-    when 'quiet_stat' then profile.profile_link_with_stat
+    when 'quiet' then profile.dashboard_link
+    when 'quiet_stat' then profile.dashboard_link_with_stat
     when 'fancy' then profile.link_with_stat
     when 'basic' then profile.link
     end
@@ -176,10 +176,7 @@ class TipResponseService < Base::Service # rubocop:disable Metrics/ClassLength
 
   def leveling_fragment(medium)
     return unless team.enable_levels? && levelings.any?
-    parts = []
-    parts << levelup_fragment(medium)
-    parts << leveldown_fragment(medium)
-    parts.compact
+    [levelup_fragment(medium), leveldown_fragment(medium)].compact_blank.join(' and ')
   end
 
   def levelup_fragment(medium)
