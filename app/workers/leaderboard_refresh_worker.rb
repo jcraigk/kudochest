@@ -82,7 +82,7 @@ class LeaderboardRefreshWorker
   def sorted_active_profiles
     team.profiles
         .active
-        .where.not(last_tip_received_at: nil)
+        .where.not(last_timestamp_col => nil)
         .order(value_col => :desc, last_timestamp_col => :desc)
   end
 
