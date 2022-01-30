@@ -7,16 +7,15 @@ class MessageScanner < Base::Service
 
   def call
     @platform = config[:platform].to_sym
-    return [] if text.blank?
-    matches_on_text
+    matches_on_text || []
   end
 
   private
 
   def matches_on_text # rubocop:disable Metrics/MethodLength
-    sanitized_text.scan(regex).map do |match|
+    sanitized_text.presence&.scan(regex)&.map do |match|
       {
-        profile_rid: match[0] || match[1], # entity_rid || group_keyword
+        rid: match[0] || match[1], # entity_rid || group_keyword
         prefix_digits: match[2],
         inline_text: match[3],
         inline_emoji: sanitized_emoji(match[4]),
@@ -24,7 +23,7 @@ class MessageScanner < Base::Service
         topic_keyword: match[6]&.strip,
         note: sanitized_note(match[7])
       }
-    end || []
+    end
   end
 
   def sanitized_emoji(str)

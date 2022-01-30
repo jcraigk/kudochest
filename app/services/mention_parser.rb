@@ -36,7 +36,7 @@ class MentionParser < Base::Service
   # `@user++ great @user++ work!`
   #   => @user gets 1 Tip of quantity 2 with note "great work!"
   def stacked_mentions
-    rich_mentions.group_by(&:rid).map do |rid, mentions_by_rid|
+    processed_mentions.group_by(&:rid).map do |rid, mentions_by_rid|
       mentions_by_rid.group_by(&:topic_id).map do |topic_id, mentions|
         note = mentions.pluck(:note).join(' ')
         Mention.new(rid:, topic_id:, quantity: mentions.sum(&:quantity), note:)
@@ -44,10 +44,10 @@ class MentionParser < Base::Service
     end.flatten
   end
 
-  def rich_mentions
+  def processed_mentions
     matches.map do |match|
       Mention.new \
-        rid: match[:profile_rid],
+        rid: match[:rid],
         topic_id: tip_topic_id(match),
         quantity: tip_quantity(match),
         note: match[:note]

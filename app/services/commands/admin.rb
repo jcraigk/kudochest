@@ -70,15 +70,25 @@ class Commands::Admin < Commands::Base
   def emoji_text
     str = "*Emoji Enabled:* #{boolean_str(team.enable_emoji?)}"
     return str unless team.enable_emoji?
-    str += standard_emoji
-    str += "\n*#{App.jabs_term.titleize} Emoji:* #{team.jab_emoj}" if team.enable_jabs?
+
+    str += "\n*Emoji Value:* #{points_format(team.emoji_quantity, label: true)}"
+    str += point_emoji
+    str += jab_emoji
+    str += ditto_emoji
     str
   end
 
-  def standard_emoji
-    "\n*Emoji Value:* #{points_format(team.emoji_quantity, label: true)}" \
-      "\n*#{App.points_term.titleize} Emoji:* #{team.point_emoj}" \
-      "\n*Ditto Emoji:* #{team.ditto_emoj}"
+  def point_emoji
+    "\n*#{App.points_term.titleize} Emoji:* #{team.point_emoj}"
+  end
+
+  def jab_emoji
+    return unless team.enable_jabs?
+    "\n*#{App.jabs_term.titleize} Emoji:* #{team.jab_emoj}"
+  end
+
+  def ditto_emoji
+    "\n*Ditto Emoji:* #{team.ditto_emoj}"
   end
 
   def level_text
@@ -114,12 +124,12 @@ class Commands::Admin < Commands::Base
   end
 
   def streak_text
-    txt = "*Streaks Enabled:* #{boolean_str(team.enable_streaks?)}"
+    txt = "*Giving Streaks Enabled:* #{boolean_str(team.enable_streaks?)}"
     return txt unless team.enable_streaks?
     txt + <<~TEXT.chomp
 
-      *Streak Duration:* #{pluralize(team.streak_duration, 'day')}
-      *Streak Reward:* #{points_format(team.streak_reward, label: true)}
+      *Giving Streak Duration:* #{pluralize(team.streak_duration, 'day')}
+      *Giving Streak Reward:* #{points_format(team.streak_reward, label: true)}
     TEXT
   end
 

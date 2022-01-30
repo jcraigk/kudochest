@@ -101,10 +101,10 @@ class Discord::BotEventService < Base::Service
 
   def listen_for_message
     bot.message do |event|
-      team_rid = event.server&.id.to_s
-      next event.respond(no_dm_support) if team_rid.blank?
+      next event.respond(no_dm_support) if (team_rid = event.server&.id.to_s).blank?
       next unless (config = Cache::TeamConfig.call(team_rid))[:active]
-      EventWorker.perform_async(message_payload(team_rid, config, event))
+      matches = MessageScanner.call(event.message.content, config)
+      EventWorker.perform_async(message_payload(team_rid, config, event).merge(matches:))
     end
   end
 
