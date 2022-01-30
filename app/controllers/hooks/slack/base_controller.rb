@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 class Hooks::Slack::BaseController < Hooks::BaseController
   include ActionView::Helpers::NumberHelper
-  include EntityReferenceHelper
 
   before_action :verify_challenge_param
   before_action :ignore_irrelevant_messages!
@@ -16,12 +15,12 @@ class Hooks::Slack::BaseController < Hooks::BaseController
   protected
 
   def enqueue_slack_event_worker
-    EventWorker.perform_async(data.merge(fast_ack_data))
+    EventWorker.perform_async(data.merge(fast_ack_data).merge(matches:))
   end
 
   def fast_ackable?
-    team_config.enable_fast_ack &&
-      !team_config.response_mode.in?(%w[silent direct]) &&
+    team_config[:enable_fast_ack] &&
+      !team_config[:response_mode].in?(%w[silent direct]) &&
       !private_command? &&
       !prefs_submission?
   end
@@ -36,25 +35,16 @@ class Hooks::Slack::BaseController < Hooks::BaseController
   end
 
   def mentions_found?
-    @mentions_found ||=
-      text&.match? \
-        mention_regex \
-          :slack,
-          "(?:#{valid_emojis.join('|')})",
-          emoji: team_config.enable_emoji
+    @mentions_found ||= matches.any?
   end
 
-  def valid_emojis
-    (topic_emojis + [team_config.tip_emoji]).compact_blank
-  end
-
-  def topic_emojis
-    team_config.topics.map(&:emoji)
+  def matches
+    @matches ||= MessageScanner.call(text, team_config)
   end
 
   def relevant_text?
     @relevant_text ||=
-      text&.start_with?("<#{PROF_PREFIX}#{team_config.app_profile_rid}>") || mentions_found?
+      text&.start_with?("<#{PROF_PREFIX}#{team_config[:app_profile_rid]}>") || mentions_found?
   end
 
   def fast_ack_data
@@ -89,22 +79,17 @@ class Hooks::Slack::BaseController < Hooks::BaseController
   end
 
   def verify_team_active!
-    return if team_config.active
+    return if team_config[:active]
     head :ok
-  end
-
-  # If an action, a command, a "++"/emoji, or an app mention
-  def respondable_event?
-    self.class.name.match?(/(ActionController|CommandsController)/) ||
-      relevant_text?
   end
 
   def text
     @text ||= params.dig(:event, :text) || ''
   end
 
+  # Naming this `config` messes with Rails logger :shrug:
   def team_config
-    Cache::TeamConfig.call(team_rid)
+    @team_config ||= Cache::TeamConfig.call(team_rid)
   end
 
   def team_rid

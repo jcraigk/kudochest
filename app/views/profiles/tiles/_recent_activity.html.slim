@@ -15,7 +15,7 @@
       table.table.is-fullwidth
         thead
           tr
-            th = t('tips.type')
+            th = t('tips.direction')
             th = t('tips.user')
             th = t('tips.quantity')
             - if profile.team.enable_topics?
@@ -33,9 +33,9 @@
         tbody
           - tips.each do |tip|
             tr
-              td = direction_with_icon(tip, profile)
+              td = tip_direction_with_icon(tip, profile)
               td = profile_web_link(tip.from_profile == profile ? tip.to_profile : tip.from_profile)
-              td = points_format(tip.quantity)
+              td = points_format(tip.quantity, colorize: true, plus_prefix: true)
               - if profile.team.enable_topics?
                 td = tip.topic_name
               td = channel_ref(tip)

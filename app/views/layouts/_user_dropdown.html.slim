@@ -57,8 +57,9 @@
 
     = link_to icon_and_text('info-square',
               t('nav.help')),
-              help_path,
-              class: 'navbar-item'
+              App.help_url,
+              class: 'navbar-item',
+              target: '_blank'
     = link_to icon_and_text('sign-out', t('auth.logout')),
               logout_path,
               method: :delete,

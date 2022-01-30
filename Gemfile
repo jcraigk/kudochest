@@ -65,5 +65,5 @@ group :test do
   gem 'shoulda-matchers'
   gem 'simplecov'
   gem 'super_diff'
-  gem 'vcr'
+  gem 'vcr', github: 'vcr/vcr' # TODO: remove when ruby 3.1 warning is fixed in release branch
 end

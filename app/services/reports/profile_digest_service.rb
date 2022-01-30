@@ -14,26 +14,18 @@ class Reports::ProfileDigestService < Reports::BaseDigestService
     DigestData.new \
       profile:,
       points_received:,
-      num_givers:,
-      points_sent:,
-      num_recipients:,
+      point_givers:,
+      jabs_received:,
+      jab_givers:,
+      points_given:,
+      point_recipients:,
+      jabs_given:,
+      jab_recipients:,
       points_from_streak:,
-      levelup_sentence:,
+      leveling_sentence:,
       rank_sentence:,
       top_recipients:,
       top_givers:
-  end
-
-  def num_givers
-    unique_givers.size
-  end
-
-  def num_recipients
-    unique_recipients.size
-  end
-
-  def unique_recipients
-    @unique_recipients ||= tips_sent.map(&:to_profile).uniq
   end
 
   def recipient_quantities
@@ -42,18 +34,34 @@ class Reports::ProfileDigestService < Reports::BaseDigestService
     end
   end
 
-  def unique_givers
-    @unique_givers ||= tips_received.map(&:from_profile).uniq
+  def unique_recipients
+    @unique_recipients ||= tips_given.map(&:to_profile).uniq
+  end
+
+  def point_givers
+    @point_givers ||= tips_received.reject(&:jab?).map(&:from_profile).uniq
+  end
+
+  def jab_givers
+    @jab_givers ||= tips_received.select(&:jab?).map(&:from_profile).uniq
+  end
+
+  def point_recipients
+    @point_recipients ||= tips_received.reject(&:jab?).map(&:to_profile).uniq
+  end
+
+  def jab_recipients
+    @jab_recipients ||= tips_received.select(&:jab?).map(&:to_profile).uniq
   end
 
   def giver_quantities
-    unique_givers.map do |profile|
+    tips_received.map(&:from_profile).uniq.map do |profile|
       ProfileQuantity.new(profile, quantity_from(profile))
     end
   end
 
   def quantity_to(profile)
-    tips_sent.select { |tip| tip.to_profile_id == profile.id }.sum(&:quantity)
+    tips_given.select { |tip| tip.to_profile_id == profile.id }.sum(&:quantity)
   end
 
   def quantity_from(profile)
@@ -68,8 +76,8 @@ class Reports::ProfileDigestService < Reports::BaseDigestService
          .order(quantity: :desc)
   end
 
-  def tips_sent
-    @tips_sent ||=
+  def tips_given
+    @tips_given ||=
       Tip.where(from_profile: profile)
          .where('tips.created_at > ?', timeframe)
          .order(quantity: :desc)
@@ -80,11 +88,19 @@ class Reports::ProfileDigestService < Reports::BaseDigestService
   end
 
   def points_received
-    @points_received ||= tips_received.sum(:quantity)
+    @points_received ||= tips_received.reject(&:jab?).sum(&:quantity)
   end
 
-  def points_sent
-    @points_sent ||= tips_sent.sum(:quantity)
+  def points_given
+    @points_given ||= tips_given.reject(&:jab?).sum(&:quantity)
+  end
+
+  def jabs_received
+    @jabs_received ||= tips_received.select(&:jab?).sum(&:quantity).abs
+  end
+
+  def jabs_given
+    @jabs_given ||= tips_given.select(&:jab?).sum(&:quantity).abs
   end
 
   def points_from_streak
@@ -92,14 +108,16 @@ class Reports::ProfileDigestService < Reports::BaseDigestService
     tips_received.where(source: 'streak').sum(:quantity)
   end
 
-  def levelup_sentence
+  def leveling_sentence
     return unless team.enable_levels?
 
     delta = profile.level - previous_level
     case delta
     when 0 then "You held steady at level #{profile.level}"
     when 1 then "You gained a level! #{level_snippet}"
-    else "You gained #{pluralize(delta, 'level')}! #{level_snippet}"
+    when -1 then "You lost a level! #{level_snippet}"
+    when 1..1_000 then "You gained #{pluralize(delta, 'level')}! #{level_snippet}"
+    when -1..-1_000 then "You lost #{pluralize(delta.abs, 'level')}! #{level_snippet}"
     end
   end
 
@@ -107,8 +125,12 @@ class Reports::ProfileDigestService < Reports::BaseDigestService
     "You're now at level #{profile.level}."
   end
 
+  def point_deduction
+    team.deduct_jabs? ? (points_received + jabs_received) : points_received
+  end
+
   def previous_level
-    PointsToLevelService.call(team: profile.team, points: profile.points - points_received)
+    PointsToLevelService.call(team:, points: profile.total_points - point_deduction)
   end
 
   def rank_sentence
@@ -144,8 +166,8 @@ class Reports::ProfileDigestService < Reports::BaseDigestService
   end
 
   DigestData = Struct.new \
-    :profile, :points_received, :num_givers, :points_sent, :num_recipients,
-    :points_from_streak, :levelup_sentence, :rank_sentence, :top_recipients, :top_givers,
-    keyword_init: true
+    :profile, :points_received, :jabs_received, :point_givers, :jab_givers,
+    :points_given, :jabs_given, :point_recipients, :jab_recipients, :points_from_streak,
+    :leveling_sentence, :rank_sentence, :top_recipients, :top_givers, keyword_init: true
   ProfileQuantity = Struct.new(:profile, :quantity)
 end

@@ -29,6 +29,14 @@ RSpec.describe PointsToLevelService do
         expect(call).to eq(1)
       end
     end
+
+    context 'when points is negative' do
+      let(:points) { -10 }
+
+      it 'returns 1' do
+        expect(call).to eq(1)
+      end
+    end
   end
 
   context 'with steep curve' do

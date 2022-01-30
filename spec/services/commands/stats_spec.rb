@@ -30,11 +30,14 @@ RSpec.describe Commands::Stats do
     let(:request_text) { '' }
     let(:response_text) do
       <<~TEXT.chomp
-        *Stats for #{profile.profile_link}*
+        *Stats for #{profile.dashboard_link}*
         *Leaderboard Rank:* #{rank}
         *Level:* 1
-        *#{App.points_term.titleize}:* 0
-        *Given:* 0
+        *Kudos Received:* 0
+        *Kudonts Received:* 0
+        *Balance:* 0
+        *Kudos Given:* 0
+        *Kudonts Given:* 0
         *Tokens:* 0 (receiving #{team.token_quantity} tokens in 2 days)
         *Giving Streak:* 0 days
       TEXT
@@ -45,11 +48,14 @@ RSpec.describe Commands::Stats do
     context 'with infinite_token profiles' do
       let(:response_text) do
         <<~TEXT.chomp
-          *Stats for #{profile.profile_link}*
+          *Stats for #{profile.dashboard_link}*
           *Leaderboard Rank:* #{rank}
           *Level:* 1
-          *#{App.points_term.titleize}:* 0
-          *Given:* 0
+          *Kudos Received:* 0
+          *Kudonts Received:* 0
+          *Balance:* 0
+          *Kudos Given:* 0
+          *Kudonts Given:* 0
           *Tokens:* Unlimited
           *Giving Streak:* 0 days
         TEXT
@@ -66,11 +72,14 @@ RSpec.describe Commands::Stats do
     let(:request_text) { profile2.link }
     let(:response_text) do
       <<~TEXT.chomp
-        *Stats for #{profile2.profile_link}*
+        *Stats for #{profile2.dashboard_link}*
         *Leaderboard Rank:* #{rank}
         *Level:* 1
-        *#{App.points_term.titleize}:* 0
-        *Given:* 0
+        *Kudos Received:* 0
+        *Kudonts Received:* 0
+        *Balance:* 0
+        *Kudos Given:* 0
+        *Kudonts Given:* 0
         *Giving Streak:* 0 days
       TEXT
     end
@@ -83,10 +92,13 @@ RSpec.describe Commands::Stats do
     let(:request_text) { profile2.link }
     let(:response_text) do
       <<~TEXT.chomp
-        *Stats for #{profile2.profile_link}*
+        *Stats for #{profile2.dashboard_link}*
         *Leaderboard Rank:* #{rank}
-        *#{App.points_term.titleize}:* 0
-        *Given:* 0
+        *Kudos Received:* 0
+        *Kudonts Received:* 0
+        *Balance:* 0
+        *Kudos Given:* 0
+        *Kudonts Given:* 0
         *Giving Streak:* 0 days
       TEXT
     end
@@ -101,11 +113,14 @@ RSpec.describe Commands::Stats do
     let(:request_text) { profile2.link }
     let(:response_text) do
       <<~TEXT.chomp
-        *Stats for #{profile2.profile_link}*
+        *Stats for #{profile2.dashboard_link}*
         *Leaderboard Rank:* #{rank}
         *Level:* 1
-        *#{App.points_term.titleize}:* 0
-        *Given:* 0
+        *Kudos Received:* 0
+        *Kudonts Received:* 0
+        *Balance:* 0
+        *Kudos Given:* 0
+        *Kudonts Given:* 0
         *Giving Streak:* 0 days
       TEXT
     end
@@ -120,11 +135,14 @@ RSpec.describe Commands::Stats do
     let(:request_text) { profile2.link }
     let(:response_text) do
       <<~TEXT.chomp
-        *Stats for #{profile2.profile_link}*
+        *Stats for #{profile2.dashboard_link}*
         *Leaderboard Rank:* #{rank}
         *Level:* 1
-        *#{App.points_term.titleize}:* 0
-        *Given:* 0
+        *Kudos Received:* 0
+        *Kudonts Received:* 0
+        *Balance:* 0
+        *Kudos Given:* 0
+        *Kudonts Given:* 0
       TEXT
     end
 

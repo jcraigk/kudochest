@@ -1,13 +1,10 @@
 # frozen_string_literal: true
 class Actions::Message < Actions::Base
-  include EntityReferenceHelper
-
-  attr_reader :app_profile_rid, :app_subteam_rid, :team_rid, :profile_rid,
-              :channel_rid, :text, :origin, :event_ts, :platform
+  attr_reader :team_rid, :config, :profile_rid, :channel_rid, :text,
+              :origin, :event_ts, :platform, :matches
 
   def call # rubocop:disable Metrics/AbcSize
-    @app_profile_rid = params[:team_config][:app_profile_rid]
-    @app_subteam_rid = params[:team_config][:app_subteam_rid]
+    @config = params[:config]
     @channel_rid = params[:channel_rid]
     @event_ts = params[:event_ts]
     @origin = params[:origin]
@@ -15,11 +12,19 @@ class Actions::Message < Actions::Base
     @team_rid = params[:team_rid]
     @text = params[:text]
     @platform = params[:platform].to_sym
+    @matches = params[:matches]
 
     process_message
   end
 
   private
+
+  def process_message
+    return open_tip_modal if slash_command_without_keyword?
+    return call_command if keyword_detected?
+    return handle_mentions if matches&.any?
+    respond_bad_input if text_directed_at_app?
+  end
 
   def channel_name
     @channel_name ||= given_channel_name || fetch_channel_name
@@ -32,13 +37,6 @@ class Actions::Message < Actions::Base
   def fetch_channel_name
     return unless platform == :slack
     Slack::ChannelNameService.call(team:, channel_rid:).presence
-  end
-
-  def process_message
-    return open_tip_modal if slash_command_without_keyword?
-    return call_command if keyword_detected?
-    return handle_mentions if mention_matches.any?
-    respond_bad_input if text_directed_at_app?
   end
 
   def text_directed_at_app?
@@ -69,50 +67,7 @@ class Actions::Message < Actions::Base
       event_ts:,
       channel_rid:,
       channel_name:,
-      matches: mention_matches,
-      note:
-  end
-
-  def note
-    NoteSanitizer.call(platform:, team_rid:, text: raw_note)
-  end
-
-  def raw_note
-    text[mention_matches.last.end..].strip
-  end
-
-  def enable_emoji?
-    params.dig(:team_config, :enable_emoji)
-  end
-
-  def mention_matches
-    @mention_matches ||=
-      sanitized_text.scan(mention_regex(platform, '[a-z0-9_]+'))
-                    .map do |match|
-                      last_match = extract_last_match(Regexp.last_match)
-                      mention_match_struct(match, last_match)
-                    end
-  end
-
-  def extract_last_match(last_match)
-    last_match.end(5) ||
-      last_match.end(4) ||
-      last_match.end(3) ||
-      last_match.end(2) ||
-      last_match.end(1)
-  end
-
-  def sanitized_text
-    text.tr("\u00A0", ' ') # Unicode space (from Slack)
-  end
-
-  def mention_match_struct(match, last_match_end)
-    MentionMatch.new \
-      profile_rid: match.second || match.first, # 'everyone' or entity RID match
-      prefix_digits: match.third,
-      suffix_digits: match.fifth,
-      emoji_string: match.fourth,
-      end: last_match_end
+      matches:
   end
 
   def command_key
@@ -149,12 +104,12 @@ class Actions::Message < Actions::Base
   end
 
   def app_profile_ref
-    @app_profile_ref ||= "<#{PROFILE_PREFIX[platform]}#{app_profile_rid}>"
+    @app_profile_ref ||= "<#{PROFILE_PREFIX[platform]}#{config[:app_profile_rid]}>"
   end
 
   # Discord only
   def app_subteam_ref
-    @app_subteam_ref ||= "<#{SUBTEAM_PREFIX[platform]}#{app_subteam_rid}>"
+    @app_subteam_ref ||= "<#{SUBTEAM_PREFIX[platform]}#{config[:app_subteam_rid]}>"
   end
 
   def respond_bad_input(message = nil)
@@ -164,7 +119,4 @@ class Actions::Message < Actions::Base
   def bad_input_text
     ":#{App.error_emoji}: #{I18n.t('errors.bad_command', text: user_text)}"
   end
-
-  MentionMatch = Struct.new \
-    :profile_rid, :prefix_digits, :suffix_digits, :emoji_string, :end, keyword_init: true
 end

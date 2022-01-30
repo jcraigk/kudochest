@@ -47,6 +47,26 @@
 
     .field.is-horizontal
       .field-label.is-switch-label
+        = f.label :enable_jabs, t('teams.enable_jabs', jabs_title: App.jabs_term.titleize), class: 'label'
+      .field-body
+        .field
+          .control
+            = f.check_box :enable_jabs, class: 'switch is-rounded'
+            = f.label :enable_jabs, '&nbsp;'.html_safe, class: 'label'
+            = tooltip_btn('teams.enable_jabs_tooltip', 'nudge-up', jabs: App.jabs_term)
+
+    .field.is-horizontal
+      .field-label.is-switch-label
+        = f.label :deduct_jabs, t('teams.deduct_jabs', jabs_title: App.jabs_term.titleize), class: 'label'
+      .field-body
+        .field
+          .control
+            = f.check_box :deduct_jabs, class: 'switch is-rounded'
+            = f.label :deduct_jabs, '&nbsp;'.html_safe, class: 'label'
+            = tooltip_btn('teams.deduct_jabs_tooltip', 'nudge-up', jabs: App.jabs_term)
+
+    .field.is-horizontal
+      .field-label.is-switch-label
         = f.label :enable_topics, t('teams.enable_topics'), class: 'label'
       .field-body
         .field

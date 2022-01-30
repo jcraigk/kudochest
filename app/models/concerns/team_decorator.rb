@@ -16,8 +16,12 @@ module TeamDecorator
     (levels_table_titles + rows).join("\n")
   end
 
-  def tip_emoj
-    ":#{tip_emoji}:"
+  def point_emoj
+    ":#{point_emoji}:"
+  end
+
+  def jab_emoj
+    ":#{jab_emoji}:"
   end
 
   def ditto_emoj
@@ -54,11 +58,8 @@ module TeamDecorator
     Cache::TeamConfig.call(rid)
   end
 
-  def help_url
-    case platform
-    when 'slack' then App.help_url
-    when 'discord' then "#{App.help_url}/discord"
-    end
+  def total_points
+    deduct_jabs? ? balance : points_sent
   end
 
   private

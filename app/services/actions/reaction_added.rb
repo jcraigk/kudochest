@@ -20,8 +20,8 @@ class Actions::ReactionAdded < Actions::ReactionBase
 
   def mentions
     case source
-    when 'ditto' then ditto_mentions
-    when 'reaction' then author_mention
+    when 'ditto_reaction' then ditto_mentions
+    when 'point_reaction', 'jab_reaction', 'topic_reaction' then [author_mention]
     end
   end
 
@@ -43,13 +43,10 @@ class Actions::ReactionAdded < Actions::ReactionBase
   end
 
   def author_mention
-    [
-      Mention.new(
-        rid: "#{PROF_PREFIX}#{author_profile_rid}",
-        topic_id:,
-        quantity: team.emoji_quantity
-      )
-    ]
+    Mention.new \
+      rid: "#{PROF_PREFIX}#{author_profile_rid}",
+      topic_id:,
+      quantity: (source == 'jab_reaction' ? 0 - team.emoji_quantity : team.emoji_quantity)
   end
 
   def author_profile_rid

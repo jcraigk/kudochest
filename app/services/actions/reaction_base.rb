@@ -11,28 +11,30 @@ class Actions::ReactionBase < Actions::Base
   end
 
   def source
-    @source ||= (emoji == team.ditto_emoji ? 'ditto' : 'reaction')
+    @source ||=
+      case emoji
+      when team.point_emoji then 'point_reaction'
+      when team.jab_emoji then 'jab_reaction'
+      when team.ditto_emoji then 'ditto_reaction'
+      else 'topic_reaction'
+      end
   end
 
   def topic_suffix
-    return if topic.blank?
-    "-topic#{topic.id}"
-  end
-
-  def topic
-    @topic ||= team&.config&.topics&.find { |topic| topic.emoji == emoji }
+    return if topic_id.blank?
+    "-topic_id_#{topic_id}"
   end
 
   def topic_id
-    @topic_id ||= topic&.id
+    @topic_id ||= team.config[:topics].find { |topic| topic[:emoji] == emoji }&.dig(:id)
   end
 
   def process_emoji?
-    team&.enable_emoji? && relevant_emoji?
+    team.enable_emoji? && relevant_emoji?
   end
 
   def relevant_emoji?
-    emoji.in?([team.tip_emoji, team.ditto_emoji]) || topic_emoji?
+    emoji.in?([team.point_emoji, team.jab_emoji, team.ditto_emoji]) || topic_emoji?
   end
 
   def topic_emoji?

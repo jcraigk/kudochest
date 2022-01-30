@@ -28,8 +28,8 @@ RSpec.describe TipResponseService do
   let(:channel_frag) { nil }
   let(:image_lead_frag) { nil }
   let(:image_channel_frag) { nil }
-  let(:levelup_frag) { nil }
-  let(:image_levelup_frag) { nil }
+  let(:leveling_frag) { nil }
+  let(:image_leveling_frag) { nil }
   let(:streak_frag) { nil }
   let(:image_streak_frag) { nil }
   let(:main_frag) { nil }
@@ -46,7 +46,7 @@ RSpec.describe TipResponseService do
       main: main_frag,
       channel: channel_frag,
       note: note_frag,
-      levelup: levelup_frag,
+      leveling: leveling_frag,
       streak: streak_frag
     }
   end
@@ -56,7 +56,7 @@ RSpec.describe TipResponseService do
       main: image_main_frag,
       channel: image_channel_frag,
       note: image_note_frag,
-      levelup: image_levelup_frag,
+      leveling: image_leveling_frag,
       streak: image_streak_frag
     }
   end
@@ -71,7 +71,7 @@ RSpec.describe TipResponseService do
   let(:from_profile_webref_with_stat) { emojify(from_profile.webref_with_stat, size: 12) }
   let(:to_profile_webref_with_stat) { emojify(to_profile.webref_with_stat, size: 12) }
   let(:platform) { :slack }
-  let(:tip_emoji) { emojify(team.tip_emoj, size: 12) }
+  let(:point_emoji) { emojify(team.point_emoj, size: 12) }
 
   shared_examples 'expected response' do
     it 'produces expected message' do
@@ -144,7 +144,7 @@ RSpec.describe TipResponseService do
   context 'when response_theme is `quiet_stat`' do
     let(:main_frag) do
       <<~TEXT.chomp
-        #{from_profile.profile_link_with_stat} gave #{to_profile.profile_link_with_stat} #{points_format(quantity, label: true)}
+        #{from_profile.dashboard_link_with_stat} gave #{to_profile.dashboard_link_with_stat} #{points_format(quantity, label: true)}
       TEXT
     end
     let(:channel_frag) { "in #{channel.link}" }
@@ -162,13 +162,13 @@ RSpec.describe TipResponseService do
   context 'when response_theme is `fancy`' do
     let(:main_frag) do
       <<~TEXT.chomp
-        #{from_profile.link_with_stat} gave #{to_profile.link_with_stat} #{points_format(quantity, label: true)} #{team.tip_emoj * quantity}
+        #{from_profile.link_with_stat} gave #{to_profile.link_with_stat} #{points_format(quantity, label: true)} #{team.point_emoj * quantity}
       TEXT
     end
     let(:channel_frag) { "in #{channel.link}" }
     let(:web_response) do
       <<~TEXT.chomp
-        #{web_ts} #{from_profile_webref_with_stat} gave #{to_profile_webref_with_stat} #{points_format(quantity, label: true)} #{tip_emoji} in #{channel.webref}<br>Note: <i>#{note}</i>
+        #{web_ts} #{from_profile_webref_with_stat} gave #{to_profile_webref_with_stat} #{points_format(quantity, label: true)} #{point_emoji} in #{channel.webref}<br>Note: <i>#{note}</i>
       TEXT
     end
 
@@ -203,21 +203,21 @@ RSpec.describe TipResponseService do
     let(:quantity) { 5 }
     let(:main_frag) do
       <<~TEXT.chomp
-        #{from_profile.link} gave #{to_profile.link} #{points_format(quantity, label: true)}
+        #{from_profile.link} gave #{to_profile.reload.link} #{points_format(quantity, label: true)}
       TEXT
     end
     let(:channel_frag) { "in #{channel.link}" }
-    let(:levelup_frag) { "#{to_profile.link} is now at level #{to_profile.level}" }
-    let(:image_levelup_frag) do
-      "#{IMG_DELIM}#{to_profile.display_name} #{IMG_DELIM} is now at level #{to_profile.level}"
+    let(:leveling_frag) { "#{to_profile.link} leveled up to #{to_profile.level}" }
+    let(:image_leveling_frag) do
+      "#{IMG_DELIM}#{to_profile.display_name} #{IMG_DELIM} leveled up to #{to_profile.level}"
     end
     let(:web_response) do
       <<~TEXT.chomp
-        #{web_ts} #{from_profile.webref} gave #{to_profile.webref} #{points_format(quantity, label: true)} in #{channel.webref}<br>Note: <i>#{note}</i><br>#{to_profile.webref} is now at level #{to_profile.level}
+        #{web_ts} #{from_profile.webref} gave #{to_profile.webref} #{points_format(quantity, label: true)} in #{channel.webref}<br>Note: <i>#{note}</i><br>#{to_profile.webref} leveled up to #{to_profile.level}
       TEXT
     end
 
-    before { to_profile.update(points: 10) }
+    before { to_profile.update(balance: 10) }
 
     include_examples 'expected response'
   end

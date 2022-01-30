@@ -30,13 +30,12 @@ class Actions::SubmitTipModal < Actions::Base
         Mention.new \
           rid: "#{prefix(val)}#{val}",
           topic_id:,
-          quantity: BigDecimal(quantity.presence || 0)
+          quantity:
       end || []
   end
 
   def prefix(val)
     return if val == 'channel'
-
     case val.first
     when 'U' then PROF_PREFIX
     when 'C' then CHAN_PREFIX
@@ -48,13 +47,19 @@ class Actions::SubmitTipModal < Actions::Base
     @note ||= submission.find { |_k, v| v[:note].present? }&.second&.dig(:note, :value)
   end
 
+  def tip_type
+    @tip_type ||=
+      submission.find { |_k, v| v[:tip_type].present? }
+                &.second
+                &.dig(:tip_type, :selected_option, :value)
+  end
+
   def quantity
-    @quantity ||=
-      BigDecimal \
-        submission.find { |_k, v| v[:quantity].present? }
-                  &.second
-                  &.dig(:quantity, :selected_option, :value)
-                  .presence || 0
+    BigDecimal \
+      submission.find { |_k, v| v[:quantity].present? }
+                &.second
+                &.dig(:quantity, :selected_option, :value)
+                .presence || '0'
   end
 
   def topic_id

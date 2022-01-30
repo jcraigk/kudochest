@@ -2,7 +2,7 @@
 class Base::ImageService < Base::Service
   include PointsHelper
 
-  option :team_config
+  option :config
 
   RADII = {
     slack: 5,
@@ -65,7 +65,7 @@ class Base::ImageService < Base::Service
   end
 
   def theme
-    @theme ||= team_config.response_theme.delete_prefix('gif_').to_sym
+    @theme ||= config[:response_theme].delete_prefix('gif_').to_sym
   end
 
   def body_colors
@@ -78,7 +78,7 @@ class Base::ImageService < Base::Service
 
   def solid_color_background(width, height)
     color = BG_COLOR[theme]
-    Magick::Image.new(width, height) { self.background_color = color }
+    Magick::Image.new(width, height) { |m| m.background_color = color }
   end
 
   def add_header_bg(comp)
@@ -92,7 +92,7 @@ class Base::ImageService < Base::Service
       thumb = img.resize(width, height)
 
       # Create a transparency mask for border radius
-      mask = Magick::Image.new(width, height) { self.background_color = 'transparent' }
+      mask = Magick::Image.new(width, height) { |m| m.background_color = 'transparent' }
       Magick::Draw.new.stroke('none').stroke_width(0).fill('white')
                   .roundrectangle(0, 0, width, height, radius, radius).draw(mask)
 
@@ -117,14 +117,14 @@ class Base::ImageService < Base::Service
     resize_and_round \
       avatar_image,
       "#{size}x#{size}",
-      RADII[team_config.platform.to_sym]
+      RADII[config[:platform].to_sym]
   end
 
   def blank_avatar
     resize_and_round \
       Magick::ImageList.new(DEFAULT_AVATAR).first,
       "#{PROFILE_SIZE}x#{PROFILE_SIZE}",
-      RADII[team_config.platform.to_sym]
+      RADII[config[:platform].to_sym]
   end
 
   def file_from_url(url)

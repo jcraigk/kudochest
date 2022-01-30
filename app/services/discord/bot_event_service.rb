@@ -101,30 +101,27 @@ class Discord::BotEventService < Base::Service
 
   def listen_for_message
     bot.message do |event|
-      team_rid = event.server&.id.to_s
-      next event.respond(no_dm_support) if team_rid.blank?
-
-      team_config = Cache::TeamConfig.call(team_rid)
-      next unless team_config.active
-
-      EventWorker.perform_async(message_payload(team_rid, team_config, event))
+      next event.respond(no_dm_support) if (team_rid = event.server&.id.to_s).blank?
+      next unless (config = Cache::TeamConfig.call(team_rid))[:active]
+      matches = MessageScanner.call(event.message.content, config)
+      EventWorker.perform_async(message_payload(team_rid, config, event).merge(matches:))
     end
   end
 
-  def sanitized_text(event, team_config)
+  def sanitized_text(event, config)
     event.text
          .gsub(/#{App.discord_command}/i, '')
-         .gsub(bot_rid(team_config), '')
-         .gsub(bot_subteam_rid(team_config), '')
+         .gsub(bot_rid(config), '')
+         .gsub(bot_subteam_rid(config), '')
          .strip
   end
 
-  def origin(event, team_config)
+  def origin(event, config)
     if event.text
             .start_with?(
               /#{App.discord_command}/i,
-              bot_rid(team_config),
-              bot_subteam_rid(team_config)
+              bot_rid(config),
+              bot_subteam_rid(config)
             )
       'command'
     else
@@ -132,49 +129,46 @@ class Discord::BotEventService < Base::Service
     end
   end
 
-  def bot_rid(team_config)
-    "<#{SUBTEAM_PREFIX[:discord]}#{team_config.app_profile_rid}>"
+  def bot_rid(config)
+    "<#{SUBTEAM_PREFIX[:discord]}#{config[:app_profile_rid]}>"
   end
 
-  def bot_subteam_rid(team_config)
-    "<#{SUBTEAM_PREFIX[:discord]}#{team_config.app_subteam_rid}>"
+  def bot_subteam_rid(config)
+    "<#{SUBTEAM_PREFIX[:discord]}#{config[:app_subteam_rid]}>"
   end
 
   def handle_emoji_event(event, verb)
     return unless relevant_emoji?(event.emoji.name)
-
     team_rid = event.server&.id.to_s
-    team_config = Cache::TeamConfig.call(team_rid)
-    return unless team_config.active
-
-    EventWorker.perform_async(emoji_payload(team_rid, team_config, event, verb))
+    return unless (config = Cache::TeamConfig.call(team_rid))[:active]
+    EventWorker.perform_async(emoji_payload(team_rid, config, event, verb))
   end
 
-  def emoji_payload(team_rid, team_config, event, verb)
+  def emoji_payload(team_rid, config, event, verb)
     {
       origin: 'channel',
       action: "reaction_#{verb}",
       message_ts: event.message.id.to_s,
       emoji: event.emoji.name
-    }.merge(base_payload(team_rid, team_config, event)).tap do |hash|
+    }.merge(base_payload(team_rid, config, event)).tap do |hash|
       next unless verb == 'added'
       hash.merge!(to_profile_rid: event.message.author.id.to_s)
     end
   end
 
-  def message_payload(team_rid, team_config, event)
+  def message_payload(team_rid, config, event)
     {
       action: 'message',
-      text: sanitized_text(event, team_config),
-      origin: origin(event, team_config)
-    }.merge(base_payload(team_rid, team_config, event))
+      text: sanitized_text(event, config),
+      origin: origin(event, config)
+    }.merge(base_payload(team_rid, config, event))
   end
 
-  def base_payload(team_rid, team_config, event)
+  def base_payload(team_rid, config, event)
     {
       platform: 'discord',
       team_rid: team_rid,
-      team_config: team_config&.to_h,
+      config:,
       is_bot_dm: false,
       channel_name: event.channel.name,
       channel_rid: event.channel.id.to_s,
@@ -185,18 +179,22 @@ class Discord::BotEventService < Base::Service
 
   def no_dm_support
     ":#{App.error_emoji}: " \
-      "#{I18n.t('errors.no_dm_support', url: "<#{App.help_url}/discord>", cmd: App.base_command)}"
+      "#{I18n.t('errors.no_dm_support', url: "<#{App.help_url}>", cmd: App.base_command)}"
   end
 
   def relevant_emoji?(emoji)
-    emoji.in?([App.discord_tip_emoji, App.discord_ditto_emoji]) || topic_emoji?(emoji)
+    emoji.in?(standard_emojis) || topic_emoji?(emoji)
+  end
+
+  def standard_emojis
+    [App.discord_point_emoji, App.discord_jab_emoji, App.discord_ditto_emoji]
   end
 
   def topic_emoji?(emoji)
-    team_config.enable_topics && topic_id(emoji).present?
+    config[:enable_topics] && topic_id(emoji).present?
   end
 
   def topic_id(emoji)
-    team_config.topics.find { |topic| topic.emoji == emoji }&.id
+    config[:topics].find { |topic| topic[:emoji] == emoji }&.dig(:id)
   end
 end

@@ -7,6 +7,13 @@ class Team < ApplicationRecord
   TIP_INCREMENTS = [1.0, 0.5, 0.25, 0.1, 0.05, 0.01].freeze
   EMOJI_VALS = [1.0, 2.0, 3.0, 4.0, 5.0, 0.75, 0.5, 0.25, 0.2, 0.1, 0.05, 0.02, 0.01].freeze
   WEEKDAYS = Date::DAYNAMES.map(&:downcase).freeze
+  CONFIG_ATTRS = %w[
+    active api_key app_profile_rid app_subteam_rid avatar_url enable_cheers
+    enable_fast_ack point_emoji jab_emoji ditto_emoji enable_emoji enable_jabs
+    emoji_quantity tip_increment log_channel_rid hint_channel_rid max_points_per_tip
+    platform response_mode response_theme show_channel show_note time_zone
+    tip_notes enable_topics require_topic topics rid
+  ].freeze
 
   has_many :channels, dependent: :destroy
   has_many :profiles, dependent: :destroy
@@ -47,6 +54,8 @@ class Team < ApplicationRecord
   attribute :enable_loot,        :boolean, default: true
   attribute :enable_streaks,     :boolean, default: true
   attribute :enable_topics,      :boolean, default: false
+  attribute :enable_jabs,        :boolean, default: true
+  attribute :deduct_jabs,        :boolean, default: true
   attribute :installed,          :boolean, default: true
   attribute :throttle_tips,      :boolean, default: false
   attribute :notify_tokens,      :boolean, default: true
@@ -55,7 +64,7 @@ class Team < ApplicationRecord
   attribute :show_note,          :boolean, default: true
   attribute :split_tip,          :boolean, default: false
   attribute :weekly_report,      :boolean, default: true
-  attribute :tip_emoji,          :string,  default: App.default_tip_emoji
+  attribute :point_emoji,        :string,  default: App.default_point_emoji
   attribute :ditto_emoji,        :string,  default: App.default_ditto_emoji
   attribute :time_zone,          :string,  default: App.default_time_zone
   attribute :streak_duration,    :integer, default: App.default_streak_duration
@@ -118,7 +127,7 @@ class Team < ApplicationRecord
   validates_with WeekStartDayInWorkDaysValidator
   validates_with WorkDaysValidator
 
-  before_update :bust_cache, if: -> { (changes.keys & TeamConfig.members.map(&:to_s)).any? }
+  before_update :bust_cache, if: -> { (changes.keys & CONFIG_ATTRS).any? }
   before_update :sync_topic_attrs
   after_update_commit :reset_profile_tokens, if: :saved_change_to_throttle_tips?
   after_update_commit :sync_remote, if: :saved_change_to_active?

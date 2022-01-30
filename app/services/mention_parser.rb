@@ -6,7 +6,6 @@ class MentionParser < Base::Service
   option :channel_rid
   option :channel_name
   option :matches
-  option :note
 
   def call
     process_tip_mentions
@@ -18,8 +17,7 @@ class MentionParser < Base::Service
     TipMentionService.call \
       profile:,
       mentions:,
-      note:,
-      source: 'plusplus',
+      source: 'inline',
       event_ts:,
       channel_rid:,
       channel_name:
@@ -31,62 +29,79 @@ class MentionParser < Base::Service
 
   # `@user++ @user++ @user++`
   #   => @user gets 1 Tip of quantity 3
+  # `@user-- @user-- @user--`
+  #   => @user gets 1 Tip of quantity -3
   # `@user :fire: @user :high_brightness: @user :fire:`
   #   => @user gets 2 Tips (1) :fire: x2 (2) :high_brightness: x1
+  # `@user++ great @user++ work!`
+  #   => @user gets 1 Tip of quantity 2 with note "great work!"
   def stacked_mentions
-    raw_mentions.group_by(&:rid).map do |rid, mentions_by_rid|
+    processed_mentions.group_by(&:rid).map do |rid, mentions_by_rid|
       mentions_by_rid.group_by(&:topic_id).map do |topic_id, mentions|
-        Mention.new(rid:, topic_id:, quantity: mentions.sum(&:quantity))
+        note = mentions.pluck(:note).join(' ').presence
+        Mention.new(rid:, topic_id:, quantity: mentions.sum(&:quantity), note:)
       end
     end.flatten
   end
 
-  def raw_mentions
-    matches.map do |m|
-      Mention.new(rid: m.profile_rid, topic_id: tip_topic_id(m), quantity: tip_quantity(m))
+  def processed_mentions
+    matches.map do |match|
+      Mention.new \
+        rid: match[:rid],
+        topic_id: tip_topic_id(match),
+        quantity: tip_quantity(match),
+        note: match[:note]
     end
   end
 
-  # `<@UFOO> :fire: :high_brightness:` => :fire: topic is used
   def tip_topic_id(match)
     return unless team.enable_topics?
-
-    if match.emoji_string.present?
-      first_emoji = match.emoji_string.split(':').compact_blank.first
-      team.topics.active.find { |topic| first_emoji == topic.emoji }&.id
-    else
-      topic_id_from_note
-    end
+    topic_id_from_emoji(match) || topic_id_from_match(match)
   end
 
-  # `LeaderShip great job!` => "leadership" topic is used, note becomes "great job!"
-  def topic_id_from_note
-    return if note.blank?
-
-    words = note.split(/\s+/)
-    topic_id = team.topics.active.find { |topic| words.first.downcase == topic.keyword }&.id
-    @note = words.drop(1).join(' ') if topic_id
-    topic_id
+  # TODO: Pass in team config and use that to get topic ids (save a db query)
+  # `<@UFOO> :fire: :star: :up:` => `fire` topic is used (first in sequence)
+  def topic_id_from_emoji(match)
+    return if match[:inline_emoji].blank?
+    first_emoji = match[:inline_emoji].split(':').compact_blank.first
+    team.topics.active.find { |topic| first_emoji == topic.emoji }&.id
   end
 
-  # `<@UFOO> 3++2` => 3 is used
-  def tip_quantity(match) # rubocop:disable Metrics/AbcSize
-    float = (match.prefix_digits.presence || match.suffix_digits.presence).to_f
-    return (float.zero? ? 1.0 : float) if match.emoji_string.blank?
-    return 0 unless team.enable_emoji?
-    num = num_inline_emoji(match.emoji_string)
-    # If single emoji, use prefix/suffix digit if present
-    return float if num == 1 && float.positive?
-    # Otherwise, multiply by emoji quantity
-    num * team.emoji_quantity
+  def topic_id_from_match(match)
+    return if (keyword = match[:topic_keyword]).blank?
+    team.topics.active.find { |topic| keyword == topic.keyword }&.id
   end
 
-  # `:high_brightness: :fire:` => first emoji is used for topic, but gets 2 quantity
-  # TODO: Split this out into 2 Tips
-  def num_inline_emoji(emoji_string)
-    emoji_string.split(':').compact_blank.count do |emoji|
-      emoji == team.tip_emoji || emoji.in?(team.topics.active.map(&:emoji))
-    end
+  # Generate a quantity given a mention match
+  #
+  # Examples:
+  # "@user ++" => 1
+  # "@user 3++2" => 3
+  # "@user --4" => -4
+  # "@user :point::point:" => 2 * team.emoji_quantity
+  # "@user :point::jab:" => 0 (rejected for non-unique emoji)
+  # "@user :jab::jab::jab:" => -3
+  def tip_quantity(match)
+    given = (match[:prefix_quantity].presence || match[:suffix_quantity].presence).to_f
+    return emoji_match_quantity(match, given) if match[:inline_emoji].present?
+    negative = match[:inline_text].in?(JAB_INLINES)
+    given, default = negative ? [0 - given, -1.0] : [given, 1.0]
+    given.zero? ? default : given
+  end
+
+  def emoji_match_quantity(match, quantity)
+    emojis = match[:inline_emoji].split(':').compact_blank
+    # Do not allow different emojis - only multiple instances of same emoji
+    return 0 unless team.enable_emoji? && emojis.uniq.size == 1
+    emoji_quant = emojis_quantity(emojis, quantity)
+    emojis.first == team.jab_emoji ? 0 - emoji_quant : emoji_quant
+  end
+
+  def emojis_quantity(emojis, quantity)
+    # If single emoji with prefix/suffix, use those digits
+    return quantity if emojis.size == 1 && !quantity.zero?
+    # Otherwise, multiply by number of emoji instances
+    emojis.size * team.emoji_quantity
   end
 
   def team

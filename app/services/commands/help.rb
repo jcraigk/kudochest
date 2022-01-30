@@ -29,7 +29,7 @@ class Commands::Help < Commands::Base
 
   def discord_text
     <<~TEXT.chomp
-      **Giving #{App.points_term.titleize}:**
+      **#{giving_title}:**
         #{discord_giving_points}
 
       **Issuing commands:**
@@ -40,28 +40,67 @@ class Commands::Help < Commands::Base
         #{keyword_list}
         #{shop_keywords}
 
-      :question: <#{team.help_url}> :bug: <#{App.issues_url}>
+      #{footer}
     TEXT
   end
 
-  def discord_giving_points # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
-    str =
-      "* Type `#{PROF_PREFIX}user++`, `#{PROF_PREFIX}role++`, " \
-      "`#{CHAN_PREFIX}channel++`, or `#{CHAN_PREFIX}everyone++` " \
-      'in a guild channel'
+  def giving_title
+    str = "Giving #{App.points_term.titleize}"
+    str += " and #{App.jabs_term.titleize}" if team.enable_jabs?
+    str
+  end
+
+  def discord_giving_points
+    str = discord_point_inlines
+    str += discord_jab_inlines if team.enable_jabs?
     return str unless team.enable_emoji?
-    str +
-      "\n  * Type `#{PROF_PREFIX}user`#{team.tip_emoj}, " \
-      "`#{PROF_PREFIX}role`#{team.tip_emoj}, " \
-      "`#{CHAN_PREFIX}channel`#{team.tip_emoj}, " \
-      "or `#{CHAN_PREFIX}everyone`#{team.tip_emoj} in a guild channel " \
-      "\n  * React with #{team.tip_emoj} (#{team.tip_emoji})" \
-      "\n  * React with #{team.ditto_emoj} (#{team.ditto_emoji})"
+    str += discord_point_emojis
+    str += discord_jab_emojis if team.enable_jabs?
+    str + discord_ditto
+  end
+
+  def giving_terms
+    str = App.point_term
+    str += "/#{App.jab_term}" if team.enable_jabs?
+    str
+  end
+
+  def discord_ditto
+    "\n  * React to #{giving_terms} message with #{team.ditto_emoj}" \
+      " (#{team.ditto_emoji}) to \"ditto\" it"
+  end
+
+  def discord_point_inlines
+    "* Type `#{PROF_PREFIX}user++`, `#{PROF_PREFIX}role++`, " \
+      "`#{CHAN_PREFIX}channel++`, or `#{CHAN_PREFIX}everyone++` " \
+      'in a guild channel _(tip: append a number like `++2`)_'
+  end
+
+  def discord_jab_inlines
+    "* Type `#{PROF_PREFIX}user--`, `#{PROF_PREFIX}role--`, " \
+      "`#{CHAN_PREFIX}channel--`, or `#{CHAN_PREFIX}everyone--` " \
+      'in a guild channel _(tip: append a number like `++2`)_'
+  end
+
+  def discord_point_emojis
+    "\n  * Type `#{PROF_PREFIX}user`#{team.point_emoj}, " \
+      "`#{PROF_PREFIX}role`#{team.point_emoj}, " \
+      "`#{CHAN_PREFIX}channel`#{team.point_emoj}, " \
+      "or `#{CHAN_PREFIX}everyone`#{team.point_emoj} in a guild channel " \
+      "\n  * React with #{team.point_emoj} (#{team.point_emoji})"
+  end
+
+  def discord_jab_emojis
+    "\n  * Type `#{PROF_PREFIX}user`#{team.jab_emoj}, " \
+      "`#{PROF_PREFIX}role`#{team.jab_emoj}, " \
+      "`#{CHAN_PREFIX}channel`#{team.jab_emoj}, " \
+      "or `#{CHAN_PREFIX}everyone`#{team.jab_emoj} in a guild channel " \
+      "\n  * React with #{team.point_emoj} (#{team.point_emoji})"
   end
 
   def slack_text
     <<~TEXT.chomp
-      *Giving #{App.points_term}:*
+      *#{giving_title}:*
         #{slack_giving_points}
 
       *Issuing commands:*
@@ -73,29 +112,58 @@ class Commands::Help < Commands::Base
         #{keyword_list}
         #{shop_keywords}
 
-      :question: <#{team.help_url}|More help> :bug: <#{App.issues_url}|Submit bugs> :bulb: <#{App.issues_url}|Feature ideas>
+      #{footer}
     TEXT
   end
 
+  def footer
+    ":question: <#{App.help_url}|More help> :bug: <#{App.issues_url}|Submit bugs/ideas>"
+  end
+
   def slack_giving_points
-    str =
-      "* Type `/#{App.base_command}` by itself for assistance " \
-      '_(tip: use Tab key to navigate input fields)_' \
-      "\n  * Type `#{PROF_PREFIX}[user]++`, `#{PROF_PREFIX}[group]++`, " \
-      "`#{CHAN_PREFIX}[channel]++`, `#{PROF_PREFIX}channel++`, " \
-      "or `#{PROF_PREFIX}everyone++` where bot can hear"
-    str += slack_emoji_options if team.enable_emoji?
+    str = slack_point_inlines
+    str += slack_jab_inlines if team.enable_jabs?
+    str += slack_emojis if team.enable_emoji?
     "#{str}\n  * _User ++_ Action (\"...\" menu on a user message)"
   end
 
-  def slack_emoji_options
-    str =
-      "\n  * Type `#{PROF_PREFIX}[user]`#{team.tip_emoj}, " \
-      "`#{PROF_PREFIX}[group]`#{team.tip_emoj}, " \
-      "`#{CHAN_PREFIX}[channel]`#{team.tip_emoj}, " \
-      "`#{PROF_PREFIX}channel`#{team.tip_emoj}, or " \
-      "`#{PROF_PREFIX}everyone`#{team.tip_emoj} where bot can hear"
-    str += "\n  * React with #{team.tip_emoj} to give to author of message"
-    str + "\n  * React with #{team.ditto_emoj} to give more to recipient(s)"
+  def slack_point_inlines
+    "* Type `/#{App.base_command}` by itself for assistance " \
+      '_(tip: use Tab key to navigate input fields)_' \
+      "\n  * Type `#{PROF_PREFIX}[user]++`, `#{PROF_PREFIX}[group]++`, " \
+      "`#{CHAN_PREFIX}[channel]++`, `#{PROF_PREFIX}channel++`, " \
+      "or `#{PROF_PREFIX}everyone++` _(tip: append a number like `++2`)_"
+  end
+
+  def slack_jab_inlines
+    "\n  * Type `#{PROF_PREFIX}[user]--`, `#{PROF_PREFIX}[group]--`, " \
+      "`#{CHAN_PREFIX}[channel]--`, `#{PROF_PREFIX}channel--`, " \
+      "or `#{PROF_PREFIX}everyone--` _(tip: append a number like `--2`)_"
+  end
+
+  def slack_emojis
+    str = slack_inline_point_emojis
+    str += slack_inline_jab_emojis if team.enable_jabs?
+    reaction_emojis = [team.point_emoj]
+    reaction_emojis << team.jab_emoj if team.enable_jabs?
+    str += "\n  * React with #{reaction_emojis.join(' or ')} to give to the author of a message"
+    str + "\n  * React to #{giving_terms} message with #{team.ditto_emoj} to duplicate it"
+  end
+
+  def slack_inline_point_emojis
+    "\n  * Type `#{PROF_PREFIX}[user]`#{team.point_emoj}, " \
+      "`#{PROF_PREFIX}[group]`#{team.point_emoj}, " \
+      "`#{CHAN_PREFIX}[channel]`#{team.point_emoj}, " \
+      "`#{PROF_PREFIX}channel`#{team.point_emoj}, or " \
+      "`#{PROF_PREFIX}everyone`#{team.point_emoj} _(tip: try " \
+      "#{team.point_emoj}#{team.point_emoj}#{team.point_emoj})_"
+  end
+
+  def slack_inline_jab_emojis
+    "\n  * Type `#{PROF_PREFIX}[user]`#{team.jab_emoj}, " \
+      "`#{PROF_PREFIX}[group]`#{team.jab_emoj}, " \
+      "`#{CHAN_PREFIX}[channel]`#{team.jab_emoj}, " \
+      "`#{PROF_PREFIX}channel`#{team.jab_emoj}, or " \
+      "`#{PROF_PREFIX}everyone`#{team.jab_emoj}"
   end
 end

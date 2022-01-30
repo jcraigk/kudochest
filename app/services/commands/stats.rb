@@ -10,12 +10,17 @@ class Commands::Stats < Commands::Base
     ChatResponse.new(mode: :public, text: response_text)
   end
 
-  def base_text # rubocop:disable Metrics/AbcSize
+  def base_text # rubocop:disable Metrics/AbcSize, Metrics/CyclomaticComplexity, Metrics/MethodLength
     ary = [stats_title]
     ary << rank_fragment
     ary << level_fragment if team.enable_levels?
     ary << points_received_fragment
+    if team.enable_jabs?
+      ary << jabs_received_fragment
+      ary << balance_fragment if team.deduct_jabs?
+    end
     ary << points_given_fragment
+    ary << jabs_given_fragment if team.enable_jabs?
     ary << token_fragment if team.throttle_tips? && requested_profile.rid == profile_rid
     ary << streak_fragment if team.enable_streaks?
     ary.compact.join("\n")
@@ -40,19 +45,37 @@ class Commands::Stats < Commands::Base
 
   def stats_title
     <<~TEXT.chomp
-      *Stats for #{requested_profile.profile_link}*
+      *Stats for #{requested_profile.dashboard_link}*
     TEXT
   end
 
   def points_received_fragment
     <<~TEXT.chomp
-      *#{App.points_term.titleize}:* #{points_format(requested_profile.points)}
+      *#{App.points_term.titleize} Received:* #{points_format(requested_profile.points)}
+    TEXT
+  end
+
+  def jabs_received_fragment
+    <<~TEXT.chomp
+      *#{App.jabs_term.titleize} Received:* #{points_format(requested_profile.jabs)}
+    TEXT
+  end
+
+  def balance_fragment
+    <<~TEXT.chomp
+      *Balance:* #{points_format(requested_profile.balance)}
     TEXT
   end
 
   def points_given_fragment
     <<~TEXT.chomp
-      *Given:* #{points_format(requested_profile.points_sent)}
+      *#{App.points_term.titleize} Given:* #{points_format(requested_profile.points_sent)}
+    TEXT
+  end
+
+  def jabs_given_fragment
+    <<~TEXT.chomp
+      *#{App.jabs_term.titleize} Given:* #{points_format(requested_profile.jabs_sent)}
     TEXT
   end
 

@@ -46,7 +46,7 @@ module ProfileHelper
     end
   end
 
-  def direction_with_icon(tip, profile)
+  def tip_direction_with_icon(tip, profile)
     dir, word = tip.from_profile == profile ? %w[right Given] : %w[left Earned]
     tag.span(class: "points-direction-#{dir}") do
       tag.i(class: "fas fa-arrow-#{dir}") + ' ' + word # rubocop:disable Style/StringConcatenation

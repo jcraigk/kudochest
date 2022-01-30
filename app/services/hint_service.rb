@@ -16,7 +16,7 @@ class HintService < Base::Service
   def post_random_hint
     responder.call \
       team_rid: team.rid,
-      team_config: team.config,
+      config: team.config,
       mode: :hint,
       text:,
       channel_rid: team.hint_channel_rid
@@ -82,7 +82,7 @@ class HintService < Base::Service
   # rubocop:disable Metrics/MethodLength, Metrics/AbcSize, Layout/LineLength
   def shared_hints
     h = [
-      "Give #{App.singular_prefix} #{App.points_term} to a user by entering `@Alice++`",
+      "Give #{App.point_singular_prefix} #{App.point_term} to a user by entering `@Alice++`",
       "Give multiple #{App.points_term} to a user by adding a number as in `@Alice++2`",
       "Specify a note when giving #{App.points_term} by adding it at the end of your message as in `@Alice++ thanks for the donuts!`",
       "Give #{App.points_term} to everyone in the current channel by entering `[@]channel++` (without the brackets)",
@@ -117,9 +117,9 @@ class HintService < Base::Service
 
     if team.enable_emoji?
       h += [
-        "Give #{App.points_term} to the author of a message by reacting with #{team.tip_emoj} (`#{team.tip_emoj}`)",
+        "Give #{App.points_term} to the author of a message by reacting with #{team.point_emoj} (`#{team.point_emoj}`)",
         "Give additional #{App.points_term} to a recipient by reacting with #{team.ditto_emoj} (`#{team.ditto_emoj}`)",
-        "Give #{points_format(team.emoji_quantity, label: true)} to a user with inline emoji by entering `@Alice #{team.tip_emoj}`"
+        "Give #{points_format(team.emoji_quantity, label: true)} to a user with inline emoji by entering `@Alice #{team.point_emoj}`"
       ]
     end
 

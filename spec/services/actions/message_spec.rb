@@ -16,41 +16,42 @@ RSpec.describe Actions::Message do
     {
       platform: platform,
       team_rid: team.rid,
-      team_config: TeamConfig.new(
+      config: {
         app_profile_rid: team.app_profile_rid,
         app_subteam_rid: team.app_subteam_rid
-      ),
+      },
       channel_name: channel.name,
       channel_rid: channel.rid,
       event_ts: ts,
       origin: origin,
       profile_rid: sender.rid,
-      text: text
+      text: text,
+      matches: matches
     }
   end
   let(:expected_args) do
     {
-      profile: sender,
-      mentions: mentions,
-      note: note,
-      source: 'plusplus',
+      team_rid: team.rid,
+      profile_rid: sender.rid,
       event_ts: ts,
       channel_rid: channel.rid,
-      channel_name: channel.name
+      channel_name: channel.name,
+      matches: matches
     }
   end
+  let(:matches) { [] }
   let(:origin) { 'channel' }
   let(:bot_mention) { "<#{PROFILE_PREFIX[platform]}#{team.app_profile_rid}>" }
   let(:user_mention) { "#{PROFILE_PREFIX[platform]}#{profile.rid}" }
 
   before do
-    allow(TipMentionService).to receive(:call)
+    allow(MentionParser).to receive(:call)
   end
 
   shared_examples 'success' do
-    it 'calls TipMentionService' do
+    it 'calls MentionParser' do
       action
-      expect(TipMentionService).to have_received(:call).with(expected_args)
+      expect(MentionParser).to have_received(:call).with(expected_args)
     end
   end
 
@@ -91,18 +92,10 @@ RSpec.describe Actions::Message do
       end
     end
 
-    context 'when text includes `++` but no entity' do
-      let(:text) { "hello ++ #{note}" }
-      let(:mentions) { [] }
-      let(:note) { nil }
-
-      include_examples 'silence'
-    end
-
     context 'when text includes `++` with user mention' do
       let(:text) { "hello <#{user_mention}> ++ #{note}" }
-      let(:mentions) do
-        [Mention.new(rid: user_mention, topic_id: nil, quantity: 1)]
+      let(:matches) do
+        [{ rid: user_mention, inline: '++', note: }]
       end
 
       include_examples 'success'
@@ -110,8 +103,8 @@ RSpec.describe Actions::Message do
 
     context 'when text includes `++2` with user mention' do
       let(:text) { "hello <#{user_mention}> ++2 #{note}" }
-      let(:mentions) do
-        [Mention.new(rid: user_mention, topic_id: nil, quantity: 2)]
+      let(:matches) do
+        [{ rid: user_mention, inline: '++', suffix_quantity: 2, note: }]
       end
 
       include_examples 'success'
@@ -122,35 +115,35 @@ RSpec.describe Actions::Message do
 
     context 'when text includes `+=` with valid user' do
       let(:text) { "hello <#{user_mention}> += #{note}" }
-      let(:mentions) do
-        [Mention.new(rid: user_mention, quantity: 1, topic_id: nil)]
+      let(:matches) do
+        [{ rid: user_mention, inline: '+=', note: }]
       end
 
       include_examples 'success'
     end
 
     context 'when text includes single valid inline emoji with valid user' do
-      let(:text) { "hello <#{user_mention}> :#{team.tip_emoji}: #{note}" }
-      let(:mentions) do
-        [Mention.new(rid: user_mention, quantity: 1, topic_id: nil)]
+      let(:text) { "hello <#{user_mention}> #{team.point_emoj} #{note}" }
+      let(:matches) do
+        [{ rid: user_mention, inline_emoji: team.point_emoj, note: }]
       end
 
       include_examples 'success'
     end
 
     context 'when text includes single valid inline emoji with int suffix' do
-      let(:text) { "hello <#{user_mention}> :#{team.tip_emoji}: 2 #{note}" }
-      let(:mentions) do
-        [Mention.new(rid: user_mention, quantity: 2, topic_id: nil)]
+      let(:text) { "hello <#{user_mention}> #{team.point_emoj} 2 #{note}" }
+      let(:matches) do
+        [{ rid: user_mention, inline_emoji: team.point_emoj, suffix_quantity: 2, note: }]
       end
 
       include_examples 'success'
     end
 
     context 'when text includes single valid inline emoji with int prefix' do
-      let(:text) { "hello <#{user_mention}> 2 :#{team.tip_emoji}: #{note}" }
-      let(:mentions) do
-        [Mention.new(rid: user_mention, quantity: 2, topic_id: nil)]
+      let(:text) { "hello <#{user_mention}> 2 #{team.point_emoj} #{note}" }
+      let(:matches) do
+        [{ rid: user_mention, prefix_quantity: 2, inline_emoji: team.point_emoj, note: }]
       end
 
       include_examples 'success'
@@ -159,11 +152,16 @@ RSpec.describe Actions::Message do
     context 'when text includes multiple valid inline emoji with int suffix' do
       let(:text) do
         <<~TEXT.chomp
-          hello <#{user_mention}> :#{team.tip_emoji}: :#{team.tip_emoji}: :#{team.tip_emoji}: 2 #{note}
+          hello <#{user_mention}> #{team.point_emoj} #{team.point_emoj} #{team.point_emoj} 2 #{note}
         TEXT
       end
-      let(:mentions) do
-        [Mention.new(rid: user_mention, quantity: 3, topic_id: nil)]
+      let(:matches) do
+        [{
+          rid: user_mention,
+          inline_emoji: "#{team.point_emoj} #{team.point_emoj} #{team.point_emoj}",
+          suffix_quantity: 2,
+          note:
+        }]
       end
 
       include_examples 'success'
@@ -171,10 +169,14 @@ RSpec.describe Actions::Message do
 
     context 'when text includes multiple mixed inline emoji with valid user' do
       let(:text) do
-        "hello <#{user_mention}> :#{team.tip_emoji}: :invalid_emoji::#{team.tip_emoji}: #{note}"
+        "hello <#{user_mention}> #{team.point_emoj} :invalid_emoji:#{team.point_emoj} #{note}"
       end
-      let(:mentions) do
-        [Mention.new(rid: user_mention, quantity: 2, topic_id: nil)]
+      let(:matches) do
+        [{
+          rid: user_mention,
+          inline_emoji: "#{team.point_emoj} :invalid_emoji:#{team.point_emoj}",
+          note:
+        }]
       end
 
       include_examples 'success'
@@ -183,26 +185,26 @@ RSpec.describe Actions::Message do
     context 'when text includes `++` with mixture of entities, spacing, and quantities' do
       let(:text) do
         <<~TEXT.chomp
-          hello <#{user_mention}>++ #{subteam_mention} 2++5 <#{CHAN_PREFIX}#{channel.rid}> ++3 #{note}
+          hello <#{user_mention}>++ #{subteam_mention} 2+=5 <#{CHAN_PREFIX}#{channel.rid}> ++3 #{note}
         TEXT
       end
-      let(:mentions) do
+      let(:matches) do
         [
-          Mention.new(
+          {
             rid: "#{PROFILE_PREFIX[platform]}#{profile.rid}",
-            quantity: 1,
-            topic_id: nil
-          ),
-          Mention.new(
+            inline: '++'
+          },
+          {
             rid: "#{SUBTEAM_PREFIX[platform]}#{subteam.rid}",
-            quantity: 2,
-            topic_id: nil
-          ),
-          Mention.new(
+            prefix_quantity: 2,
+            inline: '+=',
+            suffix_quantity: 5
+          },
+          {
             rid: "#{CHAN_PREFIX}#{channel.rid}",
-            quantity: 3,
-            topic_id: nil
-          )
+            inline: '++',
+            suffix_quantity: 3
+          }
         ]
       end
 

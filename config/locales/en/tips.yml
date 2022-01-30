@@ -14,7 +14,7 @@ en:
     affiliation_tooltip: Indicates if recipient was group or channel vs directly to user
     confirm_destroy: This is permanent. Are you sure?
     remove: Remove
-    type: Type
+    direction: Direction
     user: User
     nothing_to_undo: Nothing to undo
     any_topic: Any Topic

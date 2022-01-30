@@ -9,7 +9,7 @@
         p.subtitle.is-5
           | #{team.member_count} #{'member'.pluralize(team.member_count)}
           br
-          = points_format(team.points_sent, label: true)
+          = points_format(team.total_points, label: true)
     .content
       - if leaderboard.blank? || leaderboard.profiles.none?
         p = t('teams.leaderboard_empty')
@@ -20,7 +20,6 @@
               th.rank-col Rank
               th.col User
               th.col #{App.points_term.titleize}
-              th.col Share
               th.col
                 span.has-tooltip data-tooltip=t('teams.leaderboard_last_earned_tooltip')
                   i.fa.fa-calendar

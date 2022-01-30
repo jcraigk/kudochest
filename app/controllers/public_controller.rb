@@ -9,10 +9,6 @@ class PublicController < ApplicationController
     redirect_to(current_user ? dashboard_path : login_path)
   end
 
-  def help
-    render 'public/discord_help' if @platform == :discord
-  end
-
   private
 
   def set_default_platform

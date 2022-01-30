@@ -3,9 +3,9 @@ class Tip < ApplicationRecord
   extend Enumerize
   include TipDecorator
 
-  UNDOABLE_SOURCES = %w[modal plusplus reaction ditto reply streak].freeze
-
-  enumerize :source, in: %w[auto modal plusplus reaction ditto reply streak import]
+  enumerize :source, in: %w[
+    seed modal inline point_reaction jab_reaction ditto_reaction topic_reaction reply streak import
+  ]
 
   belongs_to :from_profile,
              class_name: 'Profile',
@@ -31,8 +31,7 @@ class Tip < ApplicationRecord
   after_commit :refresh_leaderboards
 
   scope :undoable, lambda {
-    where(source: UNDOABLE_SOURCES)
-      .where('created_at > ?', Time.current - App.undo_cutoff)
+    where('created_at > ?', Time.current - App.undo_cutoff)
       .order(created_at: :desc)
   }
   scope :search_notes, lambda { |term|
@@ -43,37 +42,46 @@ class Tip < ApplicationRecord
     topic&.name || 'None'
   end
 
+  def jab?
+    quantity.negative?
+  end
+
   private
 
   def update_point_totals(subtract: false)
     plus_or_minus, timestamp = subtract ? ['-', nil] : ['+', created_at]
     transaction do
-      update_from_profile_points(plus_or_minus, timestamp)
-      update_to_profile_points(plus_or_minus, timestamp)
-      update_team_points(plus_or_minus)
+      update_from_profile_values(plus_or_minus, timestamp)
+      update_to_profile_values(plus_or_minus, timestamp)
+      update_team_values(plus_or_minus)
     end
   end
 
-  def update_from_profile_points(plus_or_minus, timestamp)
+  def update_from_profile_values(plus_or_minus, timestamp)
     from_profile.with_lock do
-      points_sent = from_profile.points_sent.send(plus_or_minus, quantity)
+      value_col = jab? ? :jabs_sent : :points_sent
+      value = from_profile.send(value_col).send(plus_or_minus, quantity.abs)
       last_tip_sent_at = timestamp || last_sent_tip&.created_at
-      from_profile.update!(points_sent:, last_tip_sent_at:)
+      from_profile.update!(value_col => value, last_tip_sent_at:)
     end
   end
 
-  def update_to_profile_points(plus_or_minus, timestamp)
+  def update_to_profile_values(plus_or_minus, timestamp)
     to_profile.with_lock do
-      points_received = to_profile.points_received.send(plus_or_minus, quantity)
+      value_col = jab? ? :jabs_received : :points_received
+      value = to_profile.send(value_col).send(plus_or_minus, quantity.abs)
+      balance = to_profile.balance.send(plus_or_minus, quantity)
       last_tip_received_at = timestamp || last_received_tip&.created_at
-      to_profile.update!(points_received:, last_tip_received_at:)
+      to_profile.update!(value_col => value, balance:, last_tip_received_at:)
     end
   end
 
-  def update_team_points(plus_or_minus)
+  def update_team_values(plus_or_minus)
     team.with_lock do
-      points_sent = team.points_sent.send(plus_or_minus, quantity)
-      team.update!(points_sent:)
+      value_col = jab? ? :jabs_sent : :points_sent
+      value = team.send(value_col).send(plus_or_minus, quantity.abs)
+      balance = to_profile.balance.send(plus_or_minus, quantity)
+      team.update!(value_col => value, balance:)
     end
   end
 

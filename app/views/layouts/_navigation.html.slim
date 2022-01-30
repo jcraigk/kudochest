@@ -13,7 +13,7 @@ nav#navbar.navbar aria-label='main navigation' role='navigation'
     .navbar-start
 
       - if !logged_in?
-        = link_to t('nav.help'), help_path, class: 'navbar-item'
+        = link_to t('nav.help'), App.help_url, class: 'navbar-item', target: '_blank'
 
     .navbar-end
       - if logged_in?

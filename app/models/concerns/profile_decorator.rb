@@ -25,7 +25,22 @@ module ProfileDecorator
   end
 
   def link_with_points
-    "#{link} (#{points_format(points, label: true)})"
+    "#{link} (#{points_format(total_points, label: true)})"
+  end
+
+  def dashboard_link
+    case team.platform.to_sym
+    when :slack then "<#{web_url}|#{display_name}>"
+    when :discord then "**#{display_name}**"
+    end
+  end
+
+  def dashboard_link_with_stat
+    case team.platform.to_sym
+    when :slack then "<#{web_url}|#{display_name} (#{points_format(total_points)})>"
+    when :discord then "**#{display_name} (#{points_format(total_points)})**"
+    when :web then web_profile_link
+    end
   end
 
   def webref
@@ -41,7 +56,7 @@ module ProfileDecorator
   end
 
   def webref_with_points
-    "#{webref} (#{points_format(points_received, label: true)})"
+    "#{webref} (#{points_format(total_points, label: true)})"
   end
 
   def long_name
@@ -57,11 +72,11 @@ module ProfileDecorator
 
   def points_required_for_next_level
     return 0 if max_level?
-    LevelToPointsService.call(team:, level: next_level) - points_received
+    LevelToPointsService.call(team:, level: next_level) - total_points
   end
 
   def level
-    PointsToLevelService.call(team:, points: points_received)
+    PointsToLevelService.call(team:, points: total_points)
   end
 
   def next_level
@@ -104,21 +119,6 @@ module ProfileDecorator
     "#{App.base_url}/profiles/#{slug}"
   end
 
-  def profile_link
-    case team.platform.to_sym
-    when :slack then "<#{web_url}|#{display_name}>"
-    when :discord then "**#{display_name}**"
-    end
-  end
-
-  def profile_link_with_stat
-    case team.platform.to_sym
-    when :slack then "<#{web_url}|#{display_name} (#{points_format(points_received)})>"
-    when :discord then "**#{display_name} (#{points_format(points_received)})**"
-    when :web then web_profile_link
-    end
-  end
-
   def web_profile_link
     case team.response_theme.to_sym
     when :quiet, :quiet_stat, :basic then webref
@@ -128,6 +128,10 @@ module ProfileDecorator
 
   def points_unclaimed
     points_received - points_claimed
+  end
+
+  def total_points
+    team.deduct_jabs? ? balance : points
   end
 
   private

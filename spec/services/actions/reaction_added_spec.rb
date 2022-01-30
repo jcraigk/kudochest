@@ -41,8 +41,8 @@ RSpec.describe Actions::ReactionAdded do
     end
   end
 
-  context 'when reaction is kudos emoji' do
-    let(:reaction) { team.tip_emoji }
+  context 'when reaction is point emoji' do
+    let(:reaction) { team.point_emoji }
     let(:args) do
       {
         profile: sender,
@@ -53,8 +53,8 @@ RSpec.describe Actions::ReactionAdded do
             topic_id: nil
           )
         ],
-        source: 'reaction',
-        event_ts: "#{ts}-reaction-#{sender.id}",
+        source: 'point_reaction',
+        event_ts: "#{ts}-point_reaction-#{sender.id}",
         message_ts: ts,
         channel_rid: channel.rid,
         channel_name: channel.name
@@ -91,8 +91,8 @@ RSpec.describe Actions::ReactionAdded do
             topic_id: nil
           )
         ],
-        source: 'ditto',
-        event_ts: "#{ts}-ditto-#{sender.id}",
+        source: 'ditto_reaction',
+        event_ts: "#{ts}-ditto_reaction-#{sender.id}",
         message_ts: ts,
         channel_rid: channel.rid,
         channel_name: channel.name
@@ -141,8 +141,8 @@ RSpec.describe Actions::ReactionAdded do
   end
 
   context 'when discord' do
-    let(:reaction) { App.default_tip_emoji }
-    let(:params) { curated_params.merge(emoji: App.default_tip_emoji) }
+    let(:reaction) { App.default_point_emoji }
+    let(:params) { curated_params.merge(emoji: App.default_point_emoji) }
 
     before do
       team.update(platform: :discord)

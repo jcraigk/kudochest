@@ -3,7 +3,7 @@ class Cache::TeamConfig < Base::Service
   param :team_rid
 
   def call
-    coerced_cache_result
+    cached_data
   end
 
   def delete
@@ -12,47 +12,30 @@ class Cache::TeamConfig < Base::Service
 
   private
 
-  def coerce_values(hash)
-    data = TeamConfig.members.each_with_object(hash) do |attr, h|
-      h[attr] = coerce_value(attr, h[attr])
-    end
-    data[:topics] = hash[:topics].map { |topic| TopicData.new(topic) }
-    data
+  def cached_data
+    JSON.parse(cached_json, symbolize_names: true)
+        .each_with_object({}) { |(k, v), h| h[k] = coerce_value(k, v) }
   end
 
   def coerce_value(attr, value)
     case Team.columns_hash[attr.to_s]&.type
     when :integer then value.to_i
-    when :decimal then BigDecimal(value.presence || 0)
+    when :decimal then BigDecimal(value.presence || '0')
     else value; end
-  end
-
-  def coerced_cache_result
-    TeamConfig.new(coerce_values(cached_hash))
-  end
-
-  def cached_hash
-    JSON.parse(cached_json, symbolize_names: true)
   end
 
   def cached_json
     Rails.cache.fetch(cache_key) { json_data }
   end
 
-  def attr_data
-    team.attributes.slice(*TeamConfig.members.map(&:to_s))
+  def json_data
+    team.attributes.slice(*Team::CONFIG_ATTRS).merge(topics: topic_data).to_json
   end
 
   def topic_data
-    {
-      topics: Topic.active.where(team:).order(name: :asc).map do |topic|
-        topic.attributes.slice(*TopicData.members.map(&:to_s))
-      end
-    }
-  end
-
-  def json_data
-    attr_data.merge(topic_data).to_json
+    team.topics.active.order(name: :asc).map do |topic|
+      topic.attributes.slice('id', 'name', 'keyword', 'emoji').symbolize_keys
+    end
   end
 
   def team

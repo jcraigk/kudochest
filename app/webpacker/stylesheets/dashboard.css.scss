@@ -132,6 +132,14 @@
 .points-direction-left {
   color: $earned-color;
 }
+.points-positive {
+  color: $success;
+  font-weight: bold;
+}
+.points-negative {
+  color: $danger;
+  font-weight: bold;
+}
 .profile-subheader {
   margin-top: -10px;
 }

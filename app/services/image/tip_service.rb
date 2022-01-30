@@ -43,8 +43,8 @@ class Image::TipService < Base::ImageService
     cheer_fragments.each do |text|
       x = BODY_PAD
       text.split(IMG_DELIM).compact_blank.each_with_index do |chunk, idx|
-        draw.annotate(comp, 0, 0, x, y, chunk) do
-          self.fill = colors[idx % 2]
+        draw.annotate(comp, 0, 0, x, y, chunk) do |m|
+          m.fill = colors[idx % 2]
         end
         x += draw.get_type_metrics(chunk).width.to_i
       end
@@ -56,7 +56,7 @@ class Image::TipService < Base::ImageService
 
   def add_from_or_channel_text(comp)
     # Channel
-    if team_config.show_channel
+    if config[:show_channel]
       channel_name = "#{CHAN_PREFIX}#{first_tip.from_channel_name}"
 
       draw = Magick::Draw.new
@@ -70,13 +70,13 @@ class Image::TipService < Base::ImageService
       badge_height = 20
       bg_color = BG_COLOR[theme]
 
-      badge = Magick::Image.new(badge_width, badge_height) { self.background_color = bg_color }
+      badge = Magick::Image.new(badge_width, badge_height) { |m| m.background_color = bg_color }
       badge = resize_and_round(badge, "#{badge_width}x#{badge_height}", 5)
       comp = comp.composite(badge, Magick::NorthEastGravity, x, y, Magick::OverCompositeOp)
 
       color = BODY_COLORS[theme].second
-      draw.annotate(comp, 0, 0, x + 2, y - 1, channel_name) do
-        self.fill = color
+      draw.annotate(comp, 0, 0, x + 2, y - 1, channel_name) do |m|
+        m.fill = color
       end
     else
       # "from"
@@ -85,8 +85,8 @@ class Image::TipService < Base::ImageService
       draw.pointsize = 16
       draw.gravity = Magick::NorthEastGravity
       color = BODY_COLORS[theme].first
-      draw.annotate(comp, 0, 0, 45, 24, 'from') do
-        self.fill = color
+      draw.annotate(comp, 0, 0, 45, 24, 'from') do |m|
+        m.fill = color
       end
     end
 
@@ -138,8 +138,8 @@ class Image::TipService < Base::ImageService
         end
         draw.pointsize = fontsize
         draw.gravity = Magick::NorthWestGravity
-        draw.annotate(comp, 0, 0, x, y, chunk) do
-          self.fill = colors[idx % 2]
+        draw.annotate(comp, 0, 0, x, y, chunk) do |m|
+          m.fill = colors[idx % 2]
         end
 
         x += draw.get_type_metrics(chunk).width.to_i
@@ -180,11 +180,11 @@ class Image::TipService < Base::ImageService
   end
 
   def any_cheers?
-    team_config.enable_cheers && cheer_fragments.any?
+    config[:enable_cheers] && cheer_fragments.any?
   end
 
   def cheer_fragments
-    @cheer_fragments ||= fragments.slice(:levelup, :streak).values.compact_blank
+    @cheer_fragments ||= fragments.slice(:leveling, :streak).values.compact_blank
   end
 
   def main_fragments
@@ -192,7 +192,7 @@ class Image::TipService < Base::ImageService
   end
 
   def timestamp
-    @timestamp ||= Time.use_zone(team_config.time_zone) { first_tip.created_at }
+    @timestamp ||= Time.use_zone(config[:time_zone]) { first_tip.created_at }
   end
 
   def profile_avatar(profile)
@@ -229,21 +229,24 @@ class Image::TipService < Base::ImageService
   end
 
   def add_graphical_quantity(comp)
-    img = Magick::ImageList.new("#{BASE_PATH}/quantities/#{first_tip.quantity.to_i}.png").first
+    prefix = first_tip.jab? ? :minus : :plus # TODO: Add -5 to -1
+    path = "#{BASE_PATH}/quantities/#{prefix}-#{first_tip.quantity.to_i.abs}.png"
+    img = Magick::ImageList.new(path).first
     x = avatar_stack_right + 44
     comp.composite(img, Magick::NorthWestGravity, x, 6, Magick::OverCompositeOp)
   end
 
-  def add_text_quantity(comp) # rubocop:disable Metrics/AbcSize
+  def add_text_quantity(comp) # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
     draw = Magick::Draw.new
     draw.font = FONT_FILE
     draw.pointsize = 34
     draw.gravity = Magick::NorthWestGravity
     x = avatar_stack_right + 44
     y = 3
-    text = "+#{points_format(first_tip.quantity)}"
-    draw.annotate(comp, 0, 0, x, y, text) { self.fill = '#3b1b20' }
-    draw.annotate(comp, 0, 0, x - 2, y - 2, text) { self.fill = '#f0cf28' }
+    prefix, color = first_tip.jab? ? ['-', '#d43808'] : ['+', '#f0cf28']
+    text = "#{prefix}#{points_format(first_tip.quantity.abs)}"
+    draw.annotate(comp, 0, 0, x, y, text) { |m| m.fill = '#3b1b20' }
+    draw.annotate(comp, 0, 0, x - 2, y - 2, text) { |m| m.fill = color }
 
     comp
   end

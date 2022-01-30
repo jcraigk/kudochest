@@ -1,10 +1,14 @@
 # frozen_string_literal: true
-class TipResponseService < Base::Service
+
+# TODO: Break this into multiple services
+class TipResponseService < Base::Service # rubocop:disable Metrics/ClassLength
   include EmojiHelper
   include EntityReferenceHelper
   include PointsHelper
 
-  RELEVANT_SOURCES = %w[modal plusplus reaction ditto reply].freeze
+  RELEVANT_SOURCES = %w[
+    modal inline point_reaction jab_reaction ditto_reaction topic_reaction reply
+  ].freeze
   ANON_WORD = 'someone'
 
   option :tips
@@ -45,47 +49,47 @@ class TipResponseService < Base::Service
     Time.use_zone(team.time_zone) { Time.current }
   end
 
-  def build_fragments(platform)
+  def build_fragments(medium)
     {
-      lead: lead_fragment(platform),
-      main: main_fragment(platform),
-      channel: channel_fragment(platform),
-      note: note_fragment(platform),
-      levelup: levelup_fragment(platform),
-      streak: streak_fragment(platform)
+      lead: lead_fragment(medium),
+      main: main_fragment(medium),
+      channel: channel_fragment(medium),
+      note: note_fragment(medium),
+      leveling: leveling_fragment(medium),
+      streak: streak_fragment(medium)
     }
   end
 
-  def main_fragment(platform)
+  def main_fragment(medium)
     [
-      profile_ref(platform, from_profile),
-      points_fragment(platform)
+      profile_ref(medium, from_profile),
+      points_fragment(medium)
     ].compact.join(' ')
   end
 
-  def lead_fragment(platform)
-    everyone_lead || entity_lead(platform)
+  def lead_fragment(medium)
+    everyone_lead || entity_lead(medium)
   end
 
   # Lead with "Everyone in X has received points" if X is the only aggregate entity mention
-  def entity_lead(platform)
-    channel_leader = channel_lead(platform)
-    subteam_leader = subteam_lead(platform)
+  def entity_lead(medium)
+    channel_leader = channel_lead(medium)
+    subteam_leader = subteam_lead(medium)
     channel_leader.presence || subteam_leader.presence # Favor channel over subteam mention
   end
 
-  def channel_lead(platform)
+  def channel_lead(medium)
     return @channel_lead if @channel_lead.present?
     return unless to_channels.one?
     channel = to_channels.first
-    channel_ref = channel_ref(platform, channel.rid, channel.name)
+    channel_ref = channel_ref(medium, channel.rid, channel.name)
     @channel_lead = "Everyone in #{channel_ref} has received #{App.points_term}"
   end
 
-  def subteam_lead(platform)
+  def subteam_lead(medium)
     return unless to_subteams.one?
     subteam = to_subteams.first
-    subteam_ref = subteam_ref(platform, subteam.rid, subteam.handle)
+    subteam_ref = subteam_ref(medium, subteam.rid, subteam.handle)
     "Everyone in #{subteam_ref} has received #{App.points_term}"
   end
 
@@ -107,8 +111,8 @@ class TipResponseService < Base::Service
     end
   end
 
-  def channel_ref(platform, rid, name)
-    case platform
+  def channel_ref(medium, rid, name)
+    case medium
     when :slack then name == SLACK_DM_NAME ? SLACK_DM_PHRASE : channel_link(rid)
     when :discord then channel_link(rid)
     when :image then "#{IMG_DELIM}#{CHAN_PREFIX}#{name} #{IMG_DELIM}"
@@ -116,19 +120,22 @@ class TipResponseService < Base::Service
     end
   end
 
-  def subteam_ref(platform, rid, handle)
-    case platform
-    when :slack, :discord then "<#{SUBTEAM_PREFIX[platform]}#{rid}>"
+  def subteam_ref(medium, rid, handle)
+    case medium
+    when :slack, :discord then "<#{SUBTEAM_PREFIX[medium]}#{rid}>"
     when :image then "#{IMG_DELIM}#{CHAN_PREFIX}#{handle} #{IMG_DELIM}"
     when :web then subteam_webref(handle)
     end
   end
 
-  def profile_ref(platform, profile, new_points = nil)
+  def profile_ref(medium, profile, new_points = nil)
     return ANON_WORD unless profile.announce_tip_received?
 
-    profile.points_received = new_points if new_points
-    case platform
+    if new_points
+      value_col = profile.team.enable_jabs? ? :balance : :points_received
+      profile.send("#{value_col}=", new_points)
+    end
+    case medium
     when :slack, :discord then chat_profile_link(profile)
     when :image then "#{IMG_DELIM}#{profile.display_name} #{IMG_DELIM}"
     when :web then profile.web_profile_link
@@ -137,17 +144,17 @@ class TipResponseService < Base::Service
 
   def chat_profile_link(profile)
     case team.response_theme
-    when 'quiet' then profile.profile_link
-    when 'quiet_stat' then profile.profile_link_with_stat
+    when 'quiet' then profile.dashboard_link
+    when 'quiet_stat' then profile.dashboard_link_with_stat
     when 'fancy' then profile.link_with_stat
     when 'basic' then profile.link
     end
   end
 
-  def streak_fragment(platform)
+  def streak_fragment(medium)
     return unless streak_rewarded?
     <<~TEXT.squish
-      #{profile_ref(platform, from_profile)} earned #{points_format(team.streak_reward, label: true)} for achieving a Giving Streak of #{number_with_delimiter(from_profile.streak_count)} days
+      #{profile_ref(medium, from_profile)} earned #{points_format(team.streak_reward, label: true)} for achieving a Giving Streak of #{number_with_delimiter(from_profile.streak_count)} days
     TEXT
   end
 
@@ -160,82 +167,116 @@ class TipResponseService < Base::Service
   end
 
   def streak_rewarded?
+    return false unless tips.any? { |tip| tip.quantity.positive? } # Do not reward jabs
     return @streak_rewarded unless @streak_rewarded.nil?
     @streak_rewarded = StreakRewardService.call \
       profile: from_profile,
       event_ts: first_tip.event_ts
   end
 
-  def levelup_fragment(platform)
-    return unless team.enable_levels && levelups.any?
-    if levelups.one?
-      profile = levelups.first.profile
-      return "#{profile_ref(platform, profile)} is now at level #{profile.level}"
-    end
-    "#{levelup_sentence(platform)} leveled up"
+  def leveling_fragment(medium)
+    return unless team.enable_levels? && levelings.any?
+    [levelup_fragment(medium), leveldown_fragment(medium)].compact_blank.join(' and ')
   end
 
-  def sender_profile_levelup
-    return unless streak_rewarded?
+  def levelup_fragment(medium)
+    if levelups.one?
+      profile = levelups.first.profile
+      "#{profile_ref(medium, profile)} leveled up to #{profile.level}"
+    elsif levelups.any?
+      "#{leveling_profiles(medium, levelups)} leveled up"
+    end
+  end
 
-    old_points = from_profile.points_received
-    new_points = old_points + team.streak_reward
-    return unless level_for(new_points) > level_for(old_points)
-
-    ProfilePoints.new(from_profile, new_points)
+  def leveldown_fragment(medium)
+    if leveldowns.one?
+      profile = leveldowns.first.profile
+      "#{profile_ref(medium, profile)} leveled down to #{profile.level}"
+    elsif leveldowns.any?
+      "#{leveling_profiles(medium, levelups)} leveled down"
+    end
   end
 
   def levelups
-    @levelups ||= (
-      tips.group_by(&:to_profile).map do |profile, profile_tips|
-        new_points = profile.points_received
-        old_points = new_points - profile_tips.sum(&:quantity)
-        next unless level_for(new_points) > level_for(old_points)
-        ProfilePoints.new(profile, new_points)
-      end + [sender_profile_levelup]
-    ).flatten.compact
+    @levelups ||= levelings.select { |l| l.delta.positive? }
+  end
+
+  def leveldowns
+    @leveldowns ||= levelings.select { |l| l.delta.negative? }
+  end
+
+  # TODO: Code duplication here/below...combine into one method/service
+  def sender_leveling
+    return unless streak_rewarded?
+    points = from_profile.send(value_col)
+    new_points = points + team.streak_reward
+    delta = level_for(new_points) - level_for(points)
+    ProfileLeveling.new(from_profile, new_points, delta) unless delta.zero?
+  end
+
+  def recipient_levelings
+    tips_by_recipient.map do |prof, prof_tips|
+      points = prof.send(value_col)
+      prof_tips = select_positive_tips(prof_tips) unless team.deduct_jabs?
+      delta = level_for(points) - level_for(points - prof_tips.sum(&:quantity))
+      ProfileLeveling.new(prof, points, delta) unless delta.zero?
+    end
+  end
+
+  def value_col
+    @value_col ||= team.deduct_jabs? ? :balance : :points_received
+  end
+
+  def levelings
+    @levelings ||= (recipient_levelings + [sender_leveling]).compact
+  end
+
+  def select_positive_tips(prof_tips)
+    prof_tips.select { |tip| tip.quantity.positive? }
+  end
+
+  def tips_by_recipient
+    tips.group_by(&:to_profile)
   end
 
   def level_for(points)
     PointsToLevelService.call(team:, points:)
   end
 
-  def levelup_sentence(platform)
-    return "#{levelups.size} users" if levelups.size > 3
-    levelups.map { |levelup| profile_ref(platform, levelup.profile) }.to_sentence
+  def leveling_profiles(medium, levelings)
+    return "#{levelings.size} users" if levelings.size > 3
+    levelings.map { |leveling| profile_ref(medium, leveling.profile) }.to_sentence
   end
 
-  def points_fragment(platform)
+  def points_fragment(medium)
     return if tips_by_quantity.none?
-    "gave #{points_clause(platform)}"
+    "gave #{points_clause(medium)}"
   end
 
-  def points_clause(platform)
+  def points_clause(medium)
     tips_by_quantity.map do |quantity, quantity_tips|
       quantity_tips.group_by(&:topic_id).map do |topic_id, similar_tips|
-        str = compose_str(platform, quantity, topic_id, similar_tips)
+        str = compose_str(medium, quantity, topic_id, similar_tips)
         str += ' each' if similar_tips.size > 1
         str
       end
     end.flatten.to_sentence
   end
 
-  def channel_fragment(platform)
-    case platform
-    when :slack, :discord
-      "in <#{CHAN_PREFIX}#{first_tip.from_channel_rid}>"
-    when :web
-      "in #{channel_webref(first_tip.from_channel_name)}"
+  def channel_fragment(medium)
+    case medium
+    when :slack, :discord then "in <#{CHAN_PREFIX}#{first_tip.from_channel_rid}>"
+    when :web then "in #{channel_webref(first_tip.from_channel_name)}"
     end
   end
 
-  def compose_str(platform, quantity, topic_id, similar_tips)
-    recipient_sentence = profile_sentence(profile_refs_from(platform, similar_tips))
-    quant_str = points_format(quantity)
+  def compose_str(medium, quantity, topic_id, similar_tips)
+    recipient_sentence = profile_sentence(profile_refs_from(medium, similar_tips))
     topic = team.topics.find { |t| t.id == topic_id }
-    emoji = emoji_sequence(platform, quantity, topic)
-    topic_str = topic&.name ? "for #{topic.name}" : nil
-    "#{recipient_sentence} #{points_format(quant_str, label: true)} #{emoji} #{topic_str}".squish
+    emoji = emoji_sequence(medium, quantity, topic)
+    topic_str = topic&.name ? "for _#{topic.name}_" : nil
+    "#{recipient_sentence} #{points_format(quantity, label: true, bold_jab: true)} " \
+    "#{emoji} #{topic_str}".squish
   end
 
   def profile_sentence(refs)
@@ -243,16 +284,16 @@ class TipResponseService < Base::Service
     refs.to_sentence
   end
 
-  def emoji_sequence(platform, quantity, topic)
-    return if platform == :image || !team.response_theme.fancy?
+  def emoji_sequence(medium, quantity, topic)
+    return if medium == :image || !team.response_theme.fancy?
     return ":#{topic.emoji}:" * quantity if topic&.emoji
-    team.tip_emoj * quantity
+    team.point_emoj * quantity
   end
 
-  def profile_refs_from(platform, quantity_tips)
+  def profile_refs_from(medium, quantity_tips)
     quantity_tips.map do |tip|
-      new_points = levelups.find { |levelup| levelup.profile == tip.to_profile }&.new_points
-      profile_ref(platform, tip.to_profile, new_points)
+      new_points = levelings.find { |leveling| leveling.profile == tip.to_profile }&.new_points
+      profile_ref(medium, tip.to_profile, new_points)
     end
   end
 
@@ -267,14 +308,14 @@ class TipResponseService < Base::Service
     @team ||= from_profile.team
   end
 
-  def note_fragment(platform)
+  def note_fragment(medium)
     return if note.blank?
-    "Note: #{formatted_note(platform)}"
+    "Note: #{formatted_note(medium)}"
   end
 
-  def formatted_note(platform)
-    case platform
-    when :image then note # TODO: handle emojis?
+  def formatted_note(medium)
+    case medium
+    when :image then note
     when :slack then "_#{note}_"
     when :discord then "*#{note}*"
     when :web then "<i>#{note}</i>"
@@ -285,7 +326,7 @@ class TipResponseService < Base::Service
     @note ||= first_tip.note
   end
 
-  ProfilePoints = Struct.new(:profile, :new_points)
+  ProfileLeveling = Struct.new(:profile, :new_points, :delta)
   SubteamData = Struct.new(:rid, :handle)
   TipResponse = Struct.new(:chat_fragments, :image_fragments, :web, keyword_init: true)
 end

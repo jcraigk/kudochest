@@ -2,6 +2,7 @@
 class Commands::Admin < Commands::Base
   include ActionView::Helpers::TextHelper
   include ApplicationHelper
+  include EntityReferenceHelper
   include PointsHelper
 
   def call
@@ -20,12 +21,25 @@ class Commands::Admin < Commands::Base
       #{increment_text}
       #{topic_text}
       #{notes_text}
+      #{jab_text}
       #{emoji_text}
       #{level_text}
       #{streak_text}
       #{time_text}
-      *Administrator:* #{team_admin}
+      #{footer_text}
     TEXT
+  end
+
+  def footer_text
+    str = ''
+    str += "*Log Channel:* #{channel_link(team.log_channel_rid)}\n" if team.log_channel_rid.present?
+    str + "*Administrator:* #{team_admin}"
+  end
+
+  def jab_text
+    str = "*#{App.jabs_term.titleize} Enabled:* #{boolean_str(team.enable_jabs?)}"
+    return str unless team.enable_jabs?
+    str + "\n*Deduct #{App.jabs_term.titleize}:* #{boolean_str(team.deduct_jabs?)}"
   end
 
   def topic_text
@@ -54,12 +68,27 @@ class Commands::Admin < Commands::Base
   end
 
   def emoji_text
-    txt = "*Emoji Enabled:* #{boolean_str(team.enable_emoji?)}"
-    return txt unless team.enable_emoji?
+    str = "*Emoji Enabled:* #{boolean_str(team.enable_emoji?)}"
+    return str unless team.enable_emoji?
 
-    "#{txt}\n*Emoji Value:* #{points_format(team.emoji_quantity, label: true)}" \
-      "\n*#{App.points_term.titleize} Emoji:* #{team.tip_emoj}" \
-      "\n*Ditto Emoji:* #{team.ditto_emoj}"
+    str += "\n*Emoji Value:* #{points_format(team.emoji_quantity, label: true)}"
+    str += point_emoji
+    str += jab_emoji
+    str += ditto_emoji
+    str
+  end
+
+  def point_emoji
+    "\n*#{App.points_term.titleize} Emoji:* #{team.point_emoj}"
+  end
+
+  def jab_emoji
+    return unless team.enable_jabs?
+    "\n*#{App.jabs_term.titleize} Emoji:* #{team.jab_emoj}"
+  end
+
+  def ditto_emoji
+    "\n*Ditto Emoji:* #{team.ditto_emoj}"
   end
 
   def level_text
@@ -95,12 +124,12 @@ class Commands::Admin < Commands::Base
   end
 
   def streak_text
-    txt = "*Streaks Enabled:* #{boolean_str(team.enable_streaks?)}"
+    txt = "*Giving Streaks Enabled:* #{boolean_str(team.enable_streaks?)}"
     return txt unless team.enable_streaks?
     txt + <<~TEXT.chomp
 
-      *Streak Duration:* #{pluralize(team.streak_duration, 'day')}
-      *Streak Reward:* #{points_format(team.streak_reward, label: true)}
+      *Giving Streak Duration:* #{pluralize(team.streak_duration, 'day')}
+      *Giving Streak Reward:* #{points_format(team.streak_reward, label: true)}
     TEXT
   end
 

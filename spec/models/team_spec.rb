@@ -189,17 +189,17 @@ RSpec.describe Team do
   end
 
   describe 'Cache::TeamConfig cache busting' do
-    let(:team_config) { instance_spy(Cache::TeamConfig) }
+    let(:config) { instance_spy(Cache::TeamConfig) }
 
     shared_examples 'cache busting' do
       it 'calls Cache::TeamConfig.delete' do
-        expect(team_config).to have_received(:delete)
+        expect(config).to have_received(:delete)
       end
     end
 
     before do
-      allow(Cache::TeamConfig).to receive(:new).with(team.rid).and_return(team_config)
-      allow(team_config).to receive(:delete)
+      allow(Cache::TeamConfig).to receive(:new).with(team.rid).and_return(config)
+      allow(config).to receive(:delete)
     end
 
     describe 'cache busting on platform update' do

@@ -17,7 +17,6 @@
               :to_profile_id,
               t('tips.to_any_user'),
               params[:to_profile_id]
-
         - if @current_team.topics.any?
           .column = topic_select(@current_team, t('tips.any_topic'), params[:topic_id])
         .column

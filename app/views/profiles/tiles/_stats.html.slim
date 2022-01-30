@@ -44,6 +44,11 @@
             | #{App.points_term.titleize} earned: &nbsp;<strong>#{points_format(profile.points)}</strong>
             br
             | #{App.points_term.titleize} given: &nbsp;<strong>#{points_format(profile.points_sent)}</strong>
+            - if profile.team.enable_jabs?
+              br
+              | #{App.jabs_term.titleize} earned: &nbsp;<strong>#{points_format(profile.jabs)}</strong>
+              br
+              | #{App.jabs_term.titleize} given: &nbsp;<strong>#{points_format(profile.jabs_sent)}</strong>
 
             - if profile.team.throttle_tips? && profile == @current_profile
               br

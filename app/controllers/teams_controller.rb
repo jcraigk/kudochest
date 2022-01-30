@@ -88,16 +88,16 @@ class TeamsController < ApplicationController
       :hint_frequency, :hint_channel_rid, :notify_tokens, :max_points_per_tip,
       :tip_notes, :show_channel, :enable_fast_ack, :week_start_day, :enable_levels,
       :level_curve, :enable_emoji, :emoji_quantity, :max_level, :max_level_points,
-      :response_mode, :response_theme, :log_channel_rid, :tip_emoji, :ditto_emoji,
+      :response_mode, :response_theme, :log_channel_rid, :point_emoji, :jab_emoji, :ditto_emoji,
       :enable_streaks, :streak_duration, :streak_reward, :time_zone, :weekly_report,
       :tip_increment, :split_tip, :join_channels, :enable_cheers, :enable_loot,
-      :enable_topics, :require_topic, :show_note, work_days: []
+      :enable_jabs, :deduct_jabs, :enable_topics, :require_topic, :show_note, work_days: []
   end
 
   def platform_team_params
     case current_team.platform
     when 'slack' then team_params
-    when 'discord' then team_params.except(:tip_emoji, :ditto_emoji, :join_channels)
+    when 'discord' then team_params.except(:point_emoji, :jab_emoji, :ditto_emoji, :join_channels)
     end
   end
 

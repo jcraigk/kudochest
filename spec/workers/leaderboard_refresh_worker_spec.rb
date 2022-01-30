@@ -4,13 +4,14 @@ require 'rails_helper'
 RSpec.describe LeaderboardRefreshWorker, :freeze_time do
   subject(:perform) { described_class.new.perform(team.id, givingboard) }
 
-  let(:team) { create(:team) }
-  let!(:result) { { updated_at: Time.current.to_i, profiles: ranked_profiles } }
+  # TODO: Expand to handle jabs, negative points, and deduct_jabs off
+  let(:team) { create(:team, points_sent: team_points) }
+  let(:result) { { updated_at: Time.current.to_i, profiles: expected_profile_data } }
   let(:profile1) do
     create \
       :profile,
       team: team,
-      points: 10,
+      balance: 10,
       last_tip_received_at: 1.day.ago,
       points_sent: 20,
       last_tip_sent_at: 1.day.ago,
@@ -20,7 +21,7 @@ RSpec.describe LeaderboardRefreshWorker, :freeze_time do
     create \
       :profile,
       team: team,
-      points: 5,
+      balance: 5,
       last_tip_received_at: 2.days.ago,
       points_sent: 20,
       last_tip_sent_at: 2.days.ago,
@@ -30,7 +31,7 @@ RSpec.describe LeaderboardRefreshWorker, :freeze_time do
     create \
       :profile,
       team: team,
-      points: 13,
+      balance: 13,
       last_tip_received_at: Time.current,
       points_sent: 10,
       last_tip_sent_at: 1.day.ago,
@@ -40,7 +41,7 @@ RSpec.describe LeaderboardRefreshWorker, :freeze_time do
     create \
       :profile,
       team: team,
-      points: 13,
+      balance: 13,
       last_tip_received_at: Time.current,
       display_name: 'profile4'
   end
@@ -48,17 +49,18 @@ RSpec.describe LeaderboardRefreshWorker, :freeze_time do
     create \
       :profile,
       team: team,
-      points: 20,
+      balance: 20,
       last_tip_received_at: 3.days.ago,
       display_name: 'profile5'
   end
   let(:mock_cache) { instance_spy(Cache::Leaderboard) }
   let(:team_points) { 61 }
+  let(:all_profiles) { [profile1, profile2, profile3, profile4, profile5] }
 
   before do
-    team.update(points_sent: team_points)
     allow(Cache::Leaderboard).to receive(:new).and_return(mock_cache)
     allow(mock_cache).to receive(:set)
+    all_profiles
     perform
   end
 
@@ -70,7 +72,7 @@ RSpec.describe LeaderboardRefreshWorker, :freeze_time do
 
   context 'when `givingboard` is false' do
     let(:givingboard) { false }
-    let(:ranked_profiles) do
+    let(:expected_profile_data) do
       [
         profile_data(profile5, 1, givingboard),
         profile_data(profile3, 2, givingboard),
@@ -85,7 +87,7 @@ RSpec.describe LeaderboardRefreshWorker, :freeze_time do
 
   context 'when `givingboard` is true' do
     let(:givingboard) { true }
-    let(:ranked_profiles) do
+    let(:expected_profile_data) do
       [
         profile_data(profile1, 1, givingboard),
         profile_data(profile2, 2, givingboard),
@@ -97,14 +99,14 @@ RSpec.describe LeaderboardRefreshWorker, :freeze_time do
   end
 
   def profile_data(profile, rank, givingboard) # rubocop:disable Metrics/MethodLength
-    verb = givingboard ? 'sent' : 'received'
-    points_col = "points_#{verb}"
+    points_col = givingboard ? :points_sent : :balance
+    verb = givingboard ? :sent : :received
     LeaderboardProfile.new \
       id: profile.id,
       rank: rank,
       previous_rank: rank,
       slug: profile.slug,
-      link: profile.profile_link,
+      link: profile.dashboard_link,
       display_name: profile.display_name,
       real_name: profile.real_name,
       points: profile.send(points_col),

@@ -47,7 +47,7 @@ RSpec.describe QuantityValidator do
   end
 
   context 'when source is not import' do
-    let(:source) { 'plusplus' }
+    let(:source) { 'inline' }
 
     context 'when increment is 1' do
       let(:increment) { 1.0 }

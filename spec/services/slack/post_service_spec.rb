@@ -8,7 +8,7 @@ RSpec.describe Slack::PostService do
     {
       team_rid: team.rid,
       mode: mode,
-      team_config: {
+      config: {
         log_channel_rid: team.log_channel_rid,
         response_mode:
       },
@@ -200,7 +200,7 @@ RSpec.describe Slack::PostService do
     end
 
     xcontext 'when response_mode is `adaptive`' do
-      context 'when tip_source is `plusplus` or `modal`' do
+      context 'when tip_source is `inline` or `modal`' do
         it 'responds as `convo`' do
         end
       end

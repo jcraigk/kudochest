@@ -44,13 +44,12 @@ RSpec.describe Tip do
 
   describe 'scope #undoable', :freeze_time do
     let!(:tip1) { create(:tip, source: 'modal', from_profile: profile) }
-    let!(:tip2) { create(:tip, source: 'plusplus', from_profile: profile) }
+    let!(:tip2) { create(:tip, source: 'inline', from_profile: profile) }
     let!(:tip3) { create(:tip, source: 'reply', from_profile: profile) }
     let!(:tip4) { create(:tip, source: 'streak', from_profile: profile) }
     let(:profile) { create(:profile) }
 
     before do
-      create(:tip, source: 'auto', from_profile: profile) # wrong source
       create(:tip, source: 'modal', from_profile: profile, created_at: 1.year.ago) # old
     end
 
@@ -83,6 +82,24 @@ RSpec.describe Tip do
 
     it 'validates with expected validators' do
       expect(validators).to include(*expected_validators)
+    end
+  end
+
+  describe '#jab?' do
+    context 'when quantity is negative' do
+      before { tip.quantity = -1 }
+
+      it 'is true' do
+        expect(tip.jab?).to eq(true)
+      end
+    end
+
+    context 'when quantity is positive' do
+      before { tip.quantity = 1 }
+
+      it 'is true' do
+        expect(tip.jab?).to eq(false)
+      end
     end
   end
 

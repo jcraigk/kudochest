@@ -68,7 +68,7 @@ RSpec.describe ProfileDecorator do
   describe '#link_with_points' do
     let(:text) { "#{profile.link} (#{points_format(2_678, label: true)})" }
 
-    before { profile.points_received = 2_678 }
+    before { profile.balance = 2_678 }
 
     it 'returns expected text' do
       expect(profile.link_with_points).to eq(text)
@@ -77,7 +77,7 @@ RSpec.describe ProfileDecorator do
 
   describe '#profile_link' do
     it 'returns expected text' do
-      expect(profile.profile_link).to \
+      expect(profile.dashboard_link).to \
         eq("<#{App.base_url}/profiles/#{profile.slug}|#{profile.display_name}>")
     end
   end
@@ -124,7 +124,7 @@ RSpec.describe ProfileDecorator do
   describe '#webref_with_points' do
     let(:text) { "#{profile.webref} (#{points_format(2_678, label: true)})" }
 
-    before { profile.points_received = 2_678 }
+    before { profile.balance = 2_678 }
 
     it 'returns expected text' do
       expect(profile.webref_with_points).to eq(text)
@@ -139,7 +139,7 @@ RSpec.describe ProfileDecorator do
   end
 
   describe '#next_level_points_sentence' do
-    subject(:profile) { build(:profile, team:, points: 359) }
+    subject(:profile) { build(:profile, team:, balance: 359) }
 
     let(:team) { build(:team, max_level: 10, max_level_points: 450, level_curve: :steep) }
     let(:expected_text) { "#{points_format(91, label: true)} until level 10" }
@@ -151,7 +151,7 @@ RSpec.describe ProfileDecorator do
 
   describe '#points_required_for_next_level' do
     context 'when profile is at max level' do
-      before { profile.update(points_received: profile.team.max_level_points) }
+      before { profile.update(balance: profile.team.max_level_points) }
 
       it 'returns 0' do
         expect(profile.points_required_for_next_level).to eq(0)
@@ -159,7 +159,7 @@ RSpec.describe ProfileDecorator do
     end
 
     context 'when profile is below max level' do
-      before { profile.update(points_received: 26) }
+      before { profile.update(balance: 26) }
 
       it 'returns points quantity' do
         expect(profile.points_required_for_next_level).to eq(9)
@@ -179,7 +179,7 @@ RSpec.describe ProfileDecorator do
 
   describe '#next_level' do
     context 'when profile is at max level' do
-      before { profile.update(points_received: profile.team.max_level_points) }
+      before { profile.update(balance: profile.team.max_level_points) }
 
       it 'returns max_level' do
         expect(profile.next_level).to eq(profile.team.max_level)
@@ -187,7 +187,7 @@ RSpec.describe ProfileDecorator do
     end
 
     context 'when profile is below max level' do
-      before { profile.update(points_received: 26) }
+      before { profile.update(balance: 26) }
 
       it 'returns points quantity' do
         expect(profile.next_level).to eq(3)
@@ -197,7 +197,7 @@ RSpec.describe ProfileDecorator do
 
   describe '#max_level?' do
     context 'when profile is at max level' do
-      before { profile.update(points_received: profile.team.max_level_points) }
+      before { profile.update(balance: profile.team.max_level_points) }
 
       it 'returns true' do
         expect(profile.max_level?).to eq(true)
@@ -205,7 +205,7 @@ RSpec.describe ProfileDecorator do
     end
 
     context 'when profile is below max level' do
-      before { profile.update(points_received: 26) }
+      before { profile.update(balance: 26) }
 
       it 'returns false' do
         expect(profile.max_level?).to eq(false)
