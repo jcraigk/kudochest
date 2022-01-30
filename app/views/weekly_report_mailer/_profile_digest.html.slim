@@ -11,10 +11,10 @@
     tr
       td style='text-align: right; vertical-align: top; font-weight: bold; width: 50%;' #{App.points_term.titleize} Given:
       td #{points_format(@profile_data.points_given)} to #{pluralize(@profile_data.point_recipients.size, 'user')}
-    - if @profile_data.jabs.positive?
+    - if @profile_data.jabs_received.positive?
       tr
         td style='text-align: right; vertical-align: top; font-weight: bold; width: 50%;' #{App.jabs_term.titleize} Received:
-        td #{points_format(@profile_data.jabs)} from #{pluralize(@profile_data.jab_givers.size, 'user')}
+        td #{points_format(@profile_data.jabs_received)} from #{pluralize(@profile_data.jab_givers.size, 'user')}
     - @profile_data.jabs_given.positive?
       tr
         td style='text-align: right; vertical-align: top; font-weight: bold; width: 50%;' #{App.jabs_term.titleize} Given:

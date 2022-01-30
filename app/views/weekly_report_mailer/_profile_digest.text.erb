@@ -3,8 +3,8 @@ No activity this week. If you're having trouble using the app, please see #{App.
 <% else %>
 <%= App.points_term.titleize %> Received: <%= points_format(@profile_data.points_received) %> from <%= pluralize(@profile_data.point_givers.size, 'user') %>
 <%= App.points_term.titleize %> Given: <%= points_format(@profile_data.points_given) %> to <%= pluralize(@profile_data.point_recipients.size, 'user') %>
-<% if @profile_data.jabs.positive? %>
-<%= App.jabs_term.titleize %> Received: <%= points_format(@profile_data.jabs) %> from <%= pluralize(@profile_data.jab_givers.size, 'user') %>
+<% if @profile_data.jabs_received.positive? %>
+<%= App.jabs_term.titleize %> Received: <%= points_format(@profile_data.jabs_received) %> from <%= pluralize(@profile_data.jab_givers.size, 'user') %>
 <% end %>
 <% if @profile_data.jabs_given.positive? %>
 <%= App.jabs_term.titleize %> Given: <%= points_format(@profile_data.jabs_given) %> to <%= pluralize(@profile_data.jab_recipients.size, 'user') %>
