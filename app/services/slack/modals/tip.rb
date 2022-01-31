@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 class Slack::Modals::Tip < Base::Service
+  MAX_QUANTITY_OPTIONS = 99
+
   option :team_rid
 
   def call
@@ -159,7 +161,13 @@ class Slack::Modals::Tip < Base::Service
     base_quantities.reverse.map { |q| 0 - q } + base_quantities
   end
 
+  # Slack allows limited options in dropdowns
   def base_quantities
+    divisor = config[:enable_jabs] ? 2.0 : 1.0 # Need to fit negative numbers too
+    all_quantities.take((MAX_QUANTITY_OPTIONS.to_f / divisor).floor)
+  end
+
+  def all_quantities
     (
       fractional_quantity_options +
       (1..config[:max_points_per_tip]).to_a
