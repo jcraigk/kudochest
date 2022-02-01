@@ -44,8 +44,7 @@ class Hooks::Slack::BaseController < Hooks::BaseController
   end
 
   def relevant_text?
-    @relevant_text ||=
-      text&.start_with?("<#{PROF_PREFIX}#{team_config[:app_profile_rid]}>") || mentions_found?
+    text&.start_with?("<#{PROF_PREFIX}#{team_config[:app_profile_rid]}>") || mentions_found?
   end
 
   def fast_ack_data

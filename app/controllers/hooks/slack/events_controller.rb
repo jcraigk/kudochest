@@ -37,7 +37,7 @@ class Hooks::Slack::EventsController < Hooks::Slack::BaseController
 
   def bot_dm?
     event[:channel_type] == 'im' &&
-      params.dig(:authorizations, 0, :user_id) == config[:app_profile_rid]
+      params.dig(:authorizations, 0, :user_id) == team_config[:app_profile_rid]
   end
 
   def data # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
