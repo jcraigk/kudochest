@@ -42,21 +42,6 @@ RSpec.describe Profile do
     end
   end
 
-  describe '#collection_with_team' do
-    let!(:profile) { create(:profile, team:) }
-    let!(:profile2) { create(:profile, team:) }
-    let(:team) { build(:team) }
-
-    before do
-      create(:profile, rid: profile.rid, team: build(:team))
-    end
-
-    it 'returns only profiles from given team' do
-      expect(described_class.collection_with_team(profile.team.rid, [profile.rid, profile2.rid]))
-        .to match_array([profile, profile2])
-    end
-  end
-
   describe '#find_with_team' do
     let!(:profile) { create(:profile, team:) }
     let(:team) { build(:team) }

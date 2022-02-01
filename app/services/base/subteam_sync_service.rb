@@ -18,7 +18,7 @@ class Base::SubteamSyncService < Base::Service
   end
 
   def assign_profiles(subteam)
-    subteam.profiles = Profile.collection_with_team(team.rid, profile_rids_for(subteam))
+    subteam.profiles = Profile.where(team:, rid: profile_rids_for(subteam))
   end
 
   def assign_app_subteam
@@ -29,15 +29,14 @@ class Base::SubteamSyncService < Base::Service
   def find_or_create_subteam(attrs) # rubocop:disable Metrics/MethodLength
     base_attrs = base_attributes(attrs)
     sync_attrs = syncable_attributes(attrs)
-
     if (subteam = Subteam.find_by(base_attrs))
       subteam.update!(sync_attrs)
-      return subteam
+      subteam
+    else
+      combined_attrs = base_attrs.merge(sync_attrs)
+      Subteam.create!(combined_attrs)
     end
-
-    combined_attrs = base_attrs.merge(sync_attrs)
-    Subteam.create!(combined_attrs)
-  rescue ActiveRecord::RecordInvalid => e
+  rescue ActiveRecord::RecordInvalid, ActiveRecord::RecordNotUnique => e
     parameters = { attrs: attrs.to_h, combined_attrs: }
     Honeybadger.notify(e, parameters:) if defined?(Honeybadger)
     nil
@@ -48,10 +47,10 @@ class Base::SubteamSyncService < Base::Service
     team.subteams.where(rid: old_rids).destroy_all
   end
 
-  def base_attributes(remote_subteam)
+  def base_attributes(attrs)
     {
-      team_id: team.id,
-      rid: remote_subteam[:id]
+      team:,
+      rid: attrs[:id]
     }
   end
 end
