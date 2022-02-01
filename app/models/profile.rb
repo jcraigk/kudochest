@@ -58,13 +58,6 @@ class Profile < ApplicationRecord
     update!(slug: clean_slug(slug_value))
   end
 
-  def self.collection_with_team(team_rid, profile_rids)
-    where(rid: profile_rids)
-      .joins(:team)
-      .where('teams.rid' => team_rid)
-      .distinct
-  end
-
   def self.find_with_team(team_rid, profile_rid)
     joins(:team)
       .where('teams.rid' => team_rid)
