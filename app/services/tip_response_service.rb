@@ -86,10 +86,19 @@ class TipResponseService < Base::Service # rubocop:disable Metrics/ClassLength
     @channel_lead = "Everyone in #{channel_ref} has received #{App.points_term}"
   end
 
+  def quiet_theme?
+    @quiet_theme ||= team.response_theme.to_sym.in?(%i[quiet quiet_stat])
+  end
+
   def subteam_lead(medium)
     return unless to_subteams.one?
     subteam = to_subteams.first
-    subteam_ref = subteam_ref(medium, subteam.rid, subteam.handle)
+    subteam_ref =
+      if quiet_theme?
+        Subteam.find_by(team:, rid: subteam[:rid]).name
+      else
+        subteam_ref(medium, subteam[:rid], subteam[:handle])
+      end
     "Everyone in #{subteam_ref} has received #{App.points_term}"
   end
 
@@ -107,7 +116,10 @@ class TipResponseService < Base::Service # rubocop:disable Metrics/ClassLength
 
   def to_subteams
     tips.select(&:to_subteam_rid).uniq(&:to_subteam_rid).map do |tip|
-      SubteamData.new(tip.to_subteam_rid, tip.to_subteam_handle)
+      {
+        rid: tip.to_subteam_rid,
+        handle: tip.to_subteam_handle
+      }
     end
   end
 
@@ -143,11 +155,11 @@ class TipResponseService < Base::Service # rubocop:disable Metrics/ClassLength
   end
 
   def chat_profile_link(profile)
-    case team.response_theme
-    when 'quiet' then profile.dashboard_link
-    when 'quiet_stat' then profile.dashboard_link_with_stat
-    when 'fancy' then profile.link_with_stat
-    when 'basic' then profile.link
+    case team.response_theme.to_sym
+    when :quiet then profile.dashboard_link
+    when :quiet_stat then profile.dashboard_link_with_stat
+    when :fancy then profile.link_with_stat
+    when :basic then profile.link
     end
   end
 
@@ -205,7 +217,7 @@ class TipResponseService < Base::Service # rubocop:disable Metrics/ClassLength
     @leveldowns ||= levelings.select { |l| l.delta.negative? }
   end
 
-  # TODO: Code duplication here/below...combine into one method/service
+  # TODO: DRY up these leveling methods
   def sender_leveling
     return unless streak_rewarded?
     points = from_profile.send(value_col)
@@ -327,6 +339,5 @@ class TipResponseService < Base::Service # rubocop:disable Metrics/ClassLength
   end
 
   ProfileLeveling = Struct.new(:profile, :new_points, :delta)
-  SubteamData = Struct.new(:rid, :handle)
   TipResponse = Struct.new(:chat_fragments, :image_fragments, :web, keyword_init: true)
 end
