@@ -170,7 +170,7 @@ class Discord::BotEventService < Base::Service
   def base_payload(team_rid, config, event)
     {
       platform: 'discord',
-      team_rid: team_rid,
+      team_rid:,
       config:,
       is_bot_dm: false,
       channel_name: event.channel.name,

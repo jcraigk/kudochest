@@ -102,11 +102,11 @@ class Commands::Leaderboard < Commands::Base
 
   def opts
     {
-      team: team,
-      count: count,
+      team:,
+      count:,
       profile: requested_profile,
       givingboard: givingboard?,
-      topic_id: topic_id
+      topic_id:
     }
   end
 

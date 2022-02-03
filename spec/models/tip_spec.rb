@@ -108,7 +108,7 @@ RSpec.describe Tip do
 
     let(:ts) { Time.current.to_f.to_s }
     let(:channel) { build(:channel) }
-    let(:expected_args) { { channel: channel.rid, ts: ts } }
+    let(:expected_args) { { channel: channel.rid, ts: } }
     let(:slack_client) { instance_spy(Slack::Web::Client) }
 
     before do

@@ -88,8 +88,8 @@ RSpec.describe Actions::SubmitTipModal do
     let(:expected_args) do
       {
         profile: sender,
-        mentions: mentions,
-        note: note,
+        mentions:,
+        note:,
         source: 'modal',
         event_ts: ts,
         channel_rid: channel.rid,

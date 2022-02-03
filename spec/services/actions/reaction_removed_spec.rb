@@ -25,7 +25,7 @@ RSpec.describe Actions::ReactionRemoved do
       }
     }
   end
-  let(:discord_params) { { emoji: emoji, message_ts: ts } }
+  let(:discord_params) { { emoji:, message_ts: ts } }
   let(:event_ts) { "#{ts}-#{source}-#{sender.id}" }
 
   shared_examples 'success' do

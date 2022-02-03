@@ -20,11 +20,11 @@ RSpec.describe TipMentionService, :freeze_time do
       channel_rid: channel.rid,
       event_ts: ts,
       message_ts: ts,
-      mentions: mentions,
-      note: note,
-      profile: profile,
+      mentions:,
+      note:,
+      profile:,
       source: 'inline',
-      timestamp: timestamp
+      timestamp:
     }
   end
 
@@ -127,11 +127,11 @@ RSpec.describe TipMentionService, :freeze_time do
         from_channel_name: channel.name,
         from_channel_rid: channel.rid,
         from_profile: profile,
-        note: note,
+        note:,
         quantity: 1,
         topic_id: nil,
         source: 'inline',
-        timestamp: timestamp
+        timestamp:
       }
     end
     let(:other_profile) { create(:profile, team:) }

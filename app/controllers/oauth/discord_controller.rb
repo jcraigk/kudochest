@@ -24,7 +24,7 @@ class Oauth::DiscordController < ApplicationController
       platform: :discord,
       rid: params[:guild_id],
       name: oauth_data[:guild][:name],
-      avatar_url: avatar_url,
+      avatar_url:,
       owner_user_id: current_user.id
     }
   end

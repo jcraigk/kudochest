@@ -24,7 +24,7 @@ class Discord::TeamSyncService < Base::TeamSyncService
 
   def base_attributes(member)
     {
-      team: team,
+      team:,
       rid: member[:id]
     }
   end

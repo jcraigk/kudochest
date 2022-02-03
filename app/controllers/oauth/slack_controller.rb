@@ -24,9 +24,9 @@ class Oauth::SlackController < ApplicationController
       platform: :slack,
       rid: team_rid,
       name: team_params[:name],
-      avatar_url: avatar_url,
+      avatar_url:,
       owner_user_id: current_user.id,
-      api_key: api_key
+      api_key:
     }
   end
 

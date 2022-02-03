@@ -43,28 +43,28 @@ RSpec.describe LeaderboardService do
   end
 
   context 'when count is given, truncates the list' do
-    let(:args) { { team: team, count: 3 } }
+    let(:args) { { team:, count: 3 } }
     let(:expected_ids) { [1, 2, 3] }
 
     include_examples 'success'
   end
 
   context 'when profile and count are given, contextual snippet is returned' do
-    let(:args) { { team: team, profile: profile, count: 3 } }
+    let(:args) { { team:, profile:, count: 3 } }
     let(:expected_ids) { [2, 3, 4] }
 
     include_examples 'success'
   end
 
   context 'when `givingboard` is true' do
-    let(:args) { { team: team, givingboard: true } }
+    let(:args) { { team:, givingboard: true } }
     let(:expected_ids) { [3, 4, 5] }
 
     include_examples 'success'
   end
 
   context 'when offset is given (paging)' do
-    let(:args) { { team: team, count: 3, offset: 1 } }
+    let(:args) { { team:, count: 3, offset: 1 } }
     let(:expected_ids) { [2, 3, 4] }
 
     include_examples 'success'

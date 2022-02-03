@@ -21,9 +21,9 @@ class Slack::Modals::Preferences < Base::Service
     {
       type: :modal,
       callback_id: :submit_prefs_modal,
-      title: title,
-      submit: submit,
-      close: close,
+      title:,
+      submit:,
+      close:,
       blocks: [checkboxes]
     }
   end

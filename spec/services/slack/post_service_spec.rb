@@ -7,20 +7,20 @@ RSpec.describe Slack::PostService do
   let(:opts) do
     {
       team_rid: team.rid,
-      mode: mode,
+      mode:,
       config: {
         log_channel_rid: team.log_channel_rid,
         response_mode:
       },
       channel_rid: channel.rid,
       is_bot_dm: false,
-      message_ts: message_ts,
+      message_ts:,
       profile_rid: profile.rid,
-      response: response,
-      text: text,
-      thread_ts: thread_ts,
-      tips: tips,
-      trigger_id: trigger_id
+      response:,
+      text:,
+      thread_ts:,
+      tips:,
+      trigger_id:
     }.compact
   end
   let(:response_mode) { :convo }
@@ -223,7 +223,7 @@ RSpec.describe Slack::PostService do
           text: chat_response,
           blocks: [text_block],
           channel: channel.rid,
-          thread_ts: thread_ts,
+          thread_ts:,
           unfurl_links: false,
           unfurl_media: false
         }
@@ -306,7 +306,7 @@ RSpec.describe Slack::PostService do
       let(:cache_response) do
         {
           response_mode: 'channel',
-          log_channel_rid: log_channel_rid
+          log_channel_rid:
         }
       end
 

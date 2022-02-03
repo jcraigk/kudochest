@@ -57,7 +57,7 @@ RSpec.describe StreakRewardService do
             from_profile: app_profile,
             to_profile: profile,
             quantity: team.streak_reward,
-            event_ts: event_ts,
+            event_ts:,
             source: 'streak'
           }
         end

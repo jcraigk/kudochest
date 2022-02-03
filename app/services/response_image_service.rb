@@ -47,10 +47,10 @@ class ResponseImageService < Base::Service
   def params
     {
       config:,
-      fragments: fragments,
-      tips: tips,
-      profile_data: profile_data,
-      title: title
+      fragments:,
+      tips:,
+      profile_data:,
+      title:
     }.compact
   end
 

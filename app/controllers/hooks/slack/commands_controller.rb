@@ -17,7 +17,7 @@ class Hooks::Slack::CommandsController < Hooks::Slack::BaseController
       profile_rid: params[:user_id],
       config: team_config,
       team_rid: params[:team_id],
-      text: text,
+      text:,
       trigger_id: params[:trigger_id]
     }
   end

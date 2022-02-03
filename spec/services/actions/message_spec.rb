@@ -14,7 +14,7 @@ RSpec.describe Actions::Message do
   let(:platform) { :slack }
   let(:params) do
     {
-      platform: platform,
+      platform:,
       team_rid: team.rid,
       config: {
         app_profile_rid: team.app_profile_rid,
@@ -23,10 +23,10 @@ RSpec.describe Actions::Message do
       channel_name: channel.name,
       channel_rid: channel.rid,
       event_ts: ts,
-      origin: origin,
+      origin:,
       profile_rid: sender.rid,
-      text: text,
-      matches: matches
+      text:,
+      matches:
     }
   end
   let(:expected_args) do
@@ -36,7 +36,7 @@ RSpec.describe Actions::Message do
       event_ts: ts,
       channel_rid: channel.rid,
       channel_name: channel.name,
-      matches: matches
+      matches:
     }
   end
   let(:matches) { [] }

@@ -35,18 +35,18 @@ RSpec.describe MentionParser do
       profile_rid: profile.rid,
       event_ts: ts,
       channel_rid: channel.rid,
-      channel_name: channel_name,
-      matches: matches
+      channel_name:,
+      matches:
     }
   end
   let(:tip_mention_args) do
     {
-      profile: profile,
-      mentions: mentions,
+      profile:,
+      mentions:,
       source: 'inline',
       event_ts: ts,
       channel_rid: channel.rid,
-      channel_name: channel_name
+      channel_name:
     }
   end
   let(:mentions) do

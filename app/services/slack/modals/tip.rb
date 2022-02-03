@@ -14,9 +14,9 @@ class Slack::Modals::Tip < Base::Service
     {
       type: :modal,
       callback_id: :submit_tip_modal,
-      title: title,
-      submit: submit,
-      close: close,
+      title:,
+      submit:,
+      close:,
       blocks: [quantity_select, rid_multiselect, topic_select, note_input].compact
     }
   end

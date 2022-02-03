@@ -43,7 +43,7 @@ RSpec.describe Actions::UserChange do
   let(:expected_attrs) do
     {
       display_name: new_display_name,
-      title: title,
+      title:,
       avatar_url: image_url
     }
   end
