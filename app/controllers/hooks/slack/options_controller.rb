@@ -61,7 +61,7 @@ class Hooks::Slack::OptionsController < Hooks::Slack::BaseController
         type: :plain_text,
         text:
       },
-      value: value
+      value:
     }
   end
 

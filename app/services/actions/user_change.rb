@@ -17,8 +17,8 @@ class Actions::UserChange < Actions::Base
 
   def profile_attrs
     {
-      display_name: display_name,
-      real_name: real_name,
+      display_name:,
+      real_name:,
       title: profile_params[:title],
       deleted: user_params[:deleted],
       avatar_url: profile_params[:image_512]

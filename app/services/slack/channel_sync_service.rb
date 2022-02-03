@@ -32,7 +32,7 @@ class Slack::ChannelSyncService < Base::ChannelSyncService
 
   def base_attributes(channel)
     {
-      team: team,
+      team:,
       rid: channel[:id]
     }
   end

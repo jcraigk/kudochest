@@ -42,10 +42,10 @@ class TeamRegistrar < Base::Service
 
   def update_attrs
     {
-      name: name,
-      avatar_url: avatar_url,
-      owner_user_id: owner_user_id,
-      api_key: api_key,
+      name:,
+      avatar_url:,
+      owner_user_id:,
+      api_key:,
       installed: true
     }
   end

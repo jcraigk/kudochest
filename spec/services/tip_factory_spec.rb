@@ -25,13 +25,13 @@ RSpec.describe TipFactory do
       event_ts: ts,
       from_channel_name: from_channel.name,
       from_channel_rid: from_channel.rid,
-      from_profile: from_profile,
-      note: note,
+      from_profile:,
+      note:,
       quantity: 1,
       source: 'seed',
-      to_entity: to_entity,
-      to_profiles: to_profiles,
-      timestamp: timestamp
+      to_entity:,
+      to_profiles:,
+      timestamp:
     }
   end
   let(:tip_attrs) do

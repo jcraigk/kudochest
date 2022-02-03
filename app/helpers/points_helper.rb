@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 module PointsHelper
   def points_format(points, opts = {})
+    return '0' if points.blank?
+    points = BigDecimal(points.to_s)
     str = opts[:label] ? point_label_fragments(points, opts).join(' ') : formatted_points(points)
     str = "+#{str}" if opts[:plus_prefix] && points.positive?
     str = tag.span(str, class: points_class(points)) if opts[:colorize]

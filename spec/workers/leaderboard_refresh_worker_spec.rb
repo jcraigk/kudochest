@@ -10,7 +10,7 @@ RSpec.describe LeaderboardRefreshWorker, :freeze_time do
   let(:profile1) do
     create \
       :profile,
-      team: team,
+      team:,
       balance: 10,
       last_tip_received_at: 1.day.ago,
       points_sent: 20,
@@ -20,7 +20,7 @@ RSpec.describe LeaderboardRefreshWorker, :freeze_time do
   let(:profile2) do
     create \
       :profile,
-      team: team,
+      team:,
       balance: 5,
       last_tip_received_at: 2.days.ago,
       points_sent: 20,
@@ -30,7 +30,7 @@ RSpec.describe LeaderboardRefreshWorker, :freeze_time do
   let(:profile3) do
     create \
       :profile,
-      team: team,
+      team:,
       balance: 13,
       last_tip_received_at: Time.current,
       points_sent: 10,
@@ -40,7 +40,7 @@ RSpec.describe LeaderboardRefreshWorker, :freeze_time do
   let(:profile4) do
     create \
       :profile,
-      team: team,
+      team:,
       balance: 13,
       last_tip_received_at: Time.current,
       display_name: 'profile4'
@@ -48,7 +48,7 @@ RSpec.describe LeaderboardRefreshWorker, :freeze_time do
   let(:profile5) do
     create \
       :profile,
-      team: team,
+      team:,
       balance: 20,
       last_tip_received_at: 3.days.ago,
       display_name: 'profile5'
@@ -103,7 +103,7 @@ RSpec.describe LeaderboardRefreshWorker, :freeze_time do
     verb = givingboard ? :sent : :received
     LeaderboardProfile.new \
       id: profile.id,
-      rank: rank,
+      rank:,
       previous_rank: rank,
       slug: profile.slug,
       link: profile.dashboard_link,

@@ -39,8 +39,8 @@ class RewardClaimService < Base::Service
 
   def base_attrs
     {
-      profile: profile,
-      reward: reward,
+      profile:,
+      reward:,
       price: reward.price
     }
   end

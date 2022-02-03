@@ -9,14 +9,14 @@ RSpec.describe BonusCalculatorService, :freeze_time do
   let(:profile2) { create(:profile, team:) }
   let(:args) do
     {
-      team: team,
+      team:,
       start_date: (2.days.ago).strftime('%Y-%m-%d'),
       end_date: (2.days.from_now).strftime('%Y-%m-%d'),
-      include_streak_points: include_streak_points,
-      include_imported_points: include_imported_points,
-      style: style,
-      pot_size: pot_size,
-      dollar_per_point: dollar_per_point
+      include_streak_points:,
+      include_imported_points:,
+      style:,
+      pot_size:,
+      dollar_per_point:
     }
   end
 

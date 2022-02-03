@@ -7,13 +7,13 @@ RSpec.describe Discord::PostService do
   let(:team) { create(:team) }
   let(:opts) do
     {
-      mode: mode,
+      mode:,
       config: team.config,
       profile_rid: profile.rid,
       channel_rid: channel.rid,
-      response: response,
-      text: text,
-      tips: tips
+      response:,
+      text:,
+      tips:
     }.compact
   end
   let(:channel) { create(:channel, team:, rid: 'pub-channel') }

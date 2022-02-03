@@ -10,13 +10,13 @@ describe Oauth::SlackController do
   let(:user) { create(:user) }
   let(:code) { 'abc ' }
   let(:api_key) { 'xyz ' }
-  let(:params) { { code: code } }
+  let(:params) { { code: } }
   let(:web_client) { instance_spy(Slack::Web::Client) }
   let(:client_params) do
     {
       client_id: ENV['SLACK_CLIENT_ID'],
       client_secret: ENV['SLACK_CLIENT_SECRET'],
-      code: code
+      code:
     }
   end
   let(:team) { build(:team) }

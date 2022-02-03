@@ -25,7 +25,7 @@ RSpec.describe TokenDispersalService do
         config: team.config,
         team_rid: team.rid,
         mode: :direct,
-        text: text
+        text:
       }
     end
 
