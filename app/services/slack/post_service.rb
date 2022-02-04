@@ -29,7 +29,7 @@ class Slack::PostService < Base::PostService
 
   def respond_by_mode
     case response_action
-    when :convo then respond_in_convo
+    when :convo then respond_in_convo(channel_rid)
     when :reply then is_bot_dm ? respond_dm(profile_rid) : reply_to_message
     when :direct then dm_tipped_profiles
     when :silent then respond_ephemeral(profile_rid)

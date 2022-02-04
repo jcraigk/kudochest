@@ -194,18 +194,18 @@ class TipResponseService < Base::Service # rubocop:disable Metrics/ClassLength
   def levelup_fragment(medium)
     if levelups.one?
       profile = levelups.first.profile
-      "#{profile_ref(medium, profile)} leveled up to #{profile.level}"
+      "#{profile_ref(medium, profile)} leveled up to #{profile.level}!"
     elsif levelups.any?
-      "#{leveling_profiles(medium, levelups)} leveled up"
+      "#{leveling_profiles(medium, levelups)} leveled up!"
     end
   end
 
   def leveldown_fragment(medium)
     if leveldowns.one?
       profile = leveldowns.first.profile
-      "#{profile_ref(medium, profile)} leveled down to #{profile.level}"
+      "#{profile_ref(medium, profile)} leveled down to #{profile.level}!"
     elsif leveldowns.any?
-      "#{leveling_profiles(medium, levelups)} leveled down"
+      "#{leveling_profiles(medium, levelups)} leveled down!"
     end
   end
 

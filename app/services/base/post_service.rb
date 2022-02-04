@@ -94,26 +94,12 @@ class Base::PostService < Base::Service
     [chat_fragments[:leveling], chat_fragments[:streak]].compact_blank.join("\n")
   end
 
-  def primary_text(contextual)
-    contextual ? contextual_primary_text : public_primary_text
-  end
-
-  def contextual_primary_text
+  def primary_text(contextual) # rubocop:disable Metrics/AbcSize
     parts = chat_fragments.slice(:lead, :main)
     note = chat_fragments[:note]
-    parts[:main] += ". #{note}" if note.present?
-    parts.values.compact_blank.join("\n")
-  end
-
-  def public_primary_text # rubocop:disable Metrics/AbcSize, Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
-    parts = chat_fragments.slice(:main)
-    note = chat_fragments[:note]
     channel = chat_fragments[:channel]
-    if config[:show_channel] || tips&.any? { |tip| tip.to_channel_rid.present? }
-      parts[:lead] = chat_fragments[:lead]
-    end
-    parts[:main] += " #{channel}" if config[:show_channel] && channel.present?
-    parts[:main] += ". #{note}" if config[:show_note] && note.present?
+    parts[:main] += " #{channel}" if channel.present? && !contextual && config[:show_channel]
+    parts[:main] += ". #{note}" if note.present? && (contextual || config[:show_note])
     parts.values.compact_blank.join("\n")
   end
 

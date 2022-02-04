@@ -1,4 +1,13 @@
 GIT
+  remote: https://github.com/mperham/sidekiq.git
+  revision: 72f0dddac76fa8f3302faef05ac2eae4e475cba0
+  specs:
+    sidekiq (6.4.1)
+      connection_pool (>= 2.2.2)
+      rack (~> 2.0)
+      redis (>= 4.2.0)
+
+GIT
   remote: https://github.com/vcr/vcr.git
   revision: 8ced6c96e01737a418cd270e0382a8c2c6d85f7f
   specs:
@@ -78,17 +87,17 @@ GEM
     attr_extras (6.2.5)
     awesome_print (1.9.2)
     aws-eventstream (1.2.0)
-    aws-partitions (1.551.0)
-    aws-sdk-core (3.125.6)
+    aws-partitions (1.552.0)
+    aws-sdk-core (3.126.0)
       aws-eventstream (~> 1, >= 1.0.2)
       aws-partitions (~> 1, >= 1.525.0)
       aws-sigv4 (~> 1.1)
       jmespath (~> 1.0)
-    aws-sdk-kms (1.53.0)
-      aws-sdk-core (~> 3, >= 3.125.0)
+    aws-sdk-kms (1.54.0)
+      aws-sdk-core (~> 3, >= 3.126.0)
       aws-sigv4 (~> 1.1)
-    aws-sdk-s3 (1.111.3)
-      aws-sdk-core (~> 3, >= 3.125.0)
+    aws-sdk-s3 (1.112.0)
+      aws-sdk-core (~> 3, >= 3.126.0)
       aws-sdk-kms (~> 1)
       aws-sigv4 (~> 1.4)
     aws-sigv4 (1.4.0)
@@ -405,10 +414,6 @@ GEM
     semantic_range (3.0.0)
     shoulda-matchers (5.1.0)
       activesupport (>= 5.2.0)
-    sidekiq (6.4.0)
-      connection_pool (>= 2.2.2)
-      rack (~> 2.0)
-      redis (>= 4.2.0)
     sidekiq-scheduler (3.1.1)
       e2mmap
       redis (>= 3, < 5)
@@ -416,10 +421,7 @@ GEM
       sidekiq (>= 3)
       thwait
       tilt (>= 1.4.0)
-    sidekiq-statistic (1.4.0)
-      sidekiq (>= 5.0)
-      tilt (~> 2.0)
-    sidekiq-unique-jobs (7.1.12)
+    sidekiq-unique-jobs (7.1.13)
       brpoplpush-redis_script (> 0.1.1, <= 2.0.0)
       concurrent-ruby (~> 1.0, >= 1.0.5)
       sidekiq (>= 5.0, < 8.0)
@@ -533,9 +535,8 @@ DEPENDENCIES
   sass-rails
   selenium-webdriver
   shoulda-matchers
-  sidekiq
+  sidekiq!
   sidekiq-scheduler
-  sidekiq-statistic
   sidekiq-unique-jobs
   simplecov
   slack-ruby-client

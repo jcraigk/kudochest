@@ -207,13 +207,13 @@ RSpec.describe TipResponseService do
       TEXT
     end
     let(:channel_frag) { "in #{channel.link}" }
-    let(:leveling_frag) { "#{to_profile.link} leveled up to #{to_profile.level}" }
+    let(:leveling_frag) { "#{to_profile.link} leveled up to #{to_profile.level}!" }
     let(:image_leveling_frag) do
-      "#{IMG_DELIM}#{to_profile.display_name} #{IMG_DELIM} leveled up to #{to_profile.level}"
+      "#{IMG_DELIM}#{to_profile.display_name} #{IMG_DELIM} leveled up to #{to_profile.level}!"
     end
     let(:web_response) do
       <<~TEXT.chomp
-        #{web_ts} #{from_profile.webref} gave #{to_profile.webref} #{points_format(quantity, label: true)} in #{channel.webref}<br>Note: <i>#{note}</i><br>#{to_profile.webref} leveled up to #{to_profile.level}
+        #{web_ts} #{from_profile.webref} gave #{to_profile.webref} #{points_format(quantity, label: true)} in #{channel.webref}<br>Note: <i>#{note}</i><br>#{to_profile.webref} leveled up to #{to_profile.level}!
       TEXT
     end
 
