@@ -34,6 +34,7 @@ class LeaderboardService < Base::Service
   end
 
   def contextual_start_idx
+    return 0 if count <= leaderboard_cache.profiles.size
     [0, profile_idx - (count.to_f / 2).floor].max
   end
 

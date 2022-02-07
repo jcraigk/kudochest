@@ -71,22 +71,22 @@ class Base::PostService < Base::Service
     )
   end
 
-  def chat_response_text(contextual: true)
-    fast_ack_text || compose_response(contextual)
+  def chat_response_text(is_inline: true)
+    fast_ack_text || compose_response(is_inline)
   end
 
   def first_tip
     @first_tip ||= tips&.first
   end
 
-  def compose_response(contextual)
+  def compose_response(is_inline)
     return image if image.present?
     return text if mode == :hint || no_chat_fragments?
-    fragment_composition(contextual)
+    fragment_composition(is_inline)
   end
 
-  def fragment_composition(contextual)
-    [primary_text(contextual), cheer_text].compact_blank.join("\n")
+  def fragment_composition(is_inline)
+    [primary_text(is_inline), cheer_text].compact_blank.join("\n")
   end
 
   def cheer_text
@@ -94,12 +94,12 @@ class Base::PostService < Base::Service
     [chat_fragments[:leveling], chat_fragments[:streak]].compact_blank.join("\n")
   end
 
-  def primary_text(contextual) # rubocop:disable Metrics/AbcSize
+  def primary_text(is_inline) # rubocop:disable Metrics/AbcSize
     parts = chat_fragments.slice(:lead, :main)
     note = chat_fragments[:note]
     channel = chat_fragments[:channel]
-    parts[:main] += " #{channel}" if channel.present? && !contextual && config[:show_channel]
-    parts[:main] += ". #{note}" if note.present? && (contextual || config[:show_note])
+    parts[:main] += " #{channel}" if channel.present? && !is_inline && config[:show_channel]
+    parts[:main] += ". #{note}" if note.present? && (is_inline || config[:show_note])
     parts.values.compact_blank.join("\n")
   end
 
