@@ -129,7 +129,7 @@ class MessageScanner < Base::Service
   end
 
   def quantity_prefix
-    '(?<prefix_quantity>\d+\.?\d*)?\s?'
+    '(?<prefix_quantity>\d+(?:\.\d*)?)?\s?'
   end
 
   def quantity_suffix

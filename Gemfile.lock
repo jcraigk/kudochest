@@ -1,6 +1,6 @@
 GIT
   remote: https://github.com/mperham/sidekiq.git
-  revision: 72f0dddac76fa8f3302faef05ac2eae4e475cba0
+  revision: bc7389daba0394a0243ef1e1efdb428d065053ab
   specs:
     sidekiq (6.4.1)
       connection_pool (>= 2.2.2)
@@ -87,7 +87,7 @@ GEM
     attr_extras (6.2.5)
     awesome_print (1.9.2)
     aws-eventstream (1.2.0)
-    aws-partitions (1.552.0)
+    aws-partitions (1.553.0)
     aws-sdk-core (3.126.0)
       aws-eventstream (~> 1, >= 1.0.2)
       aws-partitions (~> 1, >= 1.525.0)
@@ -421,7 +421,7 @@ GEM
       sidekiq (>= 3)
       thwait
       tilt (>= 1.4.0)
-    sidekiq-unique-jobs (7.1.13)
+    sidekiq-unique-jobs (7.1.14)
       brpoplpush-redis_script (> 0.1.1, <= 2.0.0)
       concurrent-ruby (~> 1.0, >= 1.0.5)
       sidekiq (>= 5.0, < 8.0)

@@ -70,27 +70,27 @@ class Slack::PostService < Base::PostService
   end
 
   def message_params(channel, thread = nil)
-    contextual = first_tip.present? && channel == first_tip.from_channel_rid
+    is_inline = first_tip.present? && channel == first_tip.from_channel_rid
     {
       channel: channel || channel_rid,
       thread_ts: thread,
       unfurl_links: false,
       unfurl_media: false,
-      text: unformatted_text(contextual) # Desktop notification (blocks take precedent in client)
-    }.merge(response_params(contextual)).compact
+      text: unformatted_text(is_inline) # Desktop notification (blocks take precedent in client)
+    }.merge(response_params(is_inline)).compact
   end
 
-  def unformatted_text(contextual)
+  def unformatted_text(is_inline)
     return 'A random usage hint' if mode == :hint
     return alt_text if image.present?
-    chat_response_text(contextual:).gsub(/(_\s+)|(\s+_)|(\A_)|(_\z)/, ' ').strip
+    chat_response_text(is_inline:).gsub(/(_\s+)|(\s+_)|(\A_)|(_\z)/, ' ').strip
   end
 
-  def response_params(contextual)
-    image_param || text_param(contextual)
+  def response_params(is_inline)
+    image_param || text_param(is_inline)
   end
 
-  def text_param(contextual) # rubocop:disable Metrics/MethodLength
+  def text_param(is_inline) # rubocop:disable Metrics/MethodLength
     return text if text.is_a?(Hash) # { blocks: ... } for Slack formatting
     {
       blocks: [
@@ -98,7 +98,7 @@ class Slack::PostService < Base::PostService
           type: :section,
           text: {
             type: :mrkdwn,
-            text: chat_response_text(contextual:)
+            text: chat_response_text(is_inline:)
           }
         }
       ]
