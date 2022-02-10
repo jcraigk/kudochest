@@ -10,8 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_01_24_074414) do
-
+ActiveRecord::Schema[7.0].define(version: 2022_01_24_074414) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -20,8 +19,8 @@ ActiveRecord::Schema.define(version: 2022_01_24_074414) do
     t.integer "user_id", null: false
     t.string "provider", null: false
     t.string "uid", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["provider", "uid"], name: "index_authentications_on_provider_and_uid"
   end
 
@@ -30,8 +29,8 @@ ActiveRecord::Schema.define(version: 2022_01_24_074414) do
     t.string "rid", null: false
     t.string "name", null: false
     t.boolean "shared", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["name", "team_id"], name: "index_channels_on_name_and_team_id", unique: true
     t.index ["rid", "team_id"], name: "index_channels_on_rid_and_team_id", unique: true
     t.index ["team_id"], name: "index_channels_on_team_id"
@@ -42,9 +41,9 @@ ActiveRecord::Schema.define(version: 2022_01_24_074414) do
     t.uuid "reward_id"
     t.integer "price"
     t.string "fulfillment_key"
-    t.datetime "fulfilled_at"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "fulfilled_at", precision: nil
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["created_at"], name: "index_claims_on_created_at"
     t.index ["profile_id", "reward_id", "fulfillment_key"], name: "index_claims_on_profile_id_and_reward_id_and_fulfillment_key", unique: true
   end
@@ -67,13 +66,13 @@ ActiveRecord::Schema.define(version: 2022_01_24_074414) do
     t.decimal "tokens_forfeited", precision: 9, scale: 2, null: false
     t.decimal "points_received", precision: 9, scale: 2, null: false
     t.decimal "points_sent", precision: 9, scale: 2, null: false
-    t.datetime "last_tip_received_at"
+    t.datetime "last_tip_received_at", precision: nil
     t.date "streak_date"
     t.integer "streak_count", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.datetime "welcomed_at"
-    t.datetime "last_tip_sent_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.datetime "welcomed_at", precision: nil
+    t.datetime "last_tip_sent_at", precision: nil
     t.integer "points_claimed", default: 0, null: false
     t.boolean "weekly_report", default: true, null: false
     t.boolean "announce_tip_sent", default: true, null: false
@@ -103,8 +102,8 @@ ActiveRecord::Schema.define(version: 2022_01_24_074414) do
     t.boolean "auto_fulfill", null: false
     t.string "fulfillment_keys"
     t.boolean "active", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["team_id", "name"], name: "index_rewards_on_team_id_and_name", unique: true
   end
 
@@ -122,8 +121,8 @@ ActiveRecord::Schema.define(version: 2022_01_24_074414) do
     t.string "name", null: false
     t.string "description"
     t.string "handle"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["handle", "team_id"], name: "index_subteams_on_handle_and_team_id", unique: true
     t.index ["name", "team_id"], name: "index_subteams_on_name_and_team_id", unique: true
     t.index ["rid", "team_id"], name: "index_subteams_on_rid_and_team_id", unique: true
@@ -155,14 +154,14 @@ ActiveRecord::Schema.define(version: 2022_01_24_074414) do
     t.string "level_curve", null: false
     t.integer "max_level", null: false
     t.integer "max_level_points", null: false
-    t.datetime "tokens_disbursed_at"
+    t.datetime "tokens_disbursed_at", precision: nil
     t.decimal "points_sent", precision: 9, scale: 2, null: false
     t.boolean "active", null: false
     t.boolean "enable_streaks", null: false
     t.integer "streak_duration", null: false
     t.integer "streak_reward", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.string "app_profile_rid"
     t.string "time_zone", default: "UTC", null: false
     t.string "response_theme"
@@ -184,7 +183,7 @@ ActiveRecord::Schema.define(version: 2022_01_24_074414) do
     t.string "ditto_emoji"
     t.string "hint_frequency", default: "never", null: false
     t.string "hint_channel_rid"
-    t.datetime "hint_posted_at"
+    t.datetime "hint_posted_at", precision: nil
     t.boolean "show_note", default: true, null: false
     t.decimal "jabs_sent", precision: 9, scale: 2, default: "0.0"
     t.decimal "balance", precision: 9, scale: 2, default: "0.0"
@@ -214,7 +213,7 @@ ActiveRecord::Schema.define(version: 2022_01_24_074414) do
     t.string "to_channel_name"
     t.string "to_subteam_rid"
     t.string "to_subteam_handle"
-    t.datetime "created_at"
+    t.datetime "created_at", precision: nil
     t.boolean "to_everyone", default: false
     t.uuid "topic_id"
     t.string "chat_permalink"
@@ -234,8 +233,8 @@ ActiveRecord::Schema.define(version: 2022_01_24_074414) do
     t.string "keyword", null: false
     t.string "emoji"
     t.boolean "active", default: true, null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["team_id", "emoji"], name: "index_topics_on_team_id_and_emoji", unique: true
     t.index ["team_id", "keyword"], name: "index_topics_on_team_id_and_keyword", unique: true
     t.index ["team_id", "name"], name: "index_topics_on_team_id_and_name", unique: true
@@ -246,17 +245,17 @@ ActiveRecord::Schema.define(version: 2022_01_24_074414) do
     t.string "email", null: false
     t.string "crypted_password"
     t.string "salt"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.string "remember_me_token"
-    t.datetime "remember_me_token_expires_at"
+    t.datetime "remember_me_token_expires_at", precision: nil
     t.string "reset_password_token"
-    t.datetime "reset_password_token_expires_at"
-    t.datetime "reset_password_email_sent_at"
+    t.datetime "reset_password_token_expires_at", precision: nil
+    t.datetime "reset_password_email_sent_at", precision: nil
     t.integer "access_count_to_reset_password_page", default: 0
     t.string "activation_state"
     t.string "activation_token"
-    t.datetime "activation_token_expires_at"
+    t.datetime "activation_token_expires_at", precision: nil
     t.string "reg_token", null: false
     t.boolean "admin", null: false
     t.string "theme"
