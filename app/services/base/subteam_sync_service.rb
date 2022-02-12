@@ -3,8 +3,8 @@ class Base::SubteamSyncService < Base::Service
   option :team
 
   def call
-    sync_active_subteams
     destroy_old_subteams
+    sync_active_subteams
     assign_app_subteam
   end
 
