@@ -4,23 +4,27 @@ class CsvImporter < Base::Service
   option :text
 
   def call
-    @num_imported = 0
+    @tips = []
     @invalid_names = []
 
-    import_tips
+    Tip.transaction do
+      create_tips
+      TipOutcomeService.call(tips:)
+    end
+
     result_sentence
   end
 
   private
 
-  attr_reader :num_imported, :invalid_names
+  attr_reader :tips, :invalid_names
 
   def result_sentence
     [update_fragment, invalid_fragment].compact.join(', ')
   end
 
   def update_fragment
-    "CSV import results: #{pluralize(num_imported, 'user')} updated"
+    "CSV import results: #{pluralize(tips.size, 'user')} updated"
   end
 
   def invalid_fragment
@@ -30,23 +34,20 @@ class CsvImporter < Base::Service
     TEXT
   end
 
-  def import_tips
+  def create_tips
     text.split("\n").each do |line|
       display_name, quantity_str = line.split(',')
       quantity = quantity_str.to_f.round(2)
       next unless quantity.positive?
       profile = team.profiles.find_by(display_name: display_name.tr('@', ''))
-      next create_import_tip(profile, quantity) if profile.present?
+      next @tips << create_import_tip(profile, quantity) if profile.present?
       @invalid_names << display_name
     end
   end
 
   def create_import_tip(profile, quantity)
-    Tip.transaction do
-      create_tip(profile, quantity)
-      profile.update!(points_claimed: profile.points_claimed + quantity)
-    end
-    @num_imported += 1
+    profile.update!(points_claimed: profile.points_claimed + quantity)
+    create_tip(profile, quantity)
   end
 
   def create_tip(profile, quantity)
@@ -56,6 +57,8 @@ class CsvImporter < Base::Service
       quantity:,
       source: 'import',
       event_ts: Time.current.to_f.to_s
-    ).save(validate: false)
+    ).tap do |tip|
+      tip.save(validate: false)
+    end
   end
 end

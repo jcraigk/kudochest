@@ -3,10 +3,9 @@ class Commands::Undo < Commands::Base
   attr_reader :text
 
   def call
-    return respond_failure(I18n.t('tips.nothing_to_undo')) if recent_tips.none?
+    return respond_failure(I18n.t('tips.nothing_to_undo')) if tips.none?
 
-    prepare_response
-    recent_tips.destroy_all
+    destroy_tips
     respond
   end
 
@@ -15,15 +14,15 @@ class Commands::Undo < Commands::Base
   def respond
     ChatResponse.new \
       mode: :private,
-      text:
+      text: "You revoked #{points_clause}"
   end
 
-  def prepare_response
-    @text = "You revoked #{points_clause}"
+  def destroy_tips
+    TipOutcomeService.call(tips:, destroy: true)
   end
 
-  def recent_tips
-    @recent_tips ||= Tip.where(event_ts: undoable_event_ts)
+  def tips
+    @tips ||= Tip.where(event_ts: undoable_event_ts)
   end
 
   def undoable_event_ts
@@ -47,6 +46,6 @@ class Commands::Undo < Commands::Base
   end
 
   def noticible_tips_by_quantity
-    recent_tips.reject { |t| t.source == 'streak' }.group_by(&:quantity).sort.reverse
+    tips.reject { |t| t.source == 'streak' }.group_by(&:quantity).sort.reverse
   end
 end

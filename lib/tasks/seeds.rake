@@ -19,6 +19,7 @@ namespace :seeds do
 
     print 'Generating tips'
     profiles = team.profiles.active
+    tips = []
     profiles.each do |profile|
       num = rand(20..50)
       profile.with_lock { profile.increment!(:tokens_accrued, num) } # rubocop:disable Rails/SkipsModelValidations
@@ -26,7 +27,7 @@ namespace :seeds do
         channel = team.channels.sample
         topic_id = rand(3).zero? ? nil : team.topics.sample.id
         quantity = team.enable_jabs? ? (-5..5).to_a.reject(&:zero?).sample : rand(1..5)
-        TipFactory.call \
+        tips += TipFactory.call \
           topic_id:,
           from_profile: profile,
           to_entity: 'Profile',
@@ -40,6 +41,7 @@ namespace :seeds do
           source: 'seed',
           timestamp: Time.current
       end
+      TipOutcomeService.call(tips:)
     end
     puts 'done'
 
