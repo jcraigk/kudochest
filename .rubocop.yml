@@ -45,7 +45,7 @@ RSpec/ExampleLength:
   Exclude:
     - spec/features/**/*
 RSpec/MultipleExpectations:
-  Max: 2
+  Max: 4
   Exclude:
     - spec/features/**/*
 RSpec/MultipleMemoizedHelpers:

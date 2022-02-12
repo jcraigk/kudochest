@@ -9,11 +9,15 @@ class Actions::ReactionRemoved < Actions::ReactionBase
 
   private
 
+  def destroy_tips
+    TipOutcomeService.call(tips:, destroy: true)
+  end
+
   def respond
     ChatResponse.new(mode: :silent)
   end
 
-  def destroy_tips
-    Tip.undoable.where(event_ts:).destroy_all
+  def tips
+    @tips ||= Tip.undoable.where(event_ts:)
   end
 end

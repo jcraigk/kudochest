@@ -223,7 +223,10 @@ RSpec.describe TipResponseService do
       TEXT
     end
 
-    before { to_profile.update(balance: 10) }
+    before do
+      to_profile.update(balance: 10)
+      TipOutcomeService.call(tips: [tip])
+    end
 
     include_examples 'expected response'
   end

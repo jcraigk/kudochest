@@ -13,6 +13,8 @@ class TipMentionService < Base::Service
     return respond_note_required if note_missing?
     return respond_no_action if tips.none?
 
+    Tip.transaction { TipOutcomeService.call(tips:) }
+
     respond_success
   end
 
@@ -23,7 +25,7 @@ class TipMentionService < Base::Service
     ChatResponse.new \
       mode: :public,
       response:,
-      tips:,
+      tips:, # TODO: We shouldn't need to pass all this data
       image: response_image
   end
 
@@ -34,12 +36,10 @@ class TipMentionService < Base::Service
   end
 
   def tips
-    @tips ||= Tip.transaction do
-      uniq_entity_mentions.map do |mention|
-        next if mention.profiles.none?
-        create_tips_for(mention, timestamp)
-      end.flatten.compact
-    end
+    @tips ||= uniq_entity_mentions.map do |mention|
+      next if mention.profiles.none?
+      create_tips_for(mention, timestamp)
+    end.flatten.compact
   end
 
   def create_tips_for(mention, timestamp) # rubocop:disable Metrics/MethodLength

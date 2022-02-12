@@ -26,9 +26,7 @@ class Tip < ApplicationRecord
   validates_with RecipientNotDeletedValidator
   validates_with RecipientNotSelfValidator
 
-  after_create_commit :update_point_totals
-  after_destroy_commit :after_destroy
-  after_commit :refresh_leaderboards
+  after_destroy_commit :delete_chat_response
 
   scope :undoable, lambda {
     where('created_at > ?', Time.current - App.undo_cutoff)
@@ -38,74 +36,13 @@ class Tip < ApplicationRecord
     where('lower(tips.note) LIKE lower(?)', "%#{sanitize_sql_like(term)}%")
   }
 
-  def topic_name
-    topic&.name || 'None'
-  end
+  delegate :team, to: :from_profile
 
   def jab?
     quantity.negative?
   end
 
   private
-
-  def update_point_totals(subtract: false)
-    plus_or_minus, timestamp = subtract ? ['-', nil] : ['+', created_at]
-    transaction do
-      update_from_profile_values(plus_or_minus, timestamp)
-      update_to_profile_values(plus_or_minus, timestamp)
-      update_team_values(plus_or_minus)
-    end
-  end
-
-  def update_from_profile_values(plus_or_minus, timestamp)
-    from_profile.with_lock do
-      value_col = jab? ? :jabs_sent : :points_sent
-      value = from_profile.send(value_col).send(plus_or_minus, quantity.abs)
-      last_tip_sent_at = timestamp || last_sent_tip&.created_at
-      from_profile.update!(value_col => value, last_tip_sent_at:)
-    end
-  end
-
-  def update_to_profile_values(plus_or_minus, timestamp)
-    to_profile.with_lock do
-      value_col = jab? ? :jabs_received : :points_received
-      value = to_profile.send(value_col).send(plus_or_minus, quantity.abs)
-      balance = to_profile.balance.send(plus_or_minus, quantity)
-      last_tip_received_at = timestamp || last_received_tip&.created_at
-      to_profile.update!(value_col => value, balance:, last_tip_received_at:)
-    end
-  end
-
-  def update_team_values(plus_or_minus)
-    team.with_lock do
-      value_col = jab? ? :jabs_sent : :points_sent
-      value = team.send(value_col).send(plus_or_minus, quantity.abs)
-      balance = to_profile.balance.send(plus_or_minus, quantity)
-      team.update!(value_col => value, balance:)
-    end
-  end
-
-  def after_destroy
-    update_point_totals(subtract: true)
-    delete_chat_response
-  end
-
-  def refresh_leaderboards
-    LeaderboardRefreshWorker.perform_async(team.id)
-    LeaderboardRefreshWorker.perform_async(team.id, true)
-  end
-
-  def team
-    @team ||= from_profile.team
-  end
-
-  def last_sent_tip
-    Tip.where(from_profile_id:).order(created_at: :desc).first
-  end
-
-  def last_received_tip
-    Tip.where(to_profile_id:).order(created_at: :desc).first
-  end
 
   def delete_chat_response
     return if response_channel_rid.blank? || response_ts.blank?
