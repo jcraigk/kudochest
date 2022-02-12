@@ -91,6 +91,7 @@ RSpec.describe TipResponseService do
       TEXT
     end
     let(:channel_frag) { "in #{channel.link}" }
+    let(:image_channel_frag) { "in #{IMG_DELIM}#{CHAN_PREFIX}#{channel.name} #{IMG_DELIM}" }
     let(:note_frag) { "Note: *#{tip.note}*" }
     let(:web_response) do
       <<~TEXT.chomp
@@ -111,6 +112,7 @@ RSpec.describe TipResponseService do
         TEXT
       end
       let(:channel_frag) { "in #{channel.link}" }
+      let(:image_channel_frag) { "in #{IMG_DELIM}#{CHAN_PREFIX}#{channel.name} #{IMG_DELIM}" }
       let(:web_response) do
         <<~TEXT.chomp
           #{web_ts} #{from_profile.webref} gave #{to_profile.webref} #{points_format(quantity, label: true)} in #{channel.webref}<br>Note: <i>#{note}</i>
@@ -130,6 +132,7 @@ RSpec.describe TipResponseService do
       TEXT
     end
     let(:channel_frag) { "in #{channel.link}" }
+    let(:image_channel_frag) { "in #{IMG_DELIM}#{CHAN_PREFIX}#{channel.name} #{IMG_DELIM}" }
     let(:web_response) do
       <<~TEXT.chomp
         #{web_ts} #{from_profile.webref} gave #{to_profile.webref} #{points_format(quantity, label: true)} in #{channel.webref}<br>Note: <i>#{note}</i>
@@ -148,6 +151,7 @@ RSpec.describe TipResponseService do
       TEXT
     end
     let(:channel_frag) { "in #{channel.link}" }
+    let(:image_channel_frag) { "in #{IMG_DELIM}#{CHAN_PREFIX}#{channel.name} #{IMG_DELIM}" }
     let(:web_response) do
       <<~TEXT.chomp
         #{web_ts} #{from_profile.webref} gave #{to_profile.webref} #{points_format(quantity, label: true)} in #{channel.webref}<br>Note: <i>#{note}</i>
@@ -166,6 +170,7 @@ RSpec.describe TipResponseService do
       TEXT
     end
     let(:channel_frag) { "in #{channel.link}" }
+    let(:image_channel_frag) { "in #{IMG_DELIM}#{CHAN_PREFIX}#{channel.name} #{IMG_DELIM}" }
     let(:web_response) do
       <<~TEXT.chomp
         #{web_ts} #{from_profile_webref_with_stat} gave #{to_profile_webref_with_stat} #{points_format(quantity, label: true)} #{point_emoji} in #{channel.webref}<br>Note: <i>#{note}</i>
@@ -207,6 +212,7 @@ RSpec.describe TipResponseService do
       TEXT
     end
     let(:channel_frag) { "in #{channel.link}" }
+    let(:image_channel_frag) { "in #{IMG_DELIM}#{CHAN_PREFIX}#{channel.name} #{IMG_DELIM}" }
     let(:leveling_frag) { "#{to_profile.link} leveled up to #{to_profile.level}!" }
     let(:image_leveling_frag) do
       "#{IMG_DELIM}#{to_profile.display_name} #{IMG_DELIM} leveled up to #{to_profile.level}!"
@@ -255,6 +261,7 @@ RSpec.describe TipResponseService do
       TEXT
     end
     let(:channel_frag) { "in #{channel.link}" }
+    let(:image_channel_frag) { "in #{IMG_DELIM}#{CHAN_PREFIX}#{channel.name} #{IMG_DELIM}" }
     let(:image_main_frag) do
       <<~TEXT.chomp
         #{IMG_DELIM}#{from_profile.display_name} #{IMG_DELIM} gave #{IMG_DELIM}#{to_profile3.display_name} #{IMG_DELIM} #{points_format(2, label: true)} and #{IMG_DELIM}#{to_profile.display_name} #{IMG_DELIM} and #{IMG_DELIM}#{to_profile2.display_name} #{IMG_DELIM} #{points_format(1, label: true)} each
@@ -330,6 +337,7 @@ RSpec.describe TipResponseService do
         TEXT
       end
       let(:channel_frag) { "in #{channel.link}" }
+      let(:image_channel_frag) { "in #{IMG_DELIM}#{CHAN_PREFIX}#{channel.name} #{IMG_DELIM}" }
       let(:image_main_frag) do
         <<~TEXT.chomp
           #{IMG_DELIM}#{from_profile.display_name} #{IMG_DELIM} gave #{IMG_DELIM}#{to_profile3.display_name} #{IMG_DELIM} #{points_format(2, label: true)} and 2 users #{points_format(1, label: true)} each

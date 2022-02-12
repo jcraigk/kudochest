@@ -54,7 +54,7 @@ en:
     reset_requested: Team stats will be reset momentarily
     reset_stats_now: Reset All %{points_title} Now
     show_channel: Show Channel in Log
-    show_channel_tooltip: Whether responses in the Log Channel include a reference to the channel where the %{points} were given.
+    show_channel_tooltip: Whether responses in the Log Channel include a reference to the channel where the %{points} were given. The chat client will obscure the name of private channels based on individual user permissions.
     show_note: Show Note in Log
     show_note_tooltip: Whether responses in the Log Channel include a copy of the note. This setting has no effect if the Log Channel is disabled or if Notes are disabled.
     enable_cheers: Enable Cheers

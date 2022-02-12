@@ -60,6 +60,11 @@ class TipResponseService < Base::Service # rubocop:disable Metrics/ClassLength
     }
   end
 
+  def channel_fragment(medium)
+    chan = channel_ref(medium, first_tip.from_channel_rid, first_tip.from_channel_name)
+    "in #{chan}"
+  end
+
   def main_fragment(medium)
     [
       profile_ref(medium, from_profile),
@@ -82,8 +87,8 @@ class TipResponseService < Base::Service # rubocop:disable Metrics/ClassLength
     return @channel_lead if @channel_lead.present?
     return unless unique_channel_tips.one?
     tip = unique_channel_tips.first
-    channel_ref = channel_ref(medium, tip.to_channel_rid, tip.to_channel_name)
-    @channel_lead = "Everyone in #{channel_ref} has received #{points_term(tip)}"
+    chan = channel_ref(medium, tip.to_channel_rid, tip.to_channel_name)
+    @channel_lead = "Everyone in #{chan} has received #{points_term(tip)}"
   end
 
   def points_term(tip)
@@ -269,13 +274,6 @@ class TipResponseService < Base::Service # rubocop:disable Metrics/ClassLength
         str
       end
     end.flatten.to_sentence
-  end
-
-  def channel_fragment(medium)
-    case medium
-    when :slack, :discord then "in <#{CHAN_PREFIX}#{first_tip.from_channel_rid}>"
-    when :web then "in #{channel_webref(first_tip.from_channel_name)}"
-    end
   end
 
   def compose_str(medium, quantity, topic_id, similar_tips)
