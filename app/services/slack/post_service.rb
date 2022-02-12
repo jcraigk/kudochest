@@ -76,14 +76,14 @@ class Slack::PostService < Base::PostService
       thread_ts: thread,
       unfurl_links: false,
       unfurl_media: false,
-      text: unformatted_text(is_inline) # Desktop notification (blocks take precedent in client)
+      text: os_notification
     }.merge(response_params(is_inline)).compact
   end
 
-  def unformatted_text(is_inline)
+  def os_notification
     return 'A random usage hint' if mode == :hint
     return alt_text if image.present?
-    chat_response_text(is_inline:).gsub(/(_\s+)|(\s+_)|(\A_)|(_\z)/, ' ').strip
+    NoteSanitizer.call(platform: :slack, team_rid:, text: compose_response(false))
   end
 
   def response_params(is_inline)
