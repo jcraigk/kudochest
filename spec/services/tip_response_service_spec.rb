@@ -300,24 +300,26 @@ RSpec.describe TipResponseService do
     xcontext 'when `@everyone` are given points' do
     end
 
-    context 'when at least one tip was gave to a subteam' do
+    context 'when at least one jab was gave to a subteam' do
       let(:subteam) { create(:subteam, team:) }
       let(:tip3) do
         create \
           :tip,
           from_profile:,
           to_profile: to_profile3,
-          quantity: 2,
+          quantity: -2,
           note:,
           from_channel_rid: channel.rid,
           from_channel_name: channel.name,
           to_subteam_rid: subteam.rid,
           to_subteam_handle: subteam.handle
       end
-      let(:chat_snippet) { 'Everyone in' }
+      let(:chat_snippet) do
+        "Everyone in <#{SUBTEAM_PREFIX[:slack]}#{subteam.rid}> has received *kudonts*"
+      end
 
-      it 'includes subteam snippet' do
-        expect(service.chat_fragments[:lead]).to start_with(chat_snippet)
+      it 'includes subteam lead snippet' do
+        expect(service.chat_fragments[:lead]).to eq(chat_snippet)
       end
     end
 

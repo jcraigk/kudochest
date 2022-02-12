@@ -80,10 +80,14 @@ class TipResponseService < Base::Service # rubocop:disable Metrics/ClassLength
 
   def channel_lead(medium)
     return @channel_lead if @channel_lead.present?
-    return unless to_channels.one?
-    channel = to_channels.first
-    channel_ref = channel_ref(medium, channel.rid, channel.name)
-    @channel_lead = "Everyone in #{channel_ref} has received #{App.points_term}"
+    return unless unique_channel_tips.one?
+    tip = unique_channel_tips.first
+    channel_ref = channel_ref(medium, tip.to_channel_rid, tip.to_channel_name)
+    @channel_lead = "Everyone in #{channel_ref} has received #{points_term(tip)}"
+  end
+
+  def points_term(tip)
+    tip.jab? ? "*#{App.jabs_term}*" : App.points_term
   end
 
   def quiet_theme?
@@ -91,36 +95,28 @@ class TipResponseService < Base::Service # rubocop:disable Metrics/ClassLength
   end
 
   def subteam_lead(medium)
-    return unless to_subteams.one?
-    subteam = to_subteams.first
+    return unless unique_subteam_tips.one?
+    tip = unique_subteam_tips.first
     subteam_ref =
       if quiet_theme?
-        Subteam.find_by(team:, rid: subteam[:rid]).name
+        Subteam.find_by(team:, rid: tip.to_subteam_rid).name
       else
-        subteam_ref(medium, subteam[:rid], subteam[:handle])
+        subteam_ref(medium, tip.to_subteam_rid, tip.to_subteam_handle)
       end
-    "Everyone in #{subteam_ref} has received #{App.points_term}"
+    "Everyone in #{subteam_ref} has received #{points_term(tip)}"
   end
 
   def everyone_lead
-    return if tips.find(&:to_everyone?).blank?
-    "Everyone has received #{App.points_term}"
+    return if (tip = tips.find(&:to_everyone?)).blank?
+    "Everyone has received #{points_term(tip)}"
   end
 
-  def to_channels
-    @to_channels ||=
-      tips.select(&:to_channel_rid).uniq(&:to_channel_rid).map do |tip|
-        ChannelData.new(tip.to_channel_rid, tip.to_channel_name)
-      end
+  def unique_channel_tips
+    @unique_channel_tips ||= tips.select(&:to_channel_rid).uniq(&:to_channel_rid)
   end
 
-  def to_subteams
-    tips.select(&:to_subteam_rid).uniq(&:to_subteam_rid).map do |tip|
-      {
-        rid: tip.to_subteam_rid,
-        handle: tip.to_subteam_handle
-      }
-    end
+  def unique_subteam_tips
+    @unique_subteam_tips ||= tips.select(&:to_subteam_rid).uniq(&:to_subteam_rid)
   end
 
   def channel_ref(medium, rid, name)
@@ -135,7 +131,7 @@ class TipResponseService < Base::Service # rubocop:disable Metrics/ClassLength
   def subteam_ref(medium, rid, handle)
     case medium
     when :slack, :discord then "<#{SUBTEAM_PREFIX[medium]}#{rid}>"
-    when :image then "#{IMG_DELIM}#{CHAN_PREFIX}#{handle} #{IMG_DELIM}"
+    when :image then "#{IMG_DELIM}#{CHAN_PREFIX}#{handle} #{IMG_DELIM}" # TODO: test this
     when :web then subteam_webref(handle)
     end
   end
