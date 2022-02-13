@@ -103,7 +103,7 @@ class Discord::BotEventService < Base::Service
   def listen_for_message # rubocop:disable Metrics/AbcSize
     bot.message do |event|
       next event.respond(no_dm_support) if (team_rid = event.server&.id.to_s).blank?
-      next unless (config = Cache::TeamConfig.call(team_rid))[:active]
+      next unless (config = Cache::TeamConfig.call(:discord, team_rid))[:active]
       matches = MessageScanner.call(event.message.content, config)
       payload = message_payload(team_rid, config, event).merge(matches:).to_json
       EventWorker.perform_async(payload)
@@ -142,7 +142,7 @@ class Discord::BotEventService < Base::Service
   def handle_emoji_event(event, verb)
     return unless relevant_emoji?(event.emoji.name)
     team_rid = event.server&.id.to_s
-    return unless (config = Cache::TeamConfig.call(team_rid))[:active]
+    return unless (config = Cache::TeamConfig.call(:discord, team_rid))[:active]
     payload = emoji_payload(team_rid, config, event, verb).to_json
     EventWorker.perform_async(payload)
   end

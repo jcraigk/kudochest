@@ -137,6 +137,7 @@ COMMAND_KEYWORDS = {
   leaderboard: %w[top leaders best],
   levels: %w[level leveling],
   preferences: %w[config setup options settings prefs],
+  report: %w[digest activity weekly summary],
   shop: %w[items loot rewards],
   stats: %w[me],
   topics: %w[],

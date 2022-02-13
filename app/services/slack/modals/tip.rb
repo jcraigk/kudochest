@@ -205,6 +205,6 @@ class Slack::Modals::Tip < Base::Service
   # rubocop:enable Metrics/MethodLength
 
   def config
-    @config ||= Cache::TeamConfig.call(team_rid)
+    @config ||= Cache::TeamConfig.call(:slack, team_rid)
   end
 end

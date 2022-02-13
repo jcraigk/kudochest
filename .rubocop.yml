@@ -69,3 +69,5 @@ Style/OpenStructUse:
 Style/OptionalBooleanParameter:
   Exclude:
     - app/workers/**/*
+Style/NestedTernaryOperator:
+  Enabled: false

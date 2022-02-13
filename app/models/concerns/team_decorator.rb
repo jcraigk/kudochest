@@ -55,7 +55,7 @@ module TeamDecorator
   end
 
   def config
-    Cache::TeamConfig.call(rid)
+    Cache::TeamConfig.call(platform, rid)
   end
 
   def total_points

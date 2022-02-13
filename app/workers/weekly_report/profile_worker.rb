@@ -31,7 +31,7 @@ class WeeklyReport::ProfileWorker
 
   def team_data
     Rails.cache.fetch(
-      "weekly_report/team/#{profile.team.id}",
+      "weekly_report/#{profile.team.id}",
       expires_in: TEAM_CACHE_TTL.from_now
     ) do
       Reports::TeamDigestService.call(team: profile.team)

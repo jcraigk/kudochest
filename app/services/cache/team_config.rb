@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 class Cache::TeamConfig < Base::Service
-  param :team_rid
+  param :platform
+  param :rid
 
   def call
     cached_data
@@ -39,10 +40,10 @@ class Cache::TeamConfig < Base::Service
   end
 
   def team
-    @team ||= Team.includes(:topics).find_by!(rid: team_rid)
+    @team ||= Team.includes(:topics).find_by!(platform:, rid:)
   end
 
   def cache_key
-    "team_response_config/#{team_rid}"
+    "config/#{platform}/#{rid}"
   end
 end

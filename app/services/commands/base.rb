@@ -35,4 +35,8 @@ class Commands::Base < Base::Service
   def discord_response_text
     base_text.gsub('*', '**')
   end
+
+  def words
+    @words ||= text.split(/\s+/)
+  end
 end

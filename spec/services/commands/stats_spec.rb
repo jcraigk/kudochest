@@ -30,8 +30,8 @@ RSpec.describe Commands::Stats do
     let(:request_text) { '' }
     let(:response_text) do
       <<~TEXT.chomp
-        *Stats for #{profile.dashboard_link}*
-        *Leaderboard Rank:* #{rank}
+        *Overall Stats for #{profile.dashboard_link}*
+        *Leaderboard Rank:* ##{rank}
         *Level:* 1
         *Kudos Received:* 0
         *Kudonts Received:* 0
@@ -48,8 +48,8 @@ RSpec.describe Commands::Stats do
     context 'with infinite_token profiles' do
       let(:response_text) do
         <<~TEXT.chomp
-          *Stats for #{profile.dashboard_link}*
-          *Leaderboard Rank:* #{rank}
+          *Overall Stats for #{profile.dashboard_link}*
+          *Leaderboard Rank:* ##{rank}
           *Level:* 1
           *Kudos Received:* 0
           *Kudonts Received:* 0
@@ -72,8 +72,8 @@ RSpec.describe Commands::Stats do
     let(:request_text) { profile2.link }
     let(:response_text) do
       <<~TEXT.chomp
-        *Stats for #{profile2.dashboard_link}*
-        *Leaderboard Rank:* #{rank}
+        *Overall Stats for #{profile2.dashboard_link}*
+        *Leaderboard Rank:* ##{rank}
         *Level:* 1
         *Kudos Received:* 0
         *Kudonts Received:* 0
@@ -92,8 +92,8 @@ RSpec.describe Commands::Stats do
     let(:request_text) { profile2.link }
     let(:response_text) do
       <<~TEXT.chomp
-        *Stats for #{profile2.dashboard_link}*
-        *Leaderboard Rank:* #{rank}
+        *Overall Stats for #{profile2.dashboard_link}*
+        *Leaderboard Rank:* ##{rank}
         *Kudos Received:* 0
         *Kudonts Received:* 0
         *Balance:* 0
@@ -113,8 +113,8 @@ RSpec.describe Commands::Stats do
     let(:request_text) { profile2.link }
     let(:response_text) do
       <<~TEXT.chomp
-        *Stats for #{profile2.dashboard_link}*
-        *Leaderboard Rank:* #{rank}
+        *Overall Stats for #{profile2.dashboard_link}*
+        *Leaderboard Rank:* ##{rank}
         *Level:* 1
         *Kudos Received:* 0
         *Kudonts Received:* 0
@@ -135,8 +135,8 @@ RSpec.describe Commands::Stats do
     let(:request_text) { profile2.link }
     let(:response_text) do
       <<~TEXT.chomp
-        *Stats for #{profile2.dashboard_link}*
-        *Leaderboard Rank:* #{rank}
+        *Overall Stats for #{profile2.dashboard_link}*
+        *Leaderboard Rank:* ##{rank}
         *Level:* 1
         *Kudos Received:* 0
         *Kudonts Received:* 0

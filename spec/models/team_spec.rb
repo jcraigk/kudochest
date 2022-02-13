@@ -80,7 +80,7 @@ RSpec.describe Team do
     let(:mock_cache) { instance_spy(Cache::TeamConfig) }
 
     before do
-      allow(Cache::TeamConfig).to receive(:new).with(team.rid).and_return(mock_cache)
+      allow(Cache::TeamConfig).to receive(:new).with(team.platform, team.rid).and_return(mock_cache)
       allow(mock_cache).to receive(:delete)
       described_class.bust_cache
     end
@@ -178,7 +178,7 @@ RSpec.describe Team do
     let(:mock_cache) { instance_spy(Cache::TeamConfig) }
 
     before do
-      allow(Cache::TeamConfig).to receive(:new).with(team.rid).and_return(mock_cache)
+      allow(Cache::TeamConfig).to receive(:new).with(team.platform, team.rid).and_return(mock_cache)
       allow(mock_cache).to receive(:delete)
       team.bust_cache
     end
@@ -190,6 +190,7 @@ RSpec.describe Team do
 
   describe 'Cache::TeamConfig cache busting' do
     let(:config) { instance_spy(Cache::TeamConfig) }
+    let(:platform) { team.platform }
 
     shared_examples 'cache busting' do
       it 'calls Cache::TeamConfig.delete' do
@@ -198,12 +199,14 @@ RSpec.describe Team do
     end
 
     before do
-      allow(Cache::TeamConfig).to receive(:new).with(team.rid).and_return(config)
+      allow(Cache::TeamConfig).to receive(:new).with(platform, team.rid).and_return(config)
       allow(config).to receive(:delete)
     end
 
     describe 'cache busting on platform update' do
-      before { team.update(platform: 'discord') }
+      let(:platform) { 'discord' }
+
+      before { team.update(platform:) }
 
       include_examples 'cache busting'
     end

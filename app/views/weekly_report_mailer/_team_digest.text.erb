@@ -15,7 +15,7 @@ Top Recipients: <%= @team_data.top_recipients.map { |data| data.profile.display_
 Giving Streak Rewards: <%= points_format(@team_data.points_from_streak, label: true) %>
 <% end %>
 <% if @team_data.leveling_sentence.present? %>
-User Events: <%= @team_data.leveling_sentence %>
+User Leveling: <%= @team_data.leveling_sentence %>
 <% end %>
 <% if @team_data.loot_claims_sentence.present? %>
 Loot Claims: <%= @team_data.loot_claims_sentence %>

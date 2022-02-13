@@ -11,7 +11,7 @@ class Reports::TeamDigestService < Reports::BaseDigestService
   private
 
   def team_data # rubocop:disable Metrics/MethodLength
-    TeamData.new \
+    TeamData.new(
       team:,
       points_given:,
       jabs_given:,
@@ -24,30 +24,35 @@ class Reports::TeamDigestService < Reports::BaseDigestService
       top_recipients:,
       top_givers:,
       loot_claims_sentence:
+    )
   end
 
   def point_givers
-    @point_givers ||= tips.reject(&:jab?).map(&:from_profile).uniq
+    profiles_matching(tips.reject(&:jab?).map(&:from_profile_id))
   end
 
   def jab_givers
-    @jab_givers ||= tips.select(&:jab?).map(&:from_profile).uniq
+    profiles_matching(tips.select(&:jab?).map(&:from_profile_id))
   end
 
   def point_recipients
-    @point_recipients ||= tips.reject(&:jab?).map(&:to_profile).uniq
+    profiles_matching(tips.reject(&:jab?).map(&:to_profile_id))
   end
 
   def jab_recipients
-    @jab_recipients ||= tips.select(&:jab?).map(&:to_profile).uniq
+    profiles_matching(tips.select(&:jab?).map(&:to_profile_id))
+  end
+
+  def profiles_matching(ids)
+    profiles.select { |profile| profile.id.in?(ids) }
   end
 
   def num_recipients
-    tips.map(&:to_profile).uniq.size
+    tips.map(&:to_profile_id).uniq.size
   end
 
   def num_givers
-    tips.map(&:from_profile).uniq.size
+    tips.map(&:from_profile_id).uniq.size
   end
 
   def recipient_quantities
@@ -76,10 +81,11 @@ class Reports::TeamDigestService < Reports::BaseDigestService
 
   def tips
     @tips ||=
-      Tip.where(to_profile_id: profiles.map(&:id))
+      Tip.select(:quantity, :source, :from_profile_id, :to_profile_id)
+         .where(to_profile_id: profiles.map(&:id))
          .where('tips.created_at > ?', timeframe)
-         .includes(:from_profile)
          .order(quantity: :desc)
+         .all
   end
 
   def points_given
@@ -91,12 +97,12 @@ class Reports::TeamDigestService < Reports::BaseDigestService
   end
 
   def points_from_streak
-    tips.where(source: 'streak').sum(&:quantity)
+    tips.select { |tip| tip.source == 'streak' }.sum(&:quantity)
   end
 
   def leveling_sentence
     return unless team.enable_levels?
-    return 'No users changed levels' if num_levelups.zero? && num_leveldowns.zero?
+    return 'None' if num_levelups.zero? && num_leveldowns.zero?
     parts = []
     parts << num_levelups_sentence if num_levelups.positive?
     parts << num_leveldowns_sentence if num_leveldowns.positive?
@@ -148,7 +154,7 @@ class Reports::TeamDigestService < Reports::BaseDigestService
   end
 
   def profiles
-    @profiles ||= team.profiles.active
+    @profiles ||= team.profiles.active.all
   end
 
   TeamData = Struct.new \

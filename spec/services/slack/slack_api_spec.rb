@@ -19,7 +19,7 @@ RSpec.describe Slack::SlackApi do
     let(:cache_data) { { api_key: } }
 
     before do
-      allow(Cache::TeamConfig).to receive(:call).with(team_rid).and_return(cache_data)
+      allow(Cache::TeamConfig).to receive(:call).with(:slack, team_rid).and_return(cache_data)
       described_class.client(team_rid:)
     end
 
