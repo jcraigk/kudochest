@@ -36,6 +36,9 @@ Rails/EnvironmentVariableAccess:
 Rails/HttpPositionalArguments: # https://github.com/rubocop-hq/rubocop/issues/7264
   Exclude:
     - spec/controllers/**/*
+Rails/SkipsModelValidations:
+  Exclude:
+    - lib/tasks/**/*
 RSpec/DescribeClass:
   Exclude:
     - spec/features/**/*

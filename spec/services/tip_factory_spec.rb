@@ -6,10 +6,10 @@ RSpec.describe TipFactory do
 
   subject(:service) { described_class.call(**opts) }
 
-  let(:team) { build(:team, split_tip:) }
+  let(:team) { create(:team, split_tip:) }
   let(:topic) { create(:topic, team:) }
-  let(:from_profile) { build(:profile, team:) }
-  let(:from_channel) { build(:channel, team:) }
+  let(:from_profile) { create(:profile, team:) }
+  let(:from_channel) { create(:channel, team:) }
   let(:split_tip) { false }
   let(:note) do
     <<~TEXT
@@ -36,7 +36,6 @@ RSpec.describe TipFactory do
   end
   let(:tip_attrs) do
     {
-      chat_permalink:,
       created_at: timestamp,
       event_ts: ts,
       from_channel_name: from_channel.name,
@@ -48,29 +47,21 @@ RSpec.describe TipFactory do
       topic_id: topic.id
     }.merge(extra_attrs)
   end
-  let(:chat_permalink) { 'https://my-msg-permalink.org' }
   let(:extra_attrs) { {} }
-  let(:slack_client) { instance_spy(Slack::Web::Client) }
-  let(:permalink_args) do
-    {
-      channel: from_channel.rid,
-      message_ts: ts
-    }
-  end
 
   shared_examples 'tip creation' do
-    it 'creates a Tip for each to_profile' do
+    it 'creates a Tip and calls ChatPermalinkWorker for each to_profile' do
       service
       to_profiles.each do |to_profile|
         expect(Tip).to have_received(:create!).with(tip_attrs.merge(to_profile:))
       end
+      expect(ChatPermalinkWorker).to have_received(:perform_async).exactly(to_profiles.size).times
     end
   end
 
   before do
-    allow(Tip).to receive(:create!)
-    allow(team.slack_client).to \
-      receive(:chat_getPermalink).and_return(OpenStruct.new(permalink: chat_permalink))
+    allow(Tip).to receive(:create!).and_call_original
+    allow(ChatPermalinkWorker).to receive(:perform_async)
   end
 
   context 'when entity is a profile' do

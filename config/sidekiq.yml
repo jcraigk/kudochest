@@ -8,6 +8,7 @@
   - ['discord_event', 1]
   - ['hourly', 1]
   - ['leaderboard', 1]
+  - ['permalinks', 1]
   - ['presence', 1]
   - ['team_rename', 1]
   - ['team_reset', 1]

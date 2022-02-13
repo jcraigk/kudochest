@@ -38,10 +38,6 @@ class Tip < ApplicationRecord
 
   delegate :team, to: :from_profile
 
-  def jab?
-    quantity.negative?
-  end
-
   private
 
   def delete_chat_response

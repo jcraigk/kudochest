@@ -23,13 +23,26 @@ class TipFactory < Base::Service
 
   def create_tips
     to_profiles.map do |profile|
-      Tip.create!(base_attrs.merge(to_profile: profile).merge(entity_attrs))
+      attrs = base_attrs.merge(to_profile: profile).merge(entity_attrs)
+      Tip.create!(attrs).tap do |tip|
+        fetch_permalink_async(tip.id) if fetch_permalink?(tip.source)
+      end
     end
+  end
+
+  def fetch_permalink_async(tip_id)
+    ChatPermalinkWorker.perform_async(tip_id, from_channel_rid, message_ts || event_ts)
+  end
+
+  def fetch_permalink?(source)
+    team.platform.slack? &&
+      source.in?(ChatPermalinkWorker::SOURCES) &&
+      from_channel_rid.present? &&
+      (message_ts.present? || event_ts.present?)
   end
 
   def base_attrs # rubocop:disable Metrics/MethodLength
     {
-      chat_permalink:,
       created_at: timestamp,
       event_ts:,
       from_channel_name: from_channel,
@@ -40,22 +53,6 @@ class TipFactory < Base::Service
       source:,
       topic_id:
     }
-  end
-
-  def chat_permalink
-    return if skip_permalink?
-    team.slack_client.chat_getPermalink(
-      channel: from_channel_rid,
-      message_ts: message_ts || event_ts
-    ).permalink
-  rescue Slack::Web::Api::Errors::ChannelNotFound, Slack::Web::Api::Errors::MessageNotFound
-    nil
-  end
-
-  def skip_permalink?
-    !team.platform.slack? ||
-      from_channel_rid.blank? ||
-      (event_ts.blank? && message_ts.blank?)
   end
 
   def tip_quantity

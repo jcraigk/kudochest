@@ -1,56 +1,63 @@
 # frozen_string_literal: true
 namespace :seeds do
+  include FactoryBot::Syntax::Methods
+
   desc 'Generate seeds for testing'
   task all: :environment do
+    Rake::Task['seeds:topics'].execute
     Rake::Task['seeds:tips'].execute
     Rake::Task['seeds:loot'].execute
   end
 
   desc 'Generate Tips and related data for testing'
   task tips: :environment do
-    include FactoryBot::Syntax::Methods
-
+    tips = []
     team = Team.first
 
+    time = Benchmark.measure do
+      print 'Generating Tips...'
+      profiles = team.profiles.active
+      profiles.each do |profile|
+        num = rand(20..50)
+        profile.with_lock { profile.increment!(:tokens_accrued, num) }
+        num.times do
+          channel = team.channels.sample
+          topic_id = rand(3).zero? ? nil : team.topics.sample&.id
+          quantity = team.enable_jabs? ? (-5..5).to_a.reject(&:zero?).sample : rand(1..5)
+          tips += TipFactory.call \
+            topic_id:,
+            from_profile: profile,
+            to_entity: 'Profile',
+            to_profiles: [(profiles - [profile]).sample],
+            from_channel_rid: channel.rid,
+            from_channel_name: channel.name,
+            quantity:,
+            note: Faker::Lorem.sentence(word_count: rand(4..8)),
+            event_ts: Time.current.to_f.to_s,
+            channel_rid: channel.rid,
+            source: 'seed',
+            timestamp: Time.current
+        end
+      end
+      TipOutcomeService.call(tips:)
+      puts 'done'
+
+      print 'Randomizing temporal distribution of Tips...'
+      tips.each do |tip|
+        tip.update_column(:created_at, Time.current - rand(1..20).days)
+      end
+      puts 'done'
+    end
+
+    puts "Created #{tips.size} Tips in #{time.real.round(2)} seconds"
+  end
+
+  desc 'Generate Topics for testing'
+  task topics: :environment do
     print 'Generating topics'
     rand(5..30).times do
       create(:topic, team:)
     end
-
-    print 'Generating tips'
-    profiles = team.profiles.active
-    tips = []
-    profiles.each do |profile|
-      num = rand(20..50)
-      profile.with_lock { profile.increment!(:tokens_accrued, num) } # rubocop:disable Rails/SkipsModelValidations
-      num.times do
-        channel = team.channels.sample
-        topic_id = rand(3).zero? ? nil : team.topics.sample.id
-        quantity = team.enable_jabs? ? (-5..5).to_a.reject(&:zero?).sample : rand(1..5)
-        tips += TipFactory.call \
-          topic_id:,
-          from_profile: profile,
-          to_entity: 'Profile',
-          to_profiles: [(profiles - [profile]).sample],
-          from_channel_rid: channel.rid,
-          from_channel_name: channel.name,
-          quantity:,
-          note: Faker::Lorem.sentence(word_count: 4),
-          event_ts: Time.current.to_f.to_s,
-          channel_rid: channel.rid,
-          source: 'seed',
-          timestamp: Time.current
-      end
-      TipOutcomeService.call(tips:)
-    end
-    puts 'done'
-
-    print 'Randomizing temporal distribution of tips'
-    Tip.find_each do |tip|
-      tip.update(created_at: Time.current - rand(1..20).days)
-      print '.'
-    end
-    puts 'done'
   end
 
   desc 'Generate Loot for testing'
