@@ -45,7 +45,7 @@ class Commands::Stats < Commands::Base
 
   def stats_title
     <<~TEXT.chomp
-      *Stats for #{requested_profile.dashboard_link}*
+      *Overall Stats for #{requested_profile.dashboard_link}*
     TEXT
   end
 
@@ -81,7 +81,7 @@ class Commands::Stats < Commands::Base
 
   def rank_fragment
     return if requested_profile.rank.blank?
-    "*Leaderboard Rank:* #{number_with_delimiter(requested_profile.rank)}"
+    "*Leaderboard Rank:* ##{number_with_delimiter(requested_profile.rank)}"
   end
 
   def level_fragment

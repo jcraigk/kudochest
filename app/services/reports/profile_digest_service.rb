@@ -29,33 +29,33 @@ class Reports::ProfileDigestService < Reports::BaseDigestService
   end
 
   def recipient_quantities
-    unique_recipients.map do |profile|
+    profiles_matching(tips_given.map(&:to_profile_id)).map do |profile|
       ProfileQuantity.new(profile, quantity_to(profile))
     end
   end
 
-  def unique_recipients
-    @unique_recipients ||= tips_given.map(&:to_profile).uniq
-  end
-
   def point_givers
-    @point_givers ||= tips_received.reject(&:jab?).map(&:from_profile).uniq
+    profiles_matching(tips_received.reject(&:jab?).map(&:from_profile_id))
   end
 
   def jab_givers
-    @jab_givers ||= tips_received.select(&:jab?).map(&:from_profile).uniq
+    profiles_matching(tips_received.select(&:jab?).map(&:from_profile_id))
   end
 
   def point_recipients
-    @point_recipients ||= tips_received.reject(&:jab?).map(&:to_profile).uniq
+    profiles_matching(tips_given.reject(&:jab?).map(&:to_profile_id))
   end
 
   def jab_recipients
-    @jab_recipients ||= tips_received.select(&:jab?).map(&:to_profile).uniq
+    profiles_matching(tips_given.select(&:jab?).map(&:to_profile_id))
+  end
+
+  def profiles_matching(ids)
+    profiles.select { |profile| profile.id.in?(ids.uniq) }
   end
 
   def giver_quantities
-    tips_received.map(&:from_profile).uniq.map do |profile|
+    profiles_matching(tips_received.map(&:from_profile_id)).map do |profile|
       ProfileQuantity.new(profile, quantity_from(profile))
     end
   end
@@ -70,21 +70,24 @@ class Reports::ProfileDigestService < Reports::BaseDigestService
 
   def tips_received
     @tips_received ||=
-      Tip.where(to_profile: profile)
+      Tip.select(:quantity, :source, :from_profile_id)
+         .where(to_profile: profile)
          .where('tips.created_at > ?', timeframe)
-         .includes(:from_profile)
          .order(quantity: :desc)
+         .all
   end
 
   def tips_given
     @tips_given ||=
-      Tip.where(from_profile: profile)
+      Tip.select(:quantity, :to_profile_id)
+         .where(from_profile: profile)
          .where('tips.created_at > ?', timeframe)
          .order(quantity: :desc)
+         .all
   end
 
   def timeframe
-    @timeframe ||= NUM_DAYS.days.ago
+    @timeframe ||= NUM_DAYS.days.ago.beginning_of_day
   end
 
   def points_received
@@ -105,7 +108,7 @@ class Reports::ProfileDigestService < Reports::BaseDigestService
 
   def points_from_streak
     return unless team.enable_streaks?
-    tips_received.where(source: 'streak').sum(:quantity)
+    tips_received.select { |tip| tip.source == 'streak' }.sum(&:quantity)
   end
 
   def leveling_sentence
@@ -113,16 +116,16 @@ class Reports::ProfileDigestService < Reports::BaseDigestService
 
     delta = profile.level - previous_level
     case delta
-    when 0 then "You held steady at level #{profile.level}"
-    when 1 then "You gained a level! #{level_snippet}"
-    when -1 then "You lost a level! #{level_snippet}"
-    when 1..1_000 then "You gained #{pluralize(delta, 'level')}! #{level_snippet}"
-    when -1..-1_000 then "You lost #{pluralize(delta.abs, 'level')}! #{level_snippet}"
+    when 0 then "Held steady at level #{profile.level}"
+    when 1 then "Gained a level - #{level_snippet}"
+    when -1 then "Lost a level - #{level_snippet}"
+    when 1..1_000 then "Gained #{pluralize(delta, 'level')} - #{level_snippet}"
+    when -1..-1_000 then "Lost #{pluralize(delta.abs, 'level')} - #{level_snippet}"
     end
   end
 
   def level_snippet
-    "You're now at level #{profile.level}."
+    "now at #{profile.level}"
   end
 
   def point_deduction
@@ -134,8 +137,7 @@ class Reports::ProfileDigestService < Reports::BaseDigestService
   end
 
   def rank_sentence
-    return if leaderboard_data.blank?
-    rank_snippet
+    profile.rank
     # TODO: re-enable rank trends
     # previous_rank = leaderboard_data.previous_rank
     # delta = previous_rank.zero? ? 0 : leaderboard_data.rank - previous_rank
@@ -148,21 +150,25 @@ class Reports::ProfileDigestService < Reports::BaseDigestService
     # end
   end
 
-  def rank_snippet
-    "You're now at ##{profile.rank}."
-  end
-
-  def leaderboard_data
-    @leaderboard_data ||=
-      LeaderboardService.call(
-        profile:,
-        previous_timestamp: timeframe,
-        count: 1
-      )&.profiles&.first
-  end
+  # def leaderboard_data
+  #   @leaderboard_data ||=
+  #     LeaderboardService.call(
+  #       profile:,
+  #       previous_timestamp: timeframe,
+  #       count: 1
+  #     )&.profiles&.first
+  # end
 
   def team
     @team ||= profile.team
+  end
+
+  def profiles
+    @profiles ||= team.profiles.active.where(id: unique_profile_ids)
+  end
+
+  def unique_profile_ids
+    (tips_received.map(&:from_profile_id) + tips_given.map(&:to_profile_id)).uniq
   end
 
   DigestData = Struct.new \

@@ -2,11 +2,11 @@
 require 'rails_helper'
 
 RSpec.describe Cache::TeamConfig do
-  subject(:cache) { described_class.new(team.rid) }
+  subject(:cache) { described_class.new(team.platform, team.rid) }
 
   let(:channel_rid) { build(:channel).rid }
   let(:team) { create(:team, log_channel_rid: channel_rid) }
-  let(:cache_key) { "team_response_config/#{team.rid}" }
+  let(:cache_key) { "config/#{team.platform}/#{team.rid}" }
   let!(:topics) { create_list(:topic, 2, team:) }
   let(:team_attrs) { team.attributes.slice(*Team::CONFIG_ATTRS) }
   let(:topic_attrs) do

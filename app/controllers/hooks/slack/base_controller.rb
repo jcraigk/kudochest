@@ -31,8 +31,8 @@ class Hooks::Slack::BaseController < Hooks::BaseController
   end
 
   def private_command?
-    return false if mentions_found?
-    PRIVATE_KEYWORDS.find { |cmd| text.split(/\s+/).take(2).include?(cmd) }.present?
+    return false if text.blank?
+    (text.split(/\s+/).take(2) & PRIVATE_KEYWORDS).any?
   end
 
   def mentions_found?
@@ -89,7 +89,7 @@ class Hooks::Slack::BaseController < Hooks::BaseController
 
   # Naming this `config` messes with Rails logger :shrug:
   def team_config
-    @team_config ||= Cache::TeamConfig.call(team_rid)
+    @team_config ||= Cache::TeamConfig.call(:slack, team_rid)
   end
 
   def team_rid

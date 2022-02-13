@@ -137,7 +137,7 @@ class Team < ApplicationRecord
 
   def self.bust_cache
     find_each do |team|
-      Cache::TeamConfig.new(team.rid).delete
+      Cache::TeamConfig.new(team.platform, team.rid).delete
     end
   end
 
@@ -177,7 +177,7 @@ class Team < ApplicationRecord
   end
 
   def bust_cache
-    Cache::TeamConfig.new(rid).delete
+    Cache::TeamConfig.new(platform, rid).delete
   end
 
   private

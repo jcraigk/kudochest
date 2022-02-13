@@ -19,12 +19,17 @@ class Commands::Help < Commands::Base
     str += "  * `connect`  Connect your chat profile to your web account\n"
     str += "  * `help`  You're looking at it!\n"
     str += "  * `levels`  See a chart mapping #{App.points_term} to levels\n" if team.enable_levels?
-    str += "  * `me`  See your current stats\n"
+    # str += "  * `me`  See your current stats\n" # Commented: User can discover this for themselves
     str += "  * `preferences`  Update your preferences\n"
-    str += "  * `stats #{PROF_PREFIX}user`  See another user's stats\n"
-    str += "  * `top`  See the leaderboard\n"
+    str += "  * `report [#{PROF_PREFIX}user] [number]`  #{report_str}\n"
+    str += "  * `stats [#{PROF_PREFIX}user]`  See your own or another user's stats\n"
+    str += "  * `top [number]`  See the leaderboard; optionally give number of entries\n"
     str += "  * `topics`  See all topics\n" if team.enable_topics?
     str + "  * `undo`  Revoke #{App.points_term} you just gave"
+  end
+
+  def report_str
+    'See recent activity for team or user; optionally give number of days'
   end
 
   def discord_text

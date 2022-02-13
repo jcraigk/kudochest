@@ -28,7 +28,7 @@ RSpec.describe TipFactory do
       from_profile:,
       note:,
       quantity: 1,
-      source: 'seed',
+      source: 'inline',
       to_entity:,
       to_profiles:,
       timestamp:
@@ -43,7 +43,7 @@ RSpec.describe TipFactory do
       from_profile:,
       note: expected_note,
       quantity: 1,
-      source: 'seed',
+      source: 'inline',
       topic_id: topic.id
     }.merge(extra_attrs)
   end

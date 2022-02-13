@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 class Commands::Leaderboard < Commands::Base
-  GIVING_WORDS = %w[giving giver givers gift gifts gifters sent].freeze
+  GIVING_WORDS = %w[giving giver givers gift gifts gifters sent benefactors].freeze
 
   def call
     respond_success
@@ -79,10 +79,6 @@ class Commands::Leaderboard < Commands::Base
 
   def count
     words.first&.to_i if words.first&.match?(/\d+/)
-  end
-
-  def words
-    @words ||= text.split(/\s+/)
   end
 
   def requested_profile

@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 class Reports::BaseDigestService < Base::Service
-  COUNT = 10
+  COUNT = 5
   NUM_DAYS = 7
 
   option :count, default: -> { COUNT }
@@ -17,7 +17,7 @@ class Reports::BaseDigestService < Base::Service
   end
 
   def top_players(data)
-    data.reject { |d| d.profile.bot_user? || d.quantity.zero? }
+    data.reject { |d| d.profile.bot_user? || !d.quantity.positive? }
         .sort_by(&:quantity)
         .reverse
         .take(count)
