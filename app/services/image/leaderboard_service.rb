@@ -1,5 +1,5 @@
 # frozen_string_literal: true
-class Image::LeaderboardService < Base::ImageService
+class Image::LeaderboardPageService < Base::ImageService
   option :profile_data
   option :title
 
@@ -120,13 +120,6 @@ class Image::LeaderboardService < Base::ImageService
         self.fill = color1
       end
       x += 45
-
-      # Percent share
-      # value = number_to_percentage(data.percent_share, significant: true, precision: 2)
-      # draw.annotate(comp, 0, 0, x, y, value) do
-      #   self.fill = color1
-      # end
-      # x += 28
 
       # Timestamp
       draw.pointsize = 13

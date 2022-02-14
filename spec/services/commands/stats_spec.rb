@@ -11,7 +11,7 @@ RSpec.describe Commands::Stats do
   let(:profile_rid) { profile.rid }
   let(:response) { ChatResponse.new(mode: :public, text: response_text) }
   let(:leaderboard_data) do
-    LeaderboardSnippet.new(Time.current, [LeaderboardProfile.new(rank:)])
+    LeaderboardPage.new(Time.current, [LeaderboardProfile.new(rank:)])
   end
   let(:rank) { 12 }
 
@@ -23,7 +23,7 @@ RSpec.describe Commands::Stats do
 
   before do
     travel_to(Time.zone.local(2019, 11, 8, 21, 1, 1))
-    allow(LeaderboardService).to receive(:call).and_return(leaderboard_data)
+    allow(LeaderboardPageService).to receive(:call).and_return(leaderboard_data)
   end
 
   context 'when no profile given' do

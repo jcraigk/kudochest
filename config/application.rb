@@ -116,8 +116,8 @@ EntityMention = Struct.new(:entity, :profiles, :topic_id, :quantity, :note, keyw
 Mention = Struct.new(:rid, :topic_id, :quantity, :note, keyword_init: true)
 LeaderboardProfile = Struct.new \
   :id, :rank, :previous_rank, :slug, :link, :display_name, :real_name,
-  :points, :percent_share, :last_timestamp, :avatar_url, keyword_init: true
-LeaderboardSnippet = Struct.new(:updated_at, :profiles)
+  :points, :last_timestamp, :avatar_url, keyword_init: true
+LeaderboardPage = Struct.new(:updated_at, :profiles)
 
 # App constants, will rarely change
 STORAGE_PATH =

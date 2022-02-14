@@ -1,10 +1,11 @@
 # frozen_string_literal: true
-class LeaderboardService < Base::Service
+class LeaderboardPageService < Base::Service
   option :team, default: proc {}
   option :profile, default: proc {}
   option :count, default: proc { App.default_leaderboard_size }
   option :offset, default: proc {}
-  option :givingboard, default: proc { false }
+  option :giving_board, default: proc { false }
+  option :jab_board, default: proc { false }
 
   def call
     @team ||= profile.team
@@ -12,16 +13,16 @@ class LeaderboardService < Base::Service
 
     return if leaderboard_cache.blank?
 
-    leaderboard_snippet
+    leaderboard_page
   end
 
   private
 
-  def leaderboard_snippet
-    LeaderboardSnippet.new(leaderboard_cache.updated_at, snippet_profiles)
+  def leaderboard_page
+    LeaderboardPage.new(leaderboard_cache.updated_at, page_profiles)
   end
 
-  def snippet_profiles
+  def page_profiles
     leaderboard_cache.profiles[start_idx..end_idx]
   end
 
@@ -43,6 +44,6 @@ class LeaderboardService < Base::Service
   end
 
   def leaderboard_cache
-    @leaderboard_cache ||= Cache::Leaderboard.new(team.id, givingboard).get
+    @leaderboard_cache ||= Cache::Leaderboard.new(team.id, giving_board, jab_board).get
   end
 end

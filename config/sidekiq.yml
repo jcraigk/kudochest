@@ -2,13 +2,12 @@
 :max_retries: 5
 :queues:
   - ['channel_sync', 1]
-  - ['chat_events', 5]
+  - ['chat_event', 5]
   - ['data_export', 1]
   - ['default', 1]
-  - ['discord_event', 1]
   - ['hourly', 1]
-  - ['leaderboard', 1]
-  - ['permalinks', 1]
+  - ['leaderboard', 2]
+  - ['permalink', 1]
   - ['presence', 1]
   - ['team_rename', 1]
   - ['team_reset', 1]

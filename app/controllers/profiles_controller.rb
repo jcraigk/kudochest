@@ -24,7 +24,7 @@ class ProfilesController < ApplicationController
 
   def random_showcase
     fetch_showcase_profile
-    @leaderboard = LeaderboardService.call(profile: @profile)
+    @leaderboard = LeaderboardPageService.call(profile: @profile)
     @hide_paging = true
     render 'profiles/random_showcase', layout: false
   end

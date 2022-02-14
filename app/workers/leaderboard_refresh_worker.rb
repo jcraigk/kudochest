@@ -1,15 +1,16 @@
 # frozen_string_literal: true
 class LeaderboardRefreshWorker
   include Sidekiq::Worker
-  sidekiq_options queue: :leaderboard, lock: :until_executed
+  sidekiq_options queue: :leaderboard
 
-  attr_reader :team_id, :givingboard
+  attr_reader :team_id, :giving_board, :jab_board
 
-  def perform(team_id, givingboard = false)
+  def perform(team_id, giving_board = false, jab_board = false)
     @team_id = team_id
-    @givingboard = givingboard
+    @giving_board = giving_board
+    @jab_board = jab_board
 
-    Cache::Leaderboard.new(team_id, givingboard).set(leaderboard_data)
+    Cache::Leaderboard.new(team_id, giving_board, jab_board).set(leaderboard_data)
   end
 
   private
@@ -36,12 +37,11 @@ class LeaderboardRefreshWorker
 
       profile_data(prof, rank, last_timestamp)
     end
-
-    profiles.sort_by { |prof| [prof.rank, prof.display_name] }
+    profiles.compact.sort_by { |prof| [prof.rank, prof.display_name] }
   end
 
   def profile_data(prof, rank, timestamp) # rubocop:disable Metrics/MethodLength
-    points = prof.send(value_col)
+    return if (points = prof.send(value_col)).zero?
     LeaderboardProfile.new \
       id: prof.id,
       rank:,
@@ -51,28 +51,23 @@ class LeaderboardRefreshWorker
       display_name: prof.display_name,
       real_name: prof.real_name,
       points:,
-      percent_share: percent_share(prof, points),
       last_timestamp: timestamp.to_i,
       avatar_url: prof.avatar_url
   end
 
-  def percent_share(prof, points)
-    return 0 if prof.team.points_sent.zero?
-    value = (points / prof.team.points_sent.to_f) * 100
-    value.round(4)
-  end
-
   def value_col
     @value_col ||=
-      if givingboard
-        :points_sent # TODO: Extend to handle jabs_sent
+      if giving_board
+        jab_board ? :jabs_sent : :points_sent
+      elsif jab_board
+        :jabs_received
       else
         team.deduct_jabs? ? :balance : :points_received
       end
   end
 
   def verb
-    @verb ||= givingboard ? 'sent' : 'received'
+    @verb ||= giving_board ? 'sent' : 'received'
   end
 
   def last_timestamp_col

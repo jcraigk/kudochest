@@ -144,6 +144,7 @@ RSpec.describe TipMentionService, :freeze_time do
       service
     end
 
+    # TODO: this is flakey
     it 'calls TipFactory for each unique profile, favoring direct, then subteam, then channel' do # rubocop:disable RSpec/ExampleLength
       mention_entities.each do |m|
         args = base_tip_attrs.merge \

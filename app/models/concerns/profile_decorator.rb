@@ -98,7 +98,7 @@ module ProfileDecorator
   end
 
   def rank
-    @rank ||= LeaderboardService.call(profile: self, count: 1)&.profiles&.first&.rank
+    @rank ||= LeaderboardPageService.call(profile: self, count: 1)&.profiles&.first&.rank
   end
 
   def next_streak_date
