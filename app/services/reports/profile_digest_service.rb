@@ -152,7 +152,7 @@ class Reports::ProfileDigestService < Reports::BaseDigestService
 
   # def leaderboard_data
   #   @leaderboard_data ||=
-  #     LeaderboardService.call(
+  #     LeaderboardPageService.call(
   #       profile:,
   #       previous_timestamp: timeframe,
   #       count: 1

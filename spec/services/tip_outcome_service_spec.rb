@@ -21,8 +21,10 @@ RSpec.describe TipOutcomeService, :freeze_time do
 
   it 'calls LeaderboardRefreshWorker' do
     call
-    expect(LeaderboardRefreshWorker).to have_received(:perform_async).with(team.id)
-    expect(LeaderboardRefreshWorker).to have_received(:perform_async).with(team.id, true)
+    expect(LeaderboardRefreshWorker).to have_received(:perform_async).with(team.id, false, false)
+    expect(LeaderboardRefreshWorker).to have_received(:perform_async).with(team.id, true, false)
+    expect(LeaderboardRefreshWorker).to have_received(:perform_async).with(team.id, false, true)
+    expect(LeaderboardRefreshWorker).to have_received(:perform_async).with(team.id, true, true)
   end
 
   context 'when creating tips' do

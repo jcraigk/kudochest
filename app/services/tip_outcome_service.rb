@@ -12,17 +12,20 @@ class TipOutcomeService < Base::Service
   def call
     return if tips.blank?
 
+    update_profile_and_team_stats
+    refresh_leaderboards
+  end
+
+  private
+
+  def update_profile_and_team_stats
     Tip.transaction do
       update_to_profiles
       update_from_profile
       update_team
       tips.map(&:destroy) if destroy
     end
-
-    refresh_leaderboards
   end
-
-  private
 
   # rubocop:disable Metrics/AbcSize
   def update_to_profiles
@@ -58,8 +61,14 @@ class TipOutcomeService < Base::Service
   # rubocop:enable Metrics/AbcSize
 
   def refresh_leaderboards
-    LeaderboardRefreshWorker.perform_async(team.id)
-    LeaderboardRefreshWorker.perform_async(team.id, true)
+    unless tips.all?(&:jab?)
+      LeaderboardRefreshWorker.perform_async(team.id, false, false)
+      LeaderboardRefreshWorker.perform_async(team.id, true, false)
+    end
+
+    return unless tips.any?(&:jab?)
+    LeaderboardRefreshWorker.perform_async(team.id, false, true)
+    LeaderboardRefreshWorker.perform_async(team.id, true, true)
   end
 
   def previous_received_at(to_profile)

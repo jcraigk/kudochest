@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 class Commands::Leaderboard < Commands::Base
-  GIVING_WORDS = %w[giving giver givers gift gifts gifters sent benefactors].freeze
+  GIVING_WORDS = %w[giving giver givers gift gifts gifters sent benefactors bullies].freeze
+  JAB_WORDS = [App.jab_term, App.jabs_term] + %w[losers].freeze
 
   def call
     respond_success
@@ -44,7 +45,7 @@ class Commands::Leaderboard < Commands::Base
 
   def title
     @title ||=
-      "*Top #{profile_count} #{App.points_term.titleize} #{title_verb}#{topic_suffix}*".squish
+      "*Top #{profile_count} #{title_point_term} #{title_verb}#{topic_suffix}*".squish
   end
 
   def profile_count
@@ -65,16 +66,16 @@ class Commands::Leaderboard < Commands::Base
       time_ago_in_words \
         Time.use_zone(team.time_zone) { Time.at(prof.last_timestamp).utc }
     <<~TEXT.chomp
-      #{prof.rank}. #{prof.link} - #{points_format(prof.points, label: true)} (most recently #{timeframe} ago)
+      #{prof.rank}. #{prof.link} - #{points_format(prof.points)} (#{timeframe} ago)
     TEXT
   end
 
-  def verb
-    givingboard? ? 'given' : 'earned'
+  def title_point_term
+    (jab_board ? App.jab_term : App.point_term).titleize
   end
 
   def title_verb
-    givingboard? ? 'Givers' : 'Earners'
+    giving_board ? 'Givers' : 'Earners'
   end
 
   def count
@@ -88,12 +89,16 @@ class Commands::Leaderboard < Commands::Base
   # `top kindness givers`
   # `top :fire:`
   def topic_id
-    word = givingboard? ? words[-1] : words.last
+    word = giving_board ? words[-1] : words.last
     team.config[:topics].find { |t| word.in?([t[:keyword], ":#{t[:emoji]}:"]) }&.dig(:id)
   end
 
-  def givingboard?
-    @givingboard ||= words.last&.in?(GIVING_WORDS)
+  def giving_board
+    @giving_board ||= (words.last(2) & GIVING_WORDS).any?
+  end
+
+  def jab_board
+    @jab_board ||= (words.last(2) & JAB_WORDS).any?
   end
 
   def opts
@@ -101,12 +106,13 @@ class Commands::Leaderboard < Commands::Base
       team:,
       count:,
       profile: requested_profile,
-      givingboard: givingboard?,
+      giving_board:,
+      jab_board:,
       topic_id:
     }
   end
 
   def profile_data
-    @profile_data ||= LeaderboardService.call(**opts.compact)&.profiles
+    @profile_data ||= LeaderboardPageService.call(**opts.compact)&.profiles
   end
 end

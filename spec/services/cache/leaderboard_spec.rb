@@ -2,14 +2,13 @@
 require 'rails_helper'
 
 RSpec.describe Cache::Leaderboard do
-  subject(:cache) { described_class.new(team.id, givingboard) }
+  subject(:cache) { described_class.new(team.id, giving_board, jab_board) }
 
-  context 'when givinboard is false' do
-    let(:key) { "leaderboard/#{team.id}/received" }
-    let(:givingboard) { false }
-    let(:team) { create(:team) }
-    let(:val) { { a: 'a' } }
+  let(:team) { create(:team) }
+  let(:val) { { a: 'a' } }
+  let(:key) { "leaderboard/#{team.id}/#{style}/#{action}" }
 
+  shared_examples 'success' do
     describe 'set' do
       before do
         allow(RedisClient).to receive(:set)
@@ -31,5 +30,41 @@ RSpec.describe Cache::Leaderboard do
         expect(RedisClient).to have_received(:get).with(key)
       end
     end
+  end
+
+  context 'with default options ("points received")' do
+    let(:giving_board) { false }
+    let(:jab_board) { false }
+    let(:style) { 'points' }
+    let(:action) { 'received' }
+
+    include_examples 'success'
+  end
+
+  context 'with options for "points sent"' do
+    let(:giving_board) { true }
+    let(:jab_board) { false }
+    let(:style) { 'points' }
+    let(:action) { 'sent' }
+
+    include_examples 'success'
+  end
+
+  context 'with options for "jabs received"' do
+    let(:giving_board) { false }
+    let(:jab_board) { true }
+    let(:style) { 'jabs' }
+    let(:action) { 'received' }
+
+    include_examples 'success'
+  end
+
+  context 'with options for "jabs sent"' do
+    let(:giving_board) { true }
+    let(:jab_board) { true }
+    let(:style) { 'jabs' }
+    let(:action) { 'sent' }
+
+    include_examples 'success'
   end
 end

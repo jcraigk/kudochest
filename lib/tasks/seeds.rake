@@ -18,13 +18,14 @@ namespace :seeds do
       print 'Generating Tips...'
       profiles = team.profiles.active
       profiles.each do |profile|
+        profile_tips = []
         num = rand(20..50)
         profile.with_lock { profile.increment!(:tokens_accrued, num) }
         num.times do
           channel = team.channels.sample
           topic_id = rand(3).zero? ? nil : team.topics.sample&.id
           quantity = team.enable_jabs? ? (-5..5).to_a.reject(&:zero?).sample : rand(1..5)
-          tips += TipFactory.call \
+          profile_tips += TipFactory.call \
             topic_id:,
             from_profile: profile,
             to_entity: 'Profile',
@@ -38,8 +39,9 @@ namespace :seeds do
             source: 'seed',
             timestamp: Time.current
         end
+        TipOutcomeService.call(tips: profile_tips)
+        tips += profile_tips
       end
-      TipOutcomeService.call(tips:)
       puts 'done'
 
       print 'Randomizing temporal distribution of Tips...'

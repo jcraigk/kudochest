@@ -1,11 +1,12 @@
 # frozen_string_literal: true
 class Cache::Leaderboard < Base::Service
   param :team_id
-  param :givingboard, default: -> { false }
+  param :giving_board, default: -> { false }
+  param :jab_board, default: -> { false }
 
   def get
     return if redis_value.blank?
-    LeaderboardSnippet.new(updated_at, profiles)
+    LeaderboardPage.new(updated_at, profiles)
   end
 
   def set(value)
@@ -31,10 +32,14 @@ class Cache::Leaderboard < Base::Service
   end
 
   def key
-    "leaderboard/#{team_id}/#{action}"
+    "leaderboard/#{team_id}/#{style}/#{action}"
   end
 
   def action
-    givingboard ? 'sent' : 'received'
+    giving_board ? 'sent' : 'received'
+  end
+
+  def style
+    jab_board ? 'jabs' : 'points'
   end
 end
