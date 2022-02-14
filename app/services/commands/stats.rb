@@ -27,14 +27,14 @@ class Commands::Stats < Commands::Base
   end
 
   def token_fragment
-    return '*Tokens:* Unlimited' if requested_profile.infinite_tokens?
+    return ':gift: *Tokens:* Unlimited' if requested_profile.infinite_tokens?
     <<~TEXT.chomp
-      *Tokens:* #{points_format(requested_profile.token_balance)} (receiving #{team.token_quantity} tokens in #{next_token_dispersal})
+      :gift: *Tokens:* #{points_format(requested_profile.token_balance)} (receiving #{team.token_quantity} tokens in #{next_token_dispersal})
     TEXT
   end
 
   def streak_fragment
-    "*Giving Streak:* #{requested_profile.active_streak_sentence}"
+    ":deciduous_tree: *Giving Streak:* #{requested_profile.active_streak_sentence}"
   end
 
   def next_token_dispersal
@@ -51,41 +51,41 @@ class Commands::Stats < Commands::Base
 
   def points_received_fragment
     <<~TEXT.chomp
-      *#{App.points_term.titleize} Received:* #{points_format(requested_profile.points)}
+      :point_right: *#{App.points_term.titleize} Received:* #{points_format(requested_profile.points)}
     TEXT
   end
 
   def jabs_received_fragment
     <<~TEXT.chomp
-      *#{App.jabs_term.titleize} Received:* #{points_format(requested_profile.jabs)}
+      :point_right: *#{App.jabs_term.titleize} Received:* #{points_format(requested_profile.jabs)}
     TEXT
   end
 
   def balance_fragment
     <<~TEXT.chomp
-      *Balance:* #{points_format(requested_profile.balance)}
+      :scales: *Balance:* #{points_format(requested_profile.balance)}
     TEXT
   end
 
   def points_given_fragment
     <<~TEXT.chomp
-      *#{App.points_term.titleize} Given:* #{points_format(requested_profile.points_sent)}
+      :point_left: *#{App.points_term.titleize} Given:* #{points_format(requested_profile.points_sent)}
     TEXT
   end
 
   def jabs_given_fragment
     <<~TEXT.chomp
-      *#{App.jabs_term.titleize} Given:* #{points_format(requested_profile.jabs_sent)}
+      :point_left: *#{App.jabs_term.titleize} Given:* #{points_format(requested_profile.jabs_sent)}
     TEXT
   end
 
   def rank_fragment
     return if requested_profile.rank.blank?
-    "*Leaderboard Rank:* ##{number_with_delimiter(requested_profile.rank)}"
+    ":trophy: *Leaderboard Rank:* ##{number_with_delimiter(requested_profile.rank)}"
   end
 
   def level_fragment
-    "*Level:* #{requested_profile.level}"
+    ":chart_with_upwards_trend: *Level:* #{requested_profile.level}"
   end
 
   # If user specifies user(s) after keyword, show the first one's stats

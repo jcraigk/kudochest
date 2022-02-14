@@ -31,15 +31,15 @@ RSpec.describe Commands::Stats do
     let(:response_text) do
       <<~TEXT.chomp
         *Overall Stats for #{profile.dashboard_link}*
-        *Leaderboard Rank:* ##{rank}
-        *Level:* 1
-        *Kudos Received:* 0
-        *Kudonts Received:* 0
-        *Balance:* 0
-        *Kudos Given:* 0
-        *Kudonts Given:* 0
-        *Tokens:* 0 (receiving #{team.token_quantity} tokens in 2 days)
-        *Giving Streak:* 0 days
+        :trophy: *Leaderboard Rank:* ##{rank}
+        :chart_with_upwards_trend: *Level:* 1
+        :point_right: *Kudos Received:* 0
+        :point_right: *Kudonts Received:* 0
+        :scales: *Balance:* 0
+        :point_left: *Kudos Given:* 0
+        :point_left: *Kudonts Given:* 0
+        :gift: *Tokens:* 0 (receiving #{team.token_quantity} tokens in 2 days)
+        :deciduous_tree: *Giving Streak:* 0 days
       TEXT
     end
 
@@ -49,15 +49,15 @@ RSpec.describe Commands::Stats do
       let(:response_text) do
         <<~TEXT.chomp
           *Overall Stats for #{profile.dashboard_link}*
-          *Leaderboard Rank:* ##{rank}
-          *Level:* 1
-          *Kudos Received:* 0
-          *Kudonts Received:* 0
-          *Balance:* 0
-          *Kudos Given:* 0
-          *Kudonts Given:* 0
-          *Tokens:* Unlimited
-          *Giving Streak:* 0 days
+          :trophy: *Leaderboard Rank:* ##{rank}
+          :chart_with_upwards_trend: *Level:* 1
+          :point_right: *Kudos Received:* 0
+          :point_right: *Kudonts Received:* 0
+          :scales: *Balance:* 0
+          :point_left: *Kudos Given:* 0
+          :point_left: *Kudonts Given:* 0
+          :gift: *Tokens:* Unlimited
+          :deciduous_tree: *Giving Streak:* 0 days
         TEXT
       end
 
@@ -73,14 +73,14 @@ RSpec.describe Commands::Stats do
     let(:response_text) do
       <<~TEXT.chomp
         *Overall Stats for #{profile2.dashboard_link}*
-        *Leaderboard Rank:* ##{rank}
-        *Level:* 1
-        *Kudos Received:* 0
-        *Kudonts Received:* 0
-        *Balance:* 0
-        *Kudos Given:* 0
-        *Kudonts Given:* 0
-        *Giving Streak:* 0 days
+        :trophy: *Leaderboard Rank:* ##{rank}
+        :chart_with_upwards_trend: *Level:* 1
+        :point_right: *Kudos Received:* 0
+        :point_right: *Kudonts Received:* 0
+        :scales: *Balance:* 0
+        :point_left: *Kudos Given:* 0
+        :point_left: *Kudonts Given:* 0
+        :deciduous_tree: *Giving Streak:* 0 days
       TEXT
     end
 
@@ -93,13 +93,13 @@ RSpec.describe Commands::Stats do
     let(:response_text) do
       <<~TEXT.chomp
         *Overall Stats for #{profile2.dashboard_link}*
-        *Leaderboard Rank:* ##{rank}
-        *Kudos Received:* 0
-        *Kudonts Received:* 0
-        *Balance:* 0
-        *Kudos Given:* 0
-        *Kudonts Given:* 0
-        *Giving Streak:* 0 days
+        :trophy: *Leaderboard Rank:* ##{rank}
+        :point_right: *Kudos Received:* 0
+        :point_right: *Kudonts Received:* 0
+        :scales: *Balance:* 0
+        :point_left: *Kudos Given:* 0
+        :point_left: *Kudonts Given:* 0
+        :deciduous_tree: *Giving Streak:* 0 days
       TEXT
     end
 
@@ -114,14 +114,14 @@ RSpec.describe Commands::Stats do
     let(:response_text) do
       <<~TEXT.chomp
         *Overall Stats for #{profile2.dashboard_link}*
-        *Leaderboard Rank:* ##{rank}
-        *Level:* 1
-        *Kudos Received:* 0
-        *Kudonts Received:* 0
-        *Balance:* 0
-        *Kudos Given:* 0
-        *Kudonts Given:* 0
-        *Giving Streak:* 0 days
+        :trophy: *Leaderboard Rank:* ##{rank}
+        :chart_with_upwards_trend: *Level:* 1
+        :point_right: *Kudos Received:* 0
+        :point_right: *Kudonts Received:* 0
+        :scales: *Balance:* 0
+        :point_left: *Kudos Given:* 0
+        :point_left: *Kudonts Given:* 0
+        :deciduous_tree: *Giving Streak:* 0 days
       TEXT
     end
 
@@ -136,13 +136,13 @@ RSpec.describe Commands::Stats do
     let(:response_text) do
       <<~TEXT.chomp
         *Overall Stats for #{profile2.dashboard_link}*
-        *Leaderboard Rank:* ##{rank}
-        *Level:* 1
-        *Kudos Received:* 0
-        *Kudonts Received:* 0
-        *Balance:* 0
-        *Kudos Given:* 0
-        *Kudonts Given:* 0
+        :trophy: *Leaderboard Rank:* ##{rank}
+        :chart_with_upwards_trend: *Level:* 1
+        :point_right: *Kudos Received:* 0
+        :point_right: *Kudonts Received:* 0
+        :scales: *Balance:* 0
+        :point_left: *Kudos Given:* 0
+        :point_left: *Kudonts Given:* 0
       TEXT
     end
 
