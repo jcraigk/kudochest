@@ -18,7 +18,6 @@ class Hooks::Slack::EventsController < Hooks::Slack::BaseController
     team_rename
     user_change
   ].freeze
-  FAST_ACKABLE = %w[message reaction_added reaction_removed].freeze
 
   def receiver
     return unless relevant_action?
@@ -28,7 +27,7 @@ class Hooks::Slack::EventsController < Hooks::Slack::BaseController
   private
 
   def fast_ack
-    return unless event_type.in?(FAST_ACKABLE)
+    return unless mentions_found? || command?
     super
   end
 
