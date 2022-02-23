@@ -21,9 +21,8 @@ Rails.application.configure do
 
   config.public_file_server.enabled = true # Expose precompiled assets
 
-  # Use the lowest log level to ensure availability of diagnostic information
-  # when problems arise.
-  config.log_level = :debug
+  # Default to quiet logging for privacy
+  config.log_level = ENV['LOG_LEVEL'] || :error
 
   # Prepend all log lines with the following tags.
   config.log_tags = [:request_id]
