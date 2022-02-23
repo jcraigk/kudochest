@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_01_24_074414) do
+ActiveRecord::Schema[7.0].define(version: 2022_02_23_184718) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -217,6 +217,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_01_24_074414) do
     t.boolean "to_everyone", default: false
     t.uuid "topic_id"
     t.string "chat_permalink"
+    t.boolean "to_here", default: false
     t.index "date_trunc('day'::text, created_at)", name: "idx_on_tips_created_at_truncated_to_day"
     t.index ["created_at"], name: "index_tips_on_created_at"
     t.index ["event_ts", "to_profile_id"], name: "index_tips_on_event_ts_and_to_profile_id", unique: true

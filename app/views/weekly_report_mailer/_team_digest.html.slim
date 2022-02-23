@@ -14,7 +14,7 @@
         td #{points_format(@team_data.jabs_given)} from #{pluralize(@team_data.jab_givers.size, 'user')} to #{pluralize(@team_data.jab_recipients.size, 'user')}
     - if @team_data.top_givers.any?
       tr
-        td style='text-align: right; vertical-align: top; font-weight: bold; width: 50%;' Top Givers:
+        td style='text-align: right; vertical-align: top; font-weight: bold; width: 50%;' Top Benefactors:
         td = @team_data.top_givers.map { |data| "#{mail_profile_link(data.profile)} (#{points_format(data.quantity, label: true)})" }.join('<br>').html_safe
     - if @team_data.top_recipients.any?
       tr

@@ -307,7 +307,10 @@ RSpec.describe TipResponseService do
       end
     end
 
-    xcontext 'when `@everyone` are given points' do
+    xcontext 'with `@everyone`' do
+    end
+
+    xcontext 'with `@here`' do
     end
 
     context 'when at least one jab was gave to a subteam' do

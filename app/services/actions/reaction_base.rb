@@ -30,7 +30,7 @@ class Actions::ReactionBase < Actions::Base
   end
 
   def process_emoji?
-    team.enable_emoji? && relevant_emoji?
+    team&.enable_emoji? && relevant_emoji?
   end
 
   def relevant_emoji?

@@ -11,7 +11,7 @@ RSpec.describe Cache::TeamConfig do
   let(:team_attrs) { team.attributes.slice(*Team::CONFIG_ATTRS) }
   let(:topic_attrs) do
     {
-      topics: topics.map do |topic|
+      topics: topics.sort_by(&:name).map do |topic|
         topic.attributes.slice('id', 'name', 'keyword', 'emoji').symbolize_keys
       end
     }

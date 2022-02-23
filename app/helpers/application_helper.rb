@@ -121,7 +121,11 @@ module ApplicationHelper
 
   def group_label(tip)
     return 'Everyone' if tip.to_everyone
-    tip.to_channel_name.presence || tip.to_subteam_handle.presence || 'Direct'
+    if (chan = tip.to_channel_name).present?
+      str = "##{chan}"
+      return tip.to_here? ? "#{str} [here]" : str
+    end
+    tip.to_subteam_handle.present? ? "@#{tip.to_subteam_handle}" : 'Direct'
   end
 
   def rank_with_trend(rank, previous_rank)

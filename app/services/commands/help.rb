@@ -77,13 +77,13 @@ class Commands::Help < Commands::Base
 
   def discord_point_inlines
     "* Type `#{PROF_PREFIX}user++`, `#{PROF_PREFIX}role++`, " \
-      "`#{CHAN_PREFIX}channel++`, or `#{CHAN_PREFIX}everyone++` " \
+      "`#{CHAN_PREFIX}channel++`, or `#{PROF_PREFIX}everyone++` " \
       'in a guild channel _(tip: append a number like `++2`)_'
   end
 
   def discord_jab_inlines
     "* Type `#{PROF_PREFIX}user--`, `#{PROF_PREFIX}role--`, " \
-      "`#{CHAN_PREFIX}channel--`, or `#{CHAN_PREFIX}everyone--` " \
+      "`#{CHAN_PREFIX}channel--`, `#{PROF_PREFIX}here--`, or `#{CHAN_PREFIX}everyone--` " \
       'in a guild channel _(tip: append a number like `++2`)_'
   end
 
@@ -136,13 +136,13 @@ class Commands::Help < Commands::Base
     "* Type `/#{App.base_command}` by itself for assistance " \
       '_(tip: use Tab key to navigate input fields)_' \
       "\n  * Type `#{PROF_PREFIX}[user]++`, `#{PROF_PREFIX}[group]++`, " \
-      "`#{CHAN_PREFIX}[channel]++`, `#{PROF_PREFIX}channel++`, " \
+      "`#{CHAN_PREFIX}[channel]++`, `#{PROF_PREFIX}channel++`, `#{PROF_PREFIX}here++`, " \
       "or `#{PROF_PREFIX}everyone++` _(tip: append a number like `++2`)_"
   end
 
   def slack_jab_inlines
     "\n  * Type `#{PROF_PREFIX}[user]--`, `#{PROF_PREFIX}[group]--`, " \
-      "`#{CHAN_PREFIX}[channel]--`, `#{PROF_PREFIX}channel--`, " \
+      "`#{CHAN_PREFIX}[channel]--`, `#{PROF_PREFIX}channel--`, `#{PROF_PREFIX}here--`, " \
       "or `#{PROF_PREFIX}everyone--` _(tip: append a number like `--2`)_"
   end
 
@@ -159,16 +159,19 @@ class Commands::Help < Commands::Base
     "\n  * Type `#{PROF_PREFIX}[user]`#{team.point_emoj}, " \
       "`#{PROF_PREFIX}[group]`#{team.point_emoj}, " \
       "`#{CHAN_PREFIX}[channel]`#{team.point_emoj}, " \
-      "`#{PROF_PREFIX}channel`#{team.point_emoj}, or " \
+      "`#{PROF_PREFIX}channel`#{team.point_emoj}, " \
+      "`#{PROF_PREFIX}here`#{team.point_emoj}, or " \
       "`#{PROF_PREFIX}everyone`#{team.point_emoj} _(tip: try " \
-      "#{team.point_emoj}#{team.point_emoj}#{team.point_emoj})_"
+      "#{team.point_emoj * 3})_"
   end
 
   def slack_inline_jab_emojis
     "\n  * Type `#{PROF_PREFIX}[user]`#{team.jab_emoj}, " \
       "`#{PROF_PREFIX}[group]`#{team.jab_emoj}, " \
       "`#{CHAN_PREFIX}[channel]`#{team.jab_emoj}, " \
-      "`#{PROF_PREFIX}channel`#{team.jab_emoj}, or " \
-      "`#{PROF_PREFIX}everyone`#{team.jab_emoj}"
+      "`#{PROF_PREFIX}channel`#{team.jab_emoj}, " \
+      "`#{PROF_PREFIX}here`#{team.jab_emoj}, or " \
+      "`#{PROF_PREFIX}everyone`#{team.jab_emoj} _(tip: try " \
+      "#{team.jab_emoj * 3})_"
   end
 end
