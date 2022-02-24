@@ -6,7 +6,7 @@ Total <%= App.points_term.titleize %>: <%= points_format(@team_data.points_given
 Total <%= App.jabs_term.titleize %>: <%= points_format(@team_data.jabs_given) %> from <%= pluralize(@team_data.jab_givers.size, 'user') %> to <%= pluralize(@team_data.jab_recipients.size, 'user') %>
 <% end %>
 <% if @team_data.top_givers.any? %>
-Top Givers: <%= @team_data.top_givers.map { |data| data.profile.display_name }.to_sentence %>
+Top Benefactors: <%= @team_data.top_givers.map { |data| data.profile.display_name }.to_sentence %>
 <% end %>
 <% if @team_data.top_recipients.any? %>
 Top Recipients: <%= @team_data.top_recipients.map { |data| data.profile.display_name }.to_sentence %>

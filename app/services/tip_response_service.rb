@@ -73,14 +73,13 @@ class TipResponseService < Base::Service # rubocop:disable Metrics/ClassLength
   end
 
   def lead_fragment(medium)
-    everyone_lead || entity_lead(medium)
+    everyone_lead || here_lead(medium) || entity_lead(medium)
   end
 
   # Lead with "Everyone in X has received points" if X is the only aggregate entity mention
+  # Promote channel mention over subteam mention
   def entity_lead(medium)
-    channel_leader = channel_lead(medium)
-    subteam_leader = subteam_lead(medium)
-    channel_leader.presence || subteam_leader.presence # Favor channel over subteam mention
+    channel_lead(medium) || subteam_lead(medium)
   end
 
   def channel_lead(medium)
@@ -113,7 +112,13 @@ class TipResponseService < Base::Service # rubocop:disable Metrics/ClassLength
 
   def everyone_lead
     return if (tip = tips.find(&:to_everyone?)).blank?
-    "Everyone has received #{points_term(tip)}"
+    "Everyone has received #{points_term(tip)}!"
+  end
+
+  def here_lead(medium)
+    return if (tip = tips.find(&:to_here?)).blank?
+    chan = channel_ref(medium, tip.from_channel_rid, tip.from_channel_name)
+    "Everyone online in #{chan} has received #{points_term(tip)}!"
   end
 
   def unique_channel_tips

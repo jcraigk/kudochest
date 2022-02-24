@@ -99,6 +99,20 @@ RSpec.describe TipFactory do
     include_examples 'tip creation'
   end
 
+  context 'when entity is `here`' do
+    let(:to_entity) { 'here' }
+    let(:to_profiles) { build_list(:profile, 2, team:) }
+    let(:extra_attrs) do
+      {
+        to_channel_rid: from_channel.rid,
+        to_channel_name: from_channel.name,
+        to_here: true
+      }
+    end
+
+    include_examples 'tip creation'
+  end
+
   context 'when entity is a subteam' do
     let(:to_entity) { build(:subteam, team:) }
     let(:to_profiles) { build_list(:profile, 2, team:) }

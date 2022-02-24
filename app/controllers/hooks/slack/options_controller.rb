@@ -12,12 +12,17 @@ class Hooks::Slack::OptionsController < Hooks::Slack::BaseController
       subteam_options +
       channel_keyword_option +
       channel_name_options +
-      everyone_keyword_option
+      everyone_keyword_option +
+      here_keyword_option
     ).sort_by { |opt| opt[:text][:text] }
   end
 
   def everyone_keyword_option
     [generic_option("#{PROF_PREFIX}everyone", 'everyone')]
+  end
+
+  def here_keyword_option
+    [generic_option("#{PROF_PREFIX}here", 'here')]
   end
 
   def channel_keyword_option

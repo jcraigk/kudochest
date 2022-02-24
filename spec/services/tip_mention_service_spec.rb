@@ -80,13 +80,22 @@ RSpec.describe TipMentionService, :freeze_time do
   context 'when no mentions are provided' do
     let(:mentions) { [] }
     let(:result) do
-      ChatResponse.new(mode: :error, text: I18n.t('errors.no_tips', points: App.points_term))
+      ChatResponse.new(mode: :error, text: I18n.t('errors.no_tips', user: profile.display_name))
     end
 
     include_examples 'expected result'
   end
 
   xcontext 'when `@everyone` is mentioned' do
+    let(:mentions) { ['everyone'] }
+
+    xit 'overrides other mentions' do
+    end
+  end
+
+  xcontext 'when `@here` is mentioned' do
+    let(:mentions) { ['here'] }
+
     xit 'overrides other mentions' do
     end
   end

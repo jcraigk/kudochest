@@ -109,7 +109,10 @@ end
 
 App = Rails.configuration
 
-# Common structs
+# Errors
+class ChatFeedback < StandardError; end
+
+# Structs
 ChannelData = Struct.new(:rid, :name)
 ChatResponse = Struct.new(:mode, :text, :image, :response, :tips, keyword_init: true)
 EntityMention = Struct.new(:entity, :profiles, :topic_id, :quantity, :note, keyword_init: true)
@@ -175,8 +178,8 @@ SUBTEAM_REGEX = {
   discord: /<@&(\d+)>/
 }.freeze
 GROUP_KEYWORD_PATTERN = {
-  slack: '<!(?<group_keyword>everyone|channel)>',
-  discord: '@(?<group_keyword>everyone|channel)'
+  slack: '<!(?<group_keyword>everyone|channel|here)>',
+  discord: '@(?<group_keyword>everyone|channel|here)'
 }.freeze
 SLACK_DM_NAME = 'direct-message'
 SLACK_DM_PREFIX = 'mpdm-'

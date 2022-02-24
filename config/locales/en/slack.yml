@@ -8,3 +8,4 @@ en:
     unfurl_description: '%{app} is a team engagement tool for Slack and Discord. Try it free!'
     not_in_channel: "I couldn't post to %{channel} - please invite me!"
     modal_help: 'The "%{keyword}" command must be prefixed with `/%{command}`'
+    too_many_for_here: Sorry, too many users in channel to check presence. Try giving to entire channel.

@@ -25,7 +25,7 @@ gem 'rails'
 gem 'redis'
 gem 'rmagick'
 gem 'sass-rails'
-gem 'sidekiq', github: 'mperham/sidekiq' # TODO: Use 6.4.1  when released (Redis warning)
+gem 'sidekiq'
 gem 'sidekiq-scheduler'
 gem 'sidekiq-unique-jobs'
 gem 'slack-ruby-client'
@@ -64,5 +64,5 @@ group :test do
   gem 'shoulda-matchers'
   gem 'simplecov'
   gem 'super_diff'
-  gem 'vcr', github: 'vcr/vcr' # TODO: Remove when Ruby 3.1 warning fixed in release
+  gem 'vcr'
 end

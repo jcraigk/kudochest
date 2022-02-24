@@ -2,6 +2,7 @@
 class Base::ChannelMemberService < Base::Service
   option :team
   option :channel_rid
+  option :here, default: -> { false }
 
   def call
     sorted_local_profiles

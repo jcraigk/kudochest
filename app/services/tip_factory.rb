@@ -71,7 +71,25 @@ class TipFactory < Base::Service
   end
 
   def entity_attrs
-    return { to_everyone: true } if to_entity == 'everyone'
+    keyword_entity_attrs || group_entity_attrs
+  end
+
+  def keyword_entity_attrs
+    case to_entity
+    when 'everyone' then { to_everyone: true }
+    when 'here' then here_attrs
+    end
+  end
+
+  def here_attrs
+    {
+      to_here: true,
+      to_channel_rid: from_channel_rid,
+      to_channel_name: from_channel_name
+    }
+  end
+
+  def group_entity_attrs
     case to_entity.class.name
     when 'Subteam' then subteam_attrs
     when 'Channel' then named_channel_attrs

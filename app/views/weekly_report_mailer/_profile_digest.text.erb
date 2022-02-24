@@ -10,7 +10,7 @@ No activity this week. If you're having trouble using the app, please see #{App.
 <%= App.jabs_term.titleize %> Given: <%= points_format(@profile_data.jabs_given) %> to <%= pluralize(@profile_data.jab_recipients.size, 'user') %>
 <% end %>
 <% if @profile_data.top_givers.any? %>
-Top Givers: <%= @profile_data.top_givers.map { |data| data.profile.display_name }.to_sentence %>
+Top Benefactors: <%= @profile_data.top_givers.map { |data| data.profile.display_name }.to_sentence %>
 <% end %>
 <% if @profile_data.top_recipients.any? %>
 Top Recipients: <%= @profile_data.top_recipients.map { |data| data.profile.display_name }.to_sentence %>

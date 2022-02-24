@@ -32,17 +32,17 @@ class TipMentionService < Base::Service
   def respond_no_action
     ChatResponse.new \
       mode: :error,
-      text: I18n.t('errors.no_tips', points: App.points_term)
+      text: I18n.t('errors.no_tips', user: profile.display_name)
   end
 
   def tips
     @tips ||= uniq_entity_mentions.map do |mention|
       next if mention.profiles.none?
-      create_tips_for(mention, timestamp)
+      create_tips_for(mention)
     end.flatten.compact
   end
 
-  def create_tips_for(mention, timestamp) # rubocop:disable Metrics/MethodLength
+  def create_tips_for(mention) # rubocop:disable Metrics/MethodLength
     TipFactory.call \
       topic_id: mention.topic_id,
       event_ts:,
@@ -84,8 +84,8 @@ class TipMentionService < Base::Service
   end
 
   def fetch_entity(rid)
-    if rid == 'everyone' then rid
-    elsif rid == 'channel' then channel_entity(channel_rid.delete(CHAN_PREFIX))
+    if rid.in?(%w[everyone here]) then rid
+    elsif rid.in?(%w[channel]) then channel_entity(channel_rid.delete(CHAN_PREFIX))
     elsif rid.start_with?(*SUBTEAM_PREFIX.values) then subteam_entity(rid)
     elsif rid.start_with?(PROF_PREFIX) then profile_entity(rid)
     elsif rid.start_with?(CHAN_PREFIX) then channel_entity(rid)
@@ -108,17 +108,19 @@ class TipMentionService < Base::Service
 
   def profiles_for_entity(entity)
     return team.profiles.active.where.not(rid: profile.rid) if entity == 'everyone'
+    return channel_profiles(channel_rid, here: true) if entity == 'here'
     case entity.class.name
     when 'Profile' then [entity]
     when 'Subteam' then subteam_profiles(entity)
-    when 'Channel' then channel_profiles(entity)
+    when 'Channel' then channel_profiles(entity.rid)
     end
   end
 
-  def channel_profiles(channel)
+  def channel_profiles(channel_rid, here: false)
     "#{team.plat}::ChannelMemberService".constantize.call(
       team:,
-      channel_rid: channel.rid
+      channel_rid:,
+      here:
     ).reject { |prof| prof.id == profile.id }
   end
 
@@ -128,22 +130,27 @@ class TipMentionService < Base::Service
 
   def uniq_entity_mentions
     return [everyone_mention] if everyone_mention.present?
+    return [here_mention] if here_mention.present?
 
-    # Ensure each profile is mentioned only once
-    # Prefer direct mention, then subteam, then channel
+    # Ensure each profile is mentioned only once, preferring
+    # Direct mention, then subteam, then channel
     profile_mentions + sanitized_subteam_mentions + sanitized_channel_mentions
   end
 
   def profile_mentions
-    entity_mentions.select { |m| m.entity.is_a?(Profile) }
+    @profile_mentions ||= entity_mentions.select { |m| m.entity.is_a?(Profile) }
   end
 
   def everyone_mention
-    entity_mentions.find { |m| m.entity == 'everyone' }
+    @everyone_mention ||= entity_mentions.find { |m| m.entity == 'everyone' }
+  end
+
+  def here_mention
+    @here_mention ||= entity_mentions.find { |m| m.entity == 'here' }
   end
 
   def channel_mention
-    entity_mentions.find { |m| m.entity == 'channel' }
+    @channel_mention ||= entity_mentions.find { |m| m.entity == 'channel' }
   end
 
   def sanitized_channel_mentions

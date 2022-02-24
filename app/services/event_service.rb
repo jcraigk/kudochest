@@ -58,12 +58,15 @@ class EventService < Base::Service
   end
 
   def error_text(exception)
-    return 'Duplicate request ignored' if exception.is_a?(ActiveRecord::RecordNotUnique)
-    return shortened_message(exception) if exception.is_a?(ActiveRecord::RecordInvalid)
-    I18n.t('slack.generic_error')
+    case exception.class.name
+    when 'ChatFeedback' then exception.message
+    when 'ActiveRecord::RecordNotUnique' then 'Duplicate request ignored'
+    when 'ActiveRecord::RecordInvalid' then validation_message(exception)
+    else I18n.t('slack.generic_error')
+    end
   end
 
-  def shortened_message(exception)
+  def validation_message(exception)
     exception.message.gsub(/Validation failed: /, '')
   end
 
