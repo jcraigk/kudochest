@@ -64,6 +64,7 @@ class NoteSanitizer < Base::Service
     @text = text.gsub('&lt;', '<')
     @text = text.gsub('&gt;', '>')
     @text = text.gsub('&amp;', '&')
+    @text = text.tr('*', '').strip
   end
 
   def profile_reference(rid)

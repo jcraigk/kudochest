@@ -17,7 +17,7 @@ RSpec.describe NoteSanitizer do
   end
 
   context 'when special chars are included' do
-    let(:text) { 'hey &lt; &gt; &amp;' }
+    let(:text) { 'hey &lt; &gt; &amp; *' }
     let(:result) { 'hey < > &' }
 
     include_examples 'success'
