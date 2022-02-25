@@ -52,6 +52,7 @@ class MessageScanner < Base::Service
 
   def quantity_or_nil(str)
     return if str.blank?
+    str += '0' if str.end_with?('.')
     BigDecimal(str)
   end
 
@@ -129,7 +130,7 @@ class MessageScanner < Base::Service
   end
 
   def quantity_prefix
-    '(?<prefix_quantity>\d+(?:\.\d*)?)?\s?'
+    '(?<prefix_quantity>\d+\.?\d*)?\s?'
   end
 
   def quantity_suffix

@@ -21,7 +21,7 @@ RSpec.describe MessageScanner do
   context 'with topic keywords' do
     let!(:topic1) { create(:topic, team:) }
     let!(:topic2) { create(:topic, team:) }
-    let(:text) { "<#{rid1}>++2.5 #{topic1.keyword} <#{rid2}> 3-- #{topic2.keyword} #{note}" }
+    let(:text) { "<#{rid1}>++2.5 #{topic1.keyword} <#{rid2}> 3.-- #{topic2.keyword} #{note}" }
     let(:matches) do
       [
         {

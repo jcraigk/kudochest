@@ -59,7 +59,7 @@ RSpec.describe NoteSanitizer do
         TEXT
       end
       let(:result) do
-        <<~TEXT
+        <<~TEXT.squish
           hey #{PROF_PREFIX}#{subteam.handle} yep #{CHAN_PREFIX}#{channel.name} and #{PROF_PREFIX}#{profile.display_name} with google.com
         TEXT
       end
