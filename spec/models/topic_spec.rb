@@ -103,7 +103,7 @@ RSpec.describe Topic do
         end
 
         it 'disables require_topic' do
-          expect(team.require_topic).to eq(false)
+          expect(team.require_topic).to be(false)
         end
       end
     end

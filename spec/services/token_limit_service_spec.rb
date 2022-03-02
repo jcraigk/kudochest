@@ -17,7 +17,7 @@ RSpec.describe TokenLimitService do
       before { profile.infinite_tokens = true }
 
       it 'returns false' do
-        expect(service).to eq(false)
+        expect(service).to be(false)
       end
     end
 
@@ -25,7 +25,7 @@ RSpec.describe TokenLimitService do
       before { profile.tokens_accrued = 2 }
 
       it 'returns false' do
-        expect(service).to eq(false)
+        expect(service).to be(false)
       end
     end
 
@@ -52,7 +52,7 @@ RSpec.describe TokenLimitService do
     end
 
     it 'returns false' do
-      expect(service).to eq(false)
+      expect(service).to be(false)
     end
   end
 end

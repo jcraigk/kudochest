@@ -30,6 +30,6 @@ RSpec.describe Actions::TeamRename do
   end
 
   it 'responds silently' do
-    expect(action).to eq(nil)
+    expect(action).to be_nil
   end
 end

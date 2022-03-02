@@ -34,15 +34,15 @@ RSpec.describe Claim do
   end
 
   it 'provides #fulfilled?' do
-    expect(claim.fulfilled?).to eq(false)
+    expect(claim.fulfilled?).to be(false)
     claim.fulfilled_at = Time.current
-    expect(claim.fulfilled?).to eq(true)
+    expect(claim.fulfilled?).to be(true)
   end
 
   it 'provides #pending?' do
-    expect(claim.pending?).to eq(true)
+    expect(claim.pending?).to be(true)
     claim.fulfilled_at = Time.current
-    expect(claim.pending?).to eq(false)
+    expect(claim.pending?).to be(false)
   end
 
   describe 'callbacks' do

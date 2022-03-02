@@ -15,7 +15,7 @@ RSpec.describe StreakRewardService do
     let(:enable_streaks) { false }
 
     it 'returns false' do
-      expect(service).to eq(false)
+      expect(service).to be(false)
     end
   end
 
@@ -24,7 +24,7 @@ RSpec.describe StreakRewardService do
 
     context 'when today is not next streak day' do
       it 'returns false' do
-        expect(service).to eq(false)
+        expect(service).to be(false)
       end
     end
 
@@ -36,7 +36,7 @@ RSpec.describe StreakRewardService do
       end
 
       it 'returns false' do
-        expect(service).to eq(false)
+        expect(service).to be(false)
       end
     end
 
@@ -69,7 +69,7 @@ RSpec.describe StreakRewardService do
         end
 
         it 'creates a reward tip and returns true' do
-          expect(service).to eq(true)
+          expect(service).to be(true)
           expect(Tip).to have_received(:create!).with(expected_args)
         end
       end

@@ -24,6 +24,6 @@ RSpec.describe Cache::TeamConfig do
 
   it 'deletes cache' do
     cache.delete
-    expect(Rails.cache.fetch(cache_key)).to eq(nil)
+    expect(Rails.cache.fetch(cache_key)).to be_nil
   end
 end

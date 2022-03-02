@@ -38,6 +38,6 @@ RSpec.describe Actions::SubmitPrefsModal do
 
   it 'updates user preferences' do
     action
-    expect(profile.reload.allow_dm).to eq(true)
+    expect(profile.reload.allow_dm).to be(true)
   end
 end

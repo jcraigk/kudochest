@@ -57,7 +57,7 @@ RSpec.describe Actions::Message do
 
   shared_examples 'silence' do
     it 'returns nil' do
-      expect(action).to eq(nil)
+      expect(action).to be_nil
     end
   end
 

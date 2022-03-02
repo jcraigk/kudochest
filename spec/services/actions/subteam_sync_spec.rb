@@ -18,6 +18,6 @@ RSpec.describe Actions::SubteamSync do
   end
 
   it 'responds silently' do
-    expect(action).to eq(nil)
+    expect(action).to be_nil
   end
 end

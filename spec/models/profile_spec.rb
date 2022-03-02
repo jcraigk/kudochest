@@ -29,7 +29,7 @@ RSpec.describe Profile do
       before { profile.update(bot_user: true) }
 
       it 'returns false' do
-        expect(profile.active?).to eq(false)
+        expect(profile.active?).to be(false)
       end
     end
 
@@ -37,7 +37,7 @@ RSpec.describe Profile do
       before { profile.update(deleted: true) }
 
       it 'returns false' do
-        expect(profile.active?).to eq(false)
+        expect(profile.active?).to be(false)
       end
     end
   end

@@ -3,7 +3,7 @@ class Slack::SubteamSyncService < Base::SubteamSyncService
   private
 
   def profile_rids_for(subteam)
-    remote_subteams.find { |sub| sub[:id] == subteam.rid }.users
+    remote_subteams.find { |remote| remote.id == subteam.rid }&.users&.uniq
   end
 
   def remote_subteams

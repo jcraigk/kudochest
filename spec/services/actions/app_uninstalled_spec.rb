@@ -13,7 +13,7 @@ RSpec.describe Actions::AppUninstalled do
   end
 
   it 'deactivates the team' do
-    expect(team.reload.active?).to eq(false)
-    expect(team.reload.installed?).to eq(false)
+    expect(team.reload.active?).to be(false)
+    expect(team.reload.installed?).to be(false)
   end
 end

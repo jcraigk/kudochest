@@ -29,12 +29,12 @@ RSpec.describe User do
 
   describe '#verified?' do
     it 'is false by default' do
-      expect(user.verified?).to eq(false)
+      expect(user.verified?).to be(false)
     end
 
     it 'is true when activation_state is `active`' do
       user.activation_state = 'active'
-      expect(user.verified?).to eq(true)
+      expect(user.verified?).to be(true)
     end
   end
 

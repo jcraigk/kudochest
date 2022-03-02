@@ -50,6 +50,7 @@ RSpec.describe Commands::Leaderboard, :freeze_time do
     end
 
     before do
+      travel_to(Time.utc(2020, 1, 1, 1, 1))
       profile1.update(points: 500, last_tip_received_at: Time.current)
       profile2.update(points: 83, last_tip_received_at: 1.hour.ago)
       profile3.update(points: 83, last_tip_received_at: 1.week.ago)

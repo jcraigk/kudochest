@@ -8,7 +8,7 @@ class Discord::SubteamSyncService < Base::SubteamSyncService
     @profile_rids[role] =
       team.profiles.active.each_with_object([]) do |profile, rids|
         rids << profile.rid if role[:rid].in?(role_rids_for(profile))
-      end
+      end.uniq
   end
 
   def remote_subteams

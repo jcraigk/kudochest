@@ -200,7 +200,7 @@ RSpec.describe ProfileDecorator do
       before { profile.update(balance: profile.team.max_level_points) }
 
       it 'returns true' do
-        expect(profile.max_level?).to eq(true)
+        expect(profile.max_level?).to be(true)
       end
     end
 
@@ -208,7 +208,7 @@ RSpec.describe ProfileDecorator do
       before { profile.update(balance: 26) }
 
       it 'returns false' do
-        expect(profile.max_level?).to eq(false)
+        expect(profile.max_level?).to be(false)
       end
     end
   end

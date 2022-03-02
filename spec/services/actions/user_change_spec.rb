@@ -49,7 +49,7 @@ RSpec.describe Actions::UserChange do
   end
 
   it 'responds silently' do
-    expect(action).to eq(true)
+    expect(action).to be(true)
   end
 
   it 'updates the profile' do

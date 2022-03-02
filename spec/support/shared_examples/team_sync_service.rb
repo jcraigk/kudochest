@@ -29,7 +29,7 @@ RSpec.shared_examples 'TeamSyncService' do
   end
 
   it 'marks extra profiles as deleted' do
-    expect(extra_profile.reload.deleted).to eq(true)
+    expect(extra_profile.reload.deleted).to be(true)
   end
 
   it 'updates team.app_profile_rid' do

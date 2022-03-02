@@ -90,7 +90,7 @@ RSpec.describe Tip do
       before { tip.quantity = -1 }
 
       it 'is true' do
-        expect(tip.jab?).to eq(true)
+        expect(tip.jab?).to be(true)
       end
     end
 
@@ -98,7 +98,7 @@ RSpec.describe Tip do
       before { tip.quantity = 1 }
 
       it 'is true' do
-        expect(tip.jab?).to eq(false)
+        expect(tip.jab?).to be(false)
       end
     end
   end
