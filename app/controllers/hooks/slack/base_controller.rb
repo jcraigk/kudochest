@@ -74,8 +74,12 @@ class Hooks::Slack::BaseController < Hooks::BaseController
     return if
       params.dig(:message, :subtype) != 'bot_message' &&
       params.dig(:event, :bot_id).blank? &&
-      params.dig(:event, :subtype).blank?
+      (subtype.blank? || subtype == 'file_share')
     head :ok
+  end
+
+  def subtype
+    @subtype ||= params.dig(:event, :subtype)
   end
 
   def verify_slack_request!
