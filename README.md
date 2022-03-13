@@ -1,10 +1,10 @@
-[![Build Status](https://www.travis-ci.com/jcraigk/kudochest.svg?branch=master)](https://www.travis-ci.com/jcraigk/kudochest)
+[![Build Status](https://www.travis-ci.com/jcraigk/kudochest.svg?branch=main)](https://www.travis-ci.com/jcraigk/kudochest)
 [![Maintainability](https://api.codeclimate.com/v1/badges/ca54364dc0911c26e35f/maintainability)](https://codeclimate.com/github/jcraigk/kudochest/maintainability)
 [![Test Coverage](https://api.codeclimate.com/v1/badges/ca54364dc0911c26e35f/test_coverage)](https://codeclimate.com/github/jcraigk/kudochest/test_coverage)
 &nbsp;  
 &nbsp;  
 
-![KudoChest Logo](https://github.com/jcraigk/kudochest/blob/master/app/webpacker/images/logos/app-144.png)
+![KudoChest Logo](https://github.com/jcraigk/kudochest/blob/main/app/webpacker/images/logos/app-144.png)
 &nbsp;  
 &nbsp;  
 
@@ -111,4 +111,4 @@ All contributions are welcome via Issues and Pull Requests. If you notice someth
 
 # Copyright
 
-This software is released under an [MIT-LICENSE](https://github.com/jcraigk/kudochest/blob/master/MIT-LICENSE).
+This software is released under an [MIT-LICENSE](https://github.com/jcraigk/kudochest/blob/main/MIT-LICENSE).
