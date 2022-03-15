@@ -79,7 +79,7 @@ class MessageScanner < Base::Service
   end
 
   def regex
-    Regexp.new("#{mention}#{space}#{triggers}#{space}#{topic_keywords}#{maybe_note}")
+    Regexp.new("#{mention}#{spaces}#{triggers}#{spaces}#{topic_keywords}#{maybe_note}")
   end
 
   def mention
@@ -137,7 +137,7 @@ class MessageScanner < Base::Service
     '\s?(?<suffix_quantity>\d+\.?\d*)?'
   end
 
-  def space
-    '\s{0,2}'
+  def spaces
+    '\s{0,20}'
   end
 end
