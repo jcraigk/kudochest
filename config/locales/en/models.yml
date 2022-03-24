@@ -2,6 +2,10 @@ en:
   activerecord:
     errors:
       models:
+        topic:
+          attributes:
+            keyword:
+              snake_case: must be in snake_case format
         profile:
           attributes:
             base:

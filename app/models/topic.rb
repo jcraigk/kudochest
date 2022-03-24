@@ -11,7 +11,7 @@ class Topic < ApplicationRecord
   validates :emoji, uniqueness: { scope: :team_id }
   validates :keyword,
             presence: true,
-            format: { with: /\A[a-z][a-z0-9_]+\z/, message: 'must be in snake_case format' },
+            format: { with: /\A[a-z][a-z0-9_]+\z/, message: :snake_case },
             length: { within: 2..20 },
             uniqueness: { scope: :team_id }
 
