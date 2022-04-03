@@ -1,6 +1,5 @@
 [![Build Status](https://www.travis-ci.com/jcraigk/kudochest.svg?branch=main)](https://www.travis-ci.com/jcraigk/kudochest)
 [![Maintainability](https://api.codeclimate.com/v1/badges/ca54364dc0911c26e35f/maintainability)](https://codeclimate.com/github/jcraigk/kudochest/maintainability)
-[![Test Coverage](https://api.codeclimate.com/v1/badges/ca54364dc0911c26e35f/test_coverage)](https://codeclimate.com/github/jcraigk/kudochest/test_coverage)
 &nbsp;  
 &nbsp;  
 

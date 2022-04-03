@@ -1,9 +1,6 @@
 doctype html
 html
   head
-    - if Rails.env.production?
-      = render partial: 'layouts/google_analytics'
-
     title #{App.app_name}
 
     = render partial: 'layouts/meta'
