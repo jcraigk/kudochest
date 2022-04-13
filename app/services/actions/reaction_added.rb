@@ -1,5 +1,9 @@
 # frozen_string_literal: true
 class Actions::ReactionAdded < Actions::ReactionBase
+  DITTO_SOURCES = %w[
+    modal inline point_reaction jab_reaction ditto_reaction topic_reaction reply
+  ].freeze
+
   def call
     return unless process_emoji?
     process_reaction_and_respond
@@ -36,10 +40,17 @@ class Actions::ReactionAdded < Actions::ReactionBase
 
   def ditto_tips
     @ditto_tips ||=
-      Tip.includes(:to_profile)
+      Tip.where(source: DITTO_SOURCES)
+         .includes(:to_profile)
          .where(event_ts: message_ts)
          .where.not(to_profile: profile)
-         .or(Tip.where(response_ts: message_ts).where.not(to_profile: profile))
+         .or(response_ts_tips)
+  end
+
+  def response_ts_tips
+    Tip.where(source: DITTO_SOURCES)
+       .where(response_ts: message_ts)
+       .where.not(to_profile: profile)
   end
 
   def author_mention

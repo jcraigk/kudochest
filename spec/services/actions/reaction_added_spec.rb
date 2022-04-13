@@ -123,6 +123,14 @@ RSpec.describe Actions::ReactionAdded do
         to_profile: sender,
         quantity:,
         response_ts: ts
+      # This should be ignored as it's from an ignored source
+      create \
+        :tip,
+        from_profile: sender,
+        to_profile: recipient2,
+        quantity:,
+        response_ts: ts,
+        source: 'streak'
       action
     end
 
