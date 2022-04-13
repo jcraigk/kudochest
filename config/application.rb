@@ -177,10 +177,7 @@ SUBTEAM_REGEX = {
   slack: /<!subteam\^([^>]+)>/,
   discord: /<@&(\d+)>/
 }.freeze
-GROUP_KEYWORD_PATTERN = {
-  slack: '<!(?<group_keyword>everyone|channel|here)>',
-  discord: '@(?<group_keyword>everyone|channel|here)'
-}.freeze
+
 SLACK_DM_NAME = 'direct-message'
 SLACK_DM_PREFIX = 'mpdm-'
 SLACK_DM_PHRASE = 'a group chat'
