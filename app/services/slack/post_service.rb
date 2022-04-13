@@ -164,12 +164,16 @@ class Slack::PostService < Base::PostService
     slack_client.views_open \
       trigger_id:,
       view: Slack::Modals::Tip.call(team_rid:)
+  rescue Slack::Web::Api::Errors::ExpiredTriggerId
+    nil
   end
 
   def render_prefs_modal
     slack_client.views_open \
       trigger_id:,
       view: Slack::Modals::Preferences.call(team_rid:, profile_rid:)
+  rescue Slack::Web::Api::Errors::ExpiredTriggerId
+    nil
   end
 
   def post_response_channel_rid
