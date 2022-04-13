@@ -11,13 +11,19 @@ class MessageScanner < Base::Service
 
   def call
     @platform = config[:platform].to_sym
-    matches_on_text || []
+    matches_on_text
   end
 
   private
 
+  def scan_results
+    @scan_results ||= sanitized_text.scan(regex).map do |match|
+      regex.names.map(&:to_sym).zip(match).to_h
+    end || []
+  end
+
   def matches_on_text # rubocop:disable Metrics/MethodLength
-    sanitized_text.presence&.scan(regex)&.map do |match|
+    scan_results.each_with_index.map do |match, idx|
       {
         rid: rid(match),
         prefix_quantity: prefix_quantity(match),
@@ -25,29 +31,29 @@ class MessageScanner < Base::Service
         inline_emoji: sanitized_emoji(match),
         suffix_quantity: suffix_quantity(match),
         topic_keyword: topic_keyword(match),
-        note: note(match)
+        note: note(idx)
       }.compact
     end
   end
 
   def topic_keyword(match)
-    match[6].presence
+    match[:topic_keywords].presence
   end
 
   def inline_text(match)
-    match[3].presence
+    match[:inlines].presence
   end
 
   def prefix_quantity(match)
-    quantity_or_nil(match[2])
+    quantity_or_nil(match[:prefix_quantity])
   end
 
   def suffix_quantity(match)
-    quantity_or_nil(match[5])
+    quantity_or_nil(match[:suffix_quantity])
   end
 
   def rid(match)
-    match[0] || match[1] # entity_rid || group_keyword
+    match[:entity_rid] || match[:group_keyword]
   end
 
   def quantity_or_nil(str)
@@ -57,29 +63,38 @@ class MessageScanner < Base::Service
   end
 
   def sanitized_emoji(match)
-    match[4]&.gsub(/[^a-z_\-:]/, '')
+    match[:emojis]&.gsub(/[^a-z_\-:]/, '')
   end
 
-  def note(match)
-    text = match[7]&.strip
-    NoteSanitizer.call(platform:, team_rid: config[:rid], text:)
+  def note(idx)
+    NoteSanitizer.call(platform:, team_rid: config[:rid], text: raw_note(idx))
   end
 
-  def maybe_note
-    '(?<note>[^<>]*)'
+  # Note is all text between matches, defaulting to tail
+  def raw_note(idx)
+    tail = text.split(scan_results[idx][:match])[1]
+    return tail if (next_match = scan_results[idx + 1]&.dig(:match)).nil?
+    intermediate_note(tail, next_match) || tail_note
+  end
+
+  def intermediate_note(tail, next_match)
+    tail&.split(next_match)&.first&.strip.presence
+  end
+
+  def tail_note
+    @tail_note ||= text.split(scan_results[-1][:match])[1]&.strip
   end
 
   def topic_keywords
-    str = config[:topics].pluck(:keyword).join('|')
-    "(?<topic_keywords>#{str})?"
+    "(?<topic_keywords>#{config[:topics]&.pluck(:keyword)&.join('|')})?"
   end
 
   def sanitized_text
-    text&.strip&.tr("\u00A0", ' ') # Unicode space (from Slack)
+    text&.strip&.tr("\u00A0", ' ') || '' # `\u00A0` is unicode space (from Slack)
   end
 
   def regex
-    Regexp.new("#{mention}#{spaces}#{triggers}#{spaces}#{topic_keywords}#{maybe_note}")
+    Regexp.new("(?<match>#{mention}#{spaces}#{triggers}#{spaces}#{topic_keywords})")
   end
 
   def mention
@@ -99,7 +114,7 @@ class MessageScanner < Base::Service
           (?:#{LEGACY_SLACK_SUFFIX_PATTERN})?
         >
         |
-        #{GROUP_KEYWORD_PATTERN[platform]}
+        #{group_keyword_pattern[platform]}
       )
     TEXT
   end
@@ -139,5 +154,12 @@ class MessageScanner < Base::Service
 
   def spaces
     '\s{0,20}'
+  end
+
+  def group_keyword_pattern
+    {
+      slack: '<!(?<group_keyword>everyone|channel|here)>',
+      discord: '@(?<group_keyword>everyone|channel|here)'
+    }
   end
 end

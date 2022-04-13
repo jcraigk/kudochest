@@ -18,7 +18,7 @@ RSpec.describe MessageScanner do
     end
   end
 
-  context 'with topic keywords' do
+  context 'with topic keywords and single trailing note' do
     let!(:topic1) { create(:topic, team:) }
     let!(:topic2) { create(:topic, team:) }
     let(:text) { "<#{rid1}>++2.5 #{topic1.keyword} <#{rid2}> 3.-- #{topic2.keyword} #{note}" }
@@ -28,7 +28,8 @@ RSpec.describe MessageScanner do
           rid: rid1,
           inline_text: '++',
           suffix_quantity: 2.5,
-          topic_keyword: topic1.keyword
+          topic_keyword: topic1.keyword,
+          note:
         },
         {
           rid: rid2,
@@ -43,7 +44,7 @@ RSpec.describe MessageScanner do
     include_examples 'success'
   end
 
-  context 'with inline emoji' do
+  context 'with inline emoji and personalized notes' do
     let(:text) do
       "<#{rid1}> #{team.point_emoj} #{team.point_emoj} #{note} " \
         "<#{rid2}>#{team.jab_emoj} #{note2}"

@@ -320,21 +320,22 @@ class TipResponseService < Base::Service # rubocop:disable Metrics/ClassLength
   end
 
   def note_fragment(medium)
-    return if note.blank?
-    "Note: #{formatted_note(medium)}"
+    return if notes.none?
+    sentence = notes.map { |text| formatted_note(medium, text) }.to_sentence
+    "Note#{notes.size > 1 ? 's' : nil}: #{sentence}"
   end
 
-  def formatted_note(medium)
+  def notes
+    @notes ||= tips.map(&:note).uniq
+  end
+
+  def formatted_note(medium, text)
     case medium
-    when :image then note
-    when :slack then "_#{note}_"
-    when :discord then "*#{note}*"
-    when :web then "<i>#{note}</i>"
+    when :image then text
+    when :slack then "_#{text}_"
+    when :discord then "*#{text}*"
+    when :web then "<i>#{text}</i>"
     end
-  end
-
-  def note
-    @note ||= first_tip.note
   end
 
   ProfileLeveling = Struct.new(:profile, :new_points, :delta)
