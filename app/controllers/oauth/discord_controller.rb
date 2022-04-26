@@ -39,8 +39,8 @@ class Oauth::DiscordController < ApplicationController
 
   def oauth_params
     {
-      client_id: ENV['DISCORD_CLIENT_ID'],
-      client_secret: ENV['DISCORD_CLIENT_SECRET'],
+      client_id: ENV.fetch('DISCORD_CLIENT_ID', nil),
+      client_secret: ENV.fetch('DISCORD_CLIENT_SECRET', nil),
       code: params[:code],
       grant_type: 'authorization_code',
       redirect_uri: oauth_discord_integration_url,
@@ -49,7 +49,7 @@ class Oauth::DiscordController < ApplicationController
   end
 
   def default_avatar_url
-    "https://#{ENV['WEB_DOMAIN']}/assets/static/team-default-256.webp"
+    "https://#{ENV.fetch('WEB_DOMAIN', 'localhost')}/assets/static/team-default-256.webp"
   end
 
   def avatar_url

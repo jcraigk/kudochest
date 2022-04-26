@@ -23,7 +23,7 @@ class ResponseImageService < Base::Service
 
   def store_image
     Aws::S3::Client.new.put_object \
-      bucket: ENV['RESPONSE_IMAGE_AWS_BUCKET'],
+      bucket: ENV.fetch('RESPONSE_IMAGE_AWS_BUCKET', nil),
       key:,
       body: File.read(image_file)
     File.delete(image_file)
@@ -31,13 +31,13 @@ class ResponseImageService < Base::Service
 
   def assign_image_acl
     Aws::S3::Client.new.put_object_acl \
-      bucket: ENV['RESPONSE_IMAGE_AWS_BUCKET'],
+      bucket: ENV.fetch('RESPONSE_IMAGE_AWS_BUCKET', nil),
       key:,
       acl: 'public-read'
   end
 
   def image_url
-    @image_url ||= "https://#{ENV['RESPONSE_IMAGE_HOST']}/#{key}"
+    @image_url ||= "https://#{ENV.fetch('RESPONSE_IMAGE_HOST', 'localhost')}/#{key}"
   end
 
   def image_file

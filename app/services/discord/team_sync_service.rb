@@ -15,7 +15,7 @@ class Discord::TeamSyncService < Base::TeamSyncService
   end
 
   def app_bot?(member)
-    bot?(member) && member[:username] == (ENV['DISCORD_APP_USERNAME'] || App.app_name)
+    bot?(member) && member[:username] == ENV.fetch('DISCORD_APP_USERNAME', App.app_name)
   end
 
   def bot?(member)
@@ -39,7 +39,7 @@ class Discord::TeamSyncService < Base::TeamSyncService
   end
 
   def default_avatar_url
-    "https://#{ENV['WEB_DOMAIN']}/assets/static/profile-default-256.webp"
+    "https://#{ENV.fetch('WEB_DOMAIN', 'localhost')}/assets/static/profile-default-256.webp"
   end
 
   def avatar_url(member)

@@ -17,9 +17,11 @@ class Discord::SubteamSyncService < Base::SubteamSyncService
 
   def app_subteam_rid
     @app_subteam_rid ||=
-      raw_subteams.select { |role| role[:managed] }
-                  .find { |role| role[:name] == ENV['DISCORD_APP_USERNAME'] || App.app_name }
-                  &.dig(:id)
+      raw_subteams
+      .select { |role| role[:managed] }
+      .find do |role|
+        role[:name] == ENV.fetch('DISCORD_APP_USERNAME', App.app_name)
+      end&.dig(:id)
   end
 
   def raw_subteams
