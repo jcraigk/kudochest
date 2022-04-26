@@ -12,14 +12,14 @@ Rails.application.config.sorcery.configure do |config|
 
   # Discord
   config.discord.callback_url = "#{App.base_url}/oauth/callback/discord"
-  config.discord.key = ENV['DISCORD_CLIENT_ID']
-  config.discord.secret = ENV['DISCORD_CLIENT_SECRET']
+  config.discord.key = ENV.fetch('DISCORD_CLIENT_ID', nil)
+  config.discord.secret = ENV.fetch('DISCORD_CLIENT_SECRET', nil)
   config.discord.scope = 'email'
   config.discord.user_info_mapping = { email: 'email' }
 
   # Facebook
-  config.facebook.key = ENV['OAUTH_FACEBOOK_KEY']
-  config.facebook.secret = ENV['OAUTH_FACEBOOK_SECRET']
+  config.facebook.key = ENV.fetch('OAUTH_FACEBOOK_KEY', nil)
+  config.facebook.secret = ENV.fetch('OAUTH_FACEBOOK_SECRET', nil)
   config.facebook.callback_url = "#{App.base_url}/oauth/callback/facebook"
   config.facebook.user_info_path = 'me?fields=email'
   config.facebook.user_info_mapping = { email: 'email' }
@@ -29,19 +29,19 @@ Rails.application.config.sorcery.configure do |config|
   config.facebook.parse = :json
 
   # Google
-  config.google.key = ENV['OAUTH_GOOGLE_KEY']
-  config.google.secret = ENV['OAUTH_GOOGLE_SECRET']
+  config.google.key = ENV.fetch('OAUTH_GOOGLE_KEY', nil)
+  config.google.secret = ENV.fetch('OAUTH_GOOGLE_SECRET', nil)
   config.google.callback_url = "#{App.base_url}/oauth/callback/google"
   config.google.user_info_mapping = { email: 'email' }
   config.google.scope = 'https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile'
 
   # Slack
   config.slack.callback_url = "#{App.base_url}/oauth/callback/slack"
-  config.slack.key = ENV['SLACK_CLIENT_ID']
-  config.slack.secret = ENV['SLACK_CLIENT_SECRET']
+  config.slack.key = ENV.fetch('SLACK_CLIENT_ID', nil)
+  config.slack.secret = ENV.fetch('SLACK_CLIENT_SECRET', nil)
   config.slack.user_info_mapping = { email: 'email' }
 
-  config.cookie_domain = ENV['WEB_DOMAIN']
+  config.cookie_domain = ENV.fetch('WEB_DOMAIN', 'localhost')
 
   # General auth settings
   config.user_class = 'User'

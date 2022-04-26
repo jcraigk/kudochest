@@ -22,10 +22,12 @@ module KudoChest
     config.active_job.queue_adapter = :sidekiq
 
     ## Basic Info
-    config.app_name = ENV['APP_DISPLAY_NAME'] || ENV['APP_NAME'] || 'KudoChest'
+    config.app_name = ENV.fetch('APP_NAME', 'KudoChest')
     config.bot_name = ENV.fetch('BOT_NAME', 'KudoChest')
-    config.base_url = ENV.fetch('BASE_URL', "https://#{ENV['WEB_DOMAIN']}")
-    config.from_email = ENV.fetch('FROM_EMAIL', "#{config.app_name} <noreply@#{ENV['WEB_DOMAIN']}>")
+    config.base_url = ENV.fetch('BASE_URL', "https://#{ENV.fetch('WEB_DOMAIN', 'localhost')}")
+    config.from_email = ENV.fetch \
+      'FROM_EMAIL',
+      "#{config.app_name} <noreply@#{ENV.fetch('WEB_DOMAIN', 'localhost')}>"
     config.point_term = ENV.fetch('POINT_TERM', 'kudo')
     config.points_term = ENV.fetch('POINTS_TERM', 'kudos')
     config.jab_term = ENV.fetch('POINT_TERM', 'kudont')
@@ -34,7 +36,7 @@ module KudoChest
     config.jab_singular_prefix = ENV.fetch('JAB_SINGULAR_PREFIX', 'a')
     config.help_url = 'https://github.com/jcraigk/kudochest/wiki'
     config.issues_url = 'https://github.com/jcraigk/kudochest/issues'
-    config.asset_host = ENV['ASSET_HOST']
+    config.asset_host = ENV.fetch('ASSET_HOST', nil)
 
     ## Access Control
     # Default to single team install
@@ -45,10 +47,10 @@ module KudoChest
     # Possible values: [slack discord google facebook]
     providers = ENV['OAUTH_PROVIDERS'].presence&.split(',')&.map(&:to_sym)
     config.oauth_providers = providers || []
-    config.shared_admin = ENV.fetch('SHARED_ADMIN', 'false').to_s.casecmp('true').zero?
+    config.shared_admin = ENV.fetch('SHARED_ADMIN', 'false').casecmp('true').zero?
 
     ## Slack
-    config.slack_app_id = ENV['SLACK_APP_ID']
+    config.slack_app_id = ENV.fetch('SLACK_APP_ID', nil)
     config.base_command = ENV.fetch('BASE_COMMAND', 'kudos')
     config.default_point_emoji = 'star'
     config.default_jab_emoji = 'arrow_down'
@@ -56,7 +58,7 @@ module KudoChest
 
     ## Discord
     config.discord_cdn_base = 'https://cdn.discordapp.com'
-    config.discord_token = "Bot #{ENV['DISCORD_BOT_TOKEN']}"
+    config.discord_token = "Bot #{ENV.fetch('DISCORD_BOT_TOKEN', nil)}"
     config.discord_command = "!#{config.base_command}"
     config.discord_point_emoji = 'plus_plus'
     config.discord_jab_emoji = 'minus_minus'
@@ -68,11 +70,11 @@ module KudoChest
     config.action_mailer.delivery_method = :smtp
     config.action_mailer.smtp_settings = {
       authentication: :plain,
-      address: ENV['SMTP_ADDRESS'],
+      address: ENV.fetch('SMTP_ADDRESS', nil),
       port: 587,
-      domain: ENV['SMTP_DOMAIN'],
-      user_name: ENV['SMTP_USERNAME'],
-      password: ENV['SMTP_PASSWORD']
+      domain: ENV.fetch('SMTP_DOMAIN', nil),
+      user_name: ENV.fetch('SMTP_USERNAME', nil),
+      password: ENV.fetch('SMTP_PASSWORD', nil)
     }
 
     ## Feature defaults/limits

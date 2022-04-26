@@ -22,7 +22,7 @@ Rails.application.configure do
   config.public_file_server.enabled = true # Expose precompiled assets
 
   # Default to quiet logging for privacy
-  config.log_level = ENV['LOG_LEVEL'] || :error
+  config.log_level = ENV.fetch('LOG_LEVEL', :error)
 
   # Prepend all log lines with the following tags.
   config.log_tags = [:request_id]
@@ -43,7 +43,7 @@ Rails.application.configure do
 
   config.action_mailer.default_url_options = { host: config.base_url }
 
-  config.action_controller.asset_host = ENV['ASSET_HOST']
+  config.action_controller.asset_host = ENV.fetch('ASSET_HOST', 'localhost')
 
   config.active_record.dump_schema_after_migration = false
 end

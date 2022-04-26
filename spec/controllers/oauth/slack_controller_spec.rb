@@ -14,8 +14,8 @@ describe Oauth::SlackController do
   let(:web_client) { instance_spy(Slack::Web::Client) }
   let(:client_params) do
     {
-      client_id: ENV['SLACK_CLIENT_ID'],
-      client_secret: ENV['SLACK_CLIENT_SECRET'],
+      client_id: ENV.fetch('SLACK_CLIENT_ID', nil),
+      client_secret: ENV.fetch('SLACK_CLIENT_SECRET', nil),
       code:
     }
   end

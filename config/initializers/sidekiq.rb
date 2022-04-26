@@ -1,5 +1,5 @@
 # frozen_string_literal: true
-Sidekiq.default_worker_options = { backtrace: true }
+Sidekiq.default_job_options = { backtrace: true }
 
 redis_url = "redis://#{ENV['IN_DOCKER'] ? 'redis' : 'localhost'}:6379"
 redis_config = { url: ENV['REDIS_URL'].presence || redis_url }

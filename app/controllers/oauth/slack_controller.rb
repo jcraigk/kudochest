@@ -13,8 +13,8 @@ class Oauth::SlackController < ApplicationController
   def oauth_data
     @oauth_data ||=
       Slack::Web::Client.new.oauth_v2_access(
-        client_id: ENV['SLACK_CLIENT_ID'],
-        client_secret: ENV['SLACK_CLIENT_SECRET'],
+        client_id: ENV.fetch('SLACK_CLIENT_ID', nil),
+        client_secret: ENV.fetch('SLACK_CLIENT_SECRET', nil),
         code: params[:code]
       ).deep_symbolize_keys
   end
