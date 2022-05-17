@@ -58,7 +58,6 @@ end
 group :test do
   gem 'capybara'
   gem 'capybara-screenshot'
-  gem 'database_cleaner-active_record', '~> 1.8'
   gem 'rspec-rails'
   gem 'selenium-webdriver'
   gem 'shoulda-matchers'
