@@ -128,10 +128,10 @@ LeaderboardPage = Struct.new(:updated_at, :profiles)
 STORAGE_PATH =
   if Rails.env.test?
     Rails.root.join('tmp/storage')
-  elsif ENV['IN_DOCKER']
+  elsif ENV.fetch('IN_DOCKER', false)
     '/storage'
   else
-    ENV['STORAGE_PATH']
+    ENV.fetch('STORAGE_PATH', '/')
   end
 
 COMMAND_KEYWORDS = {
