@@ -25,7 +25,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_02_23_184718) do
   end
 
   create_table "channels", force: :cascade do |t|
-    t.integer "team_id"
+    t.bigint "team_id"
     t.string "rid", null: false
     t.string "name", null: false
     t.boolean "shared", null: false
@@ -49,8 +49,8 @@ ActiveRecord::Schema[7.0].define(version: 2022_02_23_184718) do
   end
 
   create_table "profiles", force: :cascade do |t|
-    t.integer "team_id"
-    t.integer "user_id"
+    t.bigint "team_id"
+    t.bigint "user_id"
     t.string "rid", null: false
     t.string "display_name", null: false
     t.string "real_name", null: false
@@ -108,15 +108,15 @@ ActiveRecord::Schema[7.0].define(version: 2022_02_23_184718) do
   end
 
   create_table "subteam_memberships", id: false, force: :cascade do |t|
-    t.integer "profile_id"
-    t.integer "subteam_id"
+    t.bigint "profile_id"
+    t.bigint "subteam_id"
     t.index ["profile_id", "subteam_id"], name: "index_subteam_memberships_on_profile_id_and_subteam_id", unique: true
     t.index ["profile_id"], name: "index_subteam_memberships_on_profile_id"
     t.index ["subteam_id"], name: "index_subteam_memberships_on_subteam_id"
   end
 
   create_table "subteams", force: :cascade do |t|
-    t.integer "team_id"
+    t.bigint "team_id"
     t.string "rid", null: false
     t.string "name", null: false
     t.string "description"
