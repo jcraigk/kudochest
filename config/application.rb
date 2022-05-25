@@ -42,10 +42,10 @@ module KudoChest
     # Default to single team install
     config.max_teams = ENV.fetch('MAX_TEAMS', 1)
     # ['example.org'] to restrict to `bob@example.org` etc
-    domains = ENV['USER_EMAIL_DOMAINS'].presence&.split(',')
+    domains = ENV.fetch('USER_EMAIL_DOMAINS', nil).presence&.split(',')
     config.user_email_domains = domains || []
     # Possible values: [slack discord google facebook]
-    providers = ENV['OAUTH_PROVIDERS'].presence&.split(',')&.map(&:to_sym)
+    providers = ENV.fetch('OAUTH_PROVIDERS', nil).presence&.split(',')&.map(&:to_sym)
     config.oauth_providers = providers || []
     config.shared_admin = ENV.fetch('SHARED_ADMIN', 'false').casecmp('true').zero?
 

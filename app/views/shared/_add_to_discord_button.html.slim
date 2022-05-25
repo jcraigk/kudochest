@@ -1,4 +1,4 @@
-a.button.discord-btn href="https://discordapp.com/api/oauth2/authorize?permissions=#{App.discord_permission}&client_id=#{ENV['DISCORD_CLIENT_ID']}&response_type=code&scope=bot&redirect_uri=#{ERB::Util.url_encode(oauth_discord_integration_url)}&state=#{current_user.reg_token}"
+a.button.discord-btn href="https://discordapp.com/api/oauth2/authorize?permissions=#{App.discord_permission}&client_id=#{ENV.fetch('DISCORD_CLIENT_ID', nil)}&response_type=code&scope=bot&redirect_uri=#{ERB::Util.url_encode(oauth_discord_integration_url)}&state=#{current_user.reg_token}"
   i.fab.fa-discord.fa-lg
   | &nbsp;&nbsp;
   | Add to

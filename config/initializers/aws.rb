@@ -1,7 +1,8 @@
 # frozen_string_literal: true
 require 'aws-sdk-s3'
 
-if ENV['AWS_ROLE_ARN'].present? && ENV['AWS_WEB_IDENTITY_TOKEN_FILE'].present?
+if ENV.fetch('AWS_ROLE_ARN', nil).present? &&
+   ENV.fetch('AWS_WEB_IDENTITY_TOKEN_FILE', nil).present?
   Aws.config.update \
     credentials: Aws::AssumeRoleWebIdentityCredentials.new(
       client: Aws::STS::Client.new,

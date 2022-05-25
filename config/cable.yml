@@ -6,5 +6,5 @@ test:
 
 production:
   adapter: redis
-  url: <%= ENV['redis_url'] %>
+  url: <%= ENV.fetch('redis_url', nil) %>
   channel_prefix: kudochest

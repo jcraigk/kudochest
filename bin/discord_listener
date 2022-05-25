@@ -14,7 +14,7 @@ if delay.positive?
   sleep(delay)
 end
 
-bot = Discordrb::Bot.new(token: ENV['DISCORD_BOT_TOKEN'])
+bot = Discordrb::Bot.new(token: ENV.fetch('DISCORD_BOT_TOKEN', nil))
 Discord::BotEventService.call(bot: bot)
 at_exit { bot.stop }
 bot.run

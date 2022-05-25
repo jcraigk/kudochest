@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 Sidekiq.default_job_options = { backtrace: true }
 
-redis_url = "redis://#{ENV['IN_DOCKER'] ? 'redis' : 'localhost'}:6379"
-redis_config = { url: ENV['REDIS_URL'].presence || redis_url }
+redis_url = "redis://#{ENV.fetch('IN_DOCKER', false) ? 'redis' : 'localhost'}:6379"
+redis_config = { url: ENV.fetch('REDIS_URL', redis_url) }
 
 Sidekiq.configure_server do |config|
   config.redis = redis_config

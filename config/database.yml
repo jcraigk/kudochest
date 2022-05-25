@@ -2,7 +2,7 @@ default: &default
   adapter: postgresql
   username: postgres
   password: postgres
-  host: <%= ENV['IN_DOCKER'] ? 'pg' : 'localhost' %>
+  host: <%= ENV.fetch('IN_DOCKER', false) ? 'pg' : 'localhost' %>
   port: 5432
   encoding: unicode
 
@@ -20,8 +20,8 @@ test:
 
 production:
   <<: *default
-  host: <%= ENV['DB_HOST'] %>
-  username: <%= ENV['DB_USER'] %>
-  password: <%= ENV['DB_PASSWORD'] %>
-  database: <%= ENV['DB_NAME'] %>
-  pool: <%= ENV['DB_POOL'] || 10 %>
+  host: <%= ENV.fetch('DB_HOST', nil) %>
+  username: <%= ENV.fetch('DB_USER', nil) %>
+  password: <%= ENV.fetch('DB_PASSWORD', nil) %>
+  database: <%= ENV.fetch('DB_NAME', nil) %>
+  pool: <%= ENV.fetch('DB_POOL', 10) %>

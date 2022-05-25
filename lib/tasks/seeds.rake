@@ -82,7 +82,7 @@ namespace :seeds do
         quantity:,
         fulfillment_keys: auto_fulfill ? fulfillment_keys.join("\n") : nil,
         active: rand(3).to_i != 1
-      next if rand(3).to_i.positive? || ENV['SKIP_CLAIMS'].present?
+      next if rand(3).to_i.positive? || ENV.fetch('SKIP_CLAIMS', nil).present?
       fulfilled = auto_fulfill ? true : rand(2).to_i.even?
       max_claims = auto_fulfill ? fulfillment_keys.size : quantity
       num_claims = rand(2).to_i.even? ? max_claims : rand(max_claims).to_i
