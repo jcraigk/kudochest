@@ -64,7 +64,10 @@ class Base::PostService < Base::Service
   end
 
   def attach_tips_to_response
-    return if tips.blank? || (response_mode == :silent && log_channel_rid.blank?)
+    return if tips.blank? ||
+              post_response_ts.blank? ||
+              (response_mode == :silent && log_channel_rid.blank?)
+
     Tip.where(id: tips.map(&:id)).update_all( # rubocop:disable Rails/SkipsModelValidations
       response_channel_rid: log_channel_rid.presence || post_response_channel_rid,
       response_ts: post_response_ts

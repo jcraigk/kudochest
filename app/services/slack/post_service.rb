@@ -147,7 +147,7 @@ class Slack::PostService < Base::PostService
     slack_client.chat_update \
       message_params(replace_channel_rid).merge(ts: replace_ts)
   rescue Slack::Web::Api::Errors::FatalError # Unclear why this appears occasionally
-    false
+    nil
   end
 
   def delete_message
@@ -181,7 +181,7 @@ class Slack::PostService < Base::PostService
   end
 
   def post_response_ts
-    post_response[:ts]
+    post_response&.dig(:ts)
   end
 
   def recipients

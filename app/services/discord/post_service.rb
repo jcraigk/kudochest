@@ -39,7 +39,7 @@ class Discord::PostService < Base::PostService
   end
 
   def post_response_ts
-    post_response[:id]
+    post_response&.dig(:id)
   end
 
   def fast_ack_text
