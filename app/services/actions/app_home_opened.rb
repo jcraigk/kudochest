@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 class Actions::AppHomeOpened < Actions::Base
   def call
-    return if profile.welcomed_at
+    return if profile&.welcomed_at
 
     mark_profile_welcomed
     respond
@@ -10,7 +10,7 @@ class Actions::AppHomeOpened < Actions::Base
   private
 
   def mark_profile_welcomed
-    profile.update!(welcomed_at: Time.current)
+    profile&.update!(welcomed_at: Time.current)
   end
 
   def respond

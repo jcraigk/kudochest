@@ -65,7 +65,7 @@ class Slack::PostService < Base::PostService
 
   def respond_in_convo(channel = nil, thread = thread_ts)
     slack_client.chat_postMessage(message_params(channel, thread))
-  rescue Slack::Web::Api::Errors::SlackError
+  rescue Slack::Web::Api::Errors::SlackError, UncaughtThrowError
     respond_not_in_channel
   end
 
