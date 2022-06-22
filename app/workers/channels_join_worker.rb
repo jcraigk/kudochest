@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 class ChannelsJoinWorker
   include Sidekiq::Worker
-  sidekiq_options queue: :presence, lock: :until_executed
+  sidekiq_options queue: :default, lock: :until_executed
 
   attr_reader :team_id
 

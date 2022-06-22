@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 class ChatPermalinkWorker
   include Sidekiq::Worker
-  sidekiq_options queue: :permalink
+  sidekiq_options queue: :default
 
   SOURCES = %w[inline point_reaction jab_reaction ditto_reaction topic_reaction reply].freeze
 

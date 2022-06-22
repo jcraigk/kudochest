@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 class LeaderboardRefreshWorker
   include Sidekiq::Worker
-  sidekiq_options queue: :leaderboard
+  sidekiq_options queue: :default
 
   attr_reader :team_id, :giving_board, :jab_board
 

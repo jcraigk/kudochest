@@ -3,7 +3,7 @@ class WeeklyReport::TeamWorker
   include ActionView::Helpers::TextHelper
   include Sidekiq::Worker
 
-  sidekiq_options queue: :weekly_report
+  sidekiq_options queue: :default
 
   attr_reader :team_id
 

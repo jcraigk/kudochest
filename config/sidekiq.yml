@@ -1,20 +1,8 @@
-:concurrency: 10
 :max_retries: 5
 :queues:
-  - ['channel_sync', 1]
-  - ['chat_event', 5]
-  - ['data_export', 1]
-  - ['default', 1]
-  - ['hourly', 1]
-  - ['leaderboard', 2]
-  - ['permalink', 1]
-  - ['presence', 1]
-  - ['team_rename', 1]
-  - ['team_reset', 1]
-  - ['team_sync', 2]
-  - ['token_dispersal', 1]
-  - ['token_reset', 1]
-  - ['weekly_report', 1]
+  - ['critical', 5]
+  - ['default', 3]
+  - ['low', 1]
 
 :schedule:
   HourlyTeamWorker:
