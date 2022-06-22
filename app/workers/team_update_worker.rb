@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 class TeamUpdateWorker
   include Sidekiq::Worker
-  sidekiq_options queue: :default
 
   def perform(team_rid, name, avatar_url = nil)
     team = Team.find_by!(rid: team_rid)

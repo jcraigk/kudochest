@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 class WeeklyReport::RecurrentWorker
   include Sidekiq::Worker
-  sidekiq_options queue: :default
 
   def perform
     run_team_report_workers

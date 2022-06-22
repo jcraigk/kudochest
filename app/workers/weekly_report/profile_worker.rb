@@ -4,8 +4,6 @@ class WeeklyReport::ProfileWorker
   include PointsHelper
   include Sidekiq::Worker
 
-  sidekiq_options queue: :default
-
   TIMEFRAME = 1.week.freeze
   TEAM_CACHE_TTL = 10.minutes
 

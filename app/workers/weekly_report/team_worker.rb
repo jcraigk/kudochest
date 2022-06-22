@@ -3,8 +3,6 @@ class WeeklyReport::TeamWorker
   include ActionView::Helpers::TextHelper
   include Sidekiq::Worker
 
-  sidekiq_options queue: :default
-
   attr_reader :team_id
 
   def perform(team_id)
