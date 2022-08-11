@@ -60,7 +60,7 @@ class Commands::Report < Commands::Base
   def team_points_detail
     "#{points_format(team_data.points_given)} from " \
       "#{pluralize(team_data.point_givers.size, 'user')} to " \
-      " #{pluralize(team_data.point_recipients.size, 'user')}"
+      "#{pluralize(team_data.point_recipients.size, 'user')}"
   end
 
   def team_jabs_str

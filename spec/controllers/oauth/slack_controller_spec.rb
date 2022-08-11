@@ -46,7 +46,7 @@ describe Oauth::SlackController do
   end
 
   xit 'calls TeamRegistrar and redirects' do
-    expect(response.status).to eq(302)
+    expect(response).to have_http_status(:found)
     expect(TeamRegistrar).to have_received(:call).with(team_data)
   end
 end

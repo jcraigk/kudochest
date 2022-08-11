@@ -64,16 +64,16 @@ class Team < ApplicationRecord
   attribute :show_note,          :boolean, default: true
   attribute :split_tip,          :boolean, default: false
   attribute :weekly_report,      :boolean, default: true
-  attribute :point_emoji,        :string,  default: App.default_point_emoji
-  attribute :ditto_emoji,        :string,  default: App.default_ditto_emoji
-  attribute :time_zone,          :string,  default: App.default_time_zone
-  attribute :streak_duration,    :integer, default: App.default_streak_duration
-  attribute :streak_reward,      :integer, default: App.default_streak_reward
-  attribute :max_level,          :integer, default: App.default_max_level
-  attribute :max_level_points,   :integer, default: App.default_max_level_points
-  attribute :token_quantity,     :integer, default: App.default_token_quantity
-  attribute :token_max,          :integer, default: App.default_token_max
-  attribute :action_hour,        :integer, default: App.default_action_hour
+  attribute :point_emoji,        :string,  default: -> { App.default_point_emoji }
+  attribute :ditto_emoji,        :string,  default: -> { App.default_ditto_emoji }
+  attribute :time_zone,          :string,  default: -> { App.default_time_zone }
+  attribute :streak_duration,    :integer, default: -> { App.default_streak_duration }
+  attribute :streak_reward,      :integer, default: -> { App.default_streak_reward }
+  attribute :max_level,          :integer, default: -> { App.default_max_level }
+  attribute :max_level_points,   :integer, default: -> { App.default_max_level_points }
+  attribute :token_quantity,     :integer, default: -> { App.default_token_quantity }
+  attribute :token_max,          :integer, default: -> { App.default_token_max }
+  attribute :action_hour,        :integer, default: -> { App.default_action_hour }
   attribute :work_days_mask,     :integer, default: 62 # monday - friday
   attribute :member_count,       :integer, default: 0
   attribute :points_sent,        :decimal, default: 0.0

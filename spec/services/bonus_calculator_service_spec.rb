@@ -10,8 +10,8 @@ RSpec.describe BonusCalculatorService, :freeze_time do
   let(:args) do
     {
       team:,
-      start_date: (2.days.ago).strftime('%Y-%m-%d'),
-      end_date: (2.days.from_now).strftime('%Y-%m-%d'),
+      start_date: 2.days.ago.strftime('%Y-%m-%d'),
+      end_date: 2.days.from_now.strftime('%Y-%m-%d'),
       include_streak_points:,
       include_imported_points:,
       style:,

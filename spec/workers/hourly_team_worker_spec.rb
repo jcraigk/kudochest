@@ -29,7 +29,7 @@ RSpec.describe HourlyTeamWorker do
       hint_frequency: 'hourly',
       hint_channel_rid: 'foo'
   end
-  let(:travel_to_time) { (1.month.from_now).change(hour: current_hour) }
+  let(:travel_to_time) { 1.month.from_now.change(hour: current_hour) }
 
   before do
     travel_to(current_time)

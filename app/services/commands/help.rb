@@ -71,8 +71,8 @@ class Commands::Help < Commands::Base
   end
 
   def discord_ditto
-    "\n  * React to #{giving_terms} message with #{team.ditto_emoj}" \
-      " (#{team.ditto_emoji}) to \"ditto\" it"
+    "\n  * React to #{giving_terms} message with #{team.ditto_emoj} " \
+      "(#{team.ditto_emoji}) to \"ditto\" it"
   end
 
   def discord_point_inlines
