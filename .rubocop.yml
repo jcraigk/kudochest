@@ -55,6 +55,8 @@ RSpec/MultipleMemoizedHelpers:
   Enabled: false
 RSpec/NestedGroups:
   Max: 4
+RSpec/NoExpectationExample: # Bug with custom matchers
+  Enabled: false
 Style/AsciiComments:
   Enabled: false
 Style/ClassAndModuleChildren:

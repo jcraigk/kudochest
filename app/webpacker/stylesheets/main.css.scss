@@ -32,19 +32,19 @@ $radius: 5px;
 @import "bulma";
 @import "bulma-tooltip";
 @import "select2";
-@import "vendor/select-pure";
-@import "vendor/bulma-switch";
+@import "vendor/select-pure.css.scss";
+@import "vendor/bulma-switch.sass";
 
-@import "dashboard";
-@import "errors";
-@import "fontawesome_svg_fix";
-@import "help";
-@import "navbar";
-@import "platforms";
-@import "shop";
-@import "team_owner";
-@import "topics";
-@import "wallboard";
+@import "dashboard.css.scss";
+@import "errors.css.scss";
+@import "fontawesome_svg_fix.css.scss";
+@import "help.css.scss";
+@import "navbar.css.scss";
+@import "platforms.css.scss";
+@import "shop.css.scss";
+@import "team_owner.css.scss";
+@import "topics.css.scss";
+@import "wallboard.css.scss";
 
 .add-btn-container {
   width: 300px;
