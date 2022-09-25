@@ -18,7 +18,8 @@ en:
     new: Add Topic
     created: Topic created successfully
     edit: Edit Topic
-    total_points: Total %{points_title} 
+    total_points: Total %{points_title}
+    total_points_tooltip: The sum of all %{points_title} given under this topic.
     active: Active
     active_tooltip: You may disable this topic at any time to prevent new uses
     title: Topics

@@ -58,7 +58,7 @@
             = link_to points_format(@topic.tips.sum(&:quantity), label: true),
                       tips_path(topic_id: @topic.id),
                       class: 'button is-link'
-            = tooltip_btn('rewards.claims_tooltip')
+            = tooltip_btn('rewards.total_points_tooltip')
 
   .has-text-right
     - if @topic.persisted? && @topic.tips.count.zero?
