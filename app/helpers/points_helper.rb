@@ -1,9 +1,11 @@
 # frozen_string_literal: true
 module PointsHelper
+  include ActionView::Helpers::NumberHelper
+
   def points_format(points, opts = {})
     return '0' if points.blank?
     points = BigDecimal(points.to_s)
-    str = opts[:label] ? point_label_fragments(points, opts).join(' ') : formatted_points(points)
+    str = opts[:label] ? labeled_points(points, opts) : formatted_points(points, opts)
     str = "+#{str}" if opts[:plus_prefix] && points.positive?
     str = tag.span(str, class: points_class(points)) if opts[:colorize]
     str
@@ -13,12 +15,16 @@ module PointsHelper
     "points-#{points.positive? ? 'positive' : 'negative'}"
   end
 
+  def labeled_points(points, opts)
+    point_label_fragments(points, opts).join(' ')
+  end
+
   def point_label_fragments(points, opts)
     if points == 1 then one_point_fragments
     elsif points == -1 then minus_one_point_fragments(opts)
     elsif points.negative? then minus_points_fragments(points, opts)
     else
-      positive_points_fragments(points)
+      positive_points_fragments(points, opts)
     end
   end
 
@@ -33,15 +39,20 @@ module PointsHelper
 
   def minus_points_fragments(points, opts)
     t = App.jabs_term
-    [formatted_points(points.abs), (opts[:bold_jab] ? "*#{t}*" : t)]
+    [formatted_points(points.abs, opts), (opts[:bold_jab] ? "*#{t}*" : t)]
   end
 
-  def positive_points_fragments(points)
-    [formatted_points(points), App.points_term]
+  def positive_points_fragments(points, opts)
+    [formatted_points(points, opts), App.points_term]
   end
 
-  def formatted_points(points)
+  def formatted_points(points, opts)
     return '0' if points.to_f.zero?
+    return number_to_human(points) if opts[:humanize]
+    format_points(points)
+  end
+
+  def format_points(points)
     format('%<points>.2f', points:)
       .delete_suffix('0')
       .delete_suffix('0')

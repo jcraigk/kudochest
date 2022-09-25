@@ -37,8 +37,8 @@ module ProfileDecorator
 
   def dashboard_link_with_stat
     case team.platform.to_sym
-    when :slack then "<#{web_url}|#{display_name} (#{points_format(total_points)})>"
-    when :discord then "**#{display_name} (#{points_format(total_points)})**"
+    when :slack then "<#{web_url}|#{display_name} (#{points_format(total_points, humanize: true)})>"
+    when :discord then "**#{display_name} (#{points_format(total_points, humanize: true)})**"
     when :web then web_profile_link
     end
   end
