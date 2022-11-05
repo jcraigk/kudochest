@@ -11,23 +11,23 @@ RSpec.describe Cache::Leaderboard do
   shared_examples 'success' do
     describe 'set' do
       before do
-        allow(RedisClient).to receive(:set)
+        allow(Rails.cache).to receive(:set)
         cache.set(val)
       end
 
-      it 'calls RedisClient.set' do
-        expect(RedisClient).to have_received(:set).with(key, val.to_json)
+      it 'calls Rails.cache' do
+        expect(Rails.cache).to have_received(:set).with(key, val.to_json)
       end
     end
 
     describe 'get' do
       before do
-        allow(RedisClient).to receive(:get)
+        allow(Rails.cache).to receive(:get)
         cache.get
       end
 
-      it 'calls RedisClient.get' do
-        expect(RedisClient).to have_received(:get).with(key)
+      it 'calls Rails.cache' do
+        expect(Rails.cache).to have_received(:get).with(key)
       end
     end
   end

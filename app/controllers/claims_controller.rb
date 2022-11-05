@@ -7,6 +7,11 @@ class ClaimsController < ApplicationController
     fetch_claims
   end
 
+  def show
+    @claim = Claim.find(params[:id])
+    authorize @claim
+  end
+
   def edit
     fetch_claim
     authorize @claim
@@ -28,11 +33,6 @@ class ClaimsController < ApplicationController
 
     @claim.destroy
     redirect_to claims_path, notice: t('claims.destroyed')
-  end
-
-  def show
-    @claim = Claim.find(params[:id])
-    authorize @claim
   end
 
   def my_claims

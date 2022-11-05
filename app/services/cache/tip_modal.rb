@@ -7,15 +7,15 @@ class Cache::TipModal
   PREFIX = 'modal'
 
   def self.set(key, channel_rid, channel_name)
-    RedisClient.set \
+    Rails.cache.set \
       "#{PREFIX}/#{key}",
       [channel_rid, channel_name].join(':'),
-      ex: App.modal_cache_ttl
+      expires_in: App.modal_cache_ttl.seconds.from_now
   end
 
   def self.get(key)
     key = "#{PREFIX}/#{key}"
-    val = RedisClient.get(key)&.split(':') || []
+    val = Rails.cache.get(key)&.split(':') || []
     ChannelData.new(val.first, val.second)
   end
 end

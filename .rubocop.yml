@@ -47,6 +47,8 @@ RSpec/EmptyExampleGroup:
 RSpec/ExampleLength:
   Exclude:
     - spec/features/**/*
+RSpec/FactoryBot/ConsistentParenthesesStyle: # https://github.com/rubocop/rubocop-rspec/issues/1460
+  Enabled: false
 RSpec/MultipleExpectations:
   Max: 4
   Exclude:

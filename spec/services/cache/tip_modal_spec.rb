@@ -5,17 +5,16 @@ RSpec.describe Cache::TipModal do
   let(:channel) { build(:channel) }
   let(:str) { "#{channel.rid}:#{channel.name}" }
   let(:arg_key) { 'my-unique-key' }
-  let(:redis_key) { "modal/#{arg_key}" }
+  let(:cache_key) { "modal/#{arg_key}" }
   let(:expected_data) { ChannelData.new(channel.rid, channel.name) }
 
   before do
-    allow(RedisClient).to receive(:set).and_call_original
-    allow(RedisClient).to receive(:del).and_call_original
+    allow(Rails.cache).to receive(:set).and_call_original
     described_class.set(arg_key, channel.rid, channel.name)
   end
 
   it 'exposes #set' do
-    expect(RedisClient).to have_received(:set).with(redis_key, str, ex: App.modal_cache_ttl)
+    expect(Rails.cache).to have_received(:set).with(cache_key, str, ex: App.modal_cache_ttl)
   end
 
   it 'exposes #get' do
