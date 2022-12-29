@@ -9,13 +9,13 @@ RSpec.describe Cache::TipModal do
   let(:expected_data) { ChannelData.new(channel.rid, channel.name) }
 
   before do
-    allow(REDIS).to receive(:set).and_call_original
+    allow(REDIS).to receive(:setex).and_call_original
     allow(REDIS).to receive(:del).and_call_original
     described_class.set(arg_key, channel.rid, channel.name)
   end
 
   it 'exposes #set' do
-    expect(REDIS).to have_received(:set).with(cache_key, str, ex: App.modal_cache_ttl)
+    expect(REDIS).to have_received(:setex).with(cache_key, App.modal_cache_ttl, str)
   end
 
   it 'exposes #get' do

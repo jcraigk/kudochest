@@ -1,10 +1,6 @@
 :max_retries: 5
-:queues:
-  - ['critical', 5]
-  - ['default', 3]
-  - ['low', 1]
 
-:schedule:
+:scheduler:
   HourlyTeamWorker:
     cron: '0 0 * * * * America/Los_Angeles' # Hourly
 

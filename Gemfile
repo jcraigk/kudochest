@@ -25,7 +25,7 @@ gem 'rails'
 gem 'rmagick'
 gem 'sass-rails'
 gem 'sidekiq'
-gem 'sidekiq-scheduler', github: 'sidekiq-scheduler/sidekiq-scheduler' # TODO: Replace after release
+gem 'sidekiq-scheduler', '5.0.0.beta1' # TODO: Remove after release
 gem 'sidekiq-unique-jobs'
 gem 'slack-ruby-client'
 gem 'slim'
