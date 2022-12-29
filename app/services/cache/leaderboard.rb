@@ -10,7 +10,7 @@ class Cache::Leaderboard < Base::Service
   end
 
   def set(value)
-    Rails.cache.set(key, value.to_json)
+    REDIS.set(key, value.to_json)
   end
 
   private
@@ -28,7 +28,7 @@ class Cache::Leaderboard < Base::Service
   end
 
   def cache_value
-    @cache_value ||= Rails.cache.get(key)
+    @cache_value ||= REDIS.get(key)
   end
 
   def key

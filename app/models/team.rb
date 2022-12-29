@@ -127,7 +127,7 @@ class Team < ApplicationRecord
   validates_with WeekStartDayInWorkDaysValidator
   validates_with WorkDaysValidator
 
-  before_update :bust_cache, if: -> { (changes.keys & CONFIG_ATTRS).any? }
+  before_update :bust_cache, if: -> { changes.keys.intersect?(CONFIG_ATTRS) }
   before_update :sync_topic_attrs
   after_update_commit :reset_profile_tokens, if: :saved_change_to_throttle_tips?
   after_update_commit :sync_remote, if: :saved_change_to_active?

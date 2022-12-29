@@ -32,15 +32,13 @@ class Hooks::Slack::BaseController < Hooks::BaseController
 
   def private_command?
     return false if text.blank?
-    (text.split(/\s+/).take(2) & PRIVATE_KEYWORDS).any?
+    text.split(/\s+/).take(2).intersect?(PRIVATE_KEYWORDS)
   end
 
   def command?
     return false if text.blank?
-    (
-      text&.split(/\s+/)&.take(2) &
+    text&.split(/\s+/)&.take(2)&.intersect? \
       (COMMAND_KEYWORDS.keys + COMMAND_KEYWORDS.values).flatten.map(&:to_s)
-    ).any?
   end
 
   def mentions_found?

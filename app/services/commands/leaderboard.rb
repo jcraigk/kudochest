@@ -94,11 +94,11 @@ class Commands::Leaderboard < Commands::Base
   end
 
   def giving_board
-    @giving_board ||= (words.last(2) & GIVING_WORDS).any?
+    @giving_board ||= words.last(2).intersect?(GIVING_WORDS)
   end
 
   def jab_board
-    @jab_board ||= (words.last(2) & JAB_WORDS).any?
+    @jab_board ||= words.last(2).intersect?(JAB_WORDS)
   end
 
   def opts
