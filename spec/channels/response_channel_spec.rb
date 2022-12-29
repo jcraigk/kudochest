@@ -2,7 +2,7 @@
 require 'rails_helper'
 
 RSpec.describe ResponseChannel do
-  xit 'successfully subscribes' do
+  it 'successfully subscribes' do
     subscribe
     expect(subscription).to be_confirmed
   end
