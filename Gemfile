@@ -19,13 +19,13 @@ gem 'jquery-rails'
 gem 'kaminari'
 gem 'numbers_and_words'
 gem 'pg'
-gem 'puma'
+gem 'puma', '6.0.1' # TODO: 6.0.2 was failing to build
 gem 'pundit'
 gem 'rails'
 gem 'rmagick'
 gem 'sass-rails'
 gem 'sidekiq'
-gem 'sidekiq-scheduler', '5.0.0.beta1' # TODO: Remove after release
+gem 'sidekiq-scheduler', '5.0.0.beta2' # TODO: Remove after release
 gem 'sidekiq-unique-jobs'
 gem 'slack-ruby-client'
 gem 'slim'
@@ -50,7 +50,6 @@ group :development, :test do
   gem 'dotenv-rails'
   gem 'factory_bot_rails'
   gem 'faker'
-  gem 'pry-rails'
   gem 'webmock'
 end
 
