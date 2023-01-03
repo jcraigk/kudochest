@@ -1,11 +1,9 @@
 name: Brakeman Scan
-
 on:
   push:
     branches: [ main ]
   pull_request:
     branches: [ main ]
-
 jobs:
   brakeman-scan:
     name: Brakeman Scan
