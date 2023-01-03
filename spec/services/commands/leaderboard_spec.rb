@@ -57,9 +57,11 @@ RSpec.describe Commands::Leaderboard, :freeze_time do
       profile4.update(points: 3, last_tip_received_at: 2.months.ago)
       team.update(points_sent: profiles.sum(&:points))
       allow(LeaderboardPageService).to receive(:call).with(
-        team:,
-        giving_board: false,
-        jab_board: false
+        {
+          team:,
+          giving_board: false,
+          jab_board: false
+        }
       ).and_return(mock_result)
     end
 

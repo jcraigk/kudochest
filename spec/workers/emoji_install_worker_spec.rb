@@ -7,7 +7,7 @@ RSpec.describe EmojiInstallWorker do
   let(:team) { create(:team) }
 
   before do
-    allow(Team).to receive(:find_by!).with(rid: team.rid).and_return(team)
+    allow(Team).to receive(:find_by!).with({ rid: team.rid }).and_return(team)
     allow(Discord::EmojiInstallService).to receive(:call)
     perform
   end
