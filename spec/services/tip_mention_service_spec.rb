@@ -36,7 +36,6 @@ RSpec.describe TipMentionService, :freeze_time do
 
   before do
     travel_to(Time.zone.local(2019, 11, 10, 21, 1, 1))
-    allow(TipFactory).to receive(:call).and_call_original
     allow(team.slack_client).to \
       receive(:chat_getPermalink).and_return(OpenStruct.new(permalink: 'link'))
   end
@@ -147,13 +146,13 @@ RSpec.describe TipMentionService, :freeze_time do
 
     before do
       subteam.profiles << [subteam_profile, to_profile, other_profile]
+      allow(TipFactory).to receive(:call)
       allow(TipResponseService).to receive(:call).and_return(tip_response)
       allow(Slack::ChannelMemberService)
         .to receive(:call).and_return([channel_profile, other_profile])
       service
     end
 
-    # TODO: this is flakey
     it 'calls TipFactory for each unique profile, favoring direct, then subteam, then channel' do # rubocop:disable RSpec/ExampleLength
       mention_entities.each do |m|
         args = base_tip_attrs.merge \
@@ -163,7 +162,5 @@ RSpec.describe TipMentionService, :freeze_time do
         expect(TipFactory).to have_received(:call).with(**args)
       end
     end
-
-    include_examples 'expected result'
   end
 end

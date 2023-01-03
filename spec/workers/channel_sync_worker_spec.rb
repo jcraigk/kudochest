@@ -8,7 +8,7 @@ RSpec.describe ChannelSyncWorker do
   let(:new_channel_rid) { 'new_channel_rid' }
 
   before do
-    allow(Team).to receive(:find_by!).with(rid: team.rid).and_return(team)
+    allow(Team).to receive(:find_by!).with({ rid: team.rid }).and_return(team)
     allow(Slack::ChannelSyncService).to receive(:call)
     perform
   end
