@@ -15,7 +15,7 @@ RSpec.describe TipResponseService do
   let(:channel) { build(:channel) }
   let(:tips) { [tip] }
   let(:tip) do
-    create \
+    create(
       :tip,
       from_profile:,
       to_profile:,
@@ -23,6 +23,7 @@ RSpec.describe TipResponseService do
       note:,
       from_channel_rid: channel.rid,
       from_channel_name: channel.name
+    )
   end
   let(:lead_frag) { nil }
   let(:channel_frag) { nil }
@@ -239,7 +240,7 @@ RSpec.describe TipResponseService do
     let(:to_profile3) { create(:profile, team:) }
     let(:tips) { [tip, tip2, tip3] }
     let(:tip2) do
-      create \
+      create(
         :tip,
         from_profile:,
         to_profile: to_profile2,
@@ -247,9 +248,10 @@ RSpec.describe TipResponseService do
         note:,
         from_channel_rid: channel.rid,
         from_channel_name: channel.name
+      )
     end
     let(:tip3) do
-      create \
+      create(
         :tip,
         from_profile:,
         to_profile: to_profile3,
@@ -257,6 +259,7 @@ RSpec.describe TipResponseService do
         note:,
         from_channel_rid: channel.rid,
         from_channel_name: channel.name
+      )
     end
     let(:main_frag) do
       <<~TEXT.chomp
@@ -280,7 +283,7 @@ RSpec.describe TipResponseService do
 
     context 'when at least one tip was given to a channel' do
       let(:tip3) do
-        create \
+        create(
           :tip,
           from_profile:,
           to_profile: to_profile3,
@@ -290,6 +293,7 @@ RSpec.describe TipResponseService do
           from_channel_name: channel.name,
           to_channel_rid: channel.rid,
           to_channel_name: channel.name
+        )
       end
       let(:lead_frag) do
         <<~TEXT.chomp
@@ -316,7 +320,7 @@ RSpec.describe TipResponseService do
     context 'when at least one jab was gave to a subteam' do
       let(:subteam) { create(:subteam, team:) }
       let(:tip3) do
-        create \
+        create(
           :tip,
           from_profile:,
           to_profile: to_profile3,
@@ -326,6 +330,7 @@ RSpec.describe TipResponseService do
           from_channel_name: channel.name,
           to_subteam_rid: subteam.rid,
           to_subteam_handle: subteam.handle
+        )
       end
       let(:chat_snippet) do
         "Everyone in <#{SUBTEAM_PREFIX[:slack]}#{subteam.rid}> has received *kudonts*"

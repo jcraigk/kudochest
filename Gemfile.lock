@@ -111,7 +111,6 @@ GEM
       launchy
     chartkick (4.2.1)
     clipboard-rails (1.7.1)
-    colorize (0.8.1)
     concurrent-ruby (1.1.10)
     connection_pool (2.3.0)
     crack (0.4.5)
@@ -237,7 +236,7 @@ GEM
       net-protocol
     netrc (0.11.0)
     nio4r (2.5.8)
-    nokogiri (1.13.10)
+    nokogiri (1.14.0)
       mini_portile2 (~> 2.8.0)
       racc (~> 1.4)
     numbers_and_words (0.11.11)
@@ -462,7 +461,6 @@ DEPENDENCIES
   capybara-screenshot
   chartkick
   clipboard-rails
-  colorize
   discordrb
   dotenv-rails
   dry-initializer
