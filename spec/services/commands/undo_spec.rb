@@ -25,10 +25,11 @@ RSpec.describe Commands::Undo, :freeze_time do
     let(:response) { ChatResponse.new(mode: :error, text:) }
 
     before do
-      create \
+      create(
         :tip,
         from_profile: profile,
         created_at: Time.current - App.undo_cutoff - 1.minute
+      )
     end
 
     include_examples 'expected response'
@@ -40,11 +41,12 @@ RSpec.describe Commands::Undo, :freeze_time do
     let(:response) { ChatResponse.new(mode: :private, text:) }
 
     before do
-      create \
+      create(
         :tip,
         from_profile: profile,
         to_profile: recipient,
         created_at: Time.current - App.undo_cutoff + 1.minute
+      )
     end
 
     include_examples 'expected response'
@@ -64,20 +66,22 @@ RSpec.describe Commands::Undo, :freeze_time do
     let(:created_at) { Time.current - App.undo_cutoff + 1.minute }
 
     before do
-      create \
+      create(
         :tip,
         from_profile: profile,
         to_profile: recipient1,
         created_at:,
         event_ts: ts
-      create \
+      )
+      create(
         :tip,
         from_profile: profile,
         to_profile: recipient2,
         quantity: 2,
         created_at:,
         event_ts: ts
-      create \
+      )
+      create(
         :tip,
         from_profile: app_profile,
         to_profile: profile,
@@ -85,6 +89,7 @@ RSpec.describe Commands::Undo, :freeze_time do
         quantity: 2,
         created_at:,
         event_ts: ts
+      )
     end
 
     include_examples 'expected response'

@@ -1,7 +1,10 @@
 import consumer from './consumer'
 
-// import * as ActionCable from '@rails/actioncable'
-// ActionCable.logger.enabled = true
+// (function() {
+//   this.App || (this.App = {})
+//
+//   App.cable = ActionCable.createConsumer()
+// }).call(this)
 
 consumer.subscriptions.create(
   { channel: 'ResponseChannel' },

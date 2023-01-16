@@ -7,7 +7,7 @@ ENV APP_NAME=${APP_NAME} \
     IN_DOCKER=true
 
 RUN apt-get update -qq && \
-    apt-get install -y \
+    apt-get install --no-install-recommends -y \
       build-essential \
       git \
       libmagickwand-dev \
@@ -18,7 +18,8 @@ RUN apt-get update -qq && \
       npm \
       postgresql-client \
       python2 \
-    && apt-get clean
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*;
 
 COPY lib/image_magick/policy.xml /etc/ImageMagick-6/policy.xml
 RUN mkdir -p /storage/response_images/cache
@@ -28,7 +29,7 @@ WORKDIR $INSTALL_PATH
 
 COPY . .
 
-RUN npm install yarn -g
+RUN npm install yarn -g && npm cache clean --force;
 RUN yarn install
 RUN gem install bundler && bundle install
 RUN bundle exec rake assets:precompile
