@@ -57,6 +57,7 @@ namespace :seeds do
   desc 'Generate Topics for testing'
   task topics: :environment do
     print 'Generating topics'
+    team = Team.first
     rand(5..30).times do
       create(:topic, team:)
     end

@@ -1,11 +1,11 @@
 [![Build Status](https://www.travis-ci.com/jcraigk/kudochest.svg?branch=main)](https://www.travis-ci.com/jcraigk/kudochest)
 [![Maintainability](https://api.codeclimate.com/v1/badges/ca54364dc0911c26e35f/maintainability)](https://codeclimate.com/github/jcraigk/kudochest/maintainability)
-&nbsp;  
-&nbsp;  
+&nbsp;
+&nbsp;
 
 ![KudoChest Logo](https://github.com/jcraigk/kudochest/blob/main/app/webpacker/images/logos/app-144.png)
-&nbsp;  
-&nbsp;  
+&nbsp;
+&nbsp;
 
 
 **KudoChest** is a team engagement tool for **Slack** and **Discord**. It allows users within a workspace to give each other points that accrue over time. A point represents a token of appreciation or recognition for a job well done. Users can view their profile, browse history, and access leaderboards on the web or within the chat client. App settings and moderation tools are provided via web UI.
@@ -13,8 +13,8 @@
 This is a **Ruby on Rails** application backed by **Postgres** and **Redis**. It integrates tightly with chat platforms, keeping teams and users synced server-side. This enables web-based user profiles and other UX enhancements not possible in standard bots.
 
 See the **[Wiki](https://github.com/jcraigk/kudochest/wiki)** or join the **[Discord](https://discord.gg/kbPnmz5q)**.
-&nbsp;  
-&nbsp;  
+&nbsp;
+&nbsp;
 
 
 # Installation
@@ -22,8 +22,8 @@ See the **[Wiki](https://github.com/jcraigk/kudochest/wiki)** or join the **[Dis
 To install KudoChest into your organization's Slack or Discord workspace, you must host the Rails components on a web server you control and configure the Slack or Discord App at the appropriate platform's site.
 
 See the [Installation Instructions](https://github.com/jcraigk/kudochest/wiki/Installation) for more detail.
-&nbsp;  
-&nbsp;  
+&nbsp;
+&nbsp;
 
 
 # Development
@@ -37,8 +37,8 @@ For Slack and OAuth callbacks, a tunneling service such as [ngrok](https://ngrok
 You'll want to setup a dedicated workspace and App in Slack/Discord specifically for KudoChest development. Do not use your organization's production workspace or App to develop against.
 
 If you're working on response images and running Sidekiq in Docker, you'll need to configure a local storage location in `docker-compose.yml` to map to `/storage` in the `sidekiq` container.
-&nbsp;  
-&nbsp;  
+&nbsp;
+&nbsp;
 
 
 ## Run the App Components
@@ -73,7 +73,7 @@ bundle exec sidekiq
 # Start Discord listener (terminal 3) - Discord only
 bin/discord_listener
 ```
-&nbsp;  
+&nbsp;
 
 ## Testing
 
@@ -95,7 +95,7 @@ To generate seed data for manual testing, first install your local instance of K
 ```
 bundle exec rails seeds:all
 ```
-&nbsp;  
+&nbsp;
 
 
 # Contributors
@@ -105,8 +105,8 @@ All contributions are welcome via Issues and Pull Requests. If you notice someth
 * Code by [Justin Craig-Kuhn](https://github.com/jcraigk/)
 * Logo and background mural by Evan Mahnke (Discord `8-bit adventurer#3751` / `gallanthomeslice at yahoo`)
 * Animated GIFs and icons by Milton Monroe (Discord `carmelcamel#5829` / `milton dot p dot monroe at gmail`)
-&nbsp;  
-&nbsp;  
+&nbsp;
+&nbsp;
 
 
 # Copyright
