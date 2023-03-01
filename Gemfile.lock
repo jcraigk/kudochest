@@ -72,13 +72,13 @@ GEM
     attr_extras (7.1.0)
     awesome_print (1.9.2)
     aws-eventstream (1.2.0)
-    aws-partitions (1.716.0)
+    aws-partitions (1.721.0)
     aws-sdk-core (3.170.0)
       aws-eventstream (~> 1, >= 1.0.2)
       aws-partitions (~> 1, >= 1.651.0)
       aws-sigv4 (~> 1.5)
       jmespath (~> 1, >= 1.6.1)
-    aws-sdk-kms (1.62.0)
+    aws-sdk-kms (1.63.0)
       aws-sdk-core (~> 3, >= 3.165.0)
       aws-sigv4 (~> 1.1)
     aws-sdk-s3 (1.119.1)
@@ -170,7 +170,7 @@ GEM
       activesupport (>= 5.2)
     hashdiff (1.0.1)
     hashie (5.0.0)
-    honeybadger (5.1.0)
+    honeybadger (5.2.0)
     http (5.1.1)
       addressable (~> 2.8)
       http-cookie (~> 1.0)
@@ -262,13 +262,13 @@ GEM
     pg (1.4.6)
     pkg-config (1.5.1)
     public_suffix (5.0.1)
-    puma (6.1.0)
+    puma (6.1.1)
       nio4r (~> 2.0)
     pundit (2.3.0)
       activesupport (>= 3.0.0)
     raabro (1.4.0)
     racc (1.6.2)
-    rack (2.2.6.2)
+    rack (2.2.6.3)
     rack-proxy (0.7.6)
       rack
     rack-test (2.0.2)
@@ -303,7 +303,7 @@ GEM
     rake (13.0.6)
     redis (5.0.6)
       redis-client (>= 0.9.0)
-    redis-client (0.12.2)
+    redis-client (0.13.0)
       connection_pool
     regexp_parser (2.7.0)
     rest-client (2.1.0)
@@ -331,7 +331,7 @@ GEM
       rspec-mocks (~> 3.11)
       rspec-support (~> 3.11)
     rspec-support (3.12.0)
-    rubocop (1.46.0)
+    rubocop (1.47.0)
       json (~> 2.3)
       parallel (~> 1.10)
       parser (>= 3.2.0.0)
@@ -341,7 +341,7 @@ GEM
       rubocop-ast (>= 1.26.0, < 2.0)
       ruby-progressbar (~> 1.7)
       unicode-display_width (>= 2.4.0, < 3.0)
-    rubocop-ast (1.26.0)
+    rubocop-ast (1.27.0)
       parser (>= 3.2.1.0)
     rubocop-capybara (2.17.1)
       rubocop (~> 1.41)
@@ -355,7 +355,7 @@ GEM
     rubocop-rspec (2.18.1)
       rubocop (~> 1.33)
       rubocop-capybara (~> 2.17)
-    ruby-progressbar (1.11.0)
+    ruby-progressbar (1.12.0)
     ruby2_keywords (0.0.5)
     rubyzip (2.3.2)
     rufus-scheduler (3.8.2)
@@ -382,9 +382,9 @@ GEM
       connection_pool (>= 2.3.0)
       rack (>= 2.2.4)
       redis-client (>= 0.11.0)
-    sidekiq-scheduler (5.0.1)
+    sidekiq-scheduler (5.0.2)
       rufus-scheduler (~> 3.2)
-      sidekiq (>= 4, < 8)
+      sidekiq (>= 6, < 8)
       tilt (>= 1.4.0)
     sidekiq-unique-jobs (8.0.1)
       brpoplpush-redis_script (> 0.1.1, <= 2.0.0)
@@ -506,7 +506,7 @@ DEPENDENCIES
   webpacker
 
 RUBY VERSION
-   ruby 3.2.0p0
+   ruby 3.2.1p31
 
 BUNDLED WITH
-   2.4.3
+   2.4.7
