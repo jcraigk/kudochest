@@ -144,7 +144,7 @@ class Reports::TeamDigestService < Reports::BaseDigestService
   def loot_claims_sentence
     return unless team.enable_loot?
     claims = Claim.where('created_at > ?', timeframe)
-    return 'None' if claims.size.zero?
+    return 'None' if claims.empty?
     num_pending = claims.all.count(&:pending?)
     "#{pluralize(claims.size, 'new claim')} (#{num_pending} pending fulfillment)"
   end

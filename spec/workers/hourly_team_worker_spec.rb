@@ -13,21 +13,23 @@ RSpec.describe HourlyTeamWorker do
   let!(:team1) { create(:team, throttle_tips: true, action_hour: current_hour) }
   let!(:team2) { create(:team, throttle_tips: true, action_hour: current_hour) }
   let!(:team3) do
-    create \
+    create(
       :team,
       throttle_tips: true,
       token_frequency: 'weekly',
       action_hour: current_hour,
       tokens_disbursed_at: travel_to_time
+    )
   end
   let!(:team4) do
-    create \
+    create(
       :team,
       throttle_tips: true,
       token_frequency: 'monthly',
       action_hour: current_hour,
       hint_frequency: 'hourly',
       hint_channel_rid: 'foo'
+    )
   end
   let(:travel_to_time) { 1.month.from_now.change(hour: current_hour) }
 

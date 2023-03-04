@@ -5,12 +5,12 @@ class Cache::Leaderboard < Base::Service
   param :jab_board, default: -> { false }
 
   def get
-    return if redis_value.blank?
+    return if cache_value.blank?
     LeaderboardPage.new(updated_at, profiles)
   end
 
   def set(value)
-    RedisClient.set(key, value.to_json)
+    REDIS.set(key, value.to_json)
   end
 
   private
@@ -24,11 +24,11 @@ class Cache::Leaderboard < Base::Service
   end
 
   def data
-    @data ||= JSON.parse(redis_value, symbolize_names: true)
+    @data ||= JSON.parse(cache_value, symbolize_names: true)
   end
 
-  def redis_value
-    @redis_value ||= RedisClient.get(key)
+  def cache_value
+    @cache_value ||= REDIS.get(key)
   end
 
   def key

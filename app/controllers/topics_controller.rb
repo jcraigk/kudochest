@@ -12,6 +12,11 @@ class TopicsController < ApplicationController
     @topic = Topic.new
   end
 
+  def edit
+    fetch_topic
+    authorize @topic
+  end
+
   def create
     authorize Topic
 
@@ -22,11 +27,6 @@ class TopicsController < ApplicationController
     else
       render :new
     end
-  end
-
-  def edit
-    fetch_topic
-    authorize @topic
   end
 
   def update

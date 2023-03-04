@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 require 'redis'
 
-RedisClient = # rubocop:disable Naming/ConstantName
+REDIS =
   if ENV.fetch('REDIS_URL', nil).present?
     Redis.new
   else

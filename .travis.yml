@@ -1,19 +1,19 @@
 dist: focal
 language: ruby
 rvm:
-  - 3.1.2
+  - 3.2.1
 cache: bundler
 notifications:
   email: false
 services:
-  - redis-server
   - postgresql
+  - redis-server
 addons:
-  postgresql: '12'
+  postgresql: '13'
   apt:
     update: true
     packages:
-      - postgresql-12
+      - postgresql-13
 env:
   global:
   - PGUSER=postgres
@@ -27,6 +27,7 @@ before_install:
   - psql -c 'create database kudochest_test;' -U postgres
   - gem update --system --no-document
   - gem install bundler --no-document
+install: bundle install
 before_script:
   - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
   - chmod +x ./cc-test-reporter

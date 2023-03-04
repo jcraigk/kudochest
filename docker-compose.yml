@@ -32,7 +32,7 @@ services:
     command: bin/discord_listener
 
   pg:
-    image: postgres:13.1-alpine
+    image: postgres:15.0-alpine
     ports:
       - 5432:5432
     volumes:
@@ -42,7 +42,7 @@ services:
       - POSTGRES_DB=postgres
 
   redis:
-    image: redis:6.0.10-alpine
+    image: redis:7.0.7-alpine
     ports:
       - 6379:6379
     volumes:

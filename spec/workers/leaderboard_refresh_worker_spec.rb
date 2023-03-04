@@ -8,7 +8,7 @@ RSpec.describe LeaderboardRefreshWorker, :freeze_time do
   let(:deduct_jabs) { true }
   let(:result) { { updated_at: Time.current.to_i, profiles: ranked_profiles } }
   let(:profile1) do
-    create \
+    create(
       :profile,
       team:,
       balance: 10,
@@ -19,9 +19,10 @@ RSpec.describe LeaderboardRefreshWorker, :freeze_time do
       last_tip_sent_at: 1.day.ago,
       last_tip_received_at: 1.day.ago,
       display_name: 'profile1'
+    )
   end
   let(:profile2) do
-    create \
+    create(
       :profile,
       team:,
       balance: 5,
@@ -32,9 +33,10 @@ RSpec.describe LeaderboardRefreshWorker, :freeze_time do
       last_tip_sent_at: 2.days.ago,
       last_tip_received_at: 2.days.ago,
       display_name: 'profile2'
+    )
   end
   let(:profile3) do
-    create \
+    create(
       :profile,
       team:,
       balance: 11,
@@ -45,9 +47,10 @@ RSpec.describe LeaderboardRefreshWorker, :freeze_time do
       last_tip_sent_at: 1.day.ago,
       last_tip_received_at: 1.day.ago,
       display_name: 'profile3'
+    )
   end
   let(:profile4) do
-    create \
+    create(
       :profile,
       team:,
       balance: 13,
@@ -58,9 +61,10 @@ RSpec.describe LeaderboardRefreshWorker, :freeze_time do
       last_tip_sent_at: Time.current,
       last_tip_received_at: Time.current,
       display_name: 'profile4'
+    )
   end
   let(:profile5) do
-    create \
+    create(
       :profile,
       team:,
       balance: 13,
@@ -71,6 +75,7 @@ RSpec.describe LeaderboardRefreshWorker, :freeze_time do
       last_tip_sent_at: 3.days.ago,
       last_tip_received_at: 3.days.ago,
       display_name: 'profile5'
+    )
   end
   let(:mock_cache) { instance_spy(Cache::Leaderboard) }
   let(:team_points) { 61 }

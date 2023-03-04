@@ -26,7 +26,7 @@ class EventService < Base::Service
   end
 
   def responder
-    @responder ||= "#{params[:platform].titleize}::PostService".constantize
+    @responder ||= ConstService.call(params[:platform], 'PostService')
   end
 
   def post_success_message
@@ -34,7 +34,13 @@ class EventService < Base::Service
   end
 
   def result
-    @result ||= "Actions::#{params[:action].titleize.tr(' ', '')}".constantize.call(**params)
+    @result ||= action_service.call(**params)
+  end
+
+  def action_service
+    const = "Actions::#{params[:action].titleize.tr(' ', '')}"
+    return unless Object.const_defined?(const)
+    const.constantize
   end
 
   def respond_in_chat?

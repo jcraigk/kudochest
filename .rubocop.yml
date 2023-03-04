@@ -1,3 +1,5 @@
+inherit_from: .rubocop_todo.yml
+
 require:
   - rubocop-performance
   - rubocop-rails
@@ -10,7 +12,7 @@ AllCops:
     - node_modules/**/*
     - vendor/**/*
   NewCops: enable
-  TargetRubyVersion: 3.1.2
+  TargetRubyVersion: 3.2.1
 Layout/EmptyLineAfterGuardClause:
   Enabled: false
 Layout/EmptyLineAfterMagicComment:

@@ -2,7 +2,7 @@
 source 'https://rubygems.org'
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
-ruby '3.1.2'
+ruby '3.2.1'
 
 gem 'awesome_print'
 gem 'aws-sdk-s3'
@@ -22,7 +22,6 @@ gem 'pg'
 gem 'puma'
 gem 'pundit'
 gem 'rails'
-gem 'redis'
 gem 'rmagick'
 gem 'sass-rails'
 gem 'sidekiq'
@@ -39,7 +38,6 @@ group :production do
 end
 
 group :development do
-  gem 'colorize'
   gem 'rubocop'
   gem 'rubocop-performance'
   gem 'rubocop-rails'
@@ -51,7 +49,6 @@ group :development, :test do
   gem 'dotenv-rails'
   gem 'factory_bot_rails'
   gem 'faker'
-  gem 'pry-rails'
   gem 'webmock'
 end
 

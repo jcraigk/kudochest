@@ -252,8 +252,10 @@ RSpec.describe Slack::PostService do
       before do
         allow(slack_client).to \
           receive(:conversations_replies).with(
-            channel: channel.rid,
-            ts: message_ts
+            {
+              channel: channel.rid,
+              ts: message_ts
+            }
           ).and_return(replies_data)
       end
 

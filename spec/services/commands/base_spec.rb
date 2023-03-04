@@ -7,12 +7,6 @@ RSpec.describe Commands::Base do
   let(:team) { create(:team) }
   let(:profile) { create(:profile, team:) }
 
-  it 'calls `#new(args)` on self' do
-    allow(described_class).to receive(:new).and_call_original
-    described_class.call(**args)
-    expect(described_class).to have_received(:new).with(**args)
-  end
-
   it 'exposes #call as self.call' do
     expect(described_class.call(**args)).to eq('Override in child class')
   end

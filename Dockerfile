@@ -1,4 +1,4 @@
-FROM ruby:3.1.2-slim
+FROM ruby:3.2.1-slim
 
 ARG APP_NAME=kudochest
 
@@ -18,7 +18,8 @@ RUN apt-get update -qq && \
       npm \
       postgresql-client \
       python2 \
-    && apt-get clean && rm -rf /var/lib/apt/lists/*;
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*;
 
 COPY lib/image_magick/policy.xml /etc/ImageMagick-6/policy.xml
 RUN mkdir -p /storage/response_images/cache

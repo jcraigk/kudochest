@@ -124,12 +124,13 @@ RSpec.describe Tip do
 
   describe 'delete_discord_response after destroy' do
     subject(:tip) do
-      create \
+      create(
         :tip,
         from_profile: profile,
         response_channel_rid:
         channel.rid,
         response_ts: ts
+      )
     end
 
     let(:team) { create(:team, platform: :discord) }

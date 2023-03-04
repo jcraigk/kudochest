@@ -12,6 +12,11 @@ class RewardsController < ApplicationController
     @reward = Reward.new
   end
 
+  def edit
+    fetch_reward
+    authorize @reward
+  end
+
   def create
     authorize Reward
 
@@ -22,11 +27,6 @@ class RewardsController < ApplicationController
     else
       render :new
     end
-  end
-
-  def edit
-    fetch_reward
-    authorize @reward
   end
 
   def update

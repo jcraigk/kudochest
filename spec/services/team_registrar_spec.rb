@@ -53,7 +53,7 @@ RSpec.describe TeamRegistrar, :freeze_time do
     let!(:team) { create(:team, owning_user: create(:user)) }
 
     before do
-      allow(Team).to receive(:find_by).with(rid: team.rid).and_return(team)
+      allow(Team).to receive(:find_by).with({ rid: team.rid }).and_return(team)
       allow(team).to receive(:update!)
       service
     end

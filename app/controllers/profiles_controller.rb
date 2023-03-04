@@ -10,16 +10,18 @@ class ProfilesController < ApplicationController
     redirect_to_login
   end
 
+  def show
+    @profile = Profile.find_by(slug: params[:id])
+    redirect_to dashboard_path if @profile.blank?
+
+    authorize @profile
+    build_dashboard_for(@profile)
+  end
+
   def new; end
 
   def edit
     authorize current_profile
-  end
-
-  def update
-    authorize current_profile
-    return update_success if current_profile.update(profile_params)
-    update_failure
   end
 
   def random_showcase
@@ -29,12 +31,10 @@ class ProfilesController < ApplicationController
     render 'profiles/random_showcase', layout: false
   end
 
-  def show
-    @profile = Profile.find_by(slug: params[:id])
-    redirect_to dashboard_path if @profile.blank?
-
-    authorize @profile
-    build_dashboard_for(@profile)
+  def update
+    authorize current_profile
+    return update_success if current_profile.update(profile_params)
+    update_failure
   end
 
   private

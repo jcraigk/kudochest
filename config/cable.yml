@@ -1,10 +1,13 @@
+redis: &redis
+  adapter: redis
+  url: <%= ENV.fetch('REDIS_URL', nil) %>
+  channel_prefix: kudochest
+
 development:
-  adapter: async
+  <<: *redis
 
 test:
   adapter: async
 
 production:
-  adapter: redis
-  url: <%= ENV.fetch('redis_url', nil) %>
-  channel_prefix: kudochest
+  <<: *redis
