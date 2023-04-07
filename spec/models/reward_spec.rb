@@ -45,7 +45,7 @@ RSpec.describe Reward do
     before { create(:reward, name: 'Nutn') }
 
     it 'returns expected records' do
-      expect(described_class.search(keyword)).to match_array([reward1, reward2])
+      expect(described_class.search(keyword)).to contain_exactly(reward1, reward2)
     end
   end
 

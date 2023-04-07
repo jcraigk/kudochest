@@ -34,7 +34,7 @@ RSpec.describe Channel do
     end
 
     it 'returns only matching profiles' do
-      expect(described_class.matching('cave')).to match_array([channel1, channel2])
+      expect(described_class.matching('cave')).to contain_exactly(channel1, channel2)
     end
   end
 end

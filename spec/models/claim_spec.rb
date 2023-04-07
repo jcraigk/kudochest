@@ -29,7 +29,7 @@ RSpec.describe Claim do
     before { create(:claim, fulfillment_key: 'ddddd') }
 
     it 'returns expected records' do
-      expect(described_class.search(keyword)).to match_array([claim1, claim2])
+      expect(described_class.search(keyword)).to contain_exactly(claim1, claim2)
     end
   end
 

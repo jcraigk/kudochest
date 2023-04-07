@@ -54,7 +54,7 @@ RSpec.describe Tip do
     end
 
     it 'returns expected records' do
-      expect(described_class.undoable).to match_array([tip1, tip2, tip3, tip4])
+      expect(described_class.undoable).to contain_exactly(tip1, tip2, tip3, tip4)
     end
   end
 
@@ -65,7 +65,7 @@ RSpec.describe Tip do
     before { create(:tip, note: 'Nothing to see here') }
 
     it 'returns expected records' do
-      expect(described_class.search_notes('vish')).to match_array([tip1, tip2])
+      expect(described_class.search_notes('vish')).to contain_exactly(tip1, tip2)
     end
   end
 

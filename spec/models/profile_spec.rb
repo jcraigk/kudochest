@@ -87,7 +87,7 @@ RSpec.describe Profile do
     end
 
     it 'returns only matching profiles' do
-      expect(described_class.matching('atm')).to match_array([profile1, profile2])
+      expect(described_class.matching('atm')).to contain_exactly(profile1, profile2)
     end
   end
 

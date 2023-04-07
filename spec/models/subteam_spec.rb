@@ -39,7 +39,7 @@ RSpec.describe Subteam do
     end
 
     it 'returns only matching profiles' do
-      expect(described_class.matching('dead')).to match_array([subteam1, subteam2])
+      expect(described_class.matching('dead')).to contain_exactly(subteam1, subteam2)
     end
   end
 end

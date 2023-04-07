@@ -69,7 +69,7 @@ RSpec.describe Topic do
       before { create(:topic, name: 'Nutn') }
 
       it 'returns expected records' do
-        expect(described_class.search(keyword)).to match_array([topic1, topic2])
+        expect(described_class.search(keyword)).to contain_exactly(topic1, topic2)
       end
     end
   end
