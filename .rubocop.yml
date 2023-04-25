@@ -49,6 +49,8 @@ RSpec/EmptyExampleGroup:
 RSpec/ExampleLength:
   Exclude:
     - spec/features/**/*
+RSpec/IndexedLet:
+  Enabled: false
 RSpec/MultipleExpectations:
   Max: 4
   Exclude:
