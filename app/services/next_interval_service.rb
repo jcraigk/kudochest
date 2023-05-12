@@ -1,4 +1,3 @@
-# frozen_string_literal: true
 class NextIntervalService < Base::Service
   option :team
   option :attr

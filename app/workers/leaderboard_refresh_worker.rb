@@ -1,4 +1,3 @@
-# frozen_string_literal: true
 class LeaderboardRefreshWorker
   include Sidekiq::Worker
 

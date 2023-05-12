@@ -1,4 +1,3 @@
-# frozen_string_literal: true
 require 'rails_helper'
 
 class Slack::FooService; end # rubocop:disable Lint/EmptyClass

@@ -1,4 +1,3 @@
-# frozen_string_literal: true
 class TeamRegistrar < Base::Service
   option :platform
   option :rid

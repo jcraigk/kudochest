@@ -1,4 +1,3 @@
-# frozen_string_literal: true
 module MailHelper
   def mail_team_avatar_image(team, size: 120)
     image_tag \

@@ -1,4 +1,3 @@
-# frozen_string_literal: true
 class TipFactory < Base::Service
   option :event_ts
   option :message_ts, default: -> {}

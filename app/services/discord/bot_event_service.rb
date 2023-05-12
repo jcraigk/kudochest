@@ -1,4 +1,3 @@
-# frozen_string_literal: true
 class Discord::BotEventService < Base::Service
   option :bot
 

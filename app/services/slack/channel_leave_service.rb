@@ -1,4 +1,3 @@
-# frozen_string_literal: true
 class Slack::ChannelLeaveService < Base::Service
   option :team
   option :channel_rid

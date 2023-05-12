@@ -1,4 +1,3 @@
-# frozen_string_literal: true
 class Image::TipService < Base::ImageService
   option :fragments
   option :tips

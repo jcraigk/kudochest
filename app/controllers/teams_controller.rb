@@ -1,4 +1,3 @@
-# frozen_string_literal: true
 class TeamsController < ApplicationController
   before_action :fetch_current_team
   before_action :remember_section, only: %i[edit update]

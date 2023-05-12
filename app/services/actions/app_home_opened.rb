@@ -1,4 +1,3 @@
-# frozen_string_literal: true
 class Actions::AppHomeOpened < Actions::Base
   def call
     return if profile&.welcomed_at

@@ -1,4 +1,3 @@
-# frozen_string_literal: true
 class Slack::PostService < Base::PostService
   option :team_rid
   option :replace_channel_rid,  default: proc {}

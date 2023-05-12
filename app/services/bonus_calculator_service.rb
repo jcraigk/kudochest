@@ -1,4 +1,3 @@
-# frozen_string_literal: true
 class BonusCalculatorService < Base::Service
   option :team
   option :start_date

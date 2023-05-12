@@ -1,4 +1,3 @@
-# frozen_string_literal: true
 module TipHelper
   def chat_permalink_for(tip)
     return if tip.chat_permalink.blank?

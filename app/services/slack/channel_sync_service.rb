@@ -1,4 +1,3 @@
-# frozen_string_literal: true
 class Slack::ChannelSyncService < Base::ChannelSyncService
   def call
     super

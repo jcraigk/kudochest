@@ -1,4 +1,3 @@
-# frozen_string_literal: true
 class PasswordResetsController < ApplicationController
   before_action :load_user_from_token, only: :update
   skip_before_action :require_login

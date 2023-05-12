@@ -1,4 +1,3 @@
-# frozen_string_literal: true
 class Actions::ReplyTip < Actions::Base
   def call
     process_tip_mentions

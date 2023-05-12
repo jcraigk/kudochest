@@ -1,4 +1,3 @@
-# frozen_string_literal: true
 class Oauth::DiscordController < ApplicationController
   before_action :verify_state_param
 

@@ -1,4 +1,3 @@
-# frozen_string_literal: true
 class Cache::Leaderboard < Base::Service
   param :team_id
   param :giving_board, default: -> { false }

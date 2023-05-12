@@ -1,4 +1,3 @@
-# frozen_string_literal: true
 class Commands::Leaderboard < Commands::Base
   GIVING_WORDS = %w[giving giver givers gift gifts gifters sent benefactors bullies].freeze
   JAB_WORDS = [App.jab_term, App.jabs_term] + %w[losers].freeze

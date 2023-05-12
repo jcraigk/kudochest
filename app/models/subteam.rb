@@ -1,4 +1,3 @@
-# frozen_string_literal: true
 class Subteam < ApplicationRecord
   belongs_to :team
   has_many :subteam_memberships # rubocop:disable Rails/HasManyOrHasOneDependent

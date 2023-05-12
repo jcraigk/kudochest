@@ -1,4 +1,3 @@
-# frozen_string_literal: true
 class AddProfileOptions < ActiveRecord::Migration[6.1]
   def change
     add_column :profiles, :announce_tip_sent, :boolean, default: true, null: false

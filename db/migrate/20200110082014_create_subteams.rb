@@ -1,4 +1,3 @@
-# frozen_string_literal: true
 class CreateSubteams < ActiveRecord::Migration[6.0]
   def change
     create_table :subteams do |t|

@@ -1,4 +1,3 @@
-# frozen_string_literal: true
 class LevelToPointsService < Base::Service
   option :team
   option :level

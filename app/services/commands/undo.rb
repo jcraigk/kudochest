@@ -1,4 +1,3 @@
-# frozen_string_literal: true
 class Commands::Undo < Commands::Base
   attr_reader :text
 

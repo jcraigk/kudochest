@@ -1,4 +1,3 @@
-# frozen_string_literal: true
 class Hooks::Slack::OptionsController < Hooks::Slack::BaseController
   def receiver
     render json: { options: }

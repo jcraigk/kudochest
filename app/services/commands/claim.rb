@@ -1,4 +1,3 @@
-# frozen_string_literal: true
 class Commands::Claim < Commands::Base
   attr_reader :claim
 

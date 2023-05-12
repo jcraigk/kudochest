@@ -1,4 +1,3 @@
-# frozen_string_literal: true
 class EmojiQuantityValidator < ActiveModel::Validator
   attr_reader :record
 

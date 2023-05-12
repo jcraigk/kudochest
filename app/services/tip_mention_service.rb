@@ -1,4 +1,3 @@
-# frozen_string_literal: true
 class TipMentionService < Base::Service
   option :channel_name
   option :channel_rid

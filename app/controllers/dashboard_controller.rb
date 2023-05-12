@@ -1,4 +1,3 @@
-# frozen_string_literal: true
 class DashboardController < ApplicationController
   def show
     @shared_admin = shared_admin?

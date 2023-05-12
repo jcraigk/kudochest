@@ -1,4 +1,3 @@
-# frozen_string_literal: true
 require 'rails_helper'
 
 RSpec.describe Slack::SubteamSyncService, vcr: { cassette_name: 'slack/subteam_service' } do

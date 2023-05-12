@@ -1,4 +1,3 @@
-# frozen_string_literal: true
 class TokenDispersalService < Base::Service
   option :team
   option :notify, default: proc { true }

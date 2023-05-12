@@ -1,4 +1,3 @@
-# frozen_string_literal: true
 namespace :seeds do
   include FactoryBot::Syntax::Methods
 

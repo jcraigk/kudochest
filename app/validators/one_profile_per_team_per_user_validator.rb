@@ -1,4 +1,3 @@
-# frozen_string_literal: true
 class OneProfilePerTeamPerUserValidator < ActiveModel::Validator
   attr_reader :record
 

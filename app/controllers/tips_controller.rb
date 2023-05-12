@@ -1,4 +1,3 @@
-# frozen_string_literal: true
 class TipsController < ApplicationController
   before_action :fetch_current_team
 

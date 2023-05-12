@@ -1,4 +1,3 @@
-# frozen_string_literal: true
 class ClaimsController < ApplicationController
   before_action :fetch_current_team, except: %i[my_claims show]
 

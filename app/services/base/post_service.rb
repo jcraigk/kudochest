@@ -1,4 +1,3 @@
-# frozen_string_literal: true
 class Base::PostService < Base::Service
   option :mode
   option :config

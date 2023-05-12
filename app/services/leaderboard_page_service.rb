@@ -1,4 +1,3 @@
-# frozen_string_literal: true
 class LeaderboardPageService < Base::Service
   option :team, default: proc {}
   option :profile, default: proc {}

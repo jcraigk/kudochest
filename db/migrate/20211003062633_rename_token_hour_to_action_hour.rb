@@ -1,4 +1,3 @@
-# frozen_string_literal: true
 class RenameTokenHourToActionHour < ActiveRecord::Migration[6.1]
   def up
     remove_index :teams, :token_hour

@@ -1,4 +1,3 @@
-# frozen_string_literal: true
 class ChannelSyncWorker
   include Sidekiq::Worker
   sidekiq_options lock: :until_executed

@@ -1,4 +1,3 @@
-# frozen_string_literal: true
 class Commands::Connect < Commands::Base
   attr_reader :requested_profile
 

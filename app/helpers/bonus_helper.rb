@@ -1,4 +1,3 @@
-# frozen_string_literal: true
 module BonusHelper
   def select_bonus_calc_style
     select_tag \

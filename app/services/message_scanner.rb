@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 # Scan a message from the chat client to find triggrs that could result in Tip creation.
 # Because this is called on every message sent from chat, it should be efficient.
 

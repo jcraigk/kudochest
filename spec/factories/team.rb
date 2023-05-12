@@ -1,4 +1,3 @@
-# frozen_string_literal: true
 FactoryBot.define do
   factory :team do
     association :owning_user, factory: :user

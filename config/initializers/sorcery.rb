@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 Rails.application.config.sorcery.submodules = %i[
   external
   remember_me

@@ -1,4 +1,3 @@
-# frozen_string_literal: true
 class TokenLimitService < Base::Service
   option :profile
   option :quantity

@@ -1,4 +1,3 @@
-# frozen_string_literal: true
 class RewardClaimService < Base::Service
   option :reward
   option :profile

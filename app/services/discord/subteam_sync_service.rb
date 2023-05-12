@@ -1,4 +1,3 @@
-# frozen_string_literal: true
 class Discord::SubteamSyncService < Base::SubteamSyncService
   private
 

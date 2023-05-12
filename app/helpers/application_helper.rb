@@ -1,4 +1,3 @@
-# frozen_string_literal: true
 module ApplicationHelper
   def submit_button(label = nil, icon = 'check', css = '')
     text = label || t('controls.save_changes')

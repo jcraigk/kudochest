@@ -1,4 +1,3 @@
-# frozen_string_literal: true
 class Commands::Shop < Commands::Base
   def call
     return respond_disabled unless team.enable_loot?

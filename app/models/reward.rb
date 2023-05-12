@@ -1,4 +1,3 @@
-# frozen_string_literal: true
 class Reward < ApplicationRecord
   self.implicit_order_column = :created_at
 

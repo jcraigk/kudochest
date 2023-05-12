@@ -1,4 +1,3 @@
-# frozen_string_literal: true
 class Cache::TeamConfig < Base::Service
   param :platform
   param :rid

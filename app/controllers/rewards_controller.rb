@@ -1,4 +1,3 @@
-# frozen_string_literal: true
 class RewardsController < ApplicationController
   before_action :fetch_current_team, except: %i[shop claim]
 

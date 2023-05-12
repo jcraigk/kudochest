@@ -1,4 +1,3 @@
-# frozen_string_literal: true
 class Actions::ReactionRemoved < Actions::ReactionBase
   def call
     return unless process_emoji?

@@ -1,4 +1,3 @@
-# frozen_string_literal: true
 require_relative 'boot'
 
 require 'rails'
@@ -150,9 +149,9 @@ COMMAND_KEYWORDS = {
 }.freeze
 PRIVATE_KEYWORDS = %w[admin connect help claim].freeze
 
-CHAN_PREFIX = '#'
-PROF_PREFIX = '@'
-LEGACY_SLACK_SUFFIX_PATTERN = '\|[^>]*'
+CHAN_PREFIX = '#'.freeze
+PROF_PREFIX = '@'.freeze
+LEGACY_SLACK_SUFFIX_PATTERN = '\|[^>]*'.freeze
 
 RID_CHARS = {
   slack: '[A-Z0-9]',
@@ -180,13 +179,13 @@ SUBTEAM_REGEX = {
   discord: /<@&(\d+)>/
 }.freeze
 
-SLACK_DM_NAME = 'direct-message'
-SLACK_DM_PREFIX = 'mpdm-'
-SLACK_DM_PHRASE = 'a group chat'
+SLACK_DM_NAME = 'direct-message'.freeze
+SLACK_DM_PREFIX = 'mpdm-'.freeze
+SLACK_DM_PHRASE = 'a group chat'.freeze
 POINT_INLINES = %w[++ +=].freeze
 JAB_INLINES = %w[-- -=].freeze
 
-IMG_DELIM = '<COLOR>'
+IMG_DELIM = '<COLOR>'.freeze
 
 GIFS = {
   '32' => %w[trophy],

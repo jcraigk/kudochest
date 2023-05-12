@@ -1,4 +1,3 @@
-# frozen_string_literal: true
 module FactoryHelper
   def self.rid(platform, first_char = nil)
     case platform.to_sym

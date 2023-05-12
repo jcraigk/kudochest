@@ -1,4 +1,3 @@
-# frozen_string_literal: true
 class Oauth::SlackController < ApplicationController
   def integration
     TeamRegistrar.call(**team_data)

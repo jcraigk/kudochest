@@ -1,4 +1,3 @@
-# frozen_string_literal: true
 class Base::TeamSyncService < Base::Service
   option :team
   option :first_run, default: proc { false }

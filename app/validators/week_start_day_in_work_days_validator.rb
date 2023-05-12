@@ -1,4 +1,3 @@
-# frozen_string_literal: true
 class WeekStartDayInWorkDaysValidator < ActiveModel::Validator
   def validate(record)
     return if record.week_start_day.in?(record.work_days)

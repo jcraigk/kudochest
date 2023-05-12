@@ -1,4 +1,3 @@
-# frozen_string_literal: true
 FactoryBot.define do
   factory :tip do
     association :from_profile, factory: :profile

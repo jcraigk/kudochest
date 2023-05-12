@@ -1,4 +1,3 @@
-# frozen_string_literal: true
 module EmojiHelper
   include ActionView::Helpers::AssetTagHelper
 

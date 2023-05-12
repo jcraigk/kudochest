@@ -1,4 +1,3 @@
-# frozen_string_literal: true
 class Team < ApplicationRecord
   extend Enumerize
   include Sluggi::Slugged

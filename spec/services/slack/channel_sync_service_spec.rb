@@ -1,4 +1,3 @@
-# frozen_string_literal: true
 require 'rails_helper'
 
 RSpec.describe Slack::ChannelSyncService, vcr: { cassette_name: 'slack/channel_service' } do

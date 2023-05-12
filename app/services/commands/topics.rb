@@ -1,4 +1,3 @@
-# frozen_string_literal: true
 class Commands::Topics < Commands::Base
   def call
     ChatResponse.new \

@@ -1,4 +1,3 @@
-# frozen_string_literal: true
 class RemoveBetaColumnsFromUsers < ActiveRecord::Migration[6.0]
   def change
     remove_column :users, :beta_approved, :boolean

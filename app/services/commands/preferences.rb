@@ -1,4 +1,3 @@
-# frozen_string_literal: true
 class Commands::Preferences < Commands::Base
   def call
     return admin_command if team.platform.discord?

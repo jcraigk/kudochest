@@ -1,4 +1,3 @@
-# frozen_string_literal: true
 class Base::ImageService < Base::Service
   include PointsHelper
 
@@ -9,7 +8,7 @@ class Base::ImageService < Base::Service
     discord: 30
   }.freeze
 
-  BASE_PATH = 'lib/response_images'
+  BASE_PATH = 'lib/response_images'.freeze
   DEBUG_FILE = "#{BASE_PATH}/debug.gif".freeze
 
   TMP_PATH = "#{STORAGE_PATH}/response_images/tmp".freeze

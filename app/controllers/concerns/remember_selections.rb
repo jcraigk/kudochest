@@ -1,4 +1,3 @@
-# frozen_string_literal: true
 module RememberSelections
   extend ActiveSupport::Concern
 

@@ -1,4 +1,3 @@
-# frozen_string_literal: true
 class WeeklyReport::RecurrentWorker
   include Sidekiq::Worker
 

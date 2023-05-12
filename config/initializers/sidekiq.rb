@@ -1,4 +1,3 @@
-# frozen_string_literal: true
 Sidekiq.default_job_options = { backtrace: true }
 
 redis_url = "redis://#{ENV.fetch('IN_DOCKER', false) ? 'redis' : 'localhost'}:6379"

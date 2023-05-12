@@ -1,4 +1,3 @@
-# frozen_string_literal: true
 class AutoFulfillRequiresKeysValidator < ActiveModel::Validator
   def validate(record)
     return if !auto_fulfill?(record) || record.fulfillment_keys.present?

@@ -1,4 +1,3 @@
-# frozen_string_literal: true
 class Topic < ApplicationRecord
   self.implicit_order_column = :name
 

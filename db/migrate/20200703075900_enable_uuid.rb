@@ -1,4 +1,3 @@
-# frozen_string_literal: true
 class EnableUuid < ActiveRecord::Migration[6.0]
   def change
     return if extension_enabled? 'pgcrypto'

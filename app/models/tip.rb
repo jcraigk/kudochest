@@ -1,4 +1,3 @@
-# frozen_string_literal: true
 class Tip < ApplicationRecord
   extend Enumerize
   include TipDecorator

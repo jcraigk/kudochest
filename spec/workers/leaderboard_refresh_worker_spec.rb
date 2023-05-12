@@ -1,4 +1,3 @@
-# frozen_string_literal: true
 require 'rails_helper'
 
 RSpec.describe LeaderboardRefreshWorker, :freeze_time do

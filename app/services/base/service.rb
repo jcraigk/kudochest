@@ -1,4 +1,3 @@
-# frozen_string_literal: true
 class Base::Service
   extend Dry::Initializer
   include ActionView::Helpers::DateHelper

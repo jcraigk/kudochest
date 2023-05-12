@@ -1,4 +1,3 @@
-# frozen_string_literal: true
 class Slack::Modals::Tip < Base::Service
   MAX_QUANTITY_OPTIONS = 99
 

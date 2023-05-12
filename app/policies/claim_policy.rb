@@ -1,4 +1,3 @@
-# frozen_string_literal: true
 class ClaimPolicy
   attr_reader :user, :claim
 

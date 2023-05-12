@@ -1,4 +1,3 @@
-# frozen_string_literal: true
 module PointsHelper
   include ActionView::Helpers::NumberHelper
 

@@ -1,9 +1,8 @@
-# frozen_string_literal: true
 class Slack::ChannelNameService < Base::Service
   option :team
   option :channel_rid
 
-  UNKNOWN_CHANNEL = 'unknown'
+  UNKNOWN_CHANNEL = 'unknown'.freeze
 
   def call
     channel_name.presence || UNKNOWN_CHANNEL

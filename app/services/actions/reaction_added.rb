@@ -1,4 +1,3 @@
-# frozen_string_literal: true
 class Actions::ReactionAdded < Actions::ReactionBase
   DITTO_SOURCES = %w[
     modal inline point_reaction jab_reaction ditto_reaction topic_reaction reply

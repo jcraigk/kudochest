@@ -1,4 +1,3 @@
-# frozen_string_literal: true
 class Image::LeaderboardService < Base::ImageService
   option :profile_data
   option :title

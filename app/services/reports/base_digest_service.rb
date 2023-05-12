@@ -1,4 +1,3 @@
-# frozen_string_literal: true
 class Reports::BaseDigestService < Base::Service
   COUNT = 5
   NUM_DAYS = 7

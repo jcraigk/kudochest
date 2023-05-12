@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 # TODO: Break this into multiple services
 class TipResponseService < Base::Service # rubocop:disable Metrics/ClassLength
   include EmojiHelper
@@ -9,7 +7,7 @@ class TipResponseService < Base::Service # rubocop:disable Metrics/ClassLength
   RELEVANT_SOURCES = %w[
     modal inline point_reaction jab_reaction ditto_reaction topic_reaction reply
   ].freeze
-  ANON_WORD = 'someone'
+  ANON_WORD = 'someone'.freeze
 
   option :tips
 

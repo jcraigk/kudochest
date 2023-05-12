@@ -1,4 +1,3 @@
-# frozen_string_literal: true
 class TeamResetService < Base::Service
   option :team
 

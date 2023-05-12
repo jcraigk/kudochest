@@ -1,4 +1,3 @@
-# frozen_string_literal: true
 class Oauth::SorceryController < ApplicationController
   skip_before_action :require_login, raise: false
 

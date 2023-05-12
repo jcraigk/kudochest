@@ -1,4 +1,3 @@
-# frozen_string_literal: true
 class UserMailer < ApplicationMailer
   def verification_required(user)
     @user = user

@@ -1,4 +1,3 @@
-# frozen_string_literal: true
 class Discord::ChannelSyncService < Base::ChannelSyncService
   def fetch_remote_channels
     JSON.parse(discord_response, symbolize_names: true)

@@ -1,4 +1,3 @@
-# frozen_string_literal: true
 class TokenDispersalWorker
   include Sidekiq::Worker
   sidekiq_options lock: :until_executed

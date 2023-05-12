@@ -1,4 +1,3 @@
-# frozen_string_literal: true
 class ConvertQuantitiesToDecimal < ActiveRecord::Migration[6.0]
   def change
     change_column :tips, :quantity, :decimal, precision: 9, scale: 2

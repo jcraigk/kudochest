@@ -1,4 +1,3 @@
-# frozen_string_literal: true
 class Actions::Message < Actions::Base
   attr_reader :team_rid, :config, :profile_rid, :channel_rid, :text,
               :origin, :event_ts, :platform, :matches

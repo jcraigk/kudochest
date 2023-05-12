@@ -1,4 +1,3 @@
-# frozen_string_literal: true
 class Commands::Admin < Commands::Base
   include ActionView::Helpers::TextHelper
   include ApplicationHelper

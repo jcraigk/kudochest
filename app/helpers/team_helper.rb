@@ -1,4 +1,3 @@
-# frozen_string_literal: true
 module TeamHelper
   # rubocop:disable Metrics/MethodLength
   def reset_team_stats_button(team)

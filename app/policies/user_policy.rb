@@ -1,4 +1,3 @@
-# frozen_string_literal: true
 class UserPolicy
   attr_reader :current_user, :user
 

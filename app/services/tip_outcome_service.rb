@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 # Given a set of Tips, which are assumed to be recently created:
 #  * Update each recipient profile's points/jabs received and received timestamp
 #  * Update the sender profile points/jabs sent and sent timestamp

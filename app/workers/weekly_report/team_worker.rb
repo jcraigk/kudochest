@@ -1,4 +1,3 @@
-# frozen_string_literal: true
 class WeeklyReport::TeamWorker
   include ActionView::Helpers::TextHelper
   include Sidekiq::Worker

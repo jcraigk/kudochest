@@ -1,4 +1,3 @@
-# frozen_string_literal: true
 module ProfileHelper
   LVL_BACKGROUNDS = %w[
     wood woodleaves stone stoneleaves bronze silver gold sapphire ruby columnleaves

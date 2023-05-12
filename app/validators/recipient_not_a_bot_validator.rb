@@ -1,4 +1,3 @@
-# frozen_string_literal: true
 class RecipientNotABotValidator < ActiveModel::Validator
   def validate(record)
     return unless record.to_profile&.bot_user?

@@ -1,4 +1,3 @@
-# frozen_string_literal: true
 class Actions::SubmitTipModal < Actions::Base
   def call
     return if mentions.blank?

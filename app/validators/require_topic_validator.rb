@@ -1,4 +1,3 @@
-# frozen_string_literal: true
 class RequireTopicValidator < ActiveModel::Validator
   attr_reader :record
 

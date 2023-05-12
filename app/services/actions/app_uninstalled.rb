@@ -1,4 +1,3 @@
-# frozen_string_literal: true
 class Actions::AppUninstalled < Actions::Base
   def call
     return unless team.active?

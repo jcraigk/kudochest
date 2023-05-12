@@ -1,4 +1,3 @@
-# frozen_string_literal: true
 class Actions::TeamJoin < Actions::Base
   def call
     sync_team_profiles

@@ -69,6 +69,8 @@ Style/Documentation:
   Enabled: false
 Style/DoubleNegation:
   Enabled: false
+Style/FrozenStringLiteralComment:
+  EnforcedStyle: never
 Style/OpenStructUse:
   Exclude:
     - spec/**/*

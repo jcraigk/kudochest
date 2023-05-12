@@ -1,4 +1,3 @@
-# frozen_string_literal: true
 class ProfilesController < ApplicationController
   skip_before_action :require_login, only: %i[connect]
 

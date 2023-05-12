@@ -1,4 +1,3 @@
-# frozen_string_literal: true
 class Hooks::Slack::BaseController < Hooks::BaseController
   include ActionView::Helpers::NumberHelper
 

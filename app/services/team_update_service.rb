@@ -1,4 +1,3 @@
-# frozen_string_literal: true
 class TeamUpdateService < Base::Service
   option :team
   option :name

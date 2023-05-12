@@ -1,4 +1,3 @@
-# frozen_string_literal: true
 class Commands::Base < Base::Service
   include PointsHelper
 

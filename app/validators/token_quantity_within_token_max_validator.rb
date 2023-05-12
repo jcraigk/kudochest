@@ -1,4 +1,3 @@
-# frozen_string_literal: true
 class TokenQuantityWithinTokenMaxValidator < ActiveModel::Validator
   def validate(record)
     return if record.token_quantity.to_i <= record.token_max.to_i

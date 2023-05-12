@@ -1,4 +1,3 @@
-# frozen_string_literal: true
 class Base::ChannelSyncService < Base::Service
   option :team
   option :new_channel_rid

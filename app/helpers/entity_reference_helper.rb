@@ -1,4 +1,3 @@
-# frozen_string_literal: true
 module EntityReferenceHelper
   def helpers
     ActionController::Base.helpers

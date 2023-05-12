@@ -1,4 +1,3 @@
-# frozen_string_literal: true
 class NoteSanitizer < Base::Service
   option :platform
   option :team_rid

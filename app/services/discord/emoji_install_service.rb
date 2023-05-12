@@ -1,9 +1,8 @@
-# frozen_string_literal: true
 class Discord::EmojiInstallService < Base::Service
   option :team
 
   EMOJI_TYPES = %i[point jab ditto].freeze
-  EMOJI_DIR = 'lib/emoji/discord'
+  EMOJI_DIR = 'lib/emoji/discord'.freeze
 
   def call
     update_emojis

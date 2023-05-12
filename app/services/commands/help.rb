@@ -1,4 +1,3 @@
-# frozen_string_literal: true
 class Commands::Help < Commands::Base
   def call
     ChatResponse.new(mode: :private, text: send("#{team.platform}_text"))

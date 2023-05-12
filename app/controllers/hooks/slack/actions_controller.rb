@@ -1,4 +1,3 @@
-# frozen_string_literal: true
 class Hooks::Slack::ActionsController < Hooks::Slack::BaseController
   CALLBACK_IDS = %w[reply_tip submit_tip_modal submit_prefs_modal].freeze
 

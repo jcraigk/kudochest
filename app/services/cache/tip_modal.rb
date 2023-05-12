@@ -1,10 +1,8 @@
-# frozen_string_literal: true
-
 # We need to cache the channel in which the modal was triggered
 # because that is not provided when the modal is submitted.
 
 class Cache::TipModal
-  PREFIX = 'modal'
+  PREFIX = 'modal'.freeze
 
   def self.set(key, channel_rid, channel_name)
     REDIS.setex \

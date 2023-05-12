@@ -1,4 +1,3 @@
-# frozen_string_literal: true
 class Commands::Report < Commands::Base
   def call
     respond

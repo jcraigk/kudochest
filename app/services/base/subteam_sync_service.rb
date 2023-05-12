@@ -1,4 +1,3 @@
-# frozen_string_literal: true
 class Base::SubteamSyncService < Base::Service
   option :team
 

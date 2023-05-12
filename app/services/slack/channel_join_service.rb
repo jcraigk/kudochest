@@ -1,4 +1,3 @@
-# frozen_string_literal: true
 class Slack::ChannelJoinService < Base::Service
   option :team
   option :channel_rid
