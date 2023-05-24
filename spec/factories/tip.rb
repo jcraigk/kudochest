@@ -1,7 +1,7 @@
 FactoryBot.define do
   factory :tip do
-    association :from_profile, factory: :profile
-    association :to_profile, factory: :profile
+    from_profile factory: :profile
+    to_profile factory: :profile
 
     quantity { 1 }
     note { 'for being my hero!' }

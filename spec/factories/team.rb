@@ -1,6 +1,6 @@
 FactoryBot.define do
   factory :team do
-    association :owning_user, factory: :user
+    owning_user factory: :user
 
     platform { 'slack' }
     sequence(:name) { |n| "Team #{n}" }
