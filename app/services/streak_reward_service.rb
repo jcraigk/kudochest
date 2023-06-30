@@ -19,7 +19,7 @@ class StreakRewardService < Base::Service
   end
 
   def streak_rewarded?
-    return unless profile.next_streak_date == today
+    return false unless profile.next_streak_date == today
     new_streak_count = profile.streak_count + 1
     profile.update(streak_count: new_streak_count, streak_date: today)
     new_streak_count >= team.streak_duration ? reward_streak : false

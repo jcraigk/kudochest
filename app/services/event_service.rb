@@ -72,7 +72,7 @@ class EventService < Base::Service
   end
 
   def validation_message(exception)
-    exception.message.gsub(/Validation failed: /, '')
+    exception.message.gsub('Validation failed: ', '')
   end
 
   def log_exception(exception)
