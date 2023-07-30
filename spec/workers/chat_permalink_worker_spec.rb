@@ -11,8 +11,7 @@ RSpec.describe ChatPermalinkWorker do
   let(:permalink) { 'https://my-msg-permalink.org' }
 
   before do
-    allow(Tip).to receive(:includes).and_return(Tip)
-    allow(Tip).to receive(:find).and_return(tip)
+    allow(Tip).to receive_messages(includes: Tip, find: tip)
     allow(team.slack_client).to receive(:chat_getPermalink).and_return(OpenStruct.new(permalink:))
     perform
   end

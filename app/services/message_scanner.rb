@@ -95,7 +95,7 @@ class MessageScanner < Base::Service
     Regexp.new("(?<match>#{mention}#{spaces}#{triggers}#{spaces}#{topic_keywords})")
   end
 
-  def mention
+  def mention # rubocop:disable Metrics/MethodLength
     <<~TEXT.gsub(/\s+/, '')
       (?:
         <

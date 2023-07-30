@@ -17,7 +17,7 @@ RUN apt-get update -qq && \
       nodejs \
       npm \
       postgresql-client \
-      python2 \
+      dh-python \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*;
 
