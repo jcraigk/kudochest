@@ -40,7 +40,7 @@ class Base::TeamSyncService < Base::Service
         profile_ids << create_or_update_profile(member).id
       end
 
-    team.profiles.active.where.not(id: synced_profile_ids).each do |profile|
+    team.profiles.active.where.not(id: synced_profile_ids).find_each do |profile|
       profile.update(deleted: true)
     end
   end

@@ -21,7 +21,7 @@ class Base::ChannelMemberService < Base::Service
     @remote_rids ||=
       Rails.cache.fetch(
         "channel_members/#{team.id}/#{channel_rid}",
-        expires_in: Time.current + App.channel_cache_ttl
+        expires_at: Time.current + App.channel_cache_ttl
       ) do
         channel_members
       end
