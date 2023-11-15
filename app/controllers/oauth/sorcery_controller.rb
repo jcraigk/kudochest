@@ -9,7 +9,7 @@ class Oauth::SorceryController < ApplicationController
     return redirect_back_or_to(dashboard_path) if login_from(params[:provider])
     create_user_and_login
   rescue StandardError => e
-    Honeybadger.notify(e) if defined?(Honeybadger)
+    Rails.logger.error(e)
     redirect_to login_path, alert: t('auth.external_fail', provider: provider_title)
   end
 
