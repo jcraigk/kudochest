@@ -3,7 +3,6 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
 ruby '3.2.2'
 
-gem 'awesome_print'
 gem 'aws-sdk-s3'
 gem 'bulma-rails'
 gem 'chartkick'
@@ -31,10 +30,6 @@ gem 'slim'
 gem 'sluggi'
 gem 'sorcery'
 gem 'webpacker'
-
-group :production do
-  gem 'honeybadger'
-end
 
 group :development do
   gem 'rubocop'

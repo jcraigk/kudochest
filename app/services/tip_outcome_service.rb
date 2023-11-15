@@ -18,6 +18,8 @@ class TipOutcomeService < Base::Service
 
   def update_profile_and_team_stats
     Tip.transaction do
+      lock_records_for_transaction
+
       update_to_profiles
       update_from_profile
       update_team
@@ -25,36 +27,39 @@ class TipOutcomeService < Base::Service
     end
   end
 
+  # Lock profiles in a consistent order to reduce deadlocks
+  def lock_records_for_transaction
+    [team, from_profile, *to_profiles].sort_by(&:id).each(&:lock!)
+  end
+
+  def to_profiles
+    @to_profiles ||= tips.filter_map(&:to_profile).uniq
+  end
+
   # rubocop:disable Metrics/AbcSize
   def update_to_profiles
     tips.each do |tip|
       profile = tip.to_profile
-      profile.with_lock do
-        last_tip_received_at = destroy ? previous_received_at(profile) : tip.created_at
-        value_col = tip.jab? ? :jabs_received : :points_received
-        value = profile.send(value_col).send(operator, tip.quantity.abs)
-        balance = profile.balance.send(operator, tip.quantity)
-        profile.update!(value_col => value, balance:, last_tip_received_at:)
-      end
+      last_tip_received_at = destroy ? previous_received_at(profile) : tip.created_at
+      value_col = tip.jab? ? :jabs_received : :points_received
+      value = profile.send(value_col).send(operator, tip.quantity.abs)
+      balance = profile.balance.send(operator, tip.quantity)
+      profile.update!(value_col => value, balance:, last_tip_received_at:)
     end
   end
 
   def update_from_profile
-    from_profile.with_lock do
-      points_sent = from_profile.points_sent.send(operator, total_points)
-      jabs_sent = from_profile.jabs_sent.send(operator, total_jabs)
-      last_tip_sent_at = destroy ? previous_sent_at : tips.first.created_at
-      from_profile.update!(points_sent:, jabs_sent:, last_tip_sent_at:)
-    end
+    points_sent = from_profile.points_sent.send(operator, total_points)
+    jabs_sent = from_profile.jabs_sent.send(operator, total_jabs)
+    last_tip_sent_at = destroy ? previous_sent_at : tips.first.created_at
+    from_profile.update!(points_sent:, jabs_sent:, last_tip_sent_at:)
   end
 
   def update_team
-    team.with_lock do
-      points_sent = team.points_sent.send(operator, total_points)
-      jabs_sent = team.jabs_sent.send(operator, total_jabs)
-      balance = team.balance.send(operator, total_points - total_jabs)
-      team.update!(points_sent:, jabs_sent:, balance:)
-    end
+    points_sent = team.points_sent.send(operator, total_points)
+    jabs_sent = team.jabs_sent.send(operator, total_jabs)
+    balance = team.balance.send(operator, total_points - total_jabs)
+    team.update!(points_sent:, jabs_sent:, balance:)
   end
   # rubocop:enable Metrics/AbcSize
 

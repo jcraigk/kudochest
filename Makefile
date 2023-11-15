@@ -11,10 +11,9 @@ clean :
 	docker image prune
 	docker volume prune
 
-cleanforce :
-	docker-compose down
-	docker-compose rm
-	docker image prune -f
+cleanforce:
+	docker-compose down -v
+	docker image prune -af
 	docker volume prune -f
 
 services :

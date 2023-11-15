@@ -169,11 +169,11 @@ class TipMentionService < Base::Service
   end
 
   def profile_mention_rids
-    @profile_mention_rids ||= profile_mentions.map(&:entity).map(&:rid)
+    @profile_mention_rids ||= profile_mentions.map { |x| x.entity.rid }
   end
 
   def subteam_mention_rids
-    @subteam_mention_rids ||= subteam_mentions.map(&:entity).map(&:profiles).flatten.map(&:rid)
+    @subteam_mention_rids ||= subteam_mentions.map { |x| x.entity.profiles }.flatten.map(&:rid)
   end
 
   def subteam_mentions
