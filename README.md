@@ -17,11 +17,6 @@ See the **[Wiki](https://github.com/jcraigk/kudochest/wiki)** for detailed info.
 &nbsp;
 
 
-# Hosted Service
-
-In addition to this open source version, you can also sign up for a subscription based service at **[kudochest.com](https://kudochest.com)** if you're using Slack. Read on if you want to host the app yourself.
-
-
 # Installation
 
 To install KudoChest into your organization's Slack or Discord workspace, you must host the Rails components on a web server you control and configure the Slack or Discord App at the appropriate platform's site.
