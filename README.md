@@ -1,8 +1,3 @@
-[![Build Status](https://www.travis-ci.com/jcraigk/kudochest.svg?branch=main)](https://www.travis-ci.com/jcraigk/kudochest)
-[![Maintainability](https://api.codeclimate.com/v1/badges/ca54364dc0911c26e35f/maintainability)](https://codeclimate.com/github/jcraigk/kudochest/maintainability)
-&nbsp;
-&nbsp;
-
 ![KudoChest Logo](https://github.com/jcraigk/kudochest/blob/main/app/webpacker/images/logos/app-144.png)
 &nbsp;
 &nbsp;
