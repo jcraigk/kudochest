@@ -2,6 +2,7 @@
 &nbsp;
 &nbsp;
 
+**THIS REPO IS NO LONGER MAINTAINED**
 
 **KudoChest** is a team engagement tool for **Slack** and **Discord**. It allows users within a workspace to give each other points that accrue over time. A point represents a token of appreciation or recognition for a job well done. Users can view their profile, browse history, and access leaderboards on the web or within the chat client. App settings and moderation tools are provided via web UI.
 
